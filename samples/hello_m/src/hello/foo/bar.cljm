@@ -1,0 +1,20 @@
+(ns hello.foo.bar)
+
+(def blah "hi")
+(def stuff [1 2 3])
+
+(defn- uppers
+	[x]
+	(if false "hi" "no"))
+
+(defn nslog
+	[x]
+	(do
+		(objc* "NSLog(@\"%@\", ~{x});" x)
+		nil))
+
+(defn uppercase-the-bitches
+	[x]
+	(.uppercaseString x))
+
+(nslog "hi")

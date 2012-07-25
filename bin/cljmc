@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Compile a single cljs file or a directory of cljs files into a
+# single JavaScript file.
+
+if [ "$CLOJURESCRIPT_HOME" = "" ]; then
+  CLOJURESCRIPT_HOME="`dirname $0`/.."
+fi
+
+CLJMC_CP=''
+for next in lib/*: src/clj: src/cljm: test/cljm; do
+  CLJMC_CP=$CLJMC_CP$CLOJURESCRIPT_HOME'/'$next
+done
+
+if test $# -eq 0
+then
+  echo "Usage: cljmc <file-or-dir>"
+  echo "       cljmc <file-or-dir> {:optimizations :advanced}"
+else
+  java -server -cp $CLJMC_CP clojure.main $CLOJURESCRIPT_HOME/bin/cljmc.clj $*
+fi
