@@ -231,10 +231,19 @@
         n (if (= (namespace n) "js")
             (name n)
             n)
-        dynamic (:dynamic info)]
-    (if-not dynamic
-      (emit-wrap env (emits (munge n)))
-      (emit-wrap env (emits "cljm_var_lookup(@\"" n "\").value")))))
+        dynamic (:dynamic info)
+        local (:local info)]
+    (if (= n 'shit-to-print)
+      (debug-prn n ": " info))
+    (emit-wrap env 
+      (if-not local
+        (do 
+          (if-not dynamic
+            (emits (munge n))
+            (emits "cljm_var_lookup(@\"" n "\")"))
+          (emits ".value"))
+        (do
+          (emits n))))))
 
 (defmethod emit :meta
   [{:keys [expr meta env]}]
@@ -334,21 +343,14 @@
             (print-comment-lines e)))
         (emitln "*/")))))
 
-(defmulti emit-typed-decl :op)
-
-(defmethod emit-typed-decl :fn
-  [init name]
-  (let [params (:params (first (:methods init)))
-        variadic? (:variadic init)]
+(defn emit-block-decl 
+  ([name args] (emit-block-decl name args false))
+  ([name args variadic?]
     (emits "id (^" name ")(")
     ; TODO: this will be wrong for multimethods
-    (emits (comma-sep (map #(str "id " (munge %)) params)))
+    (emits (comma-sep (map #(str "id " (munge %)) args)))
     (when variadic? (emits ", ..."))
     (emits ")")))
-
-(defmethod emit-typed-decl :default
-  [init name]
-  (emits "id " name))
 
 (defmethod emit :def
   [a]
@@ -357,7 +359,7 @@
       (emit-comment doc (:jsdoc init))
       (if-not dynamic
         (let [mname (munge name)]
-          (emits mname " = " init))
+          (emits mname " = [[CLJMVar alloc] initWithValue:" init "]"))
         (emits "cljm_var_def(@\"" name "\", " init ")"))
       (when-not (= :expr (:context env)) (emitln ";")))))
 
@@ -425,6 +427,9 @@
 (defmethod emit :fn
   [{:keys [name env methods max-fixed-arity variadic recur-frames loop-lets]}]
   ;;fn statements get erased, serve no purpose and can pollute scope if named
+  ; (debug-prn "name \"" name "\"")
+  ; (if (= name "my-plus-or-something") 
+  ;   (debug-prn "hi"))
   (when-not (= :statement (:context env))
     (let [loop-locals (->> (concat (mapcat :names (filter #(and % @(:flag %)) recur-frames))
                                    (mapcat :names loop-lets))
@@ -578,17 +583,17 @@
         name (:name info)
         mname (munge name)]
     (emit-wrap env
-      (if dynamic? 
-        (let [init {:op :fn, :variadic variadic?, :methods [{:params (repeat (count args) "")}]}]
-          (emit-typed-decl init mname)
-          (emits " = ")
-          (emits "(")
-          (emit-typed-decl init "")
-          (emits ")")
-          (emits " cljm_var_lookup(@\"" name "\").value;\n")))
+      (emits "((")
+      (emit-block-decl "" (repeat (count args) "") variadic?)
+      (emits ") ")
+      (if dynamic?
+        (emits "cljm_var_lookup(@\"" name "\")")
+        (emits mname))
+      (emits ".value")
+      (emits ")(" (comma-sep args))
       (if variadic?
-        (emits mname "(" (comma-sep args) ", nil)")
-        (emits mname "(" (comma-sep args) ")")))))
+        (emits ", nil"))
+      (emits ")"))))
 
 (comment (defmethod emit :invoke
   [{:keys [f args env] :as expr}]
@@ -870,11 +875,11 @@
         {:keys [externs]} ns-info]
     (with-open [out ^java.io.Writer (io/make-writer dest-file {})]
       (binding [*out* out]
+        (emitln "@class CLJMVar;\n")
         (doseq [extern externs]
           (let [mname (munge (:name extern))
                 init (:init extern)]
-            (emit-typed-decl init mname)
-            (emits ";\n\n")))))))
+            (emitln "CLJMVar *" mname ";")))))))
 
 (comment
   ;; flex compile-file

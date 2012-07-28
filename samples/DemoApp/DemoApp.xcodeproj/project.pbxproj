@@ -18,7 +18,6 @@
 		884EDFC715BF287500174D10 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 884EDFC515BF287500174D10 /* InfoPlist.strings */; };
 		884EDFCA15BF287500174D10 /* DemoAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 884EDFC915BF287500174D10 /* DemoAppTests.m */; };
 		884EDFE215BF309D00174D10 /* hello_DOT_foo_DOT_bar.m in Sources */ = {isa = PBXBuildFile; fileRef = 884EDFD915BF2A5B00174D10 /* hello_DOT_foo_DOT_bar.m */; };
-		884EDFE515BF33B000174D10 /* hello_DOT_foo_DOT_main.m in Sources */ = {isa = PBXBuildFile; fileRef = 884EDFE415BF33B000174D10 /* hello_DOT_foo_DOT_main.m */; };
 		887C213415C19163006EC31D /* CLJMRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887C213015C1915A006EC31D /* CLJMRuntime.framework */; };
 		887C213815C19186006EC31D /* CLJMRuntime.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 887C213015C1915A006EC31D /* CLJMRuntime.framework */; };
 /* End PBXBuildFile section */
@@ -90,8 +89,6 @@
 		884EDFC915BF287500174D10 /* DemoAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoAppTests.m; sourceTree = "<group>"; };
 		884EDFD815BF2A5B00174D10 /* hello_DOT_foo_DOT_bar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hello_DOT_foo_DOT_bar.h; sourceTree = "<group>"; };
 		884EDFD915BF2A5B00174D10 /* hello_DOT_foo_DOT_bar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = hello_DOT_foo_DOT_bar.m; sourceTree = "<group>"; };
-		884EDFE315BF33B000174D10 /* hello_DOT_foo_DOT_main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hello_DOT_foo_DOT_main.h; sourceTree = "<group>"; };
-		884EDFE415BF33B000174D10 /* hello_DOT_foo_DOT_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = hello_DOT_foo_DOT_main.m; sourceTree = "<group>"; };
 		887C212715C1915A006EC31D /* CLJMRuntime.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CLJMRuntime.xcodeproj; path = ../../runtime/CLJMRuntime/CLJMRuntime.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -205,8 +202,6 @@
 			children = (
 				884EDFD815BF2A5B00174D10 /* hello_DOT_foo_DOT_bar.h */,
 				884EDFD915BF2A5B00174D10 /* hello_DOT_foo_DOT_bar.m */,
-				884EDFE315BF33B000174D10 /* hello_DOT_foo_DOT_main.h */,
-				884EDFE415BF33B000174D10 /* hello_DOT_foo_DOT_main.m */,
 				884EDFDA15BF2A5B00174D10 /* src */,
 			);
 			path = gen;
@@ -381,7 +376,6 @@
 				884EDFAC15BF287500174D10 /* main.m in Sources */,
 				884EDFB315BF287500174D10 /* DAPAppDelegate.m in Sources */,
 				884EDFE215BF309D00174D10 /* hello_DOT_foo_DOT_bar.m in Sources */,
-				884EDFE515BF33B000174D10 /* hello_DOT_foo_DOT_main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

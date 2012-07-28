@@ -1,20 +1,12 @@
-id hello_DOT_foo_DOT_bar_SLASH_blah;
+@class CLJMVar;
 
-id hello_DOT_foo_DOT_bar_SLASH_stuff;
-
-id hello_DOT_foo_DOT_bar_SLASH_wat;
-
-id hello_DOT_foo_DOT_bar_SLASH_more;
-
-id hello_DOT_foo_DOT_bar_SLASH_woah_buddy;
-
-id (^hello_DOT_foo_DOT_bar_SLASH_chchchchanges)(id x);
-
-id (^hello_DOT_foo_DOT_bar_SLASH_uppers)(id x);
-
-id (^hello_DOT_foo_DOT_bar_SLASH_nslog)(id x, ...);
-
-id (^hello_DOT_foo_DOT_bar_SLASH_uppercase_the_bitches)(id x);
-
-id (^hello_DOT_foo_DOT_bar_SLASH_the_things)(id the_thing_man);
-
+CLJMVar *hello_DOT_foo_DOT_bar_SLASH_blah;
+CLJMVar *hello_DOT_foo_DOT_bar_SLASH_stuff;
+CLJMVar *hello_DOT_foo_DOT_bar_SLASH_wat;
+CLJMVar *hello_DOT_foo_DOT_bar_SLASH_more;
+CLJMVar *hello_DOT_foo_DOT_bar_SLASH_woah_buddy;
+CLJMVar *hello_DOT_foo_DOT_bar_SLASH_chchchchanges;
+CLJMVar *hello_DOT_foo_DOT_bar_SLASH_uppers;
+CLJMVar *hello_DOT_foo_DOT_bar_SLASH_nslog;
+CLJMVar *hello_DOT_foo_DOT_bar_SLASH_uppercase_the_bitches;
+CLJMVar *hello_DOT_foo_DOT_bar_SLASH_the_things;

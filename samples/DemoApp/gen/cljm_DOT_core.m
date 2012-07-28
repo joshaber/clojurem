@@ -7,25 +7,25 @@ void cljm_DOT_core_SLASH_cljm_ns_init(void) {
 * Whatever function *print-fn* is bound to will be passed any
 * Strings which should be printed.
 */
-cljm_DOT_core_SLASH__STAR_print_fn_STAR_ = ^id(id s) {
-NSLog(@"s");;
+cljm_DOT_core_SLASH__STAR_print_fn_STAR_ = [[CLJMVar alloc] initWithValue:^id(id s) {
+NSLog(@"s.value");;
 return nil;
-};
-cljm_DOT_core_SLASH_error = ^id(id cause) {
-fprintf(stderr, "%s\n", string_get_utf8 (cause));
+}];
+cljm_DOT_core_SLASH_error = [[CLJMVar alloc] initWithValue:^id(id cause) {
+fprintf(stderr, "%s\n", string_get_utf8 (cause.value));
 exit(1);
 return nil;
-};
+}];
 /**
 * Internal - do not use!
 */
-cljm_DOT_core_SLASH_type_satisfies_ = ^id(id p, id x) {
-id x__4486 = (cljm_truthy((x == nil))) ?nil:x;
-if(cljm_truthy((p[goog_SLASH_typeOf(x__4486)]))) {
+cljm_DOT_core_SLASH_type_satisfies_ = [[CLJMVar alloc] initWithValue:^id(id p, id x) {
+id x__4474 = (cljm_truthy((x.value == nil))) ?nil:x.value;
+if(cljm_truthy((p.value[((id (^)(id )) goog_SLASH_typeOf.value)(x__4474)]))) {
 return @YES;
 
 } else {
-if(cljm_truthy((p[@"_"]))) {
+if(cljm_truthy((p.value[@"_"]))) {
 return @YES;
 
 } else {
@@ -40,38 +40,38 @@ return nil;
 }
 
 }
-};
-cljm_DOT_core_SLASH_is_proto_ = ^id(id x) {
-return ([x.constructor.prototype isEqual:x]);
-};
+}];
+cljm_DOT_core_SLASH_is_proto_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+return ([x.value.constructor.prototype isEqual:x.value]);
+}];
 /**
 * When compiled for a command-line target, whatever
 * function *main-fn* is set to will be called with the command-line
 * argv as arguments
 */
-cljm_DOT_core_SLASH__STAR_main_cli_fn_STAR_ = nil;
-cljm_DOT_core_SLASH_missing_protocol = ^id(id proto, id obj) {
-return cljm_DOT_core_SLASH_error([@[@"No protocol method ",proto,@" defined for type ",goog_SLASH_typeOf(obj),@": ",obj] join@""]);
-};
+cljm_DOT_core_SLASH__STAR_main_cli_fn_STAR_ = [[CLJMVar alloc] initWithValue:nil];
+cljm_DOT_core_SLASH_missing_protocol = [[CLJMVar alloc] initWithValue:^id(id proto, id obj) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_error.value)([@[@"No protocol method ",proto.value,@" defined for type ",((id (^)(id )) goog_SLASH_typeOf.value)(obj.value),@": ",obj.value] join@""]);
+}];
 /**
 * Returns a array, cloned from the passed in array
 */
-cljm_DOT_core_SLASH_aclone = ^id(id array_like) {
-return [array_like copy];
-};
+cljm_DOT_core_SLASH_aclone = [[CLJMVar alloc] initWithValue:^id(id array_like) {
+return [array_like.value copy];
+}];
 /**
 * Creates a new array.
 */
-cljm_DOT_core_SLASH_array = ^id(id var_args) {
-return [Array.prototype.slice callarguments];
-};
-cljm_DOT_core_SLASH_make_array = (function() {
+cljm_DOT_core_SLASH_array = [[CLJMVar alloc] initWithValue:^id(id var_args) {
+return [Array.value.prototype.slice callarguments];
+}];
+cljm_DOT_core_SLASH_make_array = [[CLJMVar alloc] initWithValue:(function() {
 var make_array = null;
 var make_array__1 = ^id(id size) {
-return [[NSArray alloc] initWithCapacity:size];
+return [[NSArray.value alloc] initWithCapacity:size.value];
 };
 var make_array__2 = ^id(id type, id size) {
-return make_array(size);
+return ((id (^)(id )) make_array.value)(size.value);
 };
 make_array = function(type, size){
 switch(arguments.length){
@@ -86,14 +86,14 @@ make_array.cljm$lang$arity$1 = make_array__1;
 make_array.cljm$lang$arity$2 = make_array__2;
 return make_array;
 })()
-;
+];
 /**
 * Returns the value at the index.
 */
-cljm_DOT_core_SLASH_aget = (function() {
+cljm_DOT_core_SLASH_aget = [[CLJMVar alloc] initWithValue:(function() {
 var aget = null;
 var aget__2 = ^id(id array, id i) {
-return (array[i]);
+return (array.value[i.value]);
 };
 var aget__3 = ^id(id cljm__varargs, id array, id i, ...) {
 NSMutableArray *idxs = [NSMutableArray array];
@@ -103,7 +103,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [idxs addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_apply(aget, aget(array, i, nil), idxs, nil);
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(aget.value, ((id (^)(id , id , ...)) aget.value)(array.value, i.value, nil), idxs.value, nil);
 };
 aget = function(array, i, var_args){
 var idxs = var_args;
@@ -121,29 +121,29 @@ aget.cljm$lang$arity$2 = aget__2;
 aget.cljm$lang$arity$variadic = aget__3.cljm$lang$arity$variadic;
 return aget;
 })()
-;
+];
 /**
 * Sets the value at the index.
 */
-cljm_DOT_core_SLASH_aset = ^id(id array, id i, id val) {
-return (array[i] = val);
-};
+cljm_DOT_core_SLASH_aset = [[CLJMVar alloc] initWithValue:^id(id array, id i, id val) {
+return (array.value[i.value] = val.value);
+}];
 /**
 * Returns the length of the array. Works on arrays of all types.
 */
-cljm_DOT_core_SLASH_alength = ^id(id array) {
+cljm_DOT_core_SLASH_alength = [[CLJMVar alloc] initWithValue:^id(id array) {
 return [@"count" array];
-};
-cljm_DOT_core_SLASH_into_array = (function() {
+}];
+cljm_DOT_core_SLASH_into_array = [[CLJMVar alloc] initWithValue:(function() {
 var into_array = null;
 var into_array__1 = ^id(id aseq) {
-return into_array(nil, aseq);
+return ((id (^)(id , id )) into_array.value)(nil, aseq.value);
 };
 var into_array__2 = ^id(id type, id aseq) {
-return cljm_DOT_core_SLASH_reduce(^id(id a, id x) {
-[@"arrayByAddingObject:" ax];
-return a;
-}, @[], aseq);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id a, id x) {
+[@"arrayByAddingObject:" ax.value];
+return a.value;
+}, @[], aseq.value);
 };
 into_array = function(type, aseq){
 switch(arguments.length){
@@ -158,31 +158,31 @@ into_array.cljm$lang$arity$1 = into_array__1;
 into_array.cljm$lang$arity$2 = into_array__2;
 return into_array;
 })()
-;
+];
 /**
 * Tests if 2 arguments are the same object
 */
-cljm_DOT_core_SLASH_identical_QMARK_ = ^id(id x, id y) {
-return ([x isEqual:y]);
-};
+cljm_DOT_core_SLASH_identical_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x, id y) {
+return ([x.value isEqual:y.value]);
+}];
 /**
 * Equality. Returns true if x equals y, false if not. Compares
 * numbers and collections in a type-independent manner.  Clojure's immutable data
 * structures define -equiv (and thus =) as a value, not an identity,
 * comparison.
 */
-cljm_DOT_core_SLASH__EQ_ = (function() {
+cljm_DOT_core_SLASH__EQ_ = [[CLJMVar alloc] initWithValue:(function() {
 var _EQ_ = null;
 var _EQ___1 = ^id(id x) {
 return @YES;
 };
 var _EQ___2 = ^id(id x, id y) {
-id or__3824__auto____4488 = ([x isEqual:y]);
-if(cljm_truthy(or__3824__auto____4488)) {
-return or__3824__auto____4488;
+id or__3824__auto____4476 = ([x.value isEqual:y.value]);
+if(cljm_truthy(or__3824__auto____4476)) {
+return or__3824__auto____4476;
 
 } else {
-return cljm_DOT_core_SLASH__equiv(x, y);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__equiv.value)(x.value, y.value);
 
 }
 };
@@ -195,20 +195,20 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 }
 va_end(cljm__args);
 while(YES) {
-if(cljm_truthy(_EQ_(x, y, nil))) {
-if(cljm_truthy(cljm_DOT_core_SLASH_next(more))) {
+if(cljm_truthy(((id (^)(id , id , ...)) _EQ_.value)(x.value, y.value, nil))) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_next.value)(more.value))) {
 {
-var G__4489 = y;
-var G__4490 = cljm_DOT_core_SLASH_first(more);
-var G__4491 = cljm_DOT_core_SLASH_next(more);
-x = G__4489;
-y = G__4490;
-more = G__4491;
+var G__4477 = y.value;
+var G__4478 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(more.value);
+var G__4479 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(more.value);
+x = G__4477;
+y = G__4478;
+more = G__4479;
 continue;
 }
 
 } else {
-return _EQ_(y, cljm_DOT_core_SLASH_first(more), nil);
+return ((id (^)(id , id , ...)) _EQ_.value)(y.value, ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(more.value), nil);
 
 }
 
@@ -238,64 +238,64 @@ _EQ_.cljm$lang$arity$2 = _EQ___2;
 _EQ_.cljm$lang$arity$variadic = _EQ___3.cljm$lang$arity$variadic;
 return _EQ_;
 })()
-;
+];
 /**
 * Returns true if x is nil, false otherwise.
 */
-cljm_DOT_core_SLASH_nil_QMARK_ = ^id(id x) {
-return (x == nil);
-};
-cljm_DOT_core_SLASH_type = ^id(id x) {
-if(cljm_truthy((x == nil))) {
+cljm_DOT_core_SLASH_nil_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+return (x.value == nil);
+}];
+cljm_DOT_core_SLASH_type = [[CLJMVar alloc] initWithValue:^id(id x) {
+if(cljm_truthy((x.value == nil))) {
 return nil;
 
 } else {
-return x.constructor;
+return x.value.constructor;
 
 }
-};
-cljm_DOT_core_SLASH_instance_QMARK_ = ^id(id t, id o) {
+}];
+cljm_DOT_core_SLASH_instance_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id t, id o) {
 return [o isKindOfClass:[t class]];
-};
+}];
 /**
 * Returns a number one greater than num.
 */
-cljm_DOT_core_SLASH_inc = ^id(id x) {
-return (x + @1);
-};
+cljm_DOT_core_SLASH_inc = [[CLJMVar alloc] initWithValue:^id(id x) {
+return (x.value + @1);
+}];
 /**
 * Accepts any collection which satisfies the ICount and IIndexed protocols and
 * reduces them without incurring seq initialization
 */
-cljm_DOT_core_SLASH_ci_reduce = (function() {
+cljm_DOT_core_SLASH_ci_reduce = [[CLJMVar alloc] initWithValue:(function() {
 var ci_reduce = null;
 var ci_reduce__2 = ^id(id cicoll, id f) {
-id cnt__4504 = cljm_DOT_core_SLASH__count(cicoll);
-if(cljm_truthy(([cnt__4504 isEqual:@0]))) {
-return f();
+id cnt__4492 = ((id (^)(id )) cljm_DOT_core_SLASH__count.value)(cicoll.value);
+if(cljm_truthy(([cnt__4492 isEqual:@0]))) {
+return ((id (^)()) f.value)();
 
 } else {
-id val__4505 = cljm_DOT_core_SLASH__nth(cicoll, @0);
-id n__4506 = @1;
+id val__4493 = ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(cicoll.value, @0);
+id n__4494 = @1;
 while(YES) {
-if(cljm_truthy((n__4506 < cnt__4504))) {
-id nval__4507 = f(val__4505, cljm_DOT_core_SLASH__nth(cicoll, n__4506));
-if(cljm_truthy(cljm_DOT_core_SLASH_reduced_QMARK_(nval__4507))) {
-return cljm_DOT_core_SLASH_deref(nval__4507);
+if(cljm_truthy((n__4494 < cnt__4492))) {
+id nval__4495 = ((id (^)(id , id )) f.value)(val__4493, ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(cicoll.value, n__4494));
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_reduced_QMARK_.value)(nval__4495))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(nval__4495);
 
 } else {
 {
-var G__4516 = nval__4507;
-var G__4517 = (n__4506 + @1);
-val__4505 = G__4516;
-n__4506 = G__4517;
+var G__4504 = nval__4495;
+var G__4505 = (n__4494 + @1);
+val__4493 = G__4504;
+n__4494 = G__4505;
 continue;
 }
 
 }
 
 } else {
-return val__4505;
+return val__4493;
 
 }
 break;
@@ -304,56 +304,56 @@ break;
 }
 };
 var ci_reduce__3 = ^id(id cicoll, id f, id val) {
-id cnt__4508 = cljm_DOT_core_SLASH__count(cicoll);
-id val__4509 = val;
-id n__4510 = @0;
+id cnt__4496 = ((id (^)(id )) cljm_DOT_core_SLASH__count.value)(cicoll.value);
+id val__4497 = val.value;
+id n__4498 = @0;
 while(YES) {
-if(cljm_truthy((n__4510 < cnt__4508))) {
-id nval__4511 = f(val__4509, cljm_DOT_core_SLASH__nth(cicoll, n__4510));
-if(cljm_truthy(cljm_DOT_core_SLASH_reduced_QMARK_(nval__4511))) {
-return cljm_DOT_core_SLASH_deref(nval__4511);
+if(cljm_truthy((n__4498 < cnt__4496))) {
+id nval__4499 = ((id (^)(id , id )) f.value)(val__4497, ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(cicoll.value, n__4498));
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_reduced_QMARK_.value)(nval__4499))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(nval__4499);
 
 } else {
 {
-var G__4518 = nval__4511;
-var G__4519 = (n__4510 + @1);
-val__4509 = G__4518;
-n__4510 = G__4519;
+var G__4506 = nval__4499;
+var G__4507 = (n__4498 + @1);
+val__4497 = G__4506;
+n__4498 = G__4507;
 continue;
 }
 
 }
 
 } else {
-return val__4509;
+return val__4497;
 
 }
 break;
 }
 };
 var ci_reduce__4 = ^id(id cicoll, id f, id val, id idx) {
-id cnt__4512 = cljm_DOT_core_SLASH__count(cicoll);
-id val__4513 = val;
-id n__4514 = idx;
+id cnt__4500 = ((id (^)(id )) cljm_DOT_core_SLASH__count.value)(cicoll.value);
+id val__4501 = val.value;
+id n__4502 = idx.value;
 while(YES) {
-if(cljm_truthy((n__4514 < cnt__4512))) {
-id nval__4515 = f(val__4513, cljm_DOT_core_SLASH__nth(cicoll, n__4514));
-if(cljm_truthy(cljm_DOT_core_SLASH_reduced_QMARK_(nval__4515))) {
-return cljm_DOT_core_SLASH_deref(nval__4515);
+if(cljm_truthy((n__4502 < cnt__4500))) {
+id nval__4503 = ((id (^)(id , id )) f.value)(val__4501, ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(cicoll.value, n__4502));
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_reduced_QMARK_.value)(nval__4503))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(nval__4503);
 
 } else {
 {
-var G__4520 = nval__4515;
-var G__4521 = (n__4514 + @1);
-val__4513 = G__4520;
-n__4514 = G__4521;
+var G__4508 = nval__4503;
+var G__4509 = (n__4502 + @1);
+val__4501 = G__4508;
+n__4502 = G__4509;
 continue;
 }
 
 }
 
 } else {
-return val__4513;
+return val__4501;
 
 }
 break;
@@ -375,36 +375,36 @@ ci_reduce.cljm$lang$arity$3 = ci_reduce__3;
 ci_reduce.cljm$lang$arity$4 = ci_reduce__4;
 return ci_reduce;
 })()
-;
-cljm_DOT_core_SLASH_array_reduce = (function() {
+];
+cljm_DOT_core_SLASH_array_reduce = [[CLJMVar alloc] initWithValue:(function() {
 var array_reduce = null;
 var array_reduce__2 = ^id(id arr, id f) {
-id cnt__4534 = [arr count];
-if(cljm_truthy(([[arr count] isEqual:@0]))) {
-return f();
+id cnt__4522 = [arr.value count];
+if(cljm_truthy(([[arr.value count] isEqual:@0]))) {
+return ((id (^)()) f.value)();
 
 } else {
-id val__4535 = (arr[@0]);
-id n__4536 = @1;
+id val__4523 = (arr.value[@0]);
+id n__4524 = @1;
 while(YES) {
-if(cljm_truthy((n__4536 < cnt__4534))) {
-id nval__4537 = f(val__4535, (arr[n__4536]));
-if(cljm_truthy(cljm_DOT_core_SLASH_reduced_QMARK_(nval__4537))) {
-return cljm_DOT_core_SLASH_deref(nval__4537);
+if(cljm_truthy((n__4524 < cnt__4522))) {
+id nval__4525 = ((id (^)(id , id )) f.value)(val__4523, (arr.value[n__4524]));
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_reduced_QMARK_.value)(nval__4525))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(nval__4525);
 
 } else {
 {
-var G__4546 = nval__4537;
-var G__4547 = (n__4536 + @1);
-val__4535 = G__4546;
-n__4536 = G__4547;
+var G__4534 = nval__4525;
+var G__4535 = (n__4524 + @1);
+val__4523 = G__4534;
+n__4524 = G__4535;
 continue;
 }
 
 }
 
 } else {
-return val__4535;
+return val__4523;
 
 }
 break;
@@ -413,56 +413,56 @@ break;
 }
 };
 var array_reduce__3 = ^id(id arr, id f, id val) {
-id cnt__4538 = [arr count];
-id val__4539 = val;
-id n__4540 = @0;
+id cnt__4526 = [arr.value count];
+id val__4527 = val.value;
+id n__4528 = @0;
 while(YES) {
-if(cljm_truthy((n__4540 < cnt__4538))) {
-id nval__4541 = f(val__4539, (arr[n__4540]));
-if(cljm_truthy(cljm_DOT_core_SLASH_reduced_QMARK_(nval__4541))) {
-return cljm_DOT_core_SLASH_deref(nval__4541);
+if(cljm_truthy((n__4528 < cnt__4526))) {
+id nval__4529 = ((id (^)(id , id )) f.value)(val__4527, (arr.value[n__4528]));
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_reduced_QMARK_.value)(nval__4529))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(nval__4529);
 
 } else {
 {
-var G__4548 = nval__4541;
-var G__4549 = (n__4540 + @1);
-val__4539 = G__4548;
-n__4540 = G__4549;
+var G__4536 = nval__4529;
+var G__4537 = (n__4528 + @1);
+val__4527 = G__4536;
+n__4528 = G__4537;
 continue;
 }
 
 }
 
 } else {
-return val__4539;
+return val__4527;
 
 }
 break;
 }
 };
 var array_reduce__4 = ^id(id arr, id f, id val, id idx) {
-id cnt__4542 = [arr count];
-id val__4543 = val;
-id n__4544 = idx;
+id cnt__4530 = [arr.value count];
+id val__4531 = val.value;
+id n__4532 = idx.value;
 while(YES) {
-if(cljm_truthy((n__4544 < cnt__4542))) {
-id nval__4545 = f(val__4543, (arr[n__4544]));
-if(cljm_truthy(cljm_DOT_core_SLASH_reduced_QMARK_(nval__4545))) {
-return cljm_DOT_core_SLASH_deref(nval__4545);
+if(cljm_truthy((n__4532 < cnt__4530))) {
+id nval__4533 = ((id (^)(id , id )) f.value)(val__4531, (arr.value[n__4532]));
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_reduced_QMARK_.value)(nval__4533))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(nval__4533);
 
 } else {
 {
-var G__4550 = nval__4545;
-var G__4551 = (n__4544 + @1);
-val__4543 = G__4550;
-n__4544 = G__4551;
+var G__4538 = nval__4533;
+var G__4539 = (n__4532 + @1);
+val__4531 = G__4538;
+n__4532 = G__4539;
 continue;
 }
 
 }
 
 } else {
-return val__4543;
+return val__4531;
 
 }
 break;
@@ -484,18 +484,18 @@ array_reduce.cljm$lang$arity$3 = array_reduce__3;
 array_reduce.cljm$lang$arity$4 = array_reduce__4;
 return array_reduce;
 })()
-;
-cljm_DOT_core_SLASH_prim_seq = (function() {
+];
+cljm_DOT_core_SLASH_prim_seq = [[CLJMVar alloc] initWithValue:(function() {
 var prim_seq = null;
 var prim_seq__1 = ^id(id prim) {
-return prim_seq(prim, @0);
+return ((id (^)(id , id )) prim_seq.value)(prim.value, @0);
 };
 var prim_seq__2 = ^id(id prim, id i) {
-if(cljm_truthy(([prim.length isEqual:@0]))) {
+if(cljm_truthy(([prim.value.length isEqual:@0]))) {
 return nil;
 
 } else {
-return [cljm_DOT_core_SLASH_IndexedSeq alloc];
+return [cljm_DOT_core_SLASH_IndexedSeq.value alloc];
 
 }
 };
@@ -512,14 +512,14 @@ prim_seq.cljm$lang$arity$1 = prim_seq__1;
 prim_seq.cljm$lang$arity$2 = prim_seq__2;
 return prim_seq;
 })()
-;
-cljm_DOT_core_SLASH_array_seq = (function() {
+];
+cljm_DOT_core_SLASH_array_seq = [[CLJMVar alloc] initWithValue:(function() {
 var array_seq = null;
 var array_seq__1 = ^id(id array) {
-return cljm_DOT_core_SLASH_prim_seq(array, @0);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_prim_seq.value)(array.value, @0);
 };
 var array_seq__2 = ^id(id array, id i) {
-return cljm_DOT_core_SLASH_prim_seq(array, i);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_prim_seq.value)(array.value, i.value);
 };
 array_seq = function(array, i){
 switch(arguments.length){
@@ -534,33 +534,33 @@ array_seq.cljm$lang$arity$1 = array_seq__1;
 array_seq.cljm$lang$arity$2 = array_seq__2;
 return array_seq;
 })()
-;
+];
 /**
 * Returns a seq on the collection. If the collection is
 * empty, returns nil.  (seq nil) returns nil. seq also works on
 * Strings.
 */
-cljm_DOT_core_SLASH_seq = ^id(id coll) {
-if(cljm_truthy((coll == nil))) {
+cljm_DOT_core_SLASH_seq = [[CLJMVar alloc] initWithValue:^id(id coll) {
+if(cljm_truthy((coll.value == nil))) {
 return nil;
 
 } else {
-if(cljm_truthy({id G__4555__4556 = coll;
-if(cljm_truthy(G__4555__4556)) {
-if(cljm_truthy({id or__3824__auto____4557 = (G__4555__4556.cljm$lang$protocol_mask$partition0$ & @32);
-if(cljm_truthy(or__3824__auto____4557)) {
-return or__3824__auto____4557;
+if(cljm_truthy({id G__4543__4544 = coll.value;
+if(cljm_truthy(G__4543__4544)) {
+if(cljm_truthy({id or__3824__auto____4545 = (G__4543__4544.cljm$lang$protocol_mask$partition0$ & @32);
+if(cljm_truthy(or__3824__auto____4545)) {
+return or__3824__auto____4545;
 
 } else {
-return G__4555__4556.cljm$core$ASeq$;
+return G__4543__4544.cljm$core$ASeq$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__4555__4556.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ASeq, G__4555__4556);
+if(cljm_truthy((!G__4543__4544.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ASeq.value, G__4543__4544);
 
 } else {
 return @NO;
@@ -570,44 +570,44 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ASeq, G__4555__4556);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ASeq.value, G__4543__4544);
 
 }
 })) {
-return coll;
+return coll.value;
 
 } else {
-return cljm_DOT_core_SLASH__seq(coll);
+return ((id (^)(id )) cljm_DOT_core_SLASH__seq.value)(coll.value);
 
 }
 
 }
-};
+}];
 /**
 * Returns the first item in the collection. Calls seq on its
 * argument. If coll is nil, returns nil.
 */
-cljm_DOT_core_SLASH_first = ^id(id coll) {
-if(cljm_truthy((coll == nil))) {
+cljm_DOT_core_SLASH_first = [[CLJMVar alloc] initWithValue:^id(id coll) {
+if(cljm_truthy((coll.value == nil))) {
 return nil;
 
 } else {
-if(cljm_truthy({id G__4562__4563 = coll;
-if(cljm_truthy(G__4562__4563)) {
-if(cljm_truthy({id or__3824__auto____4564 = (G__4562__4563.cljm$lang$protocol_mask$partition0$ & @64);
-if(cljm_truthy(or__3824__auto____4564)) {
-return or__3824__auto____4564;
+if(cljm_truthy({id G__4550__4551 = coll.value;
+if(cljm_truthy(G__4550__4551)) {
+if(cljm_truthy({id or__3824__auto____4552 = (G__4550__4551.cljm$lang$protocol_mask$partition0$ & @64);
+if(cljm_truthy(or__3824__auto____4552)) {
+return or__3824__auto____4552;
 
 } else {
-return G__4562__4563.cljm$core$ISeq$;
+return G__4550__4551.cljm$core$ISeq$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__4562__4563.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ISeq, G__4562__4563);
+if(cljm_truthy((!G__4550__4551.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ISeq.value, G__4550__4551);
 
 } else {
 return @NO;
@@ -617,48 +617,48 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ISeq, G__4562__4563);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ISeq.value, G__4550__4551);
 
 }
 })) {
-return cljm_DOT_core_SLASH__first(coll);
+return ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(coll.value);
 
 } else {
-id s__4565 = cljm_DOT_core_SLASH_seq(coll);
-if(cljm_truthy((s__4565 == nil))) {
+id s__4553 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value);
+if(cljm_truthy((s__4553 == nil))) {
 return nil;
 
 } else {
-return cljm_DOT_core_SLASH__first(s__4565);
+return ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(s__4553);
 
 }
 
 }
 
 }
-};
+}];
 /**
 * Returns a possibly empty seq of the items after the first. Calls seq on its
 * argument.
 */
-cljm_DOT_core_SLASH_rest = ^id(id coll) {
-if(cljm_truthy(cljm_DOT_core_SLASH_not((coll == nil)))) {
-if(cljm_truthy({id G__4570__4571 = coll;
-if(cljm_truthy(G__4570__4571)) {
-if(cljm_truthy({id or__3824__auto____4572 = (G__4570__4571.cljm$lang$protocol_mask$partition0$ & @64);
-if(cljm_truthy(or__3824__auto____4572)) {
-return or__3824__auto____4572;
+cljm_DOT_core_SLASH_rest = [[CLJMVar alloc] initWithValue:^id(id coll) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((coll.value == nil)))) {
+if(cljm_truthy({id G__4558__4559 = coll.value;
+if(cljm_truthy(G__4558__4559)) {
+if(cljm_truthy({id or__3824__auto____4560 = (G__4558__4559.cljm$lang$protocol_mask$partition0$ & @64);
+if(cljm_truthy(or__3824__auto____4560)) {
+return or__3824__auto____4560;
 
 } else {
-return G__4570__4571.cljm$core$ISeq$;
+return G__4558__4559.cljm$core$ISeq$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__4570__4571.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ISeq, G__4570__4571);
+if(cljm_truthy((!G__4558__4559.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ISeq.value, G__4558__4559);
 
 } else {
 return @NO;
@@ -668,54 +668,54 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ISeq, G__4570__4571);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ISeq.value, G__4558__4559);
 
 }
 })) {
-return cljm_DOT_core_SLASH__rest(coll);
+return ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(coll.value);
 
 } else {
-id s__4573 = cljm_DOT_core_SLASH_seq(coll);
-if(cljm_truthy(cljm_DOT_core_SLASH_not((s__4573 == nil)))) {
-return cljm_DOT_core_SLASH__rest(s__4573);
-
-} else {
-return cljm.core.List.EMPTY;
-
-}
-
-}
+id s__4561 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((s__4561 == nil)))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(s__4561);
 
 } else {
 return cljm.core.List.EMPTY;
 
 }
-};
+
+}
+
+} else {
+return cljm.core.List.EMPTY;
+
+}
+}];
 /**
 * Returns a seq of the items after the first. Calls seq on its
 * argument.  If there are no more items, returns nil
 */
-cljm_DOT_core_SLASH_next = ^id(id coll) {
-if(cljm_truthy((coll == nil))) {
+cljm_DOT_core_SLASH_next = [[CLJMVar alloc] initWithValue:^id(id coll) {
+if(cljm_truthy((coll.value == nil))) {
 return nil;
 
 } else {
-if(cljm_truthy({id G__4577__4578 = coll;
-if(cljm_truthy(G__4577__4578)) {
-if(cljm_truthy({id or__3824__auto____4579 = (G__4577__4578.cljm$lang$protocol_mask$partition0$ & @128);
-if(cljm_truthy(or__3824__auto____4579)) {
-return or__3824__auto____4579;
+if(cljm_truthy({id G__4565__4566 = coll.value;
+if(cljm_truthy(G__4565__4566)) {
+if(cljm_truthy({id or__3824__auto____4567 = (G__4565__4566.cljm$lang$protocol_mask$partition0$ & @128);
+if(cljm_truthy(or__3824__auto____4567)) {
+return or__3824__auto____4567;
 
 } else {
-return G__4577__4578.cljm$core$INext$;
+return G__4565__4566.cljm$core$INext$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__4577__4578.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_INext, G__4577__4578);
+if(cljm_truthy((!G__4565__4566.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_INext.value, G__4565__4566);
 
 } else {
 return @NO;
@@ -725,94 +725,94 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_INext, G__4577__4578);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_INext.value, G__4565__4566);
 
 }
 })) {
-return cljm_DOT_core_SLASH__next(coll);
+return ((id (^)(id )) cljm_DOT_core_SLASH__next.value)(coll.value);
 
 } else {
-return cljm_DOT_core_SLASH_seq(cljm_DOT_core_SLASH_rest(coll));
+return ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(((id (^)(id )) cljm_DOT_core_SLASH_rest.value)(coll.value));
 
 }
 
 }
-};
+}];
 /**
 * Same as (first (next x))
 */
-cljm_DOT_core_SLASH_second = ^id(id coll) {
-return cljm_DOT_core_SLASH_first(cljm_DOT_core_SLASH_next(coll));
-};
+cljm_DOT_core_SLASH_second = [[CLJMVar alloc] initWithValue:^id(id coll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(((id (^)(id )) cljm_DOT_core_SLASH_next.value)(coll.value));
+}];
 /**
 * Same as (first (first x))
 */
-cljm_DOT_core_SLASH_ffirst = ^id(id coll) {
-return cljm_DOT_core_SLASH_first(cljm_DOT_core_SLASH_first(coll));
-};
+cljm_DOT_core_SLASH_ffirst = [[CLJMVar alloc] initWithValue:^id(id coll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(coll.value));
+}];
 /**
 * Same as (next (first x))
 */
-cljm_DOT_core_SLASH_nfirst = ^id(id coll) {
-return cljm_DOT_core_SLASH_next(cljm_DOT_core_SLASH_first(coll));
-};
+cljm_DOT_core_SLASH_nfirst = [[CLJMVar alloc] initWithValue:^id(id coll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(coll.value));
+}];
 /**
 * Same as (first (next x))
 */
-cljm_DOT_core_SLASH_fnext = ^id(id coll) {
-return cljm_DOT_core_SLASH_first(cljm_DOT_core_SLASH_next(coll));
-};
+cljm_DOT_core_SLASH_fnext = [[CLJMVar alloc] initWithValue:^id(id coll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(((id (^)(id )) cljm_DOT_core_SLASH_next.value)(coll.value));
+}];
 /**
 * Same as (next (next x))
 */
-cljm_DOT_core_SLASH_nnext = ^id(id coll) {
-return cljm_DOT_core_SLASH_next(cljm_DOT_core_SLASH_next(coll));
-};
+cljm_DOT_core_SLASH_nnext = [[CLJMVar alloc] initWithValue:^id(id coll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(((id (^)(id )) cljm_DOT_core_SLASH_next.value)(coll.value));
+}];
 /**
 * Return the last item in coll, in linear time
 */
-cljm_DOT_core_SLASH_last = ^id(id s) {
+cljm_DOT_core_SLASH_last = [[CLJMVar alloc] initWithValue:^id(id s) {
 while(YES) {
-id sn__4581 = cljm_DOT_core_SLASH_next(s);
-if(cljm_truthy(cljm_DOT_core_SLASH_not((sn__4581 == nil)))) {
+id sn__4569 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(s.value);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((sn__4569 == nil)))) {
 {
-var G__4582 = sn__4581;
-s = G__4582;
+var G__4570 = sn__4569;
+s = G__4570;
 continue;
 }
 
 } else {
-return cljm_DOT_core_SLASH_first(s);
+return ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(s.value);
 
 }
 break;
 }
-};
-(cljm_DOT_core_SLASH_IEquiv[@"_"] = @YES);
-(cljm_DOT_core_SLASH__equiv[@"_"] = ^id(id x, id o) {
-return ([x isEqual:o]);
+}];
+(cljm_DOT_core_SLASH_IEquiv.value[@"_"] = @YES);
+(cljm_DOT_core_SLASH__equiv.value[@"_"] = ^id(id x, id o) {
+return ([x.value isEqual:o.value]);
 });
 /**
 * Returns true if x is logical false, false otherwise.
 */
-cljm_DOT_core_SLASH_not = ^id(id x) {
-if(cljm_truthy(x)) {
+cljm_DOT_core_SLASH_not = [[CLJMVar alloc] initWithValue:^id(id x) {
+if(cljm_truthy(x.value)) {
 return @NO;
 
 } else {
 return @YES;
 
 }
-};
+}];
 /**
 * conj[oin]. Returns a new collection with the xs
 * 'added'. (conj nil item) returns (item).  The 'addition' may
 * happen at different 'places' depending on the concrete type.
 */
-cljm_DOT_core_SLASH_conj = (function() {
+cljm_DOT_core_SLASH_conj = [[CLJMVar alloc] initWithValue:(function() {
 var conj = null;
 var conj__2 = ^id(id coll, id x) {
-return cljm_DOT_core_SLASH__conj(coll, x);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__conj.value)(coll.value, x.value);
 };
 var conj__3 = ^id(id cljm__varargs, id coll, id x, ...) {
 NSMutableArray *xs = [NSMutableArray array];
@@ -823,19 +823,19 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 }
 va_end(cljm__args);
 while(YES) {
-if(cljm_truthy(xs)) {
+if(cljm_truthy(xs.value)) {
 {
-var G__4583 = conj(coll, x, nil);
-var G__4584 = cljm_DOT_core_SLASH_first(xs);
-var G__4585 = cljm_DOT_core_SLASH_next(xs);
-coll = G__4583;
-x = G__4584;
-xs = G__4585;
+var G__4571 = ((id (^)(id , id , ...)) conj.value)(coll.value, x.value, nil);
+var G__4572 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(xs.value);
+var G__4573 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(xs.value);
+coll = G__4571;
+x = G__4572;
+xs = G__4573;
 continue;
 }
 
 } else {
-return conj(coll, x, nil);
+return ((id (^)(id , id , ...)) conj.value)(coll.value, x.value, nil);
 
 }
 break;
@@ -857,73 +857,73 @@ conj.cljm$lang$arity$2 = conj__2;
 conj.cljm$lang$arity$variadic = conj__3.cljm$lang$arity$variadic;
 return conj;
 })()
-;
+];
 /**
 * Returns an empty collection of the same category as coll, or nil
 */
-cljm_DOT_core_SLASH_empty = ^id(id coll) {
-return cljm_DOT_core_SLASH__empty(coll);
-};
-cljm_DOT_core_SLASH_accumulating_seq_count = ^id(id coll) {
-id s__4588 = cljm_DOT_core_SLASH_seq(coll);
-id acc__4589 = @0;
+cljm_DOT_core_SLASH_empty = [[CLJMVar alloc] initWithValue:^id(id coll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__empty.value)(coll.value);
+}];
+cljm_DOT_core_SLASH_accumulating_seq_count = [[CLJMVar alloc] initWithValue:^id(id coll) {
+id s__4576 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value);
+id acc__4577 = @0;
 while(YES) {
-if(cljm_truthy(cljm_DOT_core_SLASH_counted_QMARK_(s__4588))) {
-return (acc__4589 + cljm_DOT_core_SLASH__count(s__4588));
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_counted_QMARK_.value)(s__4576))) {
+return (acc__4577 + ((id (^)(id )) cljm_DOT_core_SLASH__count.value)(s__4576));
 
 } else {
 {
-var G__4590 = cljm_DOT_core_SLASH_next(s__4588);
-var G__4591 = (acc__4589 + @1);
-s__4588 = G__4590;
-acc__4589 = G__4591;
+var G__4578 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(s__4576);
+var G__4579 = (acc__4577 + @1);
+s__4576 = G__4578;
+acc__4577 = G__4579;
 continue;
 }
 
 }
 break;
 }
-};
+}];
 /**
 * Returns the number of items in the collection. (count nil) returns
 * 0.  Also works on strings, arrays, and Maps
 */
-cljm_DOT_core_SLASH_count = ^id(id coll) {
-if(cljm_truthy(cljm_DOT_core_SLASH_counted_QMARK_(coll))) {
-return cljm_DOT_core_SLASH__count(coll);
+cljm_DOT_core_SLASH_count = [[CLJMVar alloc] initWithValue:^id(id coll) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_counted_QMARK_.value)(coll.value))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__count.value)(coll.value);
 
 } else {
-return cljm_DOT_core_SLASH_accumulating_seq_count(coll);
+return ((id (^)(id )) cljm_DOT_core_SLASH_accumulating_seq_count.value)(coll.value);
 
 }
-};
-cljm_DOT_core_SLASH_linear_traversal_nth = (function() {
+}];
+cljm_DOT_core_SLASH_linear_traversal_nth = [[CLJMVar alloc] initWithValue:(function() {
 var linear_traversal_nth = null;
 var linear_traversal_nth__2 = ^id(id coll, id n) {
-if(cljm_truthy((coll == nil))) {
-return cljm_DOT_core_SLASH_error(@"Index out of bounds");
+if(cljm_truthy((coll.value == nil))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_error.value)(@"Index out of bounds");
 
 } else {
-if(cljm_truthy(([n isEqual:@0]))) {
-if(cljm_truthy(cljm_DOT_core_SLASH_seq(coll))) {
-return cljm_DOT_core_SLASH_first(coll);
+if(cljm_truthy(([n.value isEqual:@0]))) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(coll.value);
 
 } else {
-return cljm_DOT_core_SLASH_error(@"Index out of bounds");
+return ((id (^)(id )) cljm_DOT_core_SLASH_error.value)(@"Index out of bounds");
 
 }
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_indexed_QMARK_(coll))) {
-return cljm_DOT_core_SLASH__nth(coll, n);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_indexed_QMARK_.value)(coll.value))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(coll.value, n.value);
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_seq(coll))) {
-return linear_traversal_nth(cljm_DOT_core_SLASH_next(coll), (n - @1));
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value))) {
+return ((id (^)(id , id )) linear_traversal_nth.value)(((id (^)(id )) cljm_DOT_core_SLASH_next.value)(coll.value), (n.value - @1));
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return cljm_DOT_core_SLASH_error(@"Index out of bounds");
+return ((id (^)(id )) cljm_DOT_core_SLASH_error.value)(@"Index out of bounds");
 
 } else {
 return nil;
@@ -939,30 +939,30 @@ return nil;
 }
 };
 var linear_traversal_nth__3 = ^id(id coll, id n, id not_found) {
-if(cljm_truthy((coll == nil))) {
-return not_found;
+if(cljm_truthy((coll.value == nil))) {
+return not_found.value;
 
 } else {
-if(cljm_truthy(([n isEqual:@0]))) {
-if(cljm_truthy(cljm_DOT_core_SLASH_seq(coll))) {
-return cljm_DOT_core_SLASH_first(coll);
+if(cljm_truthy(([n.value isEqual:@0]))) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(coll.value);
 
 } else {
-return not_found;
+return not_found.value;
 
 }
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_indexed_QMARK_(coll))) {
-return cljm_DOT_core_SLASH__nth(coll, n, not_found);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_indexed_QMARK_.value)(coll.value))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__nth.value)(coll.value, n.value, not_found.value);
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_seq(coll))) {
-return linear_traversal_nth(cljm_DOT_core_SLASH_next(coll), (n - @1), not_found);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value))) {
+return ((id (^)(id , id , id )) linear_traversal_nth.value)(((id (^)(id )) cljm_DOT_core_SLASH_next.value)(coll.value), (n.value - @1), not_found.value);
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return not_found;
+return not_found.value;
 
 } else {
 return nil;
@@ -990,36 +990,36 @@ linear_traversal_nth.cljm$lang$arity$2 = linear_traversal_nth__2;
 linear_traversal_nth.cljm$lang$arity$3 = linear_traversal_nth__3;
 return linear_traversal_nth;
 })()
-;
+];
 /**
 * Returns the value at the index. get returns nil if index out of
 * bounds, nth throws an exception unless not-found is supplied.  nth
 * also works for strings, arrays, regex Matchers and Lists, and,
 * in O(n) time, for sequences.
 */
-cljm_DOT_core_SLASH_nth = (function() {
+cljm_DOT_core_SLASH_nth = [[CLJMVar alloc] initWithValue:(function() {
 var nth = null;
 var nth__2 = ^id(id coll, id n) {
-if(cljm_truthy((coll == nil))) {
+if(cljm_truthy((coll.value == nil))) {
 return nil;
 
 } else {
-if(cljm_truthy({id G__4598__4599 = coll;
-if(cljm_truthy(G__4598__4599)) {
-if(cljm_truthy({id or__3824__auto____4600 = (G__4598__4599.cljm$lang$protocol_mask$partition0$ & @16);
-if(cljm_truthy(or__3824__auto____4600)) {
-return or__3824__auto____4600;
+if(cljm_truthy({id G__4586__4587 = coll.value;
+if(cljm_truthy(G__4586__4587)) {
+if(cljm_truthy({id or__3824__auto____4588 = (G__4586__4587.cljm$lang$protocol_mask$partition0$ & @16);
+if(cljm_truthy(or__3824__auto____4588)) {
+return or__3824__auto____4588;
 
 } else {
-return G__4598__4599.cljm$core$IIndexed$;
+return G__4586__4587.cljm$core$IIndexed$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__4598__4599.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IIndexed, G__4598__4599);
+if(cljm_truthy((!G__4586__4587.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IIndexed.value, G__4586__4587);
 
 } else {
 return @NO;
@@ -1029,37 +1029,37 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IIndexed, G__4598__4599);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IIndexed.value, G__4586__4587);
 
 }
 })) {
-return cljm_DOT_core_SLASH__nth(coll, n);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(coll.value, n.value);
 
 } else {
-return cljm_DOT_core_SLASH_linear_traversal_nth(coll, n);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_linear_traversal_nth.value)(coll.value, n.value);
 
 }
 
 }
 };
 var nth__3 = ^id(id coll, id n, id not_found) {
-if(cljm_truthy(cljm_DOT_core_SLASH_not((coll == nil)))) {
-if(cljm_truthy({id G__4601__4602 = coll;
-if(cljm_truthy(G__4601__4602)) {
-if(cljm_truthy({id or__3824__auto____4603 = (G__4601__4602.cljm$lang$protocol_mask$partition0$ & @16);
-if(cljm_truthy(or__3824__auto____4603)) {
-return or__3824__auto____4603;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((coll.value == nil)))) {
+if(cljm_truthy({id G__4589__4590 = coll.value;
+if(cljm_truthy(G__4589__4590)) {
+if(cljm_truthy({id or__3824__auto____4591 = (G__4589__4590.cljm$lang$protocol_mask$partition0$ & @16);
+if(cljm_truthy(or__3824__auto____4591)) {
+return or__3824__auto____4591;
 
 } else {
-return G__4601__4602.cljm$core$IIndexed$;
+return G__4589__4590.cljm$core$IIndexed$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__4601__4602.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IIndexed, G__4601__4602);
+if(cljm_truthy((!G__4589__4590.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IIndexed.value, G__4589__4590);
 
 } else {
 return @NO;
@@ -1069,19 +1069,19 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IIndexed, G__4601__4602);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IIndexed.value, G__4589__4590);
 
 }
 })) {
-return cljm_DOT_core_SLASH__nth(coll, n, not_found);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__nth.value)(coll.value, n.value, not_found.value);
 
 } else {
-return cljm_DOT_core_SLASH_linear_traversal_nth(coll, n, not_found);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_linear_traversal_nth.value)(coll.value, n.value, not_found.value);
 
 }
 
 } else {
-return not_found;
+return not_found.value;
 
 }
 };
@@ -1098,17 +1098,17 @@ nth.cljm$lang$arity$2 = nth__2;
 nth.cljm$lang$arity$3 = nth__3;
 return nth;
 })()
-;
+];
 /**
 * Returns the value mapped to key, not-found or nil if key not present.
 */
-cljm_DOT_core_SLASH_get = (function() {
+cljm_DOT_core_SLASH_get = [[CLJMVar alloc] initWithValue:(function() {
 var get = null;
 var get__2 = ^id(id o, id k) {
-return cljm_DOT_core_SLASH__lookup(o, k);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__lookup.value)(o.value, k.value);
 };
 var get__3 = ^id(id o, id k, id not_found) {
-return cljm_DOT_core_SLASH__lookup(o, k, not_found);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(o.value, k.value, not_found.value);
 };
 get = function(o, k, not_found){
 switch(arguments.length){
@@ -1123,17 +1123,17 @@ get.cljm$lang$arity$2 = get__2;
 get.cljm$lang$arity$3 = get__3;
 return get;
 })()
-;
+];
 /**
 * assoc[iate]. When applied to a map, returns a new map of the
 * same (hashed/sorted) type, that contains the mapping of key(s) to
 * val(s). When applied to a vector, returns a new vector that
 * contains val at index.
 */
-cljm_DOT_core_SLASH_assoc = (function() {
+cljm_DOT_core_SLASH_assoc = [[CLJMVar alloc] initWithValue:(function() {
 var assoc = null;
 var assoc__3 = ^id(id coll, id k, id v) {
-return cljm_DOT_core_SLASH__assoc(coll, k, v);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__assoc.value)(coll.value, k.value, v.value);
 };
 var assoc__4 = ^id(id cljm__varargs, id coll, id k, id v, ...) {
 NSMutableArray *kvs = [NSMutableArray array];
@@ -1144,22 +1144,22 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 }
 va_end(cljm__args);
 while(YES) {
-id ret__4605 = assoc(coll, k, v, nil);
-if(cljm_truthy(kvs)) {
+id ret__4593 = ((id (^)(id , id , id , ...)) assoc.value)(coll.value, k.value, v.value, nil);
+if(cljm_truthy(kvs.value)) {
 {
-var G__4606 = ret__4605;
-var G__4607 = cljm_DOT_core_SLASH_first(kvs);
-var G__4608 = cljm_DOT_core_SLASH_second(kvs);
-var G__4609 = cljm_DOT_core_SLASH_nnext(kvs);
-coll = G__4606;
-k = G__4607;
-v = G__4608;
-kvs = G__4609;
+var G__4594 = ret__4593;
+var G__4595 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(kvs.value);
+var G__4596 = ((id (^)(id )) cljm_DOT_core_SLASH_second.value)(kvs.value);
+var G__4597 = ((id (^)(id )) cljm_DOT_core_SLASH_nnext.value)(kvs.value);
+coll = G__4594;
+k = G__4595;
+v = G__4596;
+kvs = G__4597;
 continue;
 }
 
 } else {
-return ret__4605;
+return ret__4593;
 
 }
 break;
@@ -1181,18 +1181,18 @@ assoc.cljm$lang$arity$3 = assoc__3;
 assoc.cljm$lang$arity$variadic = assoc__4.cljm$lang$arity$variadic;
 return assoc;
 })()
-;
+];
 /**
 * dissoc[iate]. Returns a new map of the same (hashed/sorted) type,
 * that does not contain a mapping for key(s).
 */
-cljm_DOT_core_SLASH_dissoc = (function() {
+cljm_DOT_core_SLASH_dissoc = [[CLJMVar alloc] initWithValue:(function() {
 var dissoc = null;
 var dissoc__1 = ^id(id coll) {
-return coll;
+return coll.value;
 };
 var dissoc__2 = ^id(id coll, id k) {
-return cljm_DOT_core_SLASH__dissoc(coll, k);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__dissoc.value)(coll.value, k.value);
 };
 var dissoc__3 = ^id(id cljm__varargs, id coll, id k, ...) {
 NSMutableArray *ks = [NSMutableArray array];
@@ -1203,20 +1203,20 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 }
 va_end(cljm__args);
 while(YES) {
-id ret__4611 = dissoc(coll, k, nil);
-if(cljm_truthy(ks)) {
+id ret__4599 = ((id (^)(id , id , ...)) dissoc.value)(coll.value, k.value, nil);
+if(cljm_truthy(ks.value)) {
 {
-var G__4612 = ret__4611;
-var G__4613 = cljm_DOT_core_SLASH_first(ks);
-var G__4614 = cljm_DOT_core_SLASH_next(ks);
-coll = G__4612;
-k = G__4613;
-ks = G__4614;
+var G__4600 = ret__4599;
+var G__4601 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(ks.value);
+var G__4602 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(ks.value);
+coll = G__4600;
+k = G__4601;
+ks = G__4602;
 continue;
 }
 
 } else {
-return ret__4611;
+return ret__4599;
 
 }
 break;
@@ -1241,34 +1241,34 @@ dissoc.cljm$lang$arity$2 = dissoc__2;
 dissoc.cljm$lang$arity$variadic = dissoc__3.cljm$lang$arity$variadic;
 return dissoc;
 })()
-;
+];
 /**
 * Returns an object of the same type and value as obj, with
 * map m as its metadata.
 */
-cljm_DOT_core_SLASH_with_meta = ^id(id o, id meta) {
-return cljm_DOT_core_SLASH__with_meta(o, meta);
-};
+cljm_DOT_core_SLASH_with_meta = [[CLJMVar alloc] initWithValue:^id(id o, id meta) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__with_meta.value)(o.value, meta.value);
+}];
 /**
 * Returns the metadata of obj, returns nil if there is no metadata.
 */
-cljm_DOT_core_SLASH_meta = ^id(id o) {
-if(cljm_truthy({id G__4618__4619 = o;
-if(cljm_truthy(G__4618__4619)) {
-if(cljm_truthy({id or__3824__auto____4620 = (G__4618__4619.cljm$lang$protocol_mask$partition0$ & @131072);
-if(cljm_truthy(or__3824__auto____4620)) {
-return or__3824__auto____4620;
+cljm_DOT_core_SLASH_meta = [[CLJMVar alloc] initWithValue:^id(id o) {
+if(cljm_truthy({id G__4606__4607 = o.value;
+if(cljm_truthy(G__4606__4607)) {
+if(cljm_truthy({id or__3824__auto____4608 = (G__4606__4607.cljm$lang$protocol_mask$partition0$ & @131072);
+if(cljm_truthy(or__3824__auto____4608)) {
+return or__3824__auto____4608;
 
 } else {
-return G__4618__4619.cljm$core$IMeta$;
+return G__4606__4607.cljm$core$IMeta$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__4618__4619.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IMeta, G__4618__4619);
+if(cljm_truthy((!G__4606__4607.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IMeta.value, G__4606__4607);
 
 } else {
 return @NO;
@@ -1278,43 +1278,43 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IMeta, G__4618__4619);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IMeta.value, G__4606__4607);
 
 }
 })) {
-return cljm_DOT_core_SLASH__meta(o);
+return ((id (^)(id )) cljm_DOT_core_SLASH__meta.value)(o.value);
 
 } else {
 return nil;
 
 }
-};
+}];
 /**
 * For a list or queue, same as first, for a vector, same as, but much
 * more efficient than, last. If the collection is empty, returns nil.
 */
-cljm_DOT_core_SLASH_peek = ^id(id coll) {
-return cljm_DOT_core_SLASH__peek(coll);
-};
+cljm_DOT_core_SLASH_peek = [[CLJMVar alloc] initWithValue:^id(id coll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__peek.value)(coll.value);
+}];
 /**
 * For a list or queue, returns a new list/queue without the first
 * item, for a vector, returns a new vector without the last item.
 * Note - not the same as next/butlast.
 */
-cljm_DOT_core_SLASH_pop = ^id(id coll) {
-return cljm_DOT_core_SLASH__pop(coll);
-};
+cljm_DOT_core_SLASH_pop = [[CLJMVar alloc] initWithValue:^id(id coll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__pop.value)(coll.value);
+}];
 /**
 * disj[oin]. Returns a new set of the same (hashed/sorted) type, that
 * does not contain key(s).
 */
-cljm_DOT_core_SLASH_disj = (function() {
+cljm_DOT_core_SLASH_disj = [[CLJMVar alloc] initWithValue:(function() {
 var disj = null;
 var disj__1 = ^id(id coll) {
-return coll;
+return coll.value;
 };
 var disj__2 = ^id(id coll, id k) {
-return cljm_DOT_core_SLASH__disjoin(coll, k);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__disjoin.value)(coll.value, k.value);
 };
 var disj__3 = ^id(id cljm__varargs, id coll, id k, ...) {
 NSMutableArray *ks = [NSMutableArray array];
@@ -1325,20 +1325,20 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 }
 va_end(cljm__args);
 while(YES) {
-id ret__4622 = disj(coll, k, nil);
-if(cljm_truthy(ks)) {
+id ret__4610 = ((id (^)(id , id , ...)) disj.value)(coll.value, k.value, nil);
+if(cljm_truthy(ks.value)) {
 {
-var G__4623 = ret__4622;
-var G__4624 = cljm_DOT_core_SLASH_first(ks);
-var G__4625 = cljm_DOT_core_SLASH_next(ks);
-coll = G__4623;
-k = G__4624;
-ks = G__4625;
+var G__4611 = ret__4610;
+var G__4612 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(ks.value);
+var G__4613 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(ks.value);
+coll = G__4611;
+k = G__4612;
+ks = G__4613;
 continue;
 }
 
 } else {
-return ret__4622;
+return ret__4610;
 
 }
 break;
@@ -1363,11 +1363,11 @@ disj.cljm$lang$arity$2 = disj__2;
 disj.cljm$lang$arity$variadic = disj__3.cljm$lang$arity$variadic;
 return disj;
 })()
-;
-cljm_DOT_core_SLASH_hash = (function() {
+];
+cljm_DOT_core_SLASH_hash = [[CLJMVar alloc] initWithValue:(function() {
 var hash = null;
 var hash__1 = ^id(id o) {
-return hash(o, @YES);
+return ((id (^)(id , id )) hash.value)(o.value, @YES);
 };
 var hash__2 = ^id(id o, id check_cache) {
 return [@"hash" o];
@@ -1385,30 +1385,104 @@ hash.cljm$lang$arity$1 = hash__1;
 hash.cljm$lang$arity$2 = hash__2;
 return hash;
 })()
-;
+];
 /**
 * Returns true if coll has no items - same as (not (seq coll)).
 * Please use the idiom (seq x) rather than (not (empty? x))
 */
-cljm_DOT_core_SLASH_empty_QMARK_ = ^id(id coll) {
-return cljm_DOT_core_SLASH_not(cljm_DOT_core_SLASH_seq(coll));
-};
+cljm_DOT_core_SLASH_empty_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id coll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value));
+}];
 /**
 * Returns true if x satisfies ICollection
 */
-cljm_DOT_core_SLASH_coll_QMARK_ = ^id(id x) {
-if(cljm_truthy((x == nil))) {
+cljm_DOT_core_SLASH_coll_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+if(cljm_truthy((x.value == nil))) {
 return @NO;
 
 } else {
-id G__4629__4630 = x;
+id G__4617__4618 = x.value;
+if(cljm_truthy(G__4617__4618)) {
+if(cljm_truthy({id or__3824__auto____4619 = (G__4617__4618.cljm$lang$protocol_mask$partition0$ & @8);
+if(cljm_truthy(or__3824__auto____4619)) {
+return or__3824__auto____4619;
+
+} else {
+return G__4617__4618.cljm$core$ICollection$;
+
+}
+})) {
+return @YES;
+
+} else {
+if(cljm_truthy((!G__4617__4618.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ICollection.value, G__4617__4618);
+
+} else {
+return @NO;
+
+}
+
+}
+
+} else {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ICollection.value, G__4617__4618);
+
+}
+
+}
+}];
+/**
+* Returns true if x satisfies ISet
+*/
+cljm_DOT_core_SLASH_set_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+if(cljm_truthy((x.value == nil))) {
+return @NO;
+
+} else {
+id G__4623__4624 = x.value;
+if(cljm_truthy(G__4623__4624)) {
+if(cljm_truthy({id or__3824__auto____4625 = (G__4623__4624.cljm$lang$protocol_mask$partition0$ & @4096);
+if(cljm_truthy(or__3824__auto____4625)) {
+return or__3824__auto____4625;
+
+} else {
+return G__4623__4624.cljm$core$ISet$;
+
+}
+})) {
+return @YES;
+
+} else {
+if(cljm_truthy((!G__4623__4624.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ISet.value, G__4623__4624);
+
+} else {
+return @NO;
+
+}
+
+}
+
+} else {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ISet.value, G__4623__4624);
+
+}
+
+}
+}];
+/**
+* Returns true if coll implements Associative
+*/
+cljm_DOT_core_SLASH_associative_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+id G__4629__4630 = x.value;
 if(cljm_truthy(G__4629__4630)) {
-if(cljm_truthy({id or__3824__auto____4631 = (G__4629__4630.cljm$lang$protocol_mask$partition0$ & @8);
+if(cljm_truthy({id or__3824__auto____4631 = (G__4629__4630.cljm$lang$protocol_mask$partition0$ & @512);
 if(cljm_truthy(or__3824__auto____4631)) {
 return or__3824__auto____4631;
 
 } else {
-return G__4629__4630.cljm$core$ICollection$;
+return G__4629__4630.cljm$core$IAssociative$;
 
 }
 })) {
@@ -1416,7 +1490,7 @@ return @YES;
 
 } else {
 if(cljm_truthy((!G__4629__4630.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ICollection, G__4629__4630);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IAssociative.value, G__4629__4630);
 
 } else {
 return @NO;
@@ -1426,28 +1500,22 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ICollection, G__4629__4630);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IAssociative.value, G__4629__4630);
 
 }
-
-}
-};
+}];
 /**
-* Returns true if x satisfies ISet
+* Returns true if coll satisfies ISequential
 */
-cljm_DOT_core_SLASH_set_QMARK_ = ^id(id x) {
-if(cljm_truthy((x == nil))) {
-return @NO;
-
-} else {
-id G__4635__4636 = x;
+cljm_DOT_core_SLASH_sequential_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+id G__4635__4636 = x.value;
 if(cljm_truthy(G__4635__4636)) {
-if(cljm_truthy({id or__3824__auto____4637 = (G__4635__4636.cljm$lang$protocol_mask$partition0$ & @4096);
+if(cljm_truthy({id or__3824__auto____4637 = (G__4635__4636.cljm$lang$protocol_mask$partition0$ & @16777216);
 if(cljm_truthy(or__3824__auto____4637)) {
 return or__3824__auto____4637;
 
 } else {
-return G__4635__4636.cljm$core$ISet$;
+return G__4635__4636.cljm$core$ISequential$;
 
 }
 })) {
@@ -1455,7 +1523,7 @@ return @YES;
 
 } else {
 if(cljm_truthy((!G__4635__4636.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ISet, G__4635__4636);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ISequential.value, G__4635__4636);
 
 } else {
 return @NO;
@@ -1465,24 +1533,22 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ISet, G__4635__4636);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ISequential.value, G__4635__4636);
 
 }
-
-}
-};
+}];
 /**
-* Returns true if coll implements Associative
+* Returns true if coll implements count in constant time
 */
-cljm_DOT_core_SLASH_associative_QMARK_ = ^id(id x) {
-id G__4641__4642 = x;
+cljm_DOT_core_SLASH_counted_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+id G__4641__4642 = x.value;
 if(cljm_truthy(G__4641__4642)) {
-if(cljm_truthy({id or__3824__auto____4643 = (G__4641__4642.cljm$lang$protocol_mask$partition0$ & @512);
+if(cljm_truthy({id or__3824__auto____4643 = (G__4641__4642.cljm$lang$protocol_mask$partition0$ & @2);
 if(cljm_truthy(or__3824__auto____4643)) {
 return or__3824__auto____4643;
 
 } else {
-return G__4641__4642.cljm$core$IAssociative$;
+return G__4641__4642.cljm$core$ICounted$;
 
 }
 })) {
@@ -1490,7 +1556,7 @@ return @YES;
 
 } else {
 if(cljm_truthy((!G__4641__4642.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IAssociative, G__4641__4642);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ICounted.value, G__4641__4642);
 
 } else {
 return @NO;
@@ -1500,22 +1566,22 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IAssociative, G__4641__4642);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ICounted.value, G__4641__4642);
 
 }
-};
+}];
 /**
-* Returns true if coll satisfies ISequential
+* Returns true if coll implements nth in constant time
 */
-cljm_DOT_core_SLASH_sequential_QMARK_ = ^id(id x) {
-id G__4647__4648 = x;
+cljm_DOT_core_SLASH_indexed_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+id G__4647__4648 = x.value;
 if(cljm_truthy(G__4647__4648)) {
-if(cljm_truthy({id or__3824__auto____4649 = (G__4647__4648.cljm$lang$protocol_mask$partition0$ & @16777216);
+if(cljm_truthy({id or__3824__auto____4649 = (G__4647__4648.cljm$lang$protocol_mask$partition0$ & @16);
 if(cljm_truthy(or__3824__auto____4649)) {
 return or__3824__auto____4649;
 
 } else {
-return G__4647__4648.cljm$core$ISequential$;
+return G__4647__4648.cljm$core$IIndexed$;
 
 }
 })) {
@@ -1523,7 +1589,7 @@ return @YES;
 
 } else {
 if(cljm_truthy((!G__4647__4648.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ISequential, G__4647__4648);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IIndexed.value, G__4647__4648);
 
 } else {
 return @NO;
@@ -1533,22 +1599,22 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ISequential, G__4647__4648);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IIndexed.value, G__4647__4648);
 
 }
-};
+}];
 /**
-* Returns true if coll implements count in constant time
+* Returns true if coll satisfies IReduce
 */
-cljm_DOT_core_SLASH_counted_QMARK_ = ^id(id x) {
-id G__4653__4654 = x;
+cljm_DOT_core_SLASH_reduceable_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+id G__4653__4654 = x.value;
 if(cljm_truthy(G__4653__4654)) {
-if(cljm_truthy({id or__3824__auto____4655 = (G__4653__4654.cljm$lang$protocol_mask$partition0$ & @2);
+if(cljm_truthy({id or__3824__auto____4655 = (G__4653__4654.cljm$lang$protocol_mask$partition0$ & @524288);
 if(cljm_truthy(or__3824__auto____4655)) {
 return or__3824__auto____4655;
 
 } else {
-return G__4653__4654.cljm$core$ICounted$;
+return G__4653__4654.cljm$core$IReduce$;
 
 }
 })) {
@@ -1556,7 +1622,7 @@ return @YES;
 
 } else {
 if(cljm_truthy((!G__4653__4654.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ICounted, G__4653__4654);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IReduce.value, G__4653__4654);
 
 } else {
 return @NO;
@@ -1566,22 +1632,26 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ICounted, G__4653__4654);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IReduce.value, G__4653__4654);
 
 }
-};
+}];
 /**
-* Returns true if coll implements nth in constant time
+* Return true if x satisfies IMap
 */
-cljm_DOT_core_SLASH_indexed_QMARK_ = ^id(id x) {
-id G__4659__4660 = x;
+cljm_DOT_core_SLASH_map_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+if(cljm_truthy((x.value == nil))) {
+return @NO;
+
+} else {
+id G__4659__4660 = x.value;
 if(cljm_truthy(G__4659__4660)) {
-if(cljm_truthy({id or__3824__auto____4661 = (G__4659__4660.cljm$lang$protocol_mask$partition0$ & @16);
+if(cljm_truthy({id or__3824__auto____4661 = (G__4659__4660.cljm$lang$protocol_mask$partition0$ & @1024);
 if(cljm_truthy(or__3824__auto____4661)) {
 return or__3824__auto____4661;
 
 } else {
-return G__4659__4660.cljm$core$IIndexed$;
+return G__4659__4660.cljm$core$IMap$;
 
 }
 })) {
@@ -1589,7 +1659,7 @@ return @YES;
 
 } else {
 if(cljm_truthy((!G__4659__4660.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IIndexed, G__4659__4660);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IMap.value, G__4659__4660);
 
 } else {
 return @NO;
@@ -1599,22 +1669,24 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IIndexed, G__4659__4660);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IMap.value, G__4659__4660);
 
 }
-};
+
+}
+}];
 /**
-* Returns true if coll satisfies IReduce
+* Return true if x satisfies IVector
 */
-cljm_DOT_core_SLASH_reduceable_QMARK_ = ^id(id x) {
-id G__4665__4666 = x;
+cljm_DOT_core_SLASH_vector_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+id G__4665__4666 = x.value;
 if(cljm_truthy(G__4665__4666)) {
-if(cljm_truthy({id or__3824__auto____4667 = (G__4665__4666.cljm$lang$protocol_mask$partition0$ & @524288);
+if(cljm_truthy({id or__3824__auto____4667 = (G__4665__4666.cljm$lang$protocol_mask$partition0$ & @16384);
 if(cljm_truthy(or__3824__auto____4667)) {
 return or__3824__auto____4667;
 
 } else {
-return G__4665__4666.cljm$core$IReduce$;
+return G__4665__4666.cljm$core$IVector$;
 
 }
 })) {
@@ -1622,7 +1694,7 @@ return @YES;
 
 } else {
 if(cljm_truthy((!G__4665__4666.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IReduce, G__4665__4666);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IVector.value, G__4665__4666);
 
 } else {
 return @NO;
@@ -1632,34 +1704,27 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IReduce, G__4665__4666);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IVector.value, G__4665__4666);
 
 }
-};
-/**
-* Return true if x satisfies IMap
-*/
-cljm_DOT_core_SLASH_map_QMARK_ = ^id(id x) {
-if(cljm_truthy((x == nil))) {
-return @NO;
-
-} else {
-id G__4671__4672 = x;
+}];
+cljm_DOT_core_SLASH_chunked_seq_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+id G__4671__4672 = x.value;
 if(cljm_truthy(G__4671__4672)) {
-if(cljm_truthy({id or__3824__auto____4673 = (G__4671__4672.cljm$lang$protocol_mask$partition0$ & @1024);
+if(cljm_truthy({id or__3824__auto____4673 = nil;
 if(cljm_truthy(or__3824__auto____4673)) {
 return or__3824__auto____4673;
 
 } else {
-return G__4671__4672.cljm$core$IMap$;
+return G__4671__4672.cljm$core$IChunkedSeq$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__4671__4672.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IMap, G__4671__4672);
+if(cljm_truthy((!G__4671__4672.cljm$lang$protocol_mask$partition$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IChunkedSeq.value, G__4671__4672);
 
 } else {
 return @NO;
@@ -1669,24 +1734,41 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IMap, G__4671__4672);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IChunkedSeq.value, G__4671__4672);
 
 }
-
-}
-};
+}];
 /**
-* Return true if x satisfies IVector
+* Returns true if x is the value false, false otherwise.
 */
-cljm_DOT_core_SLASH_vector_QMARK_ = ^id(id x) {
-id G__4677__4678 = x;
+cljm_DOT_core_SLASH_false_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+return x.value === NO;
+}];
+/**
+* Returns true if x is the value true, false otherwise.
+*/
+cljm_DOT_core_SLASH_true_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+return x.value === YES;
+}];
+cljm_DOT_core_SLASH_undefined_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+return ((void *) 0) === x.value);
+}];
+/**
+* Return true if s satisfies ISeq
+*/
+cljm_DOT_core_SLASH_seq_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id s) {
+if(cljm_truthy((s.value == nil))) {
+return @NO;
+
+} else {
+id G__4677__4678 = s.value;
 if(cljm_truthy(G__4677__4678)) {
-if(cljm_truthy({id or__3824__auto____4679 = (G__4677__4678.cljm$lang$protocol_mask$partition0$ & @16384);
+if(cljm_truthy({id or__3824__auto____4679 = (G__4677__4678.cljm$lang$protocol_mask$partition0$ & @64);
 if(cljm_truthy(or__3824__auto____4679)) {
 return or__3824__auto____4679;
 
 } else {
-return G__4677__4678.cljm$core$IVector$;
+return G__4677__4678.cljm$core$ISeq$;
 
 }
 })) {
@@ -1694,7 +1776,7 @@ return @YES;
 
 } else {
 if(cljm_truthy((!G__4677__4678.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IVector, G__4677__4678);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ISeq.value, G__4677__4678);
 
 } else {
 return @NO;
@@ -1704,27 +1786,32 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IVector, G__4677__4678);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ISeq.value, G__4677__4678);
 
 }
-};
-cljm_DOT_core_SLASH_chunked_seq_QMARK_ = ^id(id x) {
-id G__4683__4684 = x;
+
+}
+}];
+/**
+* Return true if s satisfies ISeqable
+*/
+cljm_DOT_core_SLASH_seqable_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id s) {
+id G__4683__4684 = s.value;
 if(cljm_truthy(G__4683__4684)) {
-if(cljm_truthy({id or__3824__auto____4685 = nil;
+if(cljm_truthy({id or__3824__auto____4685 = (G__4683__4684.cljm$lang$protocol_mask$partition0$ & @8388608);
 if(cljm_truthy(or__3824__auto____4685)) {
 return or__3824__auto____4685;
 
 } else {
-return G__4683__4684.cljm$core$IChunkedSeq$;
+return G__4683__4684.cljm$core$ISeqable$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__4683__4684.cljm$lang$protocol_mask$partition$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IChunkedSeq, G__4683__4684);
+if(cljm_truthy((!G__4683__4684.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ISeqable.value, G__4683__4684);
 
 } else {
 return @NO;
@@ -1734,112 +1821,25 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IChunkedSeq, G__4683__4684);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ISeqable.value, G__4683__4684);
 
 }
-};
-/**
-* Returns true if x is the value false, false otherwise.
-*/
-cljm_DOT_core_SLASH_false_QMARK_ = ^id(id x) {
-return x === NO;
-};
-/**
-* Returns true if x is the value true, false otherwise.
-*/
-cljm_DOT_core_SLASH_true_QMARK_ = ^id(id x) {
-return x === YES;
-};
-cljm_DOT_core_SLASH_undefined_QMARK_ = ^id(id x) {
-return ((void *) 0) === x);
-};
-/**
-* Return true if s satisfies ISeq
-*/
-cljm_DOT_core_SLASH_seq_QMARK_ = ^id(id s) {
-if(cljm_truthy((s == nil))) {
-return @NO;
-
-} else {
-id G__4689__4690 = s;
-if(cljm_truthy(G__4689__4690)) {
-if(cljm_truthy({id or__3824__auto____4691 = (G__4689__4690.cljm$lang$protocol_mask$partition0$ & @64);
-if(cljm_truthy(or__3824__auto____4691)) {
-return or__3824__auto____4691;
-
-} else {
-return G__4689__4690.cljm$core$ISeq$;
-
-}
-})) {
-return @YES;
-
-} else {
-if(cljm_truthy((!G__4689__4690.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ISeq, G__4689__4690);
-
-} else {
-return @NO;
-
-}
-
-}
-
-} else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ISeq, G__4689__4690);
-
-}
-
-}
-};
-/**
-* Return true if s satisfies ISeqable
-*/
-cljm_DOT_core_SLASH_seqable_QMARK_ = ^id(id s) {
-id G__4695__4696 = s;
-if(cljm_truthy(G__4695__4696)) {
-if(cljm_truthy({id or__3824__auto____4697 = (G__4695__4696.cljm$lang$protocol_mask$partition0$ & @8388608);
-if(cljm_truthy(or__3824__auto____4697)) {
-return or__3824__auto____4697;
-
-} else {
-return G__4695__4696.cljm$core$ISeqable$;
-
-}
-})) {
-return @YES;
-
-} else {
-if(cljm_truthy((!G__4695__4696.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ISeqable, G__4695__4696);
-
-} else {
-return @NO;
-
-}
-
-}
-
-} else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ISeqable, G__4695__4696);
-
-}
-};
-cljm_DOT_core_SLASH_boolean = ^id(id x) {
-if(cljm_truthy(x)) {
+}];
+cljm_DOT_core_SLASH_boolean = [[CLJMVar alloc] initWithValue:^id(id x) {
+if(cljm_truthy(x.value)) {
 return @YES;
 
 } else {
 return @NO;
 
 }
-};
-cljm_DOT_core_SLASH_string_QMARK_ = ^id(id x) {
-id and__3822__auto____4700 = [x isKindOfClass:[NSString class]];
-if(cljm_truthy(and__3822__auto____4700)) {
-return cljm_DOT_core_SLASH_not({id or__3824__auto____4701 = ([[@"characterAtIndex:" x@0] isEqual:@"\uFDD0"]);
-if(cljm_truthy(or__3824__auto____4701)) {
-return or__3824__auto____4701;
+}];
+cljm_DOT_core_SLASH_string_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+id and__3822__auto____4688 = [x.value isKindOfClass:[NSString class]];
+if(cljm_truthy(and__3822__auto____4688)) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)({id or__3824__auto____4689 = ([[@"characterAtIndex:" x@0] isEqual:@"\uFDD0"]);
+if(cljm_truthy(or__3824__auto____4689)) {
+return or__3824__auto____4689;
 
 } else {
 return ([[@"characterAtIndex:" x@0] isEqual:@"\uFDD1"]);
@@ -1848,58 +1848,58 @@ return ([[@"characterAtIndex:" x@0] isEqual:@"\uFDD1"]);
 });
 
 } else {
-return and__3822__auto____4700;
+return and__3822__auto____4688;
 
 }
-};
-cljm_DOT_core_SLASH_keyword_QMARK_ = ^id(id x) {
-id and__3822__auto____4703 = [x isKindOfClass:[NSString class]];
-if(cljm_truthy(and__3822__auto____4703)) {
+}];
+cljm_DOT_core_SLASH_keyword_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+id and__3822__auto____4691 = [x.value isKindOfClass:[NSString class]];
+if(cljm_truthy(and__3822__auto____4691)) {
 return ([[@"characterAtIndex:" x@0] isEqual:@"\uFDD0"]);
 
 } else {
-return and__3822__auto____4703;
+return and__3822__auto____4691;
 
 }
-};
-cljm_DOT_core_SLASH_symbol_QMARK_ = ^id(id x) {
-id and__3822__auto____4705 = [x isKindOfClass:[NSString class]];
-if(cljm_truthy(and__3822__auto____4705)) {
+}];
+cljm_DOT_core_SLASH_symbol_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+id and__3822__auto____4693 = [x.value isKindOfClass:[NSString class]];
+if(cljm_truthy(and__3822__auto____4693)) {
 return ([[@"characterAtIndex:" x@0] isEqual:@"\uFDD1"]);
 
 } else {
-return and__3822__auto____4705;
+return and__3822__auto____4693;
 
 }
-};
-cljm_DOT_core_SLASH_number_QMARK_ = ^id(id n) {
-return [n isKindOfClass:[NSNumber class]];
-};
-cljm_DOT_core_SLASH_fn_QMARK_ = ^id(id f) {
-return [f isKindOfClass:[NSBlock class]];
-};
-cljm_DOT_core_SLASH_ifn_QMARK_ = ^id(id f) {
-id or__3824__auto____4710 = cljm_DOT_core_SLASH_fn_QMARK_(f);
-if(cljm_truthy(or__3824__auto____4710)) {
-return or__3824__auto____4710;
+}];
+cljm_DOT_core_SLASH_number_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id n) {
+return [n.value isKindOfClass:[NSNumber class]];
+}];
+cljm_DOT_core_SLASH_fn_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id f) {
+return [f.value isKindOfClass:[NSBlock class]];
+}];
+cljm_DOT_core_SLASH_ifn_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id f) {
+id or__3824__auto____4698 = ((id (^)(id )) cljm_DOT_core_SLASH_fn_QMARK_.value)(f.value);
+if(cljm_truthy(or__3824__auto____4698)) {
+return or__3824__auto____4698;
 
 } else {
-id G__4711__4712 = f;
-if(cljm_truthy(G__4711__4712)) {
-if(cljm_truthy({id or__3824__auto____4713 = (G__4711__4712.cljm$lang$protocol_mask$partition0$ & @1);
-if(cljm_truthy(or__3824__auto____4713)) {
-return or__3824__auto____4713;
+id G__4699__4700 = f.value;
+if(cljm_truthy(G__4699__4700)) {
+if(cljm_truthy({id or__3824__auto____4701 = (G__4699__4700.cljm$lang$protocol_mask$partition0$ & @1);
+if(cljm_truthy(or__3824__auto____4701)) {
+return or__3824__auto____4701;
 
 } else {
-return G__4711__4712.cljm$core$IFn$;
+return G__4699__4700.cljm$core$IFn$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__4711__4712.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IFn, G__4711__4712);
+if(cljm_truthy((!G__4699__4700.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IFn.value, G__4699__4700);
 
 } else {
 return @NO;
@@ -1909,25 +1909,25 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IFn, G__4711__4712);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IFn.value, G__4699__4700);
 
 }
 
 }
-};
+}];
 /**
 * Returns true if n is an integer.  Warning: returns true on underflow condition.
 */
-cljm_DOT_core_SLASH_integer_QMARK_ = ^id(id n) {
-id and__3822__auto____4715 = cljm_DOT_core_SLASH_number_QMARK_(n);
-if(cljm_truthy(and__3822__auto____4715)) {
-return (n == [@"integerValue" n]);
+cljm_DOT_core_SLASH_integer_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id n) {
+id and__3822__auto____4703 = ((id (^)(id )) cljm_DOT_core_SLASH_number_QMARK_.value)(n.value);
+if(cljm_truthy(and__3822__auto____4703)) {
+return (n.value == [@"integerValue" n]);
 
 } else {
-return and__3822__auto____4715;
+return and__3822__auto____4703;
 
 }
-};
+}];
 /**
 * Returns true if key is present in the given collection, otherwise
 * returns false.  Note that for numerically indexed collections like
@@ -1935,52 +1935,52 @@ return and__3822__auto____4715;
 * range of indexes. 'contains?' operates constant or logarithmic time;
 * it will not perform a linear search for a value.  See also 'some'.
 */
-cljm_DOT_core_SLASH_contains_QMARK_ = ^id(id coll, id v) {
-if(cljm_truthy(([cljm_DOT_core_SLASH__lookup(coll, v, cljm_DOT_core_SLASH_lookup_sentinel) isEqual:cljm_DOT_core_SLASH_lookup_sentinel]))) {
+cljm_DOT_core_SLASH_contains_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id coll, id v) {
+if(cljm_truthy(([((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll.value, v.value, cljm_DOT_core_SLASH_lookup_sentinel.value) isEqual:cljm_DOT_core_SLASH_lookup_sentinel.value]))) {
 return @NO;
 
 } else {
 return @YES;
 
 }
-};
+}];
 /**
 * Returns the map entry for key, or nil if key not present.
 */
-cljm_DOT_core_SLASH_find = ^id(id coll, id k) {
-if(cljm_truthy({id and__3822__auto____4718 = coll;
-if(cljm_truthy(and__3822__auto____4718)) {
-id and__3822__auto____4719 = cljm_DOT_core_SLASH_associative_QMARK_(coll);
-if(cljm_truthy(and__3822__auto____4719)) {
-return cljm_DOT_core_SLASH_contains_QMARK_(coll, k);
+cljm_DOT_core_SLASH_find = [[CLJMVar alloc] initWithValue:^id(id coll, id k) {
+if(cljm_truthy({id and__3822__auto____4706 = coll.value;
+if(cljm_truthy(and__3822__auto____4706)) {
+id and__3822__auto____4707 = ((id (^)(id )) cljm_DOT_core_SLASH_associative_QMARK_.value)(coll.value);
+if(cljm_truthy(and__3822__auto____4707)) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_contains_QMARK_.value)(coll.value, k.value);
 
 } else {
-return and__3822__auto____4719;
+return and__3822__auto____4707;
 
 }
 
 } else {
-return and__3822__auto____4718;
+return and__3822__auto____4706;
 
 }
 })) {
-return @[ k, cljm_DOT_core_SLASH__lookup(coll, k) ];
+return @[ k.value, ((id (^)(id , id )) cljm_DOT_core_SLASH__lookup.value)(coll.value, k.value) ];
 
 } else {
 return nil;
 
 }
-};
+}];
 /**
 * Returns true if no two of the arguments are =
 */
-cljm_DOT_core_SLASH_distinct_QMARK_ = (function() {
+cljm_DOT_core_SLASH_distinct_QMARK_ = [[CLJMVar alloc] initWithValue:(function() {
 var distinct_QMARK_ = null;
 var distinct_QMARK___1 = ^id(id x) {
 return @YES;
 };
 var distinct_QMARK___2 = ^id(id x, id y) {
-return cljm_DOT_core_SLASH_not(cljm_DOT_core_SLASH__EQ_(x, y, nil));
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((id (^)(id , id , ...)) cljm_DOT_core_SLASH__EQ_.value)(x.value, y.value, nil));
 };
 var distinct_QMARK___3 = ^id(id cljm__varargs, id x, id y, ...) {
 NSMutableArray *more = [NSMutableArray array];
@@ -1990,22 +1990,22 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [more addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-if(cljm_truthy(cljm_DOT_core_SLASH_not(cljm_DOT_core_SLASH__EQ_(x, y, nil)))) {
-id s__4724 = [NSSet setWithObjects:y, x, nil];
-id xs__4725 = more;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((id (^)(id , id , ...)) cljm_DOT_core_SLASH__EQ_.value)(x.value, y.value, nil)))) {
+id s__4712 = [NSSet setWithObjects:y.value, x.value, nil];
+id xs__4713 = more.value;
 while(YES) {
-id x__4726 = cljm_DOT_core_SLASH_first(xs__4725);
-id etc__4727 = cljm_DOT_core_SLASH_next(xs__4725);
-if(cljm_truthy(xs__4725)) {
-if(cljm_truthy(cljm_DOT_core_SLASH_contains_QMARK_(s__4724, x__4726))) {
+id x__4714 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(xs__4713);
+id etc__4715 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(xs__4713);
+if(cljm_truthy(xs__4713)) {
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_contains_QMARK_.value)(s__4712, x__4714))) {
 return @NO;
 
 } else {
 {
-var G__4728 = cljm_DOT_core_SLASH_conj(s__4724, x__4726, nil);
-var G__4729 = etc__4727;
-s__4724 = G__4728;
-xs__4725 = G__4729;
+var G__4716 = ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(s__4712, x__4714, nil);
+var G__4717 = etc__4715;
+s__4712 = G__4716;
+xs__4713 = G__4717;
 continue;
 }
 
@@ -2042,43 +2042,43 @@ distinct_QMARK_.cljm$lang$arity$2 = distinct_QMARK___2;
 distinct_QMARK_.cljm$lang$arity$variadic = distinct_QMARK___3.cljm$lang$arity$variadic;
 return distinct_QMARK_;
 })()
-;
+];
 /**
 * Comparator. Returns a negative number, zero, or a positive number
 * when x is logically 'less than', 'equal to', or 'greater than'
 * y. Uses IComparable if available and google.array.defaultCompare for objects
 * of the same type and special-cases nil to be less than any other object.
 */
-cljm_DOT_core_SLASH_compare = ^id(id x, id y) {
-if(cljm_truthy(([x isEqual:y]))) {
+cljm_DOT_core_SLASH_compare = [[CLJMVar alloc] initWithValue:^id(id x, id y) {
+if(cljm_truthy(([x.value isEqual:y.value]))) {
 return @0;
 
 } else {
-if(cljm_truthy((x == nil))) {
+if(cljm_truthy((x.value == nil))) {
 return @-1;
 
 } else {
-if(cljm_truthy((y == nil))) {
+if(cljm_truthy((y.value == nil))) {
 return @1;
 
 } else {
-if(cljm_truthy(([cljm_DOT_core_SLASH_type(x) isEqual:cljm_DOT_core_SLASH_type(y)]))) {
-if(cljm_truthy({id G__4733__4734 = x;
-if(cljm_truthy(G__4733__4734)) {
-if(cljm_truthy({id or__3824__auto____4735 = nil;
-if(cljm_truthy(or__3824__auto____4735)) {
-return or__3824__auto____4735;
+if(cljm_truthy(([((id (^)(id )) cljm_DOT_core_SLASH_type.value)(x.value) isEqual:((id (^)(id )) cljm_DOT_core_SLASH_type.value)(y.value)]))) {
+if(cljm_truthy({id G__4721__4722 = x.value;
+if(cljm_truthy(G__4721__4722)) {
+if(cljm_truthy({id or__3824__auto____4723 = nil;
+if(cljm_truthy(or__3824__auto____4723)) {
+return or__3824__auto____4723;
 
 } else {
-return G__4733__4734.cljm$core$IComparable$;
+return G__4721__4722.cljm$core$IComparable$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__4733__4734.cljm$lang$protocol_mask$partition$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IComparable, G__4733__4734);
+if(cljm_truthy((!G__4721__4722.cljm$lang$protocol_mask$partition$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IComparable.value, G__4721__4722);
 
 } else {
 return @NO;
@@ -2088,20 +2088,20 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IComparable, G__4733__4734);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IComparable.value, G__4721__4722);
 
 }
 })) {
-return cljm_DOT_core_SLASH__compare(x, y);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__compare.value)(x.value, y.value);
 
 } else {
-return garray_SLASH_defaultCompare(x, y);
+return ((id (^)(id , id )) garray_SLASH_defaultCompare.value)(x.value, y.value);
 
 }
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return cljm_DOT_core_SLASH_error(@"compare on non-nil objects of different types");
+return ((id (^)(id )) cljm_DOT_core_SLASH_error.value)(@"compare on non-nil objects of different types");
 
 } else {
 return nil;
@@ -2115,25 +2115,25 @@ return nil;
 }
 
 }
-};
+}];
 /**
 * Compare indexed collection.
 */
-cljm_DOT_core_SLASH_compare_indexed = (function() {
+cljm_DOT_core_SLASH_compare_indexed = [[CLJMVar alloc] initWithValue:(function() {
 var compare_indexed = null;
 var compare_indexed__2 = ^id(id xs, id ys) {
-id xl__4740 = cljm_DOT_core_SLASH_count(xs);
-id yl__4741 = cljm_DOT_core_SLASH_count(ys);
-if(cljm_truthy((xl__4740 < yl__4741))) {
+id xl__4728 = ((id (^)(id )) cljm_DOT_core_SLASH_count.value)(xs.value);
+id yl__4729 = ((id (^)(id )) cljm_DOT_core_SLASH_count.value)(ys.value);
+if(cljm_truthy((xl__4728 < yl__4729))) {
 return @-1;
 
 } else {
-if(cljm_truthy((xl__4740 > yl__4741))) {
+if(cljm_truthy((xl__4728 > yl__4729))) {
 return @1;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return compare_indexed(xs, ys, xl__4740, @0);
+return ((id (^)(id , id , id , id )) compare_indexed.value)(xs.value, ys.value, xl__4728, @0);
 
 } else {
 return nil;
@@ -2146,30 +2146,30 @@ return nil;
 };
 var compare_indexed__4 = ^id(id xs, id ys, id len, id n) {
 while(YES) {
-id d__4742 = cljm_DOT_core_SLASH_compare(cljm_DOT_core_SLASH_nth(xs, n), cljm_DOT_core_SLASH_nth(ys, n));
-if(cljm_truthy({id and__3822__auto____4743 = ([d__4742 isEqual:@0]);
-if(cljm_truthy(and__3822__auto____4743)) {
-return ((n + @1) < len);
+id d__4730 = ((id (^)(id , id )) cljm_DOT_core_SLASH_compare.value)(((id (^)(id , id )) cljm_DOT_core_SLASH_nth.value)(xs.value, n.value), ((id (^)(id , id )) cljm_DOT_core_SLASH_nth.value)(ys.value, n.value));
+if(cljm_truthy({id and__3822__auto____4731 = ([d__4730 isEqual:@0]);
+if(cljm_truthy(and__3822__auto____4731)) {
+return ((n.value + @1) < len.value);
 
 } else {
-return and__3822__auto____4743;
+return and__3822__auto____4731;
 
 }
 })) {
 {
-var G__4744 = xs;
-var G__4745 = ys;
-var G__4746 = len;
-var G__4747 = (n + @1);
-xs = G__4744;
-ys = G__4745;
-len = G__4746;
-n = G__4747;
+var G__4732 = xs.value;
+var G__4733 = ys.value;
+var G__4734 = len.value;
+var G__4735 = (n.value + @1);
+xs = G__4732;
+ys = G__4733;
+len = G__4734;
+n = G__4735;
 continue;
 }
 
 } else {
-return d__4742;
+return d__4730;
 
 }
 break;
@@ -2188,27 +2188,27 @@ compare_indexed.cljm$lang$arity$2 = compare_indexed__2;
 compare_indexed.cljm$lang$arity$4 = compare_indexed__4;
 return compare_indexed;
 })()
-;
+];
 /**
 * Given a fn that might be boolean valued or a comparator,
 * return a fn that is a comparator.
 */
-cljm_DOT_core_SLASH_fn__GT_comparator = ^id(id f) {
-if(cljm_truthy(cljm_DOT_core_SLASH__EQ_(f, cljm_DOT_core_SLASH_compare, nil))) {
-return cljm_DOT_core_SLASH_compare;
+cljm_DOT_core_SLASH_fn__GT_comparator = [[CLJMVar alloc] initWithValue:^id(id f) {
+if(cljm_truthy(((id (^)(id , id , ...)) cljm_DOT_core_SLASH__EQ_.value)(f.value, cljm_DOT_core_SLASH_compare.value, nil))) {
+return cljm_DOT_core_SLASH_compare.value;
 
 } else {
 return ^id(id x, id y) {
-id r__4749 = f(x, y);
-if(cljm_truthy(cljm_DOT_core_SLASH_number_QMARK_(r__4749))) {
-return r__4749;
+id r__4737 = ((id (^)(id , id )) f.value)(x.value, y.value);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_number_QMARK_.value)(r__4737))) {
+return r__4737;
 
 } else {
-if(cljm_truthy(r__4749)) {
+if(cljm_truthy(r__4737)) {
 return @-1;
 
 } else {
-if(cljm_truthy(f(y, x))) {
+if(cljm_truthy(((id (^)(id , id )) f.value)(y.value, x.value))) {
 return @1;
 
 } else {
@@ -2222,22 +2222,22 @@ return @0;
 };
 
 }
-};
+}];
 /**
 * Returns a sorted sequence of the items in coll. Comp can be
 * boolean-valued comparison funcion, or a -/0/+ valued comparator.
 * Comp defaults to compare.
 */
-cljm_DOT_core_SLASH_sort = (function() {
+cljm_DOT_core_SLASH_sort = [[CLJMVar alloc] initWithValue:(function() {
 var sort = null;
 var sort__1 = ^id(id coll) {
-return sort(cljm_DOT_core_SLASH_compare, coll);
+return ((id (^)(id , id )) sort.value)(cljm_DOT_core_SLASH_compare.value, coll.value);
 };
 var sort__2 = ^id(id comp, id coll) {
-if(cljm_truthy(cljm_DOT_core_SLASH_seq(coll))) {
-id a__4751 = cljm_DOT_core_SLASH_to_array(coll);
-garray_SLASH_stableSort(a__4751, cljm_DOT_core_SLASH_fn__GT_comparator(comp));
-return cljm_DOT_core_SLASH_seq(a__4751);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value))) {
+id a__4739 = ((id (^)(id )) cljm_DOT_core_SLASH_to_array.value)(coll.value);
+((id (^)(id , id )) garray_SLASH_stableSort.value)(a__4739, ((id (^)(id )) cljm_DOT_core_SLASH_fn__GT_comparator.value)(comp.value));
+return ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(a__4739);
 
 } else {
 return cljm.core.List.EMPTY;
@@ -2257,22 +2257,22 @@ sort.cljm$lang$arity$1 = sort__1;
 sort.cljm$lang$arity$2 = sort__2;
 return sort;
 })()
-;
+];
 /**
 * Returns a sorted sequence of the items in coll, where the sort
 * order is determined by comparing (keyfn item).  Comp can be
 * boolean-valued comparison funcion, or a -/0/+ valued comparator.
 * Comp defaults to compare.
 */
-cljm_DOT_core_SLASH_sort_by = (function() {
+cljm_DOT_core_SLASH_sort_by = [[CLJMVar alloc] initWithValue:(function() {
 var sort_by = null;
 var sort_by__2 = ^id(id keyfn, id coll) {
-return sort_by(keyfn, cljm_DOT_core_SLASH_compare, coll);
+return ((id (^)(id , id , id )) sort_by.value)(keyfn.value, cljm_DOT_core_SLASH_compare.value, coll.value);
 };
 var sort_by__3 = ^id(id keyfn, id comp, id coll) {
-return cljm_DOT_core_SLASH_sort(^id(id x, id y) {
-return (keyfn(x), keyfn(y));
-}, coll);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_sort.value)(^id(id x, id y) {
+return ((id (^)(id , id )) .value)(((id (^)(id )) keyfn.value)(x.value), ((id (^)(id )) keyfn.value)(y.value));
+}, coll.value);
 };
 sort_by = function(keyfn, comp, coll){
 switch(arguments.length){
@@ -2287,42 +2287,42 @@ sort_by.cljm$lang$arity$2 = sort_by__2;
 sort_by.cljm$lang$arity$3 = sort_by__3;
 return sort_by;
 })()
-;
-cljm_DOT_core_SLASH_seq_reduce = (function() {
+];
+cljm_DOT_core_SLASH_seq_reduce = [[CLJMVar alloc] initWithValue:(function() {
 var seq_reduce = null;
 var seq_reduce__2 = ^id(id f, id coll) {
-id temp__3971__auto____4757 = cljm_DOT_core_SLASH_seq(coll);
-if(cljm_truthy(temp__3971__auto____4757)) {
-id s__4758 = temp__3971__auto____4757;
-return cljm_DOT_core_SLASH_reduce(f, cljm_DOT_core_SLASH_first(s__4758), cljm_DOT_core_SLASH_next(s__4758));
+id temp__3971__auto____4745 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value);
+if(cljm_truthy(temp__3971__auto____4745)) {
+id s__4746 = temp__3971__auto____4745;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(f.value, ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(s__4746), ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(s__4746));
 
 } else {
-return f();
+return ((id (^)()) f.value)();
 
 }
 };
 var seq_reduce__3 = ^id(id f, id val, id coll) {
-id val__4759 = val;
-id coll__4760 = cljm_DOT_core_SLASH_seq(coll);
+id val__4747 = val.value;
+id coll__4748 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value);
 while(YES) {
-if(cljm_truthy(coll__4760)) {
-id nval__4761 = f(val__4759, cljm_DOT_core_SLASH_first(coll__4760));
-if(cljm_truthy(cljm_DOT_core_SLASH_reduced_QMARK_(nval__4761))) {
-return cljm_DOT_core_SLASH_deref(nval__4761);
+if(cljm_truthy(coll__4748)) {
+id nval__4749 = ((id (^)(id , id )) f.value)(val__4747, ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(coll__4748));
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_reduced_QMARK_.value)(nval__4749))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(nval__4749);
 
 } else {
 {
-var G__4762 = nval__4761;
-var G__4763 = cljm_DOT_core_SLASH_next(coll__4760);
-val__4759 = G__4762;
-coll__4760 = G__4763;
+var G__4750 = nval__4749;
+var G__4751 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(coll__4748);
+val__4747 = G__4750;
+coll__4748 = G__4751;
 continue;
 }
 
 }
 
 } else {
-return val__4759;
+return val__4747;
 
 }
 break;
@@ -2341,15 +2341,15 @@ seq_reduce.cljm$lang$arity$2 = seq_reduce__2;
 seq_reduce.cljm$lang$arity$3 = seq_reduce__3;
 return seq_reduce;
 })()
-;
+];
 /**
 * Return a random permutation of coll
 */
-cljm_DOT_core_SLASH_shuffle = ^id(id coll) {
-id a__4765 = cljm_DOT_core_SLASH_to_array(coll);
-garray_SLASH_shuffle(a__4765);
-return cljm_DOT_core_SLASH_vec(a__4765);
-};
+cljm_DOT_core_SLASH_shuffle = [[CLJMVar alloc] initWithValue:^id(id coll) {
+id a__4753 = ((id (^)(id )) cljm_DOT_core_SLASH_to_array.value)(coll.value);
+((id (^)(id )) garray_SLASH_shuffle.value)(a__4753);
+return ((id (^)(id )) cljm_DOT_core_SLASH_vec.value)(a__4753);
+}];
 /**
 * f should be a function of 2 arguments. If val is not supplied,
 * returns the result of applying f to the first 2 items in coll, then
@@ -2361,25 +2361,25 @@ return cljm_DOT_core_SLASH_vec(a__4765);
 * applying f to that result and the 2nd item, etc. If coll contains no
 * items, returns val and f is not called.
 */
-cljm_DOT_core_SLASH_reduce = (function() {
+cljm_DOT_core_SLASH_reduce = [[CLJMVar alloc] initWithValue:(function() {
 var reduce = null;
 var reduce__2 = ^id(id f, id coll) {
-if(cljm_truthy({id G__4772__4773 = coll;
-if(cljm_truthy(G__4772__4773)) {
-if(cljm_truthy({id or__3824__auto____4774 = (G__4772__4773.cljm$lang$protocol_mask$partition0$ & @524288);
-if(cljm_truthy(or__3824__auto____4774)) {
-return or__3824__auto____4774;
+if(cljm_truthy({id G__4760__4761 = coll.value;
+if(cljm_truthy(G__4760__4761)) {
+if(cljm_truthy({id or__3824__auto____4762 = (G__4760__4761.cljm$lang$protocol_mask$partition0$ & @524288);
+if(cljm_truthy(or__3824__auto____4762)) {
+return or__3824__auto____4762;
 
 } else {
-return G__4772__4773.cljm$core$IReduce$;
+return G__4760__4761.cljm$core$IReduce$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__4772__4773.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IReduce, G__4772__4773);
+if(cljm_truthy((!G__4760__4761.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IReduce.value, G__4760__4761);
 
 } else {
 return @NO;
@@ -2389,34 +2389,34 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IReduce, G__4772__4773);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IReduce.value, G__4760__4761);
 
 }
 })) {
-return cljm_DOT_core_SLASH__reduce(coll, f);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__reduce.value)(coll.value, f.value);
 
 } else {
-return cljm_DOT_core_SLASH_seq_reduce(f, coll);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_seq_reduce.value)(f.value, coll.value);
 
 }
 };
 var reduce__3 = ^id(id f, id val, id coll) {
-if(cljm_truthy({id G__4775__4776 = coll;
-if(cljm_truthy(G__4775__4776)) {
-if(cljm_truthy({id or__3824__auto____4777 = (G__4775__4776.cljm$lang$protocol_mask$partition0$ & @524288);
-if(cljm_truthy(or__3824__auto____4777)) {
-return or__3824__auto____4777;
+if(cljm_truthy({id G__4763__4764 = coll.value;
+if(cljm_truthy(G__4763__4764)) {
+if(cljm_truthy({id or__3824__auto____4765 = (G__4763__4764.cljm$lang$protocol_mask$partition0$ & @524288);
+if(cljm_truthy(or__3824__auto____4765)) {
+return or__3824__auto____4765;
 
 } else {
-return G__4775__4776.cljm$core$IReduce$;
+return G__4763__4764.cljm$core$IReduce$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__4775__4776.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IReduce, G__4775__4776);
+if(cljm_truthy((!G__4763__4764.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IReduce.value, G__4763__4764);
 
 } else {
 return @NO;
@@ -2426,14 +2426,14 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IReduce, G__4775__4776);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IReduce.value, G__4763__4764);
 
 }
 })) {
-return cljm_DOT_core_SLASH__reduce(coll, f, val);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__reduce.value)(coll.value, f.value, val.value);
 
 } else {
-return cljm_DOT_core_SLASH_seq_reduce(f, val, coll);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_seq_reduce.value)(f.value, val.value, coll.value);
 
 }
 };
@@ -2450,7 +2450,7 @@ reduce.cljm$lang$arity$2 = reduce__2;
 reduce.cljm$lang$arity$3 = reduce__3;
 return reduce;
 })()
-;
+];
 /**
 * Reduces an associative collection. f should be a function of 3
 * arguments. Returns the result of applying f to init, the first key
@@ -2459,9 +2459,9 @@ return reduce;
 * and f is not called. Note that reduce-kv is supported on vectors,
 * where the keys will be the ordinals.
 */
-cljm_DOT_core_SLASH_reduce_kv = ^id(id f, id init, id coll) {
-return cljm_DOT_core_SLASH__kv_reduce(coll, f, init);
-};
+cljm_DOT_core_SLASH_reduce_kv = [[CLJMVar alloc] initWithValue:^id(id f, id init, id coll) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__kv_reduce.value)(coll.value, f.value, init.value);
+}];
 
 /**
 * @constructor
@@ -2471,40 +2471,40 @@ this.val = val;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 32768;
 })
-cljm_DOT_core_SLASH_Reduced.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_Reduced.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/Reduced", nil);
+cljm_DOT_core_SLASH_Reduced.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_Reduced.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/Reduced", nil);
 };
-cljm_DOT_core_SLASH_Reduced.prototype.cljm$core$IDeref$_deref$arity$1 = ^id(id o) {
-var this__4778 = this;
-return this__4778_DOT_val;
+cljm_DOT_core_SLASH_Reduced.value.prototype.cljm$core$IDeref$_deref$arity$1 = ^id(id o) {
+var this__4766 = this;
+return this__4766.val;
 };
-cljm_DOT_core_SLASH_Reduced;
+cljm_DOT_core_SLASH_Reduced.value;
 /**
 * Returns true if x is the result of a call to reduced
 */
-cljm_DOT_core_SLASH_reduced_QMARK_ = ^id(id r) {
-return cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_Reduced, r);
-};
+cljm_DOT_core_SLASH_reduced_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id r) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_Reduced.value, r.value);
+}];
 /**
 * Wraps x in a way such that a reduce will terminate with the value x
 */
-cljm_DOT_core_SLASH_reduced = ^id(id x) {
-return [cljm_DOT_core_SLASH_Reduced alloc];
-};
+cljm_DOT_core_SLASH_reduced = [[CLJMVar alloc] initWithValue:^id(id x) {
+return [cljm_DOT_core_SLASH_Reduced.value alloc];
+}];
 /**
 * Returns the sum of nums. (+) returns 0.
 */
-cljm_DOT_core_SLASH__PLUS_ = (function() {
+cljm_DOT_core_SLASH__PLUS_ = [[CLJMVar alloc] initWithValue:(function() {
 var _PLUS_ = null;
 var _PLUS___0 = ^id() {
 return @0;
 };
 var _PLUS___1 = ^id(id x) {
-return x;
+return x.value;
 };
 var _PLUS___2 = ^id(id x, id y) {
-return (x + y);
+return (x.value + y.value);
 };
 var _PLUS___3 = ^id(id cljm__varargs, id x, id y, ...) {
 NSMutableArray *more = [NSMutableArray array];
@@ -2514,7 +2514,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [more addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_reduce(_PLUS_, (x + y), more);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(_PLUS_.value, (x.value + y.value), more.value);
 };
 _PLUS_ = function(x, y, var_args){
 var more = var_args;
@@ -2538,18 +2538,18 @@ _PLUS_.cljm$lang$arity$2 = _PLUS___2;
 _PLUS_.cljm$lang$arity$variadic = _PLUS___3.cljm$lang$arity$variadic;
 return _PLUS_;
 })()
-;
+];
 /**
 * If no ys are supplied, returns the negation of x, else subtracts
 * the ys from x and returns the result.
 */
-cljm_DOT_core_SLASH__ = (function() {
+cljm_DOT_core_SLASH__ = [[CLJMVar alloc] initWithValue:(function() {
 var _ = null;
 var ___1 = ^id(id x) {
-return (- x);
+return (- x.value);
 };
 var ___2 = ^id(id x, id y) {
-return (x - y);
+return (x.value - y.value);
 };
 var ___3 = ^id(id cljm__varargs, id x, id y, ...) {
 NSMutableArray *more = [NSMutableArray array];
@@ -2559,7 +2559,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [more addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_reduce(_, (x - y), more);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(_.value, (x.value - y.value), more.value);
 };
 _ = function(x, y, var_args){
 var more = var_args;
@@ -2580,20 +2580,20 @@ _.cljm$lang$arity$2 = ___2;
 _.cljm$lang$arity$variadic = ___3.cljm$lang$arity$variadic;
 return _;
 })()
-;
+];
 /**
 * Returns the product of nums. (*) returns 1.
 */
-cljm_DOT_core_SLASH__STAR_ = (function() {
+cljm_DOT_core_SLASH__STAR_ = [[CLJMVar alloc] initWithValue:(function() {
 var _STAR_ = null;
 var _STAR___0 = ^id() {
 return @1;
 };
 var _STAR___1 = ^id(id x) {
-return x;
+return x.value;
 };
 var _STAR___2 = ^id(id x, id y) {
-return (x * y);
+return (x.value * y.value);
 };
 var _STAR___3 = ^id(id cljm__varargs, id x, id y, ...) {
 NSMutableArray *more = [NSMutableArray array];
@@ -2603,7 +2603,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [more addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_reduce(_STAR_, (x * y), more);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(_STAR_.value, (x.value * y.value), more.value);
 };
 _STAR_ = function(x, y, var_args){
 var more = var_args;
@@ -2627,15 +2627,15 @@ _STAR_.cljm$lang$arity$2 = _STAR___2;
 _STAR_.cljm$lang$arity$variadic = _STAR___3.cljm$lang$arity$variadic;
 return _STAR_;
 })()
-;
+];
 /**
 * If no denominators are supplied, returns 1/numerator,
 * else returns numerator divided by all of the denominators.
 */
-cljm_DOT_core_SLASH__SLASH_ = (function() {
+cljm_DOT_core_SLASH__SLASH_ = [[CLJMVar alloc] initWithValue:(function() {
 var _SLASH_ = null;
 var _SLASH___1 = ^id(id x) {
-return _SLASH_(@1, x, nil);
+return ((id (^)(id , id , ...)) _SLASH_.value)(@1, x.value, nil);
 };
 var _SLASH___2 = ^id(id x, id y) {
 return (x / y);
@@ -2648,7 +2648,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [more addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_reduce(_SLASH_, _SLASH_(x, y, nil), more);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(_SLASH_.value, ((id (^)(id , id , ...)) _SLASH_.value)(x.value, y.value, nil), more.value);
 };
 _SLASH_ = function(x, y, var_args){
 var more = var_args;
@@ -2669,18 +2669,18 @@ _SLASH_.cljm$lang$arity$2 = _SLASH___2;
 _SLASH_.cljm$lang$arity$variadic = _SLASH___3.cljm$lang$arity$variadic;
 return _SLASH_;
 })()
-;
+];
 /**
 * Returns non-nil if nums are in monotonically increasing order,
 * otherwise false.
 */
-cljm_DOT_core_SLASH__LT_ = (function() {
+cljm_DOT_core_SLASH__LT_ = [[CLJMVar alloc] initWithValue:(function() {
 var _LT_ = null;
 var _LT___1 = ^id(id x) {
 return @YES;
 };
 var _LT___2 = ^id(id x, id y) {
-return (x < y);
+return (x.value < y.value);
 };
 var _LT___3 = ^id(id cljm__varargs, id x, id y, ...) {
 NSMutableArray *more = [NSMutableArray array];
@@ -2691,20 +2691,20 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 }
 va_end(cljm__args);
 while(YES) {
-if(cljm_truthy((x < y))) {
-if(cljm_truthy(cljm_DOT_core_SLASH_next(more))) {
+if(cljm_truthy((x.value < y.value))) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_next.value)(more.value))) {
 {
-var G__4779 = y;
-var G__4780 = cljm_DOT_core_SLASH_first(more);
-var G__4781 = cljm_DOT_core_SLASH_next(more);
-x = G__4779;
-y = G__4780;
-more = G__4781;
+var G__4767 = y.value;
+var G__4768 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(more.value);
+var G__4769 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(more.value);
+x = G__4767;
+y = G__4768;
+more = G__4769;
 continue;
 }
 
 } else {
-return (y < cljm_DOT_core_SLASH_first(more));
+return (y.value < ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(more.value));
 
 }
 
@@ -2734,18 +2734,18 @@ _LT_.cljm$lang$arity$2 = _LT___2;
 _LT_.cljm$lang$arity$variadic = _LT___3.cljm$lang$arity$variadic;
 return _LT_;
 })()
-;
+];
 /**
 * Returns non-nil if nums are in monotonically non-decreasing order,
 * otherwise false.
 */
-cljm_DOT_core_SLASH__LT__EQ_ = (function() {
+cljm_DOT_core_SLASH__LT__EQ_ = [[CLJMVar alloc] initWithValue:(function() {
 var _LT__EQ_ = null;
 var _LT__EQ___1 = ^id(id x) {
 return @YES;
 };
 var _LT__EQ___2 = ^id(id x, id y) {
-return (x <= y);
+return (x.value <= y.value);
 };
 var _LT__EQ___3 = ^id(id cljm__varargs, id x, id y, ...) {
 NSMutableArray *more = [NSMutableArray array];
@@ -2756,20 +2756,20 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 }
 va_end(cljm__args);
 while(YES) {
-if(cljm_truthy((x <= y))) {
-if(cljm_truthy(cljm_DOT_core_SLASH_next(more))) {
+if(cljm_truthy((x.value <= y.value))) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_next.value)(more.value))) {
 {
-var G__4782 = y;
-var G__4783 = cljm_DOT_core_SLASH_first(more);
-var G__4784 = cljm_DOT_core_SLASH_next(more);
-x = G__4782;
-y = G__4783;
-more = G__4784;
+var G__4770 = y.value;
+var G__4771 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(more.value);
+var G__4772 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(more.value);
+x = G__4770;
+y = G__4771;
+more = G__4772;
 continue;
 }
 
 } else {
-return (y <= cljm_DOT_core_SLASH_first(more));
+return (y.value <= ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(more.value));
 
 }
 
@@ -2799,18 +2799,18 @@ _LT__EQ_.cljm$lang$arity$2 = _LT__EQ___2;
 _LT__EQ_.cljm$lang$arity$variadic = _LT__EQ___3.cljm$lang$arity$variadic;
 return _LT__EQ_;
 })()
-;
+];
 /**
 * Returns non-nil if nums are in monotonically decreasing order,
 * otherwise false.
 */
-cljm_DOT_core_SLASH__GT_ = (function() {
+cljm_DOT_core_SLASH__GT_ = [[CLJMVar alloc] initWithValue:(function() {
 var _GT_ = null;
 var _GT___1 = ^id(id x) {
 return @YES;
 };
 var _GT___2 = ^id(id x, id y) {
-return (x > y);
+return (x.value > y.value);
 };
 var _GT___3 = ^id(id cljm__varargs, id x, id y, ...) {
 NSMutableArray *more = [NSMutableArray array];
@@ -2821,20 +2821,20 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 }
 va_end(cljm__args);
 while(YES) {
-if(cljm_truthy((x > y))) {
-if(cljm_truthy(cljm_DOT_core_SLASH_next(more))) {
+if(cljm_truthy((x.value > y.value))) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_next.value)(more.value))) {
 {
-var G__4785 = y;
-var G__4786 = cljm_DOT_core_SLASH_first(more);
-var G__4787 = cljm_DOT_core_SLASH_next(more);
-x = G__4785;
-y = G__4786;
-more = G__4787;
+var G__4773 = y.value;
+var G__4774 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(more.value);
+var G__4775 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(more.value);
+x = G__4773;
+y = G__4774;
+more = G__4775;
 continue;
 }
 
 } else {
-return (y > cljm_DOT_core_SLASH_first(more));
+return (y.value > ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(more.value));
 
 }
 
@@ -2864,18 +2864,18 @@ _GT_.cljm$lang$arity$2 = _GT___2;
 _GT_.cljm$lang$arity$variadic = _GT___3.cljm$lang$arity$variadic;
 return _GT_;
 })()
-;
+];
 /**
 * Returns non-nil if nums are in monotonically non-increasing order,
 * otherwise false.
 */
-cljm_DOT_core_SLASH__GT__EQ_ = (function() {
+cljm_DOT_core_SLASH__GT__EQ_ = [[CLJMVar alloc] initWithValue:(function() {
 var _GT__EQ_ = null;
 var _GT__EQ___1 = ^id(id x) {
 return @YES;
 };
 var _GT__EQ___2 = ^id(id x, id y) {
-return (x >= y);
+return (x.value >= y.value);
 };
 var _GT__EQ___3 = ^id(id cljm__varargs, id x, id y, ...) {
 NSMutableArray *more = [NSMutableArray array];
@@ -2886,20 +2886,20 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 }
 va_end(cljm__args);
 while(YES) {
-if(cljm_truthy((x >= y))) {
-if(cljm_truthy(cljm_DOT_core_SLASH_next(more))) {
+if(cljm_truthy((x.value >= y.value))) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_next.value)(more.value))) {
 {
-var G__4788 = y;
-var G__4789 = cljm_DOT_core_SLASH_first(more);
-var G__4790 = cljm_DOT_core_SLASH_next(more);
-x = G__4788;
-y = G__4789;
-more = G__4790;
+var G__4776 = y.value;
+var G__4777 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(more.value);
+var G__4778 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(more.value);
+x = G__4776;
+y = G__4777;
+more = G__4778;
 continue;
 }
 
 } else {
-return (y >= cljm_DOT_core_SLASH_first(more));
+return (y.value >= ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(more.value));
 
 }
 
@@ -2929,23 +2929,23 @@ _GT__EQ_.cljm$lang$arity$2 = _GT__EQ___2;
 _GT__EQ_.cljm$lang$arity$variadic = _GT__EQ___3.cljm$lang$arity$variadic;
 return _GT__EQ_;
 })()
-;
+];
 /**
 * Returns a number one less than num.
 */
-cljm_DOT_core_SLASH_dec = ^id(id x) {
-return (x - @1);
-};
+cljm_DOT_core_SLASH_dec = [[CLJMVar alloc] initWithValue:^id(id x) {
+return (x.value - @1);
+}];
 /**
 * Returns the greatest of the nums.
 */
-cljm_DOT_core_SLASH_max = (function() {
+cljm_DOT_core_SLASH_max = [[CLJMVar alloc] initWithValue:(function() {
 var max = null;
 var max__1 = ^id(id x) {
-return x;
+return x.value;
 };
 var max__2 = ^id(id x, id y) {
-return ((x > y) ? x : y);
+return ((x.value > y.value) ? x.value : y.value);
 };
 var max__3 = ^id(id cljm__varargs, id x, id y, ...) {
 NSMutableArray *more = [NSMutableArray array];
@@ -2955,7 +2955,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [more addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_reduce(max, ((x > y) ? x : y), more);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(max.value, ((x.value > y.value) ? x.value : y.value), more.value);
 };
 max = function(x, y, var_args){
 var more = var_args;
@@ -2976,17 +2976,17 @@ max.cljm$lang$arity$2 = max__2;
 max.cljm$lang$arity$variadic = max__3.cljm$lang$arity$variadic;
 return max;
 })()
-;
+];
 /**
 * Returns the least of the nums.
 */
-cljm_DOT_core_SLASH_min = (function() {
+cljm_DOT_core_SLASH_min = [[CLJMVar alloc] initWithValue:(function() {
 var min = null;
 var min__1 = ^id(id x) {
-return x;
+return x.value;
 };
 var min__2 = ^id(id x, id y) {
-return ((x < y) ? x : y);
+return ((x.value < y.value) ? x.value : y.value);
 };
 var min__3 = ^id(id cljm__varargs, id x, id y, ...) {
 NSMutableArray *more = [NSMutableArray array];
@@ -2996,7 +2996,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [more addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_reduce(min, ((x < y) ? x : y), more);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(min.value, ((x.value < y.value) ? x.value : y.value), more.value);
 };
 min = function(x, y, var_args){
 var more = var_args;
@@ -3017,58 +3017,58 @@ min.cljm$lang$arity$2 = min__2;
 min.cljm$lang$arity$variadic = min__3.cljm$lang$arity$variadic;
 return min;
 })()
-;
-cljm_DOT_core_SLASH_fix = ^id(id q) {
-if(cljm_truthy((q >= @0))) {
-return Math_SLASH_floor(q);
+];
+cljm_DOT_core_SLASH_fix = [[CLJMVar alloc] initWithValue:^id(id q) {
+if(cljm_truthy((q.value >= @0))) {
+return ((id (^)(id )) Math_SLASH_floor.value)(q.value);
 
 } else {
-return Math_SLASH_ceil(q);
+return ((id (^)(id )) Math_SLASH_ceil.value)(q.value);
 
 }
-};
+}];
 /**
 * Coerce to int by stripping decimal places.
 */
-cljm_DOT_core_SLASH_int = ^id(id x) {
-return cljm_DOT_core_SLASH_fix(x);
-};
+cljm_DOT_core_SLASH_int = [[CLJMVar alloc] initWithValue:^id(id x) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_fix.value)(x.value);
+}];
 /**
 * Coerce to long by stripping decimal places. Identical to `int'.
 */
-cljm_DOT_core_SLASH_long = ^id(id x) {
-return cljm_DOT_core_SLASH_fix(x);
-};
+cljm_DOT_core_SLASH_long = [[CLJMVar alloc] initWithValue:^id(id x) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_fix.value)(x.value);
+}];
 /**
 * Modulus of num and div. Truncates toward negative infinity.
 */
-cljm_DOT_core_SLASH_mod = ^id(id n, id d) {
-return (n % d);
-};
+cljm_DOT_core_SLASH_mod = [[CLJMVar alloc] initWithValue:^id(id n, id d) {
+return (n.value % d.value);
+}];
 /**
 * quot[ient] of dividing numerator by denominator.
 */
-cljm_DOT_core_SLASH_quot = ^id(id n, id d) {
-id rem__4792 = (n % d);
-return cljm_DOT_core_SLASH_fix(((n - rem__4792) / d));
-};
+cljm_DOT_core_SLASH_quot = [[CLJMVar alloc] initWithValue:^id(id n, id d) {
+id rem__4780 = (n.value % d.value);
+return ((id (^)(id )) cljm_DOT_core_SLASH_fix.value)(((n.value - rem__4780) / d.value));
+}];
 /**
 * remainder of dividing numerator by denominator.
 */
-cljm_DOT_core_SLASH_rem = ^id(id n, id d) {
-id q__4794 = cljm_DOT_core_SLASH_quot(n, d);
-return (n - (d * q__4794));
-};
+cljm_DOT_core_SLASH_rem = [[CLJMVar alloc] initWithValue:^id(id n, id d) {
+id q__4782 = ((id (^)(id , id )) cljm_DOT_core_SLASH_quot.value)(n.value, d.value);
+return (n.value - (d.value * q__4782));
+}];
 /**
 * Returns a random floating point number between 0 (inclusive) and n (default 1) (exclusive).
 */
-cljm_DOT_core_SLASH_rand = (function() {
+cljm_DOT_core_SLASH_rand = [[CLJMVar alloc] initWithValue:(function() {
 var rand = null;
 var rand__0 = ^id() {
-return Math_SLASH_random();
+return ((id (^)()) Math_SLASH_random.value)();
 };
 var rand__1 = ^id(id n) {
-return (n * rand());
+return (n.value * ((id (^)()) rand.value)());
 };
 rand = function(n){
 switch(arguments.length){
@@ -3083,105 +3083,105 @@ rand.cljm$lang$arity$0 = rand__0;
 rand.cljm$lang$arity$1 = rand__1;
 return rand;
 })()
-;
+];
 /**
 * Returns a random integer between 0 (inclusive) and n (exclusive).
 */
-cljm_DOT_core_SLASH_rand_int = ^id(id n) {
-return cljm_DOT_core_SLASH_fix(cljm_DOT_core_SLASH_rand(n));
-};
+cljm_DOT_core_SLASH_rand_int = [[CLJMVar alloc] initWithValue:^id(id n) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_fix.value)(((id (^)(id )) cljm_DOT_core_SLASH_rand.value)(n.value));
+}];
 /**
 * Bitwise exclusive or
 */
-cljm_DOT_core_SLASH_bit_xor = ^id(id x, id y) {
-return (x ^ y);
-};
+cljm_DOT_core_SLASH_bit_xor = [[CLJMVar alloc] initWithValue:^id(id x, id y) {
+return (x.value ^ y.value);
+}];
 /**
 * Bitwise and
 */
-cljm_DOT_core_SLASH_bit_and = ^id(id x, id y) {
-return (x & y);
-};
+cljm_DOT_core_SLASH_bit_and = [[CLJMVar alloc] initWithValue:^id(id x, id y) {
+return (x.value & y.value);
+}];
 /**
 * Bitwise or
 */
-cljm_DOT_core_SLASH_bit_or = ^id(id x, id y) {
-return (x | y);
-};
+cljm_DOT_core_SLASH_bit_or = [[CLJMVar alloc] initWithValue:^id(id x, id y) {
+return (x.value | y.value);
+}];
 /**
 * Bitwise and
 */
-cljm_DOT_core_SLASH_bit_and_not = ^id(id x, id y) {
-return (x & ~y);
-};
+cljm_DOT_core_SLASH_bit_and_not = [[CLJMVar alloc] initWithValue:^id(id x, id y) {
+return (x.value & ~y.value);
+}];
 /**
 * Clear bit at index n
 */
-cljm_DOT_core_SLASH_bit_clear = ^id(id x, id n) {
-return (x & ~(1 << n));
-};
+cljm_DOT_core_SLASH_bit_clear = [[CLJMVar alloc] initWithValue:^id(id x, id n) {
+return (x.value & ~(1 << n.value));
+}];
 /**
 * Flip bit at index n
 */
-cljm_DOT_core_SLASH_bit_flip = ^id(id x, id n) {
-return (x ^ (1 << n));
-};
+cljm_DOT_core_SLASH_bit_flip = [[CLJMVar alloc] initWithValue:^id(id x, id n) {
+return (x.value ^ (1 << n.value));
+}];
 /**
 * Bitwise complement
 */
-cljm_DOT_core_SLASH_bit_not = ^id(id x) {
-return (~ x);
-};
+cljm_DOT_core_SLASH_bit_not = [[CLJMVar alloc] initWithValue:^id(id x) {
+return (~ x.value);
+}];
 /**
 * Set bit at index n
 */
-cljm_DOT_core_SLASH_bit_set = ^id(id x, id n) {
-return (x | (1 << n));
-};
+cljm_DOT_core_SLASH_bit_set = [[CLJMVar alloc] initWithValue:^id(id x, id n) {
+return (x.value | (1 << n.value));
+}];
 /**
 * Test bit at index n
 */
-cljm_DOT_core_SLASH_bit_test = ^id(id x, id n) {
-return ((x & (1 << n)) != 0);
-};
+cljm_DOT_core_SLASH_bit_test = [[CLJMVar alloc] initWithValue:^id(id x, id n) {
+return ((x.value & (1 << n.value)) != 0);
+}];
 /**
 * Bitwise shift left
 */
-cljm_DOT_core_SLASH_bit_shift_left = ^id(id x, id n) {
-return (x << n);
-};
+cljm_DOT_core_SLASH_bit_shift_left = [[CLJMVar alloc] initWithValue:^id(id x, id n) {
+return (x.value << n.value);
+}];
 /**
 * Bitwise shift right
 */
-cljm_DOT_core_SLASH_bit_shift_right = ^id(id x, id n) {
-return (x >> n);
-};
+cljm_DOT_core_SLASH_bit_shift_right = [[CLJMVar alloc] initWithValue:^id(id x, id n) {
+return (x.value >> n.value);
+}];
 /**
 * Bitwise shift right with zero fill
 */
-cljm_DOT_core_SLASH_bit_shift_right_zero_fill = ^id(id x, id n) {
-return (x >>> n);
-};
+cljm_DOT_core_SLASH_bit_shift_right_zero_fill = [[CLJMVar alloc] initWithValue:^id(id x, id n) {
+return (x.value >>> n.value);
+}];
 /**
 * Counts the number of bits set in n
 */
-cljm_DOT_core_SLASH_bit_count = ^id(id v) {
-id v__4797 = (v - ((v >> @1) & @1431655765));
-id v__4798 = ((v__4797 & @858993459) + ((v__4797 >> @2) & @858993459));
-return ((((v__4798 + (v__4798 >> @4)) & @252645135) * @16843009) >> @24);
-};
+cljm_DOT_core_SLASH_bit_count = [[CLJMVar alloc] initWithValue:^id(id v) {
+id v__4785 = (v.value - ((v.value >> @1) & @1431655765));
+id v__4786 = ((v__4785 & @858993459) + ((v__4785 >> @2) & @858993459));
+return ((((v__4786 + (v__4786 >> @4)) & @252645135) * @16843009) >> @24);
+}];
 /**
 * Returns non-nil if nums all have the equivalent
 * value, otherwise false. Behavior on non nums is
 * undefined.
 */
-cljm_DOT_core_SLASH__EQ__EQ_ = (function() {
+cljm_DOT_core_SLASH__EQ__EQ_ = [[CLJMVar alloc] initWithValue:(function() {
 var _EQ__EQ_ = null;
 var _EQ__EQ___1 = ^id(id x) {
 return @YES;
 };
 var _EQ__EQ___2 = ^id(id x, id y) {
-return cljm_DOT_core_SLASH__equiv(x, y);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__equiv.value)(x.value, y.value);
 };
 var _EQ__EQ___3 = ^id(id cljm__varargs, id x, id y, ...) {
 NSMutableArray *more = [NSMutableArray array];
@@ -3192,20 +3192,20 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 }
 va_end(cljm__args);
 while(YES) {
-if(cljm_truthy(_EQ__EQ_(x, y, nil))) {
-if(cljm_truthy(cljm_DOT_core_SLASH_next(more))) {
+if(cljm_truthy(((id (^)(id , id , ...)) _EQ__EQ_.value)(x.value, y.value, nil))) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_next.value)(more.value))) {
 {
-var G__4799 = y;
-var G__4800 = cljm_DOT_core_SLASH_first(more);
-var G__4801 = cljm_DOT_core_SLASH_next(more);
-x = G__4799;
-y = G__4800;
-more = G__4801;
+var G__4787 = y.value;
+var G__4788 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(more.value);
+var G__4789 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(more.value);
+x = G__4787;
+y = G__4788;
+more = G__4789;
 continue;
 }
 
 } else {
-return _EQ__EQ_(y, cljm_DOT_core_SLASH_first(more), nil);
+return ((id (^)(id , id , ...)) _EQ__EQ_.value)(y.value, ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(more.value), nil);
 
 }
 
@@ -3235,63 +3235,63 @@ _EQ__EQ_.cljm$lang$arity$2 = _EQ__EQ___2;
 _EQ__EQ_.cljm$lang$arity$variadic = _EQ__EQ___3.cljm$lang$arity$variadic;
 return _EQ__EQ_;
 })()
-;
+];
 /**
 * Returns true if num is greater than zero, else false
 */
-cljm_DOT_core_SLASH_pos_QMARK_ = ^id(id n) {
-return (n > @0);
-};
-cljm_DOT_core_SLASH_zero_QMARK_ = ^id(id n) {
-return ([n isEqual:@0]);
-};
+cljm_DOT_core_SLASH_pos_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id n) {
+return (n.value > @0);
+}];
+cljm_DOT_core_SLASH_zero_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id n) {
+return ([n.value isEqual:@0]);
+}];
 /**
 * Returns true if num is less than zero, else false
 */
-cljm_DOT_core_SLASH_neg_QMARK_ = ^id(id x) {
-return (x < @0);
-};
+cljm_DOT_core_SLASH_neg_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+return (x.value < @0);
+}];
 /**
 * Returns the nth next of coll, (seq coll) when n is 0.
 */
-cljm_DOT_core_SLASH_nthnext = ^id(id coll, id n) {
-id n__4805 = n;
-id xs__4806 = cljm_DOT_core_SLASH_seq(coll);
+cljm_DOT_core_SLASH_nthnext = [[CLJMVar alloc] initWithValue:^id(id coll, id n) {
+id n__4793 = n.value;
+id xs__4794 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value);
 while(YES) {
-if(cljm_truthy({id and__3822__auto____4807 = xs__4806;
-if(cljm_truthy(and__3822__auto____4807)) {
-return (n__4805 > @0);
+if(cljm_truthy({id and__3822__auto____4795 = xs__4794;
+if(cljm_truthy(and__3822__auto____4795)) {
+return (n__4793 > @0);
 
 } else {
-return and__3822__auto____4807;
+return and__3822__auto____4795;
 
 }
 })) {
 {
-var G__4808 = (n__4805 - @1);
-var G__4809 = cljm_DOT_core_SLASH_next(xs__4806);
-n__4805 = G__4808;
-xs__4806 = G__4809;
+var G__4796 = (n__4793 - @1);
+var G__4797 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(xs__4794);
+n__4793 = G__4796;
+xs__4794 = G__4797;
 continue;
 }
 
 } else {
-return xs__4806;
+return xs__4794;
 
 }
 break;
 }
-};
+}];
 /**
 * Internal - do not use!
 */
-cljm_DOT_core_SLASH_str_STAR_ = (function() {
+cljm_DOT_core_SLASH_str_STAR_ = [[CLJMVar alloc] initWithValue:(function() {
 var str_STAR_ = null;
 var str_STAR___0 = ^id() {
 return @"";
 };
 var str_STAR___1 = ^id(id x) {
-if(cljm_truthy((x == nil))) {
+if(cljm_truthy((x.value == nil))) {
 return @"";
 
 } else {
@@ -3313,7 +3313,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [ys addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return ([gstring_SLASH_StringBuffer alloc], ys);
+return ((id (^)(id , id )) .value)([gstring_SLASH_StringBuffer.value alloc], ys.value);
 };
 str_STAR_ = function(x, var_args){
 var ys = var_args;
@@ -3334,27 +3334,27 @@ str_STAR_.cljm$lang$arity$1 = str_STAR___1;
 str_STAR_.cljm$lang$arity$variadic = str_STAR___2.cljm$lang$arity$variadic;
 return str_STAR_;
 })()
-;
+];
 /**
 * With no args, returns the empty string. With one arg x, returns
 * x.toString().  (str nil) returns the empty string. With more than
 * one arg, returns the concatenation of the str values of the args.
 */
-cljm_DOT_core_SLASH_str = (function() {
+cljm_DOT_core_SLASH_str = [[CLJMVar alloc] initWithValue:(function() {
 var str = null;
 var str__0 = ^id() {
 return @"";
 };
 var str__1 = ^id(id x) {
-if(cljm_truthy(cljm_DOT_core_SLASH_symbol_QMARK_(x))) {
-return [x substring@2, x.length, nil];
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_symbol_QMARK_.value)(x.value))) {
+return [x.value substring@2, x.value.length, nil];
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_keyword_QMARK_(x))) {
-return cljm_DOT_core_SLASH_str_STAR_(@":", [x substring@2, x.length, nil], nil);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_keyword_QMARK_.value)(x.value))) {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_str_STAR_.value)(@":", [x.value substring@2, x.value.length, nil], nil);
 
 } else {
-if(cljm_truthy((x == nil))) {
+if(cljm_truthy((x.value == nil))) {
 return @"";
 
 } else {
@@ -3380,7 +3380,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [ys addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return ([gstring_SLASH_StringBuffer alloc], ys);
+return ((id (^)(id , id )) .value)([gstring_SLASH_StringBuffer.value alloc], ys.value);
 };
 str = function(x, var_args){
 var ys = var_args;
@@ -3401,18 +3401,18 @@ str.cljm$lang$arity$1 = str__1;
 str.cljm$lang$arity$variadic = str__2.cljm$lang$arity$variadic;
 return str;
 })()
-;
+];
 /**
 * Returns the substring of s beginning at start inclusive, and ending
 * at end (defaults to length of string), exclusive.
 */
-cljm_DOT_core_SLASH_subs = (function() {
+cljm_DOT_core_SLASH_subs = [[CLJMVar alloc] initWithValue:(function() {
 var subs = null;
 var subs__2 = ^id(id s, id start) {
-return [s substringstart];
+return [s.value substringstart.value];
 };
 var subs__3 = ^id(id s, id start, id end) {
-return [s substringstart, end, nil];
+return [s.value substringstart.value, end.value, nil];
 };
 subs = function(s, start, end){
 switch(arguments.length){
@@ -3427,11 +3427,11 @@ subs.cljm$lang$arity$2 = subs__2;
 subs.cljm$lang$arity$3 = subs__3;
 return subs;
 })()
-;
+];
 /**
 * Formats a string using goog.string.format.
 */
-cljm_DOT_core_SLASH_format = ^id(id cljm__varargs, id fmt, ...) {
+cljm_DOT_core_SLASH_format = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, id fmt, ...) {
 NSMutableArray *args = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -3439,30 +3439,30 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_apply(gstring_SLASH_format, fmt, args, nil);
-};
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(gstring_SLASH_format.value, fmt.value, args.value, nil);
+}];
 /**
 * Returns a Symbol with the given namespace and name.
 */
-cljm_DOT_core_SLASH_symbol = (function() {
+cljm_DOT_core_SLASH_symbol = [[CLJMVar alloc] initWithValue:(function() {
 var symbol = null;
 var symbol__1 = ^id(id name) {
-if(cljm_truthy(cljm_DOT_core_SLASH_symbol_QMARK_(name))) {
-name;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_symbol_QMARK_.value)(name.value))) {
+name.value;
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_keyword_QMARK_(name))) {
-cljm_DOT_core_SLASH_str_STAR_(@"\uFDD1", @"'", cljm_DOT_core_SLASH_subs(name, @2), nil);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_keyword_QMARK_.value)(name.value))) {
+((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_str_STAR_.value)(@"\uFDD1", @"'", ((id (^)(id , id )) cljm_DOT_core_SLASH_subs.value)(name.value, @2), nil);
 
 } else {
 
 }
 
 }
-return cljm_DOT_core_SLASH_str_STAR_(@"\uFDD1", @"'", name, nil);
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_str_STAR_.value)(@"\uFDD1", @"'", name.value, nil);
 };
 var symbol__2 = ^id(id ns, id name) {
-return symbol(cljm_DOT_core_SLASH_str_STAR_(ns, @"/", name, nil));
+return ((id (^)(id )) symbol.value)(((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_str_STAR_.value)(ns.value, @"/", name.value, nil));
 };
 symbol = function(ns, name){
 switch(arguments.length){
@@ -3477,24 +3477,24 @@ symbol.cljm$lang$arity$1 = symbol__1;
 symbol.cljm$lang$arity$2 = symbol__2;
 return symbol;
 })()
-;
+];
 /**
 * Returns a Keyword with the given namespace and name.  Do not use :
 * in the keyword strings, it will be added automatically.
 */
-cljm_DOT_core_SLASH_keyword = (function() {
+cljm_DOT_core_SLASH_keyword = [[CLJMVar alloc] initWithValue:(function() {
 var keyword = null;
 var keyword__1 = ^id(id name) {
-if(cljm_truthy(cljm_DOT_core_SLASH_keyword_QMARK_(name))) {
-return name;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_keyword_QMARK_.value)(name.value))) {
+return name.value;
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_symbol_QMARK_(name))) {
-return cljm_DOT_core_SLASH_str_STAR_(@"\uFDD0", @"'", cljm_DOT_core_SLASH_subs(name, @2), nil);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_symbol_QMARK_.value)(name.value))) {
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_str_STAR_.value)(@"\uFDD0", @"'", ((id (^)(id , id )) cljm_DOT_core_SLASH_subs.value)(name.value, @2), nil);
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return cljm_DOT_core_SLASH_str_STAR_(@"\uFDD0", @"'", name, nil);
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_str_STAR_.value)(@"\uFDD0", @"'", name.value, nil);
 
 } else {
 return nil;
@@ -3506,7 +3506,7 @@ return nil;
 }
 };
 var keyword__2 = ^id(id ns, id name) {
-return keyword(cljm_DOT_core_SLASH_str_STAR_(ns, @"/", name, nil));
+return ((id (^)(id )) keyword.value)(((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_str_STAR_.value)(ns.value, @"/", name.value, nil));
 };
 keyword = function(ns, name){
 switch(arguments.length){
@@ -3521,29 +3521,29 @@ keyword.cljm$lang$arity$1 = keyword__1;
 keyword.cljm$lang$arity$2 = keyword__2;
 return keyword;
 })()
-;
+];
 /**
 * Assumes x is sequential. Returns true if x equals y, otherwise
 * returns false.
 */
-cljm_DOT_core_SLASH_equiv_sequential = ^id(id x, id y) {
-return cljm_DOT_core_SLASH_boolean((cljm_truthy(cljm_DOT_core_SLASH_sequential_QMARK_(y))) ?{id xs__4812 = cljm_DOT_core_SLASH_seq(x);
-id ys__4813 = cljm_DOT_core_SLASH_seq(y);
+cljm_DOT_core_SLASH_equiv_sequential = [[CLJMVar alloc] initWithValue:^id(id x, id y) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_boolean.value)((cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_sequential_QMARK_.value)(y.value))) ?{id xs__4800 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(x.value);
+id ys__4801 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(y.value);
 while(YES) {
-if(cljm_truthy((xs__4812 == nil))) {
-return (ys__4813 == nil);
+if(cljm_truthy((xs__4800 == nil))) {
+return (ys__4801 == nil);
 
 } else {
-if(cljm_truthy((ys__4813 == nil))) {
+if(cljm_truthy((ys__4801 == nil))) {
 return @NO;
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH__EQ_(cljm_DOT_core_SLASH_first(xs__4812), cljm_DOT_core_SLASH_first(ys__4813), nil))) {
+if(cljm_truthy(((id (^)(id , id , ...)) cljm_DOT_core_SLASH__EQ_.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(xs__4800), ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(ys__4801), nil))) {
 {
-var G__4814 = cljm_DOT_core_SLASH_next(xs__4812);
-var G__4815 = cljm_DOT_core_SLASH_next(ys__4813);
-xs__4812 = G__4814;
-ys__4813 = G__4815;
+var G__4802 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(xs__4800);
+var G__4803 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(ys__4801);
+xs__4800 = G__4802;
+ys__4801 = G__4803;
 continue;
 }
 
@@ -3564,88 +3564,88 @@ return nil;
 break;
 }
 }:nil);
-};
-cljm_DOT_core_SLASH_hash_combine = ^id(id seed, id hash) {
-return (seed ^ (((hash + @2654435769) + (seed << @6)) + (seed >> @2)));
-};
-cljm_DOT_core_SLASH_hash_coll = ^id(id coll) {
-return cljm_DOT_core_SLASH_reduce(^id(id p1__4816_SHARP_, id p2__4817_SHARP_) {
-return cljm_DOT_core_SLASH_hash_combine(p1__4816_SHARP_, cljm_DOT_core_SLASH_hash(p2__4817_SHARP_, @NO));
-}, cljm_DOT_core_SLASH_hash(cljm_DOT_core_SLASH_first(coll), @NO), cljm_DOT_core_SLASH_next(coll));
-};
-cljm_DOT_core_SLASH_hash_imap = ^id(id m) {
-id h__4821 = @0;
-id s__4822 = cljm_DOT_core_SLASH_seq(m);
+}];
+cljm_DOT_core_SLASH_hash_combine = [[CLJMVar alloc] initWithValue:^id(id seed, id hash) {
+return (seed.value ^ (((hash.value + @2654435769) + (seed.value << @6)) + (seed.value >> @2)));
+}];
+cljm_DOT_core_SLASH_hash_coll = [[CLJMVar alloc] initWithValue:^id(id coll) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id p1__4804_SHARP_, id p2__4805_SHARP_) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_hash_combine.value)(p1__4804_SHARP_.value, ((id (^)(id , id )) cljm_DOT_core_SLASH_hash.value)(p2__4805_SHARP_.value, @NO));
+}, ((id (^)(id , id )) cljm_DOT_core_SLASH_hash.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(coll.value), @NO), ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(coll.value));
+}];
+cljm_DOT_core_SLASH_hash_imap = [[CLJMVar alloc] initWithValue:^id(id m) {
+id h__4809 = @0;
+id s__4810 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(m.value);
 while(YES) {
-if(cljm_truthy(s__4822)) {
-id e__4823 = cljm_DOT_core_SLASH_first(s__4822);
+if(cljm_truthy(s__4810)) {
+id e__4811 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(s__4810);
 {
-var G__4824 = ((h__4821 + (cljm_DOT_core_SLASH_hash(cljm_DOT_core_SLASH_key(e__4823)) ^ cljm_DOT_core_SLASH_hash(cljm_DOT_core_SLASH_val(e__4823)))) % @4503599627370496);
-var G__4825 = cljm_DOT_core_SLASH_next(s__4822);
-h__4821 = G__4824;
-s__4822 = G__4825;
+var G__4812 = ((h__4809 + (((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(((id (^)(id )) cljm_DOT_core_SLASH_key.value)(e__4811)) ^ ((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(((id (^)(id )) cljm_DOT_core_SLASH_val.value)(e__4811)))) % @4503599627370496);
+var G__4813 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(s__4810);
+h__4809 = G__4812;
+s__4810 = G__4813;
 continue;
 }
 
 } else {
-return h__4821;
+return h__4809;
 
 }
 break;
 }
-};
-cljm_DOT_core_SLASH_hash_iset = ^id(id s) {
-id h__4829 = @0;
-id s__4830 = cljm_DOT_core_SLASH_seq(s);
+}];
+cljm_DOT_core_SLASH_hash_iset = [[CLJMVar alloc] initWithValue:^id(id s) {
+id h__4817 = @0;
+id s__4818 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(s.value);
 while(YES) {
-if(cljm_truthy(s__4830)) {
-id e__4831 = cljm_DOT_core_SLASH_first(s__4830);
+if(cljm_truthy(s__4818)) {
+id e__4819 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(s__4818);
 {
-var G__4832 = ((h__4829 + cljm_DOT_core_SLASH_hash(e__4831)) % @4503599627370496);
-var G__4833 = cljm_DOT_core_SLASH_next(s__4830);
-h__4829 = G__4832;
-s__4830 = G__4833;
+var G__4820 = ((h__4817 + ((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(e__4819)) % @4503599627370496);
+var G__4821 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(s__4818);
+h__4817 = G__4820;
+s__4818 = G__4821;
 continue;
 }
 
 } else {
-return h__4829;
+return h__4817;
 
 }
 break;
 }
-};
+}];
 /**
 * Takes a JavaScript object and a map of names to functions and
 * attaches said functions as methods on the object.  Any references to
 * JavaScript's implict this (via the this-as macro) will resolve to the
 * object that the function is attached.
 */
-cljm_DOT_core_SLASH_extend_object_BANG_ = ^id(id obj, id fn_map) {
-id G__4854__4855 = cljm_DOT_core_SLASH_seq(fn_map);
-if(cljm_truthy(G__4854__4855)) {
-id G__4857__4859 = cljm_DOT_core_SLASH_first(G__4854__4855);
-id vec__4858__4860 = G__4857__4859;
-id key_name__4861 = cljm_DOT_core_SLASH_nth(vec__4858__4860, @0, nil);
-id f__4862 = cljm_DOT_core_SLASH_nth(vec__4858__4860, @1, nil);
-id G__4854__4863 = G__4854__4855;
-id G__4857__4864 = G__4857__4859;
-id G__4854__4865 = G__4854__4863;
+cljm_DOT_core_SLASH_extend_object_BANG_ = [[CLJMVar alloc] initWithValue:^id(id obj, id fn_map) {
+id G__4842__4843 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(fn_map.value);
+if(cljm_truthy(G__4842__4843)) {
+id G__4845__4847 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(G__4842__4843);
+id vec__4846__4848 = G__4845__4847;
+id key_name__4849 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__4846__4848, @0, nil);
+id f__4850 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__4846__4848, @1, nil);
+id G__4842__4851 = G__4842__4843;
+id G__4845__4852 = G__4845__4847;
+id G__4842__4853 = G__4842__4851;
 while(YES) {
-id vec__4866__4867 = G__4857__4864;
-id key_name__4868 = cljm_DOT_core_SLASH_nth(vec__4866__4867, @0, nil);
-id f__4869 = cljm_DOT_core_SLASH_nth(vec__4866__4867, @1, nil);
-id G__4854__4870 = G__4854__4865;
-id str_name__4871 = cljm_DOT_core_SLASH_name(key_name__4868);
-(obj[str_name__4871] = f__4869);
-id temp__3974__auto____4872 = cljm_DOT_core_SLASH_next(G__4854__4870);
-if(cljm_truthy(temp__3974__auto____4872)) {
-id G__4854__4873 = temp__3974__auto____4872;
+id vec__4854__4855 = G__4845__4852;
+id key_name__4856 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__4854__4855, @0, nil);
+id f__4857 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__4854__4855, @1, nil);
+id G__4842__4858 = G__4842__4853;
+id str_name__4859 = ((id (^)(id )) cljm_DOT_core_SLASH_name.value)(key-name__4856);
+(obj.value[str-name__4859] = f__4857);
+id temp__3974__auto____4860 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(G__4842__4858);
+if(cljm_truthy(temp__3974__auto____4860)) {
+id G__4842__4861 = temp__3974__auto____4860;
 {
-var G__4874 = cljm_DOT_core_SLASH_first(G__4854__4873);
-var G__4875 = G__4854__4873;
-G__4857__4864 = G__4874;
-G__4854__4865 = G__4875;
+var G__4862 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(G__4842__4861);
+var G__4863 = G__4842__4861;
+G__4845__4852 = G__4862;
+G__4842__4853 = G__4863;
 continue;
 }
 
@@ -3658,26 +3658,26 @@ break;
 } else {
 
 }
-return obj;
-};
-cljm_DOT_core_DOT_List_SLASH_EMPTY = [cljm_DOT_core_SLASH_EmptyList alloc];
-cljm_DOT_core_SLASH_reversible_QMARK_ = ^id(id coll) {
-id G__4879__4880 = coll;
-if(cljm_truthy(G__4879__4880)) {
-if(cljm_truthy({id or__3824__auto____4881 = (G__4879__4880.cljm$lang$protocol_mask$partition0$ & @134217728);
-if(cljm_truthy(or__3824__auto____4881)) {
-return or__3824__auto____4881;
+return obj.value;
+}];
+cljm_DOT_core_DOT_List_SLASH_EMPTY.value = [cljm_DOT_core_SLASH_EmptyList.value alloc];
+cljm_DOT_core_SLASH_reversible_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id coll) {
+id G__4867__4868 = coll.value;
+if(cljm_truthy(G__4867__4868)) {
+if(cljm_truthy({id or__3824__auto____4869 = (G__4867__4868.cljm$lang$protocol_mask$partition0$ & @134217728);
+if(cljm_truthy(or__3824__auto____4869)) {
+return or__3824__auto____4869;
 
 } else {
-return G__4879__4880.cljm$core$IReversible$;
+return G__4867__4868.cljm$core$IReversible$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__4879__4880.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IReversible, G__4879__4880);
+if(cljm_truthy((!G__4867__4868.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IReversible.value, G__4867__4868);
 
 } else {
 return @NO;
@@ -3687,38 +3687,38 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IReversible, G__4879__4880);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IReversible.value, G__4867__4868);
 
 }
-};
-cljm_DOT_core_SLASH_rseq = ^id(id coll) {
-return cljm_DOT_core_SLASH__rseq(coll);
-};
+}];
+cljm_DOT_core_SLASH_rseq = [[CLJMVar alloc] initWithValue:^id(id coll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__rseq.value)(coll.value);
+}];
 /**
 * Returns a seq of the items in coll in reverse order. Not lazy.
 */
-cljm_DOT_core_SLASH_reverse = ^id(id coll) {
-if(cljm_truthy(cljm_DOT_core_SLASH_reversible_QMARK_(coll))) {
-return cljm_DOT_core_SLASH_rseq(coll);
+cljm_DOT_core_SLASH_reverse = [[CLJMVar alloc] initWithValue:^id(id coll) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_reversible_QMARK_.value)(coll.value))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_rseq.value)(coll.value);
 
 } else {
-return cljm_DOT_core_SLASH_reduce(cljm_DOT_core_SLASH_conj, cljm.core.List.EMPTY, coll);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(cljm_DOT_core_SLASH_conj.value, cljm.core.List.EMPTY, coll.value);
 
 }
-};
-cljm_DOT_core_SLASH_list = (function() {
+}];
+cljm_DOT_core_SLASH_list = [[CLJMVar alloc] initWithValue:(function() {
 var list = null;
 var list__0 = ^id() {
 return cljm.core.List.EMPTY;
 };
 var list__1 = ^id(id x) {
-return cljm_DOT_core_SLASH_conj(cljm.core.List.EMPTY, x, nil);
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(cljm.core.List.EMPTY, x.value, nil);
 };
 var list__2 = ^id(id x, id y) {
-return cljm_DOT_core_SLASH_conj(list(y, nil), x, nil);
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(((id (^)(id , ...)) list.value)(y.value, nil), x.value, nil);
 };
 var list__3 = ^id(id x, id y, id z) {
-return cljm_DOT_core_SLASH_conj(list(y, z, nil), x, nil);
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(((id (^)(id , id , ...)) list.value)(y.value, z.value, nil), x.value, nil);
 };
 var list__4 = ^id(id cljm__varargs, id x, id y, id z, ...) {
 NSMutableArray *items = [NSMutableArray array];
@@ -3728,7 +3728,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [items addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_conj(cljm_DOT_core_SLASH_conj(cljm_DOT_core_SLASH_conj(cljm_DOT_core_SLASH_reduce(cljm_DOT_core_SLASH_conj, cljm.core.List.EMPTY, cljm_DOT_core_SLASH_reverse(items)), z, nil), y, nil), x, nil);
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(cljm_DOT_core_SLASH_conj.value, cljm.core.List.EMPTY, ((id (^)(id )) cljm_DOT_core_SLASH_reverse.value)(items.value)), z.value, nil), y.value, nil), x.value, nil);
 };
 list = function(x, y, z, var_args){
 var items = var_args;
@@ -3755,32 +3755,122 @@ list.cljm$lang$arity$3 = list__3;
 list.cljm$lang$arity$variadic = list__4.cljm$lang$arity$variadic;
 return list;
 })()
-;
+];
 /**
 * Returns a new seq where x is the first element and seq is the rest.
 */
-cljm_DOT_core_SLASH_cons = ^id(id x, id coll) {
-if(cljm_truthy({id or__3824__auto____4886 = (coll == nil);
-if(cljm_truthy(or__3824__auto____4886)) {
-return or__3824__auto____4886;
+cljm_DOT_core_SLASH_cons = [[CLJMVar alloc] initWithValue:^id(id x, id coll) {
+if(cljm_truthy({id or__3824__auto____4874 = (coll.value == nil);
+if(cljm_truthy(or__3824__auto____4874)) {
+return or__3824__auto____4874;
 
 } else {
-id G__4887__4888 = coll;
+id G__4875__4876 = coll.value;
+if(cljm_truthy(G__4875__4876)) {
+if(cljm_truthy({id or__3824__auto____4877 = (G__4875__4876.cljm$lang$protocol_mask$partition0$ & @64);
+if(cljm_truthy(or__3824__auto____4877)) {
+return or__3824__auto____4877;
+
+} else {
+return G__4875__4876.cljm$core$ISeq$;
+
+}
+})) {
+return @YES;
+
+} else {
+if(cljm_truthy((!G__4875__4876.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ISeq.value, G__4875__4876);
+
+} else {
+return @NO;
+
+}
+
+}
+
+} else {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_ISeq.value, G__4875__4876);
+
+}
+
+}
+})) {
+return [cljm_DOT_core_SLASH_Cons.value alloc];
+
+} else {
+return [cljm_DOT_core_SLASH_Cons.value alloc];
+
+}
+}];
+cljm_DOT_core_SLASH_list_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+id G__4881__4882 = x.value;
+if(cljm_truthy(G__4881__4882)) {
+if(cljm_truthy({id or__3824__auto____4883 = (G__4881__4882.cljm$lang$protocol_mask$partition0$ & @33554432);
+if(cljm_truthy(or__3824__auto____4883)) {
+return or__3824__auto____4883;
+
+} else {
+return G__4881__4882.cljm$core$IList$;
+
+}
+})) {
+return @YES;
+
+} else {
+if(cljm_truthy((!G__4881__4882.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IList.value, G__4881__4882);
+
+} else {
+return @NO;
+
+}
+
+}
+
+} else {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IList.value, G__4881__4882);
+
+}
+}];
+cljm_DOT_core_SLASH_chunk_cons = [[CLJMVar alloc] initWithValue:^id(id chunk, id rest) {
+if(cljm_truthy(([((id (^)(id )) cljm_DOT_core_SLASH__count.value)(chunk.value) isEqual:@0]))) {
+return rest.value;
+
+} else {
+return [cljm_DOT_core_SLASH_ChunkedCons.value alloc];
+
+}
+}];
+cljm_DOT_core_SLASH_chunk_append = [[CLJMVar alloc] initWithValue:^id(id b, id x) {
+return [b.value addx.value];
+}];
+cljm_DOT_core_SLASH_chunk = [[CLJMVar alloc] initWithValue:^id(id b) {
+return [b.value chunk];
+}];
+cljm_DOT_core_SLASH_chunk_first = [[CLJMVar alloc] initWithValue:^id(id s) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__chunked_first.value)(s.value);
+}];
+cljm_DOT_core_SLASH_chunk_rest = [[CLJMVar alloc] initWithValue:^id(id s) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__chunked_rest.value)(s.value);
+}];
+cljm_DOT_core_SLASH_chunk_next = [[CLJMVar alloc] initWithValue:^id(id s) {
+if(cljm_truthy({id G__4887__4888 = s.value;
 if(cljm_truthy(G__4887__4888)) {
-if(cljm_truthy({id or__3824__auto____4889 = (G__4887__4888.cljm$lang$protocol_mask$partition0$ & @64);
+if(cljm_truthy({id or__3824__auto____4889 = nil;
 if(cljm_truthy(or__3824__auto____4889)) {
 return or__3824__auto____4889;
 
 } else {
-return G__4887__4888.cljm$core$ISeq$;
+return G__4887__4888.cljm$core$IChunkedNext$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__4887__4888.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ISeq, G__4887__4888);
+if(cljm_truthy((!G__4887__4888.cljm$lang$protocol_mask$partition$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IChunkedNext.value, G__4887__4888);
 
 } else {
 return @NO;
@@ -3790,145 +3880,55 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_ISeq, G__4887__4888);
-
-}
-
-}
-})) {
-return [cljm_DOT_core_SLASH_Cons alloc];
-
-} else {
-return [cljm_DOT_core_SLASH_Cons alloc];
-
-}
-};
-cljm_DOT_core_SLASH_list_QMARK_ = ^id(id x) {
-id G__4893__4894 = x;
-if(cljm_truthy(G__4893__4894)) {
-if(cljm_truthy({id or__3824__auto____4895 = (G__4893__4894.cljm$lang$protocol_mask$partition0$ & @33554432);
-if(cljm_truthy(or__3824__auto____4895)) {
-return or__3824__auto____4895;
-
-} else {
-return G__4893__4894.cljm$core$IList$;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IChunkedNext.value, G__4887__4888);
 
 }
 })) {
-return @YES;
+return ((id (^)(id )) cljm_DOT_core_SLASH__chunked_next.value)(s.value);
 
 } else {
-if(cljm_truthy((!G__4893__4894.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IList, G__4893__4894);
-
-} else {
-return @NO;
+return ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(((id (^)(id )) cljm_DOT_core_SLASH__chunked_rest.value)(s.value));
 
 }
-
-}
-
-} else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IList, G__4893__4894);
-
-}
-};
-cljm_DOT_core_SLASH_chunk_cons = ^id(id chunk, id rest) {
-if(cljm_truthy(([cljm_DOT_core_SLASH__count(chunk) isEqual:@0]))) {
-return rest;
-
-} else {
-return [cljm_DOT_core_SLASH_ChunkedCons alloc];
-
-}
-};
-cljm_DOT_core_SLASH_chunk_append = ^id(id b, id x) {
-return [b addx];
-};
-cljm_DOT_core_SLASH_chunk = ^id(id b) {
-return [b chunk];
-};
-cljm_DOT_core_SLASH_chunk_first = ^id(id s) {
-return cljm_DOT_core_SLASH__chunked_first(s);
-};
-cljm_DOT_core_SLASH_chunk_rest = ^id(id s) {
-return cljm_DOT_core_SLASH__chunked_rest(s);
-};
-cljm_DOT_core_SLASH_chunk_next = ^id(id s) {
-if(cljm_truthy({id G__4899__4900 = s;
-if(cljm_truthy(G__4899__4900)) {
-if(cljm_truthy({id or__3824__auto____4901 = nil;
-if(cljm_truthy(or__3824__auto____4901)) {
-return or__3824__auto____4901;
-
-} else {
-return G__4899__4900.cljm$core$IChunkedNext$;
-
-}
-})) {
-return @YES;
-
-} else {
-if(cljm_truthy((!G__4899__4900.cljm$lang$protocol_mask$partition$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IChunkedNext, G__4899__4900);
-
-} else {
-return @NO;
-
-}
-
-}
-
-} else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IChunkedNext, G__4899__4900);
-
-}
-})) {
-return cljm_DOT_core_SLASH__chunked_next(s);
-
-} else {
-return cljm_DOT_core_SLASH_seq(cljm_DOT_core_SLASH__chunked_rest(s));
-
-}
-};
+}];
 /**
 * Naive impl of to-array as a start.
 */
-cljm_DOT_core_SLASH_to_array = ^id(id s) {
-id ary__4904 = @[];
-id s__4905 = s;
+cljm_DOT_core_SLASH_to_array = [[CLJMVar alloc] initWithValue:^id(id s) {
+id ary__4892 = @[];
+id s__4893 = s.value;
 while(YES) {
-if(cljm_truthy(cljm_DOT_core_SLASH_seq(s__4905))) {
-[ary__4904 pushcljm_DOT_core_SLASH_first(s__4905)];
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(s__4893))) {
+[ary__4892 push((id (^)(id )) cljm_DOT_core_SLASH_first.value)(s__4893)];
 {
-var G__4906 = cljm_DOT_core_SLASH_next(s__4905);
-s__4905 = G__4906;
+var G__4894 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(s__4893);
+s__4893 = G__4894;
 continue;
 }
 
 } else {
-return ary__4904;
+return ary__4892;
 
 }
 break;
 }
-};
+}];
 /**
 * Returns a (potentially-ragged) 2-dimensional array
 * containing the contents of coll.
 */
-cljm_DOT_core_SLASH_to_array_2d = ^id(id coll) {
-id ret__4910 = cljm_DOT_core_SLASH_make_array(cljm_DOT_core_SLASH_count(coll));
-id i__4911 = @0;
-id xs__4912 = cljm_DOT_core_SLASH_seq(coll);
+cljm_DOT_core_SLASH_to_array_2d = [[CLJMVar alloc] initWithValue:^id(id coll) {
+id ret__4898 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)(((id (^)(id )) cljm_DOT_core_SLASH_count.value)(coll.value));
+id i__4899 = @0;
+id xs__4900 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value);
 while(YES) {
-if(cljm_truthy(xs__4912)) {
-(ret__4910[i__4911] = cljm_DOT_core_SLASH_to_array(cljm_DOT_core_SLASH_first(xs__4912)));
+if(cljm_truthy(xs__4900)) {
+(ret__4898[i__4899] = ((id (^)(id )) cljm_DOT_core_SLASH_to_array.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(xs__4900)));
 {
-var G__4913 = (i__4911 + @1);
-var G__4914 = cljm_DOT_core_SLASH_next(xs__4912);
-i__4911 = G__4913;
-xs__4912 = G__4914;
+var G__4901 = (i__4899 + @1);
+var G__4902 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(xs__4900);
+i__4899 = G__4901;
+xs__4900 = G__4902;
 continue;
 }
 
@@ -3937,21 +3937,21 @@ continue;
 }
 break;
 }
-return ret__4910;
-};
-cljm_DOT_core_SLASH_long_array = (function() {
+return ret__4898;
+}];
+cljm_DOT_core_SLASH_long_array = [[CLJMVar alloc] initWithValue:(function() {
 var long_array = null;
 var long_array__1 = ^id(id size_or_seq) {
-if(cljm_truthy(cljm_DOT_core_SLASH_number_QMARK_(size_or_seq))) {
-return long_array(size_or_seq, nil);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_number_QMARK_.value)(size_or_seq.value))) {
+return ((id (^)(id , id )) long_array.value)(size_or_seq.value, nil);
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_seq_QMARK_(size_or_seq))) {
-return cljm_DOT_core_SLASH_into_array(size_or_seq);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq_QMARK_.value)(size_or_seq.value))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_into_array.value)(size_or_seq.value);
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-throw [Error alloc];
+throw [Error.value alloc];
 
 } else {
 return nil;
@@ -3963,46 +3963,46 @@ return nil;
 }
 };
 var long_array__2 = ^id(id size, id init_val_or_seq) {
-id a__4922 = cljm_DOT_core_SLASH_make_array(size);
-if(cljm_truthy(cljm_DOT_core_SLASH_seq_QMARK_(init_val_or_seq))) {
-id s__4923 = cljm_DOT_core_SLASH_seq(init_val_or_seq);
-id i__4924 = @0;
-id s__4925 = s__4923;
+id a__4910 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)(size.value);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq_QMARK_.value)(init_val_or_seq.value))) {
+id s__4911 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(init_val_or_seq.value);
+id i__4912 = @0;
+id s__4913 = s__4911;
 while(YES) {
-if(cljm_truthy({id and__3822__auto____4926 = s__4925;
-if(cljm_truthy(and__3822__auto____4926)) {
-return (i__4924 < size);
+if(cljm_truthy({id and__3822__auto____4914 = s__4913;
+if(cljm_truthy(and__3822__auto____4914)) {
+return (i__4912 < size.value);
 
 } else {
-return and__3822__auto____4926;
+return and__3822__auto____4914;
 
 }
 })) {
-(a__4922[i__4924] = cljm_DOT_core_SLASH_first(s__4925));
+(a__4910[i__4912] = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(s__4913));
 {
-var G__4929 = (i__4924 + @1);
-var G__4930 = cljm_DOT_core_SLASH_next(s__4925);
-i__4924 = G__4929;
-s__4925 = G__4930;
+var G__4917 = (i__4912 + @1);
+var G__4918 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(s__4913);
+i__4912 = G__4917;
+s__4913 = G__4918;
 continue;
 }
 
 } else {
-return a__4922;
+return a__4910;
 
 }
 break;
 }
 
 } else {
-id n__1649__auto____4927 = size;
-id i__4928 = @0;
+id n__1637__auto____4915 = size.value;
+id i__4916 = @0;
 while(YES) {
-if(cljm_truthy((i__4928 < n__1649__auto____4927))) {
-(a__4922[i__4928] = init_val_or_seq);
+if(cljm_truthy((i__4916 < n__1637__auto____4915))) {
+(a__4910[i__4916] = init_val_or_seq.value);
 {
-var G__4931 = (i__4928 + @1);
-i__4928 = G__4931;
+var G__4919 = (i__4916 + @1);
+i__4916 = G__4919;
 continue;
 }
 
@@ -4011,7 +4011,7 @@ continue;
 }
 break;
 }
-return a__4922;
+return a__4910;
 
 }
 };
@@ -4028,20 +4028,20 @@ long_array.cljm$lang$arity$1 = long_array__1;
 long_array.cljm$lang$arity$2 = long_array__2;
 return long_array;
 })()
-;
-cljm_DOT_core_SLASH_double_array = (function() {
+];
+cljm_DOT_core_SLASH_double_array = [[CLJMVar alloc] initWithValue:(function() {
 var double_array = null;
 var double_array__1 = ^id(id size_or_seq) {
-if(cljm_truthy(cljm_DOT_core_SLASH_number_QMARK_(size_or_seq))) {
-return double_array(size_or_seq, nil);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_number_QMARK_.value)(size_or_seq.value))) {
+return ((id (^)(id , id )) double_array.value)(size_or_seq.value, nil);
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_seq_QMARK_(size_or_seq))) {
-return cljm_DOT_core_SLASH_into_array(size_or_seq);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq_QMARK_.value)(size_or_seq.value))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_into_array.value)(size_or_seq.value);
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-throw [Error alloc];
+throw [Error.value alloc];
 
 } else {
 return nil;
@@ -4053,46 +4053,46 @@ return nil;
 }
 };
 var double_array__2 = ^id(id size, id init_val_or_seq) {
-id a__4939 = cljm_DOT_core_SLASH_make_array(size);
-if(cljm_truthy(cljm_DOT_core_SLASH_seq_QMARK_(init_val_or_seq))) {
-id s__4940 = cljm_DOT_core_SLASH_seq(init_val_or_seq);
-id i__4941 = @0;
-id s__4942 = s__4940;
+id a__4927 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)(size.value);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq_QMARK_.value)(init_val_or_seq.value))) {
+id s__4928 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(init_val_or_seq.value);
+id i__4929 = @0;
+id s__4930 = s__4928;
 while(YES) {
-if(cljm_truthy({id and__3822__auto____4943 = s__4942;
-if(cljm_truthy(and__3822__auto____4943)) {
-return (i__4941 < size);
+if(cljm_truthy({id and__3822__auto____4931 = s__4930;
+if(cljm_truthy(and__3822__auto____4931)) {
+return (i__4929 < size.value);
 
 } else {
-return and__3822__auto____4943;
+return and__3822__auto____4931;
 
 }
 })) {
-(a__4939[i__4941] = cljm_DOT_core_SLASH_first(s__4942));
+(a__4927[i__4929] = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(s__4930));
 {
-var G__4946 = (i__4941 + @1);
-var G__4947 = cljm_DOT_core_SLASH_next(s__4942);
-i__4941 = G__4946;
-s__4942 = G__4947;
+var G__4934 = (i__4929 + @1);
+var G__4935 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(s__4930);
+i__4929 = G__4934;
+s__4930 = G__4935;
 continue;
 }
 
 } else {
-return a__4939;
+return a__4927;
 
 }
 break;
 }
 
 } else {
-id n__1649__auto____4944 = size;
-id i__4945 = @0;
+id n__1637__auto____4932 = size.value;
+id i__4933 = @0;
 while(YES) {
-if(cljm_truthy((i__4945 < n__1649__auto____4944))) {
-(a__4939[i__4945] = init_val_or_seq);
+if(cljm_truthy((i__4933 < n__1637__auto____4932))) {
+(a__4927[i__4933] = init_val_or_seq.value);
 {
-var G__4948 = (i__4945 + @1);
-i__4945 = G__4948;
+var G__4936 = (i__4933 + @1);
+i__4933 = G__4936;
 continue;
 }
 
@@ -4101,7 +4101,7 @@ continue;
 }
 break;
 }
-return a__4939;
+return a__4927;
 
 }
 };
@@ -4118,20 +4118,20 @@ double_array.cljm$lang$arity$1 = double_array__1;
 double_array.cljm$lang$arity$2 = double_array__2;
 return double_array;
 })()
-;
-cljm_DOT_core_SLASH_object_array = (function() {
+];
+cljm_DOT_core_SLASH_object_array = [[CLJMVar alloc] initWithValue:(function() {
 var object_array = null;
 var object_array__1 = ^id(id size_or_seq) {
-if(cljm_truthy(cljm_DOT_core_SLASH_number_QMARK_(size_or_seq))) {
-return object_array(size_or_seq, nil);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_number_QMARK_.value)(size_or_seq.value))) {
+return ((id (^)(id , id )) object_array.value)(size_or_seq.value, nil);
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_seq_QMARK_(size_or_seq))) {
-return cljm_DOT_core_SLASH_into_array(size_or_seq);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq_QMARK_.value)(size_or_seq.value))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_into_array.value)(size_or_seq.value);
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-throw [Error alloc];
+throw [Error.value alloc];
 
 } else {
 return nil;
@@ -4143,46 +4143,46 @@ return nil;
 }
 };
 var object_array__2 = ^id(id size, id init_val_or_seq) {
-id a__4956 = cljm_DOT_core_SLASH_make_array(size);
-if(cljm_truthy(cljm_DOT_core_SLASH_seq_QMARK_(init_val_or_seq))) {
-id s__4957 = cljm_DOT_core_SLASH_seq(init_val_or_seq);
-id i__4958 = @0;
-id s__4959 = s__4957;
+id a__4944 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)(size.value);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq_QMARK_.value)(init_val_or_seq.value))) {
+id s__4945 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(init_val_or_seq.value);
+id i__4946 = @0;
+id s__4947 = s__4945;
 while(YES) {
-if(cljm_truthy({id and__3822__auto____4960 = s__4959;
-if(cljm_truthy(and__3822__auto____4960)) {
-return (i__4958 < size);
+if(cljm_truthy({id and__3822__auto____4948 = s__4947;
+if(cljm_truthy(and__3822__auto____4948)) {
+return (i__4946 < size.value);
 
 } else {
-return and__3822__auto____4960;
+return and__3822__auto____4948;
 
 }
 })) {
-(a__4956[i__4958] = cljm_DOT_core_SLASH_first(s__4959));
+(a__4944[i__4946] = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(s__4947));
 {
-var G__4963 = (i__4958 + @1);
-var G__4964 = cljm_DOT_core_SLASH_next(s__4959);
-i__4958 = G__4963;
-s__4959 = G__4964;
+var G__4951 = (i__4946 + @1);
+var G__4952 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(s__4947);
+i__4946 = G__4951;
+s__4947 = G__4952;
 continue;
 }
 
 } else {
-return a__4956;
+return a__4944;
 
 }
 break;
 }
 
 } else {
-id n__1649__auto____4961 = size;
-id i__4962 = @0;
+id n__1637__auto____4949 = size.value;
+id i__4950 = @0;
 while(YES) {
-if(cljm_truthy((i__4962 < n__1649__auto____4961))) {
-(a__4956[i__4962] = init_val_or_seq);
+if(cljm_truthy((i__4950 < n__1637__auto____4949))) {
+(a__4944[i__4950] = init_val_or_seq.value);
 {
-var G__4965 = (i__4962 + @1);
-i__4962 = G__4965;
+var G__4953 = (i__4950 + @1);
+i__4950 = G__4953;
 continue;
 }
 
@@ -4191,7 +4191,7 @@ continue;
 }
 break;
 }
-return a__4956;
+return a__4944;
 
 }
 };
@@ -4208,55 +4208,55 @@ object_array.cljm$lang$arity$1 = object_array__1;
 object_array.cljm$lang$arity$2 = object_array__2;
 return object_array;
 })()
-;
-cljm_DOT_core_SLASH_bounded_count = ^id(id s, id n) {
-if(cljm_truthy(cljm_DOT_core_SLASH_counted_QMARK_(s))) {
-return cljm_DOT_core_SLASH_count(s);
+];
+cljm_DOT_core_SLASH_bounded_count = [[CLJMVar alloc] initWithValue:^id(id s, id n) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_counted_QMARK_.value)(s.value))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_count.value)(s.value);
 
 } else {
-id s__4970 = s;
-id i__4971 = n;
-id sum__4972 = @0;
+id s__4958 = s.value;
+id i__4959 = n.value;
+id sum__4960 = @0;
 while(YES) {
-if(cljm_truthy({id and__3822__auto____4973 = (i__4971 > @0);
-if(cljm_truthy(and__3822__auto____4973)) {
-return cljm_DOT_core_SLASH_seq(s__4970);
+if(cljm_truthy({id and__3822__auto____4961 = (i__4959 > @0);
+if(cljm_truthy(and__3822__auto____4961)) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(s__4958);
 
 } else {
-return and__3822__auto____4973;
+return and__3822__auto____4961;
 
 }
 })) {
 {
-var G__4974 = cljm_DOT_core_SLASH_next(s__4970);
-var G__4975 = (i__4971 - @1);
-var G__4976 = (sum__4972 + @1);
-s__4970 = G__4974;
-i__4971 = G__4975;
-sum__4972 = G__4976;
+var G__4962 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(s__4958);
+var G__4963 = (i__4959 - @1);
+var G__4964 = (sum__4960 + @1);
+s__4958 = G__4962;
+i__4959 = G__4963;
+sum__4960 = G__4964;
 continue;
 }
 
 } else {
-return sum__4972;
+return sum__4960;
 
 }
 break;
 }
 
 }
-};
-cljm_DOT_core_SLASH_spread = ^id(id arglist) {
-if(cljm_truthy((arglist == nil))) {
+}];
+cljm_DOT_core_SLASH_spread = [[CLJMVar alloc] initWithValue:^id(id arglist) {
+if(cljm_truthy((arglist.value == nil))) {
 return nil;
 
 } else {
-if(cljm_truthy((cljm_DOT_core_SLASH_next(arglist) == nil))) {
-return cljm_DOT_core_SLASH_seq(cljm_DOT_core_SLASH_first(arglist));
+if(cljm_truthy((((id (^)(id )) cljm_DOT_core_SLASH_next.value)(arglist.value) == nil))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(arglist.value));
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return cljm_DOT_core_SLASH_cons(cljm_DOT_core_SLASH_first(arglist), spread(cljm_DOT_core_SLASH_next(arglist)));
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(arglist.value), ((id (^)(id )) spread.value)(((id (^)(id )) cljm_DOT_core_SLASH_next.value)(arglist.value)));
 
 } else {
 return nil;
@@ -4266,20 +4266,20 @@ return nil;
 }
 
 }
-};
+}];
 /**
 * Returns a lazy seq representing the concatenation of the elements in the supplied colls.
 */
-cljm_DOT_core_SLASH_concat = (function() {
+cljm_DOT_core_SLASH_concat = [[CLJMVar alloc] initWithValue:(function() {
 var concat = null;
 var concat__0 = ^id() {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
 var concat__1 = ^id(id x) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
 var concat__2 = ^id(id x, id y) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
 var concat__3 = ^id(id cljm__varargs, id x, id y, ...) {
 NSMutableArray *zs = [NSMutableArray array];
@@ -4289,10 +4289,10 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [zs addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id cat__4984 = ^id(id xys, id zs) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+id cat__4972 = ^id(id xys, id zs) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
-return cat__4984(concat(x, y, nil), zs);
+return ((id (^)(id , id )) cat__4972.value)(((id (^)(id , id , ...)) concat.value)(x.value, y.value, nil), zs.value);
 };
 concat = function(x, y, var_args){
 var zs = var_args;
@@ -4316,24 +4316,24 @@ concat.cljm$lang$arity$2 = concat__2;
 concat.cljm$lang$arity$variadic = concat__3.cljm$lang$arity$variadic;
 return concat;
 })()
-;
+];
 /**
 * Creates a new list containing the items prepended to the rest, the
 * last of which will be treated as a sequence.
 */
-cljm_DOT_core_SLASH_list_STAR_ = (function() {
+cljm_DOT_core_SLASH_list_STAR_ = [[CLJMVar alloc] initWithValue:(function() {
 var list_STAR_ = null;
 var list_STAR___1 = ^id(id args) {
-return cljm_DOT_core_SLASH_seq(args);
+return ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(args.value);
 };
 var list_STAR___2 = ^id(id a, id args) {
-return cljm_DOT_core_SLASH_cons(a, args);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(a.value, args.value);
 };
 var list_STAR___3 = ^id(id a, id b, id args) {
-return cljm_DOT_core_SLASH_cons(a, cljm_DOT_core_SLASH_cons(b, args));
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(a.value, ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(b.value, args.value));
 };
 var list_STAR___4 = ^id(id a, id b, id c, id args) {
-return cljm_DOT_core_SLASH_cons(a, cljm_DOT_core_SLASH_cons(b, cljm_DOT_core_SLASH_cons(c, args)));
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(a.value, ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(b.value, ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(c.value, args.value)));
 };
 var list_STAR___5 = ^id(id cljm__varargs, id a, id b, id c, id d, ...) {
 NSMutableArray *more = [NSMutableArray array];
@@ -4343,7 +4343,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [more addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_cons(a, cljm_DOT_core_SLASH_cons(b, cljm_DOT_core_SLASH_cons(c, cljm_DOT_core_SLASH_cons(d, cljm_DOT_core_SLASH_spread(more)))));
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(a.value, ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(b.value, ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(c.value, ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(d.value, ((id (^)(id )) cljm_DOT_core_SLASH_spread.value)(more.value)))));
 };
 list_STAR_ = function(a, b, c, d, var_args){
 var more = var_args;
@@ -4370,279 +4370,275 @@ list_STAR_.cljm$lang$arity$4 = list_STAR___4;
 list_STAR_.cljm$lang$arity$variadic = list_STAR___5.cljm$lang$arity$variadic;
 return list_STAR_;
 })()
-;
-cljm_DOT_core_SLASH_transient = ^id(id coll) {
-return cljm_DOT_core_SLASH__as_transient(coll);
-};
-cljm_DOT_core_SLASH_persistent_BANG_ = ^id(id tcoll) {
-return cljm_DOT_core_SLASH__persistent_BANG_(tcoll);
-};
-cljm_DOT_core_SLASH_conj_BANG_ = ^id(id tcoll, id val) {
-return cljm_DOT_core_SLASH__conj_BANG_(tcoll, val);
-};
-cljm_DOT_core_SLASH_assoc_BANG_ = ^id(id tcoll, id key, id val) {
-return cljm_DOT_core_SLASH__assoc_BANG_(tcoll, key, val);
-};
-cljm_DOT_core_SLASH_dissoc_BANG_ = ^id(id tcoll, id key) {
-return cljm_DOT_core_SLASH__dissoc_BANG_(tcoll, key);
-};
-cljm_DOT_core_SLASH_pop_BANG_ = ^id(id tcoll) {
-return cljm_DOT_core_SLASH__pop_BANG_(tcoll);
-};
-cljm_DOT_core_SLASH_disj_BANG_ = ^id(id tcoll, id val) {
-return cljm_DOT_core_SLASH__disjoin_BANG_(tcoll, val);
-};
-cljm_DOT_core_SLASH_apply_to = ^id(id f, id argc, id args) {
-id args__5026 = cljm_DOT_core_SLASH_seq(args);
-if(cljm_truthy(([argc isEqual:@0]))) {
-return f();
+];
+cljm_DOT_core_SLASH_transient = [[CLJMVar alloc] initWithValue:^id(id coll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__as_transient.value)(coll.value);
+}];
+cljm_DOT_core_SLASH_persistent_BANG_ = [[CLJMVar alloc] initWithValue:^id(id tcoll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__persistent_BANG_.value)(tcoll.value);
+}];
+cljm_DOT_core_SLASH_conj_BANG_ = [[CLJMVar alloc] initWithValue:^id(id tcoll, id val) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__conj_BANG_.value)(tcoll.value, val.value);
+}];
+cljm_DOT_core_SLASH_assoc_BANG_ = [[CLJMVar alloc] initWithValue:^id(id tcoll, id key, id val) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__assoc_BANG_.value)(tcoll.value, key.value, val.value);
+}];
+cljm_DOT_core_SLASH_dissoc_BANG_ = [[CLJMVar alloc] initWithValue:^id(id tcoll, id key) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__dissoc_BANG_.value)(tcoll.value, key.value);
+}];
+cljm_DOT_core_SLASH_pop_BANG_ = [[CLJMVar alloc] initWithValue:^id(id tcoll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__pop_BANG_.value)(tcoll.value);
+}];
+cljm_DOT_core_SLASH_disj_BANG_ = [[CLJMVar alloc] initWithValue:^id(id tcoll, id val) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__disjoin_BANG_.value)(tcoll.value, val.value);
+}];
+cljm_DOT_core_SLASH_apply_to = [[CLJMVar alloc] initWithValue:^id(id f, id argc, id args) {
+id args__5014 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(args.value);
+if(cljm_truthy(([argc.value isEqual:@0]))) {
+return ((id (^)()) f.value)();
 
 } else {
-id a__5027 = cljm_DOT_core_SLASH__first(args__5026);
-id args__5028 = cljm_DOT_core_SLASH__rest(args__5026);
-if(cljm_truthy(([argc isEqual:@1]))) {
-if(cljm_truthy(f.cljm$lang$arity$1)) {
-return [f cljma__5027 lang];
+id a__5015 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5014);
+id args__5016 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5014);
+if(cljm_truthy(([argc.value isEqual:@1]))) {
+if(cljm_truthy(f.value.cljm$lang$arity$1)) {
+return [f.value cljma__5015 lang];
 
 } else {
-return f(a__5027);
+return ((id (^)(id )) f.value)(a__5015);
 
 }
 
 } else {
-id b__5029 = cljm_DOT_core_SLASH__first(args__5028);
-id args__5030 = cljm_DOT_core_SLASH__rest(args__5028);
-if(cljm_truthy(([argc isEqual:@2]))) {
-if(cljm_truthy(f.cljm$lang$arity$2)) {
-return [f cljma__5027 langb__5029 arity];
+id b__5017 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5016);
+id args__5018 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5016);
+if(cljm_truthy(([argc.value isEqual:@2]))) {
+if(cljm_truthy(f.value.cljm$lang$arity$2)) {
+return [f.value cljma__5015 langb__5017 arity];
 
 } else {
-return f(a__5027, b__5029);
+return ((id (^)(id , id )) f.value)(a__5015, b__5017);
 
 }
 
 } else {
-id c__5031 = cljm_DOT_core_SLASH__first(args__5030);
-id args__5032 = cljm_DOT_core_SLASH__rest(args__5030);
-if(cljm_truthy(([argc isEqual:@3]))) {
-if(cljm_truthy(f.cljm$lang$arity$3)) {
-return [f cljma__5027 langb__5029 arityc__5031 3];
+id c__5019 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5018);
+id args__5020 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5018);
+if(cljm_truthy(([argc.value isEqual:@3]))) {
+if(cljm_truthy(f.value.cljm$lang$arity$3)) {
+return [f.value cljma__5015 langb__5017 arityc__5019 3];
 
 } else {
-return f(a__5027, b__5029, c__5031);
+return ((id (^)(id , id , id )) f.value)(a__5015, b__5017, c__5019);
 
 }
 
 } else {
-id d__5033 = cljm_DOT_core_SLASH__first(args__5032);
-id args__5034 = cljm_DOT_core_SLASH__rest(args__5032);
-if(cljm_truthy(([argc isEqual:@4]))) {
-if(cljm_truthy(f.cljm$lang$arity$4)) {
-return [f cljma__5027 langb__5029 arityc__5031 4d__5033];
+id d__5021 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5020);
+id args__5022 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5020);
+if(cljm_truthy(([argc.value isEqual:@4]))) {
+if(cljm_truthy(f.value.cljm$lang$arity$4)) {
+return [f.value cljma__5015 langb__5017 arityc__5019 4d__5021];
 
 } else {
-return f(a__5027, b__5029, c__5031, d__5033);
+return ((id (^)(id , id , id , id )) f.value)(a__5015, b__5017, c__5019, d__5021);
 
 }
 
 } else {
-id e__5035 = cljm_DOT_core_SLASH__first(args__5034);
-id args__5036 = cljm_DOT_core_SLASH__rest(args__5034);
-if(cljm_truthy(([argc isEqual:@5]))) {
-if(cljm_truthy(f.cljm$lang$arity$5)) {
-return [f cljma__5027 langb__5029 arityc__5031 5d__5033, e__5035, nil];
+id e__5023 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5022);
+id args__5024 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5022);
+if(cljm_truthy(([argc.value isEqual:@5]))) {
+if(cljm_truthy(f.value.cljm$lang$arity$5)) {
+return [f.value cljma__5015 langb__5017 arityc__5019 5d__5021, e__5023, nil];
 
 } else {
-return f(a__5027, b__5029, c__5031, d__5033, e__5035);
+return ((id (^)(id , id , id , id , id )) f.value)(a__5015, b__5017, c__5019, d__5021, e__5023);
 
 }
 
 } else {
-id f__5037 = cljm_DOT_core_SLASH__first(args__5036);
-id args__5038 = cljm_DOT_core_SLASH__rest(args__5036);
-if(cljm_truthy(([argc isEqual:@6]))) {
-if(cljm_truthy(f__5037.cljm$lang$arity$6)) {
-return [f__5037 cljma__5027 langb__5029 arityc__5031 6d__5033, e__5035, f__5037, nil];
+id f__5025 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5024);
+id args__5026 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5024);
+if(cljm_truthy(([argc.value isEqual:@6]))) {
+if(cljm_truthy(f__5025.cljm$lang$arity$6)) {
+return [f__5025 cljma__5015 langb__5017 arityc__5019 6d__5021, e__5023, f__5025, nil];
 
 } else {
-return f__5037(a__5027, b__5029, c__5031, d__5033, e__5035, f__5037);
+return ((id (^)(id , id , id , id , id , id )) f__5025.value)(a__5015, b__5017, c__5019, d__5021, e__5023, f__5025);
 
 }
 
 } else {
-id g__5039 = cljm_DOT_core_SLASH__first(args__5038);
-id args__5040 = cljm_DOT_core_SLASH__rest(args__5038);
-if(cljm_truthy(([argc isEqual:@7]))) {
-if(cljm_truthy(f__5037.cljm$lang$arity$7)) {
-return [f__5037 cljma__5027 langb__5029 arityc__5031 7d__5033, e__5035, f__5037, g__5039, nil];
+id g__5027 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5026);
+id args__5028 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5026);
+if(cljm_truthy(([argc.value isEqual:@7]))) {
+if(cljm_truthy(f__5025.cljm$lang$arity$7)) {
+return [f__5025 cljma__5015 langb__5017 arityc__5019 7d__5021, e__5023, f__5025, g__5027, nil];
 
 } else {
-return f__5037(a__5027, b__5029, c__5031, d__5033, e__5035, f__5037, g__5039);
+return ((id (^)(id , id , id , id , id , id , id )) f__5025.value)(a__5015, b__5017, c__5019, d__5021, e__5023, f__5025, g__5027);
 
 }
 
 } else {
-id h__5041 = cljm_DOT_core_SLASH__first(args__5040);
-id args__5042 = cljm_DOT_core_SLASH__rest(args__5040);
-if(cljm_truthy(([argc isEqual:@8]))) {
-if(cljm_truthy(f__5037.cljm$lang$arity$8)) {
-return [f__5037 cljma__5027 langb__5029 arityc__5031 8d__5033, e__5035, f__5037, g__5039, h__5041, nil];
+id h__5029 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5028);
+id args__5030 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5028);
+if(cljm_truthy(([argc.value isEqual:@8]))) {
+if(cljm_truthy(f__5025.cljm$lang$arity$8)) {
+return [f__5025 cljma__5015 langb__5017 arityc__5019 8d__5021, e__5023, f__5025, g__5027, h__5029, nil];
 
 } else {
-return f__5037(a__5027, b__5029, c__5031, d__5033, e__5035, f__5037, g__5039, h__5041);
+return ((id (^)(id , id , id , id , id , id , id , id )) f__5025.value)(a__5015, b__5017, c__5019, d__5021, e__5023, f__5025, g__5027, h__5029);
 
 }
 
 } else {
-id i__5043 = cljm_DOT_core_SLASH__first(args__5042);
-id args__5044 = cljm_DOT_core_SLASH__rest(args__5042);
-if(cljm_truthy(([argc isEqual:@9]))) {
-if(cljm_truthy(f__5037.cljm$lang$arity$9)) {
-return [f__5037 cljma__5027 langb__5029 arityc__5031 9d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, nil];
+id i__5031 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5030);
+id args__5032 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5030);
+if(cljm_truthy(([argc.value isEqual:@9]))) {
+if(cljm_truthy(f__5025.cljm$lang$arity$9)) {
+return [f__5025 cljma__5015 langb__5017 arityc__5019 9d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, nil];
 
 } else {
-return f__5037(a__5027, b__5029, c__5031, d__5033, e__5035, f__5037, g__5039, h__5041, i__5043);
+return ((id (^)(id , id , id , id , id , id , id , id , id )) f__5025.value)(a__5015, b__5017, c__5019, d__5021, e__5023, f__5025, g__5027, h__5029, i__5031);
 
 }
 
 } else {
-id j__5045 = cljm_DOT_core_SLASH__first(args__5044);
-id args__5046 = cljm_DOT_core_SLASH__rest(args__5044);
-if(cljm_truthy(([argc isEqual:@10]))) {
-if(cljm_truthy(f__5037.cljm$lang$arity$10)) {
-return [f__5037 cljma__5027 langb__5029 arityc__5031 10d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, nil];
+id j__5033 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5032);
+id args__5034 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5032);
+if(cljm_truthy(([argc.value isEqual:@10]))) {
+if(cljm_truthy(f__5025.cljm$lang$arity$10)) {
+return [f__5025 cljma__5015 langb__5017 arityc__5019 10d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, nil];
 
 } else {
-return f__5037(a__5027, b__5029, c__5031, d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045);
+return ((id (^)(id , id , id , id , id , id , id , id , id , id )) f__5025.value)(a__5015, b__5017, c__5019, d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033);
 
 }
 
 } else {
-id k__5047 = cljm_DOT_core_SLASH__first(args__5046);
-id args__5048 = cljm_DOT_core_SLASH__rest(args__5046);
-if(cljm_truthy(([argc isEqual:@11]))) {
-if(cljm_truthy(f__5037.cljm$lang$arity$11)) {
-return [f__5037 cljma__5027 langb__5029 arityc__5031 11d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, nil];
+id k__5035 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5034);
+id args__5036 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5034);
+if(cljm_truthy(([argc.value isEqual:@11]))) {
+if(cljm_truthy(f__5025.cljm$lang$arity$11)) {
+return [f__5025 cljma__5015 langb__5017 arityc__5019 11d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, nil];
 
 } else {
-return f__5037(a__5027, b__5029, c__5031, d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047);
+return ((id (^)(id , id , id , id , id , id , id , id , id , id , id )) f__5025.value)(a__5015, b__5017, c__5019, d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035);
 
 }
 
 } else {
-id l__5049 = cljm_DOT_core_SLASH__first(args__5048);
-id args__5050 = cljm_DOT_core_SLASH__rest(args__5048);
-if(cljm_truthy(([argc isEqual:@12]))) {
-if(cljm_truthy(f__5037.cljm$lang$arity$12)) {
-return [f__5037 cljma__5027 langb__5029 arityc__5031 12d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049, nil];
+id l__5037 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5036);
+id args__5038 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5036);
+if(cljm_truthy(([argc.value isEqual:@12]))) {
+if(cljm_truthy(f__5025.cljm$lang$arity$12)) {
+return [f__5025 cljma__5015 langb__5017 arityc__5019 12d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037, nil];
 
 } else {
-return f__5037(a__5027, b__5029, c__5031, d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049);
+return ((id (^)(id , id , id , id , id , id , id , id , id , id , id , id )) f__5025.value)(a__5015, b__5017, c__5019, d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037);
 
 }
 
 } else {
-id m__5051 = cljm_DOT_core_SLASH__first(args__5050);
-id args__5052 = cljm_DOT_core_SLASH__rest(args__5050);
-if(cljm_truthy(([argc isEqual:@13]))) {
-if(cljm_truthy(f__5037.cljm$lang$arity$13)) {
-return [f__5037 cljma__5027 langb__5029 arityc__5031 13d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049, m__5051, nil];
+id m__5039 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5038);
+id args__5040 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5038);
+if(cljm_truthy(([argc.value isEqual:@13]))) {
+if(cljm_truthy(f__5025.cljm$lang$arity$13)) {
+return [f__5025 cljma__5015 langb__5017 arityc__5019 13d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037, m__5039, nil];
 
 } else {
-return f__5037(a__5027, b__5029, c__5031, d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049, m__5051);
+return ((id (^)(id , id , id , id , id , id , id , id , id , id , id , id , id )) f__5025.value)(a__5015, b__5017, c__5019, d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037, m__5039);
 
 }
 
 } else {
-id n__5053 = cljm_DOT_core_SLASH__first(args__5052);
-id args__5054 = cljm_DOT_core_SLASH__rest(args__5052);
-if(cljm_truthy(([argc isEqual:@14]))) {
-if(cljm_truthy(f__5037.cljm$lang$arity$14)) {
-return [f__5037 cljma__5027 langb__5029 arityc__5031 14d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049, m__5051, n__5053, nil];
+id n__5041 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5040);
+id args__5042 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5040);
+if(cljm_truthy(([argc.value isEqual:@14]))) {
+if(cljm_truthy(f__5025.cljm$lang$arity$14)) {
+return [f__5025 cljma__5015 langb__5017 arityc__5019 14d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037, m__5039, n__5041, nil];
 
 } else {
-return f__5037(a__5027, b__5029, c__5031, d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049, m__5051, n__5053);
+return ((id (^)(id , id , id , id , id , id , id , id , id , id , id , id , id , id )) f__5025.value)(a__5015, b__5017, c__5019, d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037, m__5039, n__5041);
 
 }
 
 } else {
-id o__5055 = cljm_DOT_core_SLASH__first(args__5054);
-id args__5056 = cljm_DOT_core_SLASH__rest(args__5054);
-if(cljm_truthy(([argc isEqual:@15]))) {
-if(cljm_truthy(f__5037.cljm$lang$arity$15)) {
-return [f__5037 cljma__5027 langb__5029 arityc__5031 15d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049, m__5051, n__5053, o__5055, nil];
+id o__5043 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5042);
+id args__5044 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5042);
+if(cljm_truthy(([argc.value isEqual:@15]))) {
+if(cljm_truthy(f__5025.cljm$lang$arity$15)) {
+return [f__5025 cljma__5015 langb__5017 arityc__5019 15d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037, m__5039, n__5041, o__5043, nil];
 
 } else {
-return f__5037(a__5027, b__5029, c__5031, d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049, m__5051, n__5053, o__5055);
+return ((id (^)(id , id , id , id , id , id , id , id , id , id , id , id , id , id , id )) f__5025.value)(a__5015, b__5017, c__5019, d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037, m__5039, n__5041, o__5043);
 
 }
 
 } else {
-id p__5057 = cljm_DOT_core_SLASH__first(args__5056);
-id args__5058 = cljm_DOT_core_SLASH__rest(args__5056);
-if(cljm_truthy(([argc isEqual:@16]))) {
-if(cljm_truthy(f__5037.cljm$lang$arity$16)) {
-return [f__5037 cljma__5027 langb__5029 arityc__5031 16d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049, m__5051, n__5053, o__5055, p__5057, nil];
+id p__5045 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5044);
+id args__5046 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5044);
+if(cljm_truthy(([argc.value isEqual:@16]))) {
+if(cljm_truthy(f__5025.cljm$lang$arity$16)) {
+return [f__5025 cljma__5015 langb__5017 arityc__5019 16d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037, m__5039, n__5041, o__5043, p__5045, nil];
 
 } else {
-return f__5037(a__5027, b__5029, c__5031, d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049, m__5051, n__5053, o__5055, p__5057);
+return ((id (^)(id , id , id , id , id , id , id , id , id , id , id , id , id , id , id , id )) f__5025.value)(a__5015, b__5017, c__5019, d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037, m__5039, n__5041, o__5043, p__5045);
 
 }
 
 } else {
-id q__5059 = cljm_DOT_core_SLASH__first(args__5058);
-id args__5060 = cljm_DOT_core_SLASH__rest(args__5058);
-if(cljm_truthy(([argc isEqual:@17]))) {
-if(cljm_truthy(f__5037.cljm$lang$arity$17)) {
-return [f__5037 cljma__5027 langb__5029 arityc__5031 17d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049, m__5051, n__5053, o__5055, p__5057, q__5059, nil];
+id q__5047 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5046);
+id args__5048 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5046);
+if(cljm_truthy(([argc.value isEqual:@17]))) {
+if(cljm_truthy(f__5025.cljm$lang$arity$17)) {
+return [f__5025 cljma__5015 langb__5017 arityc__5019 17d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037, m__5039, n__5041, o__5043, p__5045, q__5047, nil];
 
 } else {
-return f__5037(a__5027, b__5029, c__5031, d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049, m__5051, n__5053, o__5055, p__5057, q__5059);
+return ((id (^)(id , id , id , id , id , id , id , id , id , id , id , id , id , id , id , id , id )) f__5025.value)(a__5015, b__5017, c__5019, d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037, m__5039, n__5041, o__5043, p__5045, q__5047);
 
 }
 
 } else {
-id r__5061 = cljm_DOT_core_SLASH__first(args__5060);
-id args__5062 = cljm_DOT_core_SLASH__rest(args__5060);
-if(cljm_truthy(([argc isEqual:@18]))) {
-if(cljm_truthy(f__5037.cljm$lang$arity$18)) {
-return [f__5037 cljma__5027 langb__5029 arityc__5031 18d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049, m__5051, n__5053, o__5055, p__5057, q__5059, r__5061, nil];
+id r__5049 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5048);
+id args__5050 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5048);
+if(cljm_truthy(([argc.value isEqual:@18]))) {
+if(cljm_truthy(f__5025.cljm$lang$arity$18)) {
+return [f__5025 cljma__5015 langb__5017 arityc__5019 18d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037, m__5039, n__5041, o__5043, p__5045, q__5047, r__5049, nil];
 
 } else {
-return f__5037(a__5027, b__5029, c__5031, d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049, m__5051, n__5053, o__5055, p__5057, q__5059, r__5061);
+return ((id (^)(id , id , id , id , id , id , id , id , id , id , id , id , id , id , id , id , id , id )) f__5025.value)(a__5015, b__5017, c__5019, d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037, m__5039, n__5041, o__5043, p__5045, q__5047, r__5049);
 
 }
 
 } else {
-id s__5063 = cljm_DOT_core_SLASH__first(args__5062);
-id args__5064 = cljm_DOT_core_SLASH__rest(args__5062);
-if(cljm_truthy(([argc isEqual:@19]))) {
-if(cljm_truthy(f__5037.cljm$lang$arity$19)) {
-return [f__5037 cljma__5027 langb__5029 arityc__5031 19d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049, m__5051, n__5053, o__5055, p__5057, q__5059, r__5061, s__5063, nil];
+id s__5051 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5050);
+id args__5052 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5050);
+if(cljm_truthy(([argc.value isEqual:@19]))) {
+if(cljm_truthy(f__5025.cljm$lang$arity$19)) {
+return [f__5025 cljma__5015 langb__5017 arityc__5019 19d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037, m__5039, n__5041, o__5043, p__5045, q__5047, r__5049, s__5051, nil];
 
 } else {
-return f__5037(a__5027, b__5029, c__5031, d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049, m__5051, n__5053, o__5055, p__5057, q__5059, r__5061, s__5063);
+return ((id (^)(id , id , id , id , id , id , id , id , id , id , id , id , id , id , id , id , id , id , id )) f__5025.value)(a__5015, b__5017, c__5019, d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037, m__5039, n__5041, o__5043, p__5045, q__5047, r__5049, s__5051);
 
 }
 
 } else {
-id t__5065 = cljm_DOT_core_SLASH__first(args__5064);
-id args__5066 = cljm_DOT_core_SLASH__rest(args__5064);
-if(cljm_truthy(([argc isEqual:@20]))) {
-if(cljm_truthy(f__5037.cljm$lang$arity$20)) {
-return [f__5037 cljma__5027 langb__5029 arityc__5031 20d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049, m__5051, n__5053, o__5055, p__5057, q__5059, r__5061, s__5063, t__5065, nil];
+id t__5053 = ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(args__5052);
+id args__5054 = ((id (^)(id )) cljm_DOT_core_SLASH__rest.value)(args__5052);
+if(cljm_truthy(([argc.value isEqual:@20]))) {
+if(cljm_truthy(f__5025.cljm$lang$arity$20)) {
+return [f__5025 cljma__5015 langb__5017 arityc__5019 20d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037, m__5039, n__5041, o__5043, p__5045, q__5047, r__5049, s__5051, t__5053, nil];
 
 } else {
-return f__5037(a__5027, b__5029, c__5031, d__5033, e__5035, f__5037, g__5039, h__5041, i__5043, j__5045, k__5047, l__5049, m__5051, n__5053, o__5055, p__5057, q__5059, r__5061, s__5063, t__5065);
+return ((id (^)(id , id , id , id , id , id , id , id , id , id , id , id , id , id , id , id , id , id , id , id )) f__5025.value)(a__5015, b__5017, c__5019, d__5021, e__5023, f__5025, g__5027, h__5029, i__5031, j__5033, k__5035, l__5037, m__5039, n__5041, o__5043, p__5045, q__5047, r__5049, s__5051, t__5053);
 
 }
 
 } else {
-throw [Error alloc];
-
-}
-
-}
+throw [Error.value alloc];
 
 }
 
@@ -4681,81 +4677,85 @@ throw [Error alloc];
 }
 
 }
-};
+
+}
+
+}
+}];
 /**
 * Applies fn f to the argument list formed by prepending intervening arguments to args.
 * First cut.  Not lazy.  Needs to use emitted toApply.
 */
-cljm_DOT_core_SLASH_apply = (function() {
+cljm_DOT_core_SLASH_apply = [[CLJMVar alloc] initWithValue:(function() {
 var apply = null;
 var apply__2 = ^id(id f, id args) {
-id fixed_arity__5081 = f.cljs$lang$maxFixedArity;
-if(cljm_truthy(f.cljs$lang$applyTo)) {
-id bc__5082 = cljm_DOT_core_SLASH_bounded_count(args, (fixed_arity__5081 + @1));
-if(cljm_truthy((bc__5082 <= fixed_arity__5081))) {
-return cljm_DOT_core_SLASH_apply_to(f, bc__5082, args);
+id fixed_arity__5069 = f.value.cljs$lang$maxFixedArity;
+if(cljm_truthy(f.value.cljs$lang$applyTo)) {
+id bc__5070 = ((id (^)(id , id )) cljm_DOT_core_SLASH_bounded_count.value)(args.value, (fixed-arity__5069 + @1));
+if(cljm_truthy((bc__5070 <= fixed-arity__5069))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_apply_to.value)(f.value, bc__5070, args.value);
 
 } else {
-return [f cljsargs lang];
+return [f.value cljsargs.value lang];
 
 }
 
 } else {
-return [f applyf, cljm_DOT_core_SLASH_to_array(args), nil];
+return [f.value applyf.value, ((id (^)(id )) cljm_DOT_core_SLASH_to_array.value)(args.value), nil];
 
 }
 };
 var apply__3 = ^id(id f, id x, id args) {
-id arglist__5083 = cljm_DOT_core_SLASH_list_STAR_(x, args, nil);
-id fixed_arity__5084 = f.cljs$lang$maxFixedArity;
-if(cljm_truthy(f.cljs$lang$applyTo)) {
-id bc__5085 = cljm_DOT_core_SLASH_bounded_count(arglist__5083, (fixed_arity__5084 + @1));
-if(cljm_truthy((bc__5085 <= fixed_arity__5084))) {
-return cljm_DOT_core_SLASH_apply_to(f, bc__5085, arglist__5083);
+id arglist__5071 = ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_list_STAR_.value)(x.value, args.value, nil);
+id fixed_arity__5072 = f.value.cljs$lang$maxFixedArity;
+if(cljm_truthy(f.value.cljs$lang$applyTo)) {
+id bc__5073 = ((id (^)(id , id )) cljm_DOT_core_SLASH_bounded_count.value)(arglist__5071, (fixed-arity__5072 + @1));
+if(cljm_truthy((bc__5073 <= fixed-arity__5072))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_apply_to.value)(f.value, bc__5073, arglist__5071);
 
 } else {
-return [f cljsarglist__5083 lang];
+return [f.value cljsarglist__5071 lang];
 
 }
 
 } else {
-return [f applyf, cljm_DOT_core_SLASH_to_array(arglist__5083), nil];
+return [f.value applyf.value, ((id (^)(id )) cljm_DOT_core_SLASH_to_array.value)(arglist__5071), nil];
 
 }
 };
 var apply__4 = ^id(id f, id x, id y, id args) {
-id arglist__5086 = cljm_DOT_core_SLASH_list_STAR_(x, y, args, nil);
-id fixed_arity__5087 = f.cljs$lang$maxFixedArity;
-if(cljm_truthy(f.cljs$lang$applyTo)) {
-id bc__5088 = cljm_DOT_core_SLASH_bounded_count(arglist__5086, (fixed_arity__5087 + @1));
-if(cljm_truthy((bc__5088 <= fixed_arity__5087))) {
-return cljm_DOT_core_SLASH_apply_to(f, bc__5088, arglist__5086);
+id arglist__5074 = ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_list_STAR_.value)(x.value, y.value, args.value, nil);
+id fixed_arity__5075 = f.value.cljs$lang$maxFixedArity;
+if(cljm_truthy(f.value.cljs$lang$applyTo)) {
+id bc__5076 = ((id (^)(id , id )) cljm_DOT_core_SLASH_bounded_count.value)(arglist__5074, (fixed-arity__5075 + @1));
+if(cljm_truthy((bc__5076 <= fixed-arity__5075))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_apply_to.value)(f.value, bc__5076, arglist__5074);
 
 } else {
-return [f cljsarglist__5086 lang];
+return [f.value cljsarglist__5074 lang];
 
 }
 
 } else {
-return [f applyf, cljm_DOT_core_SLASH_to_array(arglist__5086), nil];
+return [f.value applyf.value, ((id (^)(id )) cljm_DOT_core_SLASH_to_array.value)(arglist__5074), nil];
 
 }
 };
 var apply__5 = ^id(id f, id x, id y, id z, id args) {
-id arglist__5089 = cljm_DOT_core_SLASH_list_STAR_(x, y, z, args, nil);
-id fixed_arity__5090 = f.cljs$lang$maxFixedArity;
-if(cljm_truthy(f.cljs$lang$applyTo)) {
-id bc__5091 = cljm_DOT_core_SLASH_bounded_count(arglist__5089, (fixed_arity__5090 + @1));
-if(cljm_truthy((bc__5091 <= fixed_arity__5090))) {
-return cljm_DOT_core_SLASH_apply_to(f, bc__5091, arglist__5089);
+id arglist__5077 = ((id (^)(id , id , id , id , ...)) cljm_DOT_core_SLASH_list_STAR_.value)(x.value, y.value, z.value, args.value, nil);
+id fixed_arity__5078 = f.value.cljs$lang$maxFixedArity;
+if(cljm_truthy(f.value.cljs$lang$applyTo)) {
+id bc__5079 = ((id (^)(id , id )) cljm_DOT_core_SLASH_bounded_count.value)(arglist__5077, (fixed-arity__5078 + @1));
+if(cljm_truthy((bc__5079 <= fixed-arity__5078))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_apply_to.value)(f.value, bc__5079, arglist__5077);
 
 } else {
-return [f cljsarglist__5089 lang];
+return [f.value cljsarglist__5077 lang];
 
 }
 
 } else {
-return [f applyf, cljm_DOT_core_SLASH_to_array(arglist__5089), nil];
+return [f.value applyf.value, ((id (^)(id )) cljm_DOT_core_SLASH_to_array.value)(arglist__5077), nil];
 
 }
 };
@@ -4767,20 +4767,20 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id arglist__5092 = cljm_DOT_core_SLASH_cons(a, cljm_DOT_core_SLASH_cons(b, cljm_DOT_core_SLASH_cons(c, cljm_DOT_core_SLASH_cons(d, cljm_DOT_core_SLASH_spread(args)))));
-id fixed_arity__5093 = f.cljs$lang$maxFixedArity;
-if(cljm_truthy(f.cljs$lang$applyTo)) {
-id bc__5094 = cljm_DOT_core_SLASH_bounded_count(arglist__5092, (fixed_arity__5093 + @1));
-if(cljm_truthy((bc__5094 <= fixed_arity__5093))) {
-return cljm_DOT_core_SLASH_apply_to(f, bc__5094, arglist__5092);
+id arglist__5080 = ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(a.value, ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(b.value, ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(c.value, ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(d.value, ((id (^)(id )) cljm_DOT_core_SLASH_spread.value)(args.value)))));
+id fixed_arity__5081 = f.value.cljs$lang$maxFixedArity;
+if(cljm_truthy(f.value.cljs$lang$applyTo)) {
+id bc__5082 = ((id (^)(id , id )) cljm_DOT_core_SLASH_bounded_count.value)(arglist__5080, (fixed-arity__5081 + @1));
+if(cljm_truthy((bc__5082 <= fixed-arity__5081))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_apply_to.value)(f.value, bc__5082, arglist__5080);
 
 } else {
-return [f cljsarglist__5092 lang];
+return [f.value cljsarglist__5080 lang];
 
 }
 
 } else {
-return [f applyf, cljm_DOT_core_SLASH_to_array(arglist__5092), nil];
+return [f.value applyf.value, ((id (^)(id )) cljm_DOT_core_SLASH_to_array.value)(arglist__5080), nil];
 
 }
 };
@@ -4809,12 +4809,12 @@ apply.cljm$lang$arity$5 = apply__5;
 apply.cljm$lang$arity$variadic = apply__6.cljm$lang$arity$variadic;
 return apply;
 })()
-;
+];
 /**
 * Returns an object of the same type and value as obj, with
 * (apply f (meta obj) args) as its metadata.
 */
-cljm_DOT_core_SLASH_vary_meta = ^id(id cljm__varargs, id obj, id f, ...) {
+cljm_DOT_core_SLASH_vary_meta = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, id obj, id f, ...) {
 NSMutableArray *args = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -4822,18 +4822,18 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_with_meta(obj, cljm_DOT_core_SLASH_apply(f, cljm_DOT_core_SLASH_meta(obj), args, nil));
-};
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_with_meta.value)(obj.value, ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, ((id (^)(id )) cljm_DOT_core_SLASH_meta.value)(obj.value), args.value, nil));
+}];
 /**
 * Same as (not (= obj1 obj2))
 */
-cljm_DOT_core_SLASH_not_EQ_ = (function() {
+cljm_DOT_core_SLASH_not_EQ_ = [[CLJMVar alloc] initWithValue:(function() {
 var not_EQ_ = null;
 var not_EQ___1 = ^id(id x) {
 return @NO;
 };
 var not_EQ___2 = ^id(id x, id y) {
-return cljm_DOT_core_SLASH_not(cljm_DOT_core_SLASH__EQ_(x, y, nil));
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((id (^)(id , id , ...)) cljm_DOT_core_SLASH__EQ_.value)(x.value, y.value, nil));
 };
 var not_EQ___3 = ^id(id cljm__varargs, id x, id y, ...) {
 NSMutableArray *more = [NSMutableArray array];
@@ -4843,7 +4843,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [more addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_not(cljm_DOT_core_SLASH_apply(cljm_DOT_core_SLASH__EQ_, x, y, more, nil));
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((id (^)(id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(cljm_DOT_core_SLASH__EQ_.value, x.value, y.value, more.value, nil));
 };
 not_EQ_ = function(x, y, var_args){
 var more = var_args;
@@ -4864,35 +4864,35 @@ not_EQ_.cljm$lang$arity$2 = not_EQ___2;
 not_EQ_.cljm$lang$arity$variadic = not_EQ___3.cljm$lang$arity$variadic;
 return not_EQ_;
 })()
-;
+];
 /**
 * If coll is empty, returns nil, else coll
 */
-cljm_DOT_core_SLASH_not_empty = ^id(id coll) {
-if(cljm_truthy(cljm_DOT_core_SLASH_seq(coll))) {
-return coll;
+cljm_DOT_core_SLASH_not_empty = [[CLJMVar alloc] initWithValue:^id(id coll) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value))) {
+return coll.value;
 
 } else {
 return nil;
 
 }
-};
+}];
 /**
 * Returns true if (pred x) is logical true for every x in coll, else
 * false.
 */
-cljm_DOT_core_SLASH_every_QMARK_ = ^id(id pred, id coll) {
+cljm_DOT_core_SLASH_every_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id pred, id coll) {
 while(YES) {
-if(cljm_truthy((cljm_DOT_core_SLASH_seq(coll) == nil))) {
+if(cljm_truthy((((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value) == nil))) {
 return @YES;
 
 } else {
-if(cljm_truthy(pred(cljm_DOT_core_SLASH_first(coll)))) {
+if(cljm_truthy(((id (^)(id )) pred.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(coll.value)))) {
 {
-var G__5095 = pred;
-var G__5096 = cljm_DOT_core_SLASH_next(coll);
-pred = G__5095;
-coll = G__5096;
+var G__5083 = pred.value;
+var G__5084 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(coll.value);
+pred = G__5083;
+coll = G__5084;
 continue;
 }
 
@@ -4910,33 +4910,33 @@ return nil;
 }
 break;
 }
-};
+}];
 /**
 * Returns false if (pred x) is logical true for every x in
 * coll, else true.
 */
-cljm_DOT_core_SLASH_not_every_QMARK_ = ^id(id pred, id coll) {
-return cljm_DOT_core_SLASH_not(cljm_DOT_core_SLASH_every_QMARK_(pred, coll));
-};
+cljm_DOT_core_SLASH_not_every_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id pred, id coll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((id (^)(id , id )) cljm_DOT_core_SLASH_every_QMARK_.value)(pred.value, coll.value));
+}];
 /**
 * Returns the first logical true value of (pred x) for any x in coll,
 * else nil.  One common idiom is to use a set as pred, for example
 * this will return :fred if :fred is in the sequence, otherwise nil:
 * (some #{:fred} coll)
 */
-cljm_DOT_core_SLASH_some = ^id(id pred, id coll) {
+cljm_DOT_core_SLASH_some = [[CLJMVar alloc] initWithValue:^id(id pred, id coll) {
 while(YES) {
-if(cljm_truthy(cljm_DOT_core_SLASH_seq(coll))) {
-id or__3824__auto____5098 = pred(cljm_DOT_core_SLASH_first(coll));
-if(cljm_truthy(or__3824__auto____5098)) {
-return or__3824__auto____5098;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value))) {
+id or__3824__auto____5086 = ((id (^)(id )) pred.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(coll.value));
+if(cljm_truthy(or__3824__auto____5086)) {
+return or__3824__auto____5086;
 
 } else {
 {
-var G__5099 = pred;
-var G__5100 = cljm_DOT_core_SLASH_next(coll);
-pred = G__5099;
-coll = G__5100;
+var G__5087 = pred.value;
+var G__5088 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(coll.value);
+pred = G__5087;
+coll = G__5088;
 continue;
 }
 
@@ -4948,52 +4948,52 @@ return nil;
 }
 break;
 }
-};
+}];
 /**
 * Returns false if (pred x) is logical true for any x in coll,
 * else true.
 */
-cljm_DOT_core_SLASH_not_any_QMARK_ = ^id(id pred, id coll) {
-return cljm_DOT_core_SLASH_not(cljm_DOT_core_SLASH_some(pred, coll));
-};
+cljm_DOT_core_SLASH_not_any_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id pred, id coll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((id (^)(id , id )) cljm_DOT_core_SLASH_some.value)(pred.value, coll.value));
+}];
 /**
 * Returns true if n is even, throws an exception if n is not an integer
 */
-cljm_DOT_core_SLASH_even_QMARK_ = ^id(id n) {
-if(cljm_truthy(cljm_DOT_core_SLASH_integer_QMARK_(n))) {
-return ([(n & @1) isEqual:@0]);
+cljm_DOT_core_SLASH_even_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id n) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_integer_QMARK_.value)(n.value))) {
+return ([(n.value & @1) isEqual:@0]);
 
 } else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
-};
+}];
 /**
 * Returns true if n is odd, throws an exception if n is not an integer
 */
-cljm_DOT_core_SLASH_odd_QMARK_ = ^id(id n) {
-return cljm_DOT_core_SLASH_not(cljm_DOT_core_SLASH_even_QMARK_(n));
-};
-cljm_DOT_core_SLASH_identity = ^id(id x) {
-return x;
-};
+cljm_DOT_core_SLASH_odd_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id n) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((id (^)(id )) cljm_DOT_core_SLASH_even_QMARK_.value)(n.value));
+}];
+cljm_DOT_core_SLASH_identity = [[CLJMVar alloc] initWithValue:^id(id x) {
+return x.value;
+}];
 /**
 * Takes a fn f and returns a fn that takes the same arguments as f,
 * has the same effects, if any, and returns the opposite truth value.
 */
-cljm_DOT_core_SLASH_complement = ^id(id f) {
+cljm_DOT_core_SLASH_complement = [[CLJMVar alloc] initWithValue:^id(id f) {
 return (function() {
-var G__5101 = null;
-var G__5101__0 = ^id() {
-return cljm_DOT_core_SLASH_not(f());
+var G__5089 = null;
+var G__5089__0 = ^id() {
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((id (^)()) f.value)());
 };
-var G__5101__1 = ^id(id x) {
-return cljm_DOT_core_SLASH_not(f(x));
+var G__5089__1 = ^id(id x) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((id (^)(id )) f.value)(x.value));
 };
-var G__5101__2 = ^id(id x, id y) {
-return cljm_DOT_core_SLASH_not(f(x, y));
+var G__5089__2 = ^id(id x, id y) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((id (^)(id , id )) f.value)(x.value, y.value));
 };
-var G__5101__3 = ^id(id cljm__varargs, id x, id y, ...) {
+var G__5089__3 = ^id(id cljm__varargs, id x, id y, ...) {
 NSMutableArray *zs = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -5001,31 +5001,31 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [zs addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_not(cljm_DOT_core_SLASH_apply(f, x, y, zs, nil));
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((id (^)(id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, x.value, y.value, zs.value, nil));
 };
-G__5101 = function(x, y, var_args){
+G__5089 = function(x, y, var_args){
 var zs = var_args;
 switch(arguments.length){
 case 0:
-return G__5101__0.call(this);
+return G__5089__0.call(this);
 case 1:
-return G__5101__1.call(this,x);
+return G__5089__1.call(this,x);
 case 2:
-return G__5101__2.call(this,x, y);
+return G__5089__2.call(this,x, y);
 default:
-return G__5101__3.cljm$lang$arity$variadic(x, y, cljm.core.array_seq(arguments, 2));
+return G__5089__3.cljm$lang$arity$variadic(x, y, cljm.core.array_seq(arguments, 2));
 }
 throw('Invalid arity: ' + arguments.length);
 };
-G__5101.cljm$lang$maxFixedArity = 2;
-G__5101.cljm$lang$applyTo = G__5101__3.cljm$lang$applyTo;
-return G__5101;
+G__5089.cljm$lang$maxFixedArity = 2;
+G__5089.cljm$lang$applyTo = G__5089__3.cljm$lang$applyTo;
+return G__5089;
 })()
-};
+}];
 /**
 * Returns a function that takes any number of arguments and returns x.
 */
-cljm_DOT_core_SLASH_constantly = ^id(id x) {
+cljm_DOT_core_SLASH_constantly = [[CLJMVar alloc] initWithValue:^id(id x) {
 return ^id(id cljm__varargs, ...) {
 NSMutableArray *args = [NSMutableArray array];
 va_list cljm__args;
@@ -5034,39 +5034,39 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return x;
+return x.value;
 };
-};
+}];
 /**
 * Takes a set of functions and returns a fn that is the composition
 * of those fns.  The returned fn takes a variable number of args,
 * applies the rightmost of fns to the args, the next
 * fn (right-to-left) to the result, etc.
 */
-cljm_DOT_core_SLASH_comp = (function() {
+cljm_DOT_core_SLASH_comp = [[CLJMVar alloc] initWithValue:(function() {
 var comp = null;
 var comp__0 = ^id() {
-return cljm_DOT_core_SLASH_identity;
+return cljm_DOT_core_SLASH_identity.value;
 };
 var comp__1 = ^id(id f) {
-return f;
+return f.value;
 };
 var comp__2 = ^id(id f, id g) {
 return (function() {
-var G__5108 = null;
-var G__5108__0 = ^id() {
-return f(g());
+var G__5096 = null;
+var G__5096__0 = ^id() {
+return ((id (^)(id )) f.value)(((id (^)()) g.value)());
 };
-var G__5108__1 = ^id(id x) {
-return f(g(x));
+var G__5096__1 = ^id(id x) {
+return ((id (^)(id )) f.value)(((id (^)(id )) g.value)(x.value));
 };
-var G__5108__2 = ^id(id x, id y) {
-return f(g(x, y));
+var G__5096__2 = ^id(id x, id y) {
+return ((id (^)(id )) f.value)(((id (^)(id , id )) g.value)(x.value, y.value));
 };
-var G__5108__3 = ^id(id x, id y, id z) {
-return f(g(x, y, z));
+var G__5096__3 = ^id(id x, id y, id z) {
+return ((id (^)(id )) f.value)(((id (^)(id , id , id )) g.value)(x.value, y.value, z.value));
 };
-var G__5108__4 = ^id(id cljm__varargs, id x, id y, id z, ...) {
+var G__5096__4 = ^id(id cljm__varargs, id x, id y, id z, ...) {
 NSMutableArray *args = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -5074,45 +5074,45 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return f(cljm_DOT_core_SLASH_apply(g, x, y, z, args, nil));
+return ((id (^)(id )) f.value)(((id (^)(id , id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(g.value, x.value, y.value, z.value, args.value, nil));
 };
-G__5108 = function(x, y, z, var_args){
+G__5096 = function(x, y, z, var_args){
 var args = var_args;
 switch(arguments.length){
 case 0:
-return G__5108__0.call(this);
+return G__5096__0.call(this);
 case 1:
-return G__5108__1.call(this,x);
+return G__5096__1.call(this,x);
 case 2:
-return G__5108__2.call(this,x, y);
+return G__5096__2.call(this,x, y);
 case 3:
-return G__5108__3.call(this,x, y, z);
+return G__5096__3.call(this,x, y, z);
 default:
-return G__5108__4.cljm$lang$arity$variadic(x, y, z, cljm.core.array_seq(arguments, 3));
+return G__5096__4.cljm$lang$arity$variadic(x, y, z, cljm.core.array_seq(arguments, 3));
 }
 throw('Invalid arity: ' + arguments.length);
 };
-G__5108.cljm$lang$maxFixedArity = 3;
-G__5108.cljm$lang$applyTo = G__5108__4.cljm$lang$applyTo;
-return G__5108;
+G__5096.cljm$lang$maxFixedArity = 3;
+G__5096.cljm$lang$applyTo = G__5096__4.cljm$lang$applyTo;
+return G__5096;
 })()
 };
 var comp__3 = ^id(id f, id g, id h) {
 return (function() {
-var G__5109 = null;
-var G__5109__0 = ^id() {
-return f(g(h()));
+var G__5097 = null;
+var G__5097__0 = ^id() {
+return ((id (^)(id )) f.value)(((id (^)(id )) g.value)(((id (^)()) h.value)()));
 };
-var G__5109__1 = ^id(id x) {
-return f(g(h(x)));
+var G__5097__1 = ^id(id x) {
+return ((id (^)(id )) f.value)(((id (^)(id )) g.value)(((id (^)(id )) h.value)(x.value)));
 };
-var G__5109__2 = ^id(id x, id y) {
-return f(g(h(x, y)));
+var G__5097__2 = ^id(id x, id y) {
+return ((id (^)(id )) f.value)(((id (^)(id )) g.value)(((id (^)(id , id )) h.value)(x.value, y.value)));
 };
-var G__5109__3 = ^id(id x, id y, id z) {
-return f(g(h(x, y, z)));
+var G__5097__3 = ^id(id x, id y, id z) {
+return ((id (^)(id )) f.value)(((id (^)(id )) g.value)(((id (^)(id , id , id )) h.value)(x.value, y.value, z.value)));
 };
-var G__5109__4 = ^id(id cljm__varargs, id x, id y, id z, ...) {
+var G__5097__4 = ^id(id cljm__varargs, id x, id y, id z, ...) {
 NSMutableArray *args = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -5120,27 +5120,27 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return f(g(cljm_DOT_core_SLASH_apply(h, x, y, z, args, nil)));
+return ((id (^)(id )) f.value)(((id (^)(id )) g.value)(((id (^)(id , id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(h.value, x.value, y.value, z.value, args.value, nil)));
 };
-G__5109 = function(x, y, z, var_args){
+G__5097 = function(x, y, z, var_args){
 var args = var_args;
 switch(arguments.length){
 case 0:
-return G__5109__0.call(this);
+return G__5097__0.call(this);
 case 1:
-return G__5109__1.call(this,x);
+return G__5097__1.call(this,x);
 case 2:
-return G__5109__2.call(this,x, y);
+return G__5097__2.call(this,x, y);
 case 3:
-return G__5109__3.call(this,x, y, z);
+return G__5097__3.call(this,x, y, z);
 default:
-return G__5109__4.cljm$lang$arity$variadic(x, y, z, cljm.core.array_seq(arguments, 3));
+return G__5097__4.cljm$lang$arity$variadic(x, y, z, cljm.core.array_seq(arguments, 3));
 }
 throw('Invalid arity: ' + arguments.length);
 };
-G__5109.cljm$lang$maxFixedArity = 3;
-G__5109.cljm$lang$applyTo = G__5109__4.cljm$lang$applyTo;
-return G__5109;
+G__5097.cljm$lang$maxFixedArity = 3;
+G__5097.cljm$lang$applyTo = G__5097__4.cljm$lang$applyTo;
+return G__5097;
 })()
 };
 var comp__4 = ^id(id cljm__varargs, id f1, id f2, id f3, ...) {
@@ -5151,7 +5151,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [fs addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id fs__5105 = cljm_DOT_core_SLASH_reverse(cljm_DOT_core_SLASH_list_STAR_(f1, f2, f3, fs, nil));
+id fs__5093 = ((id (^)(id )) cljm_DOT_core_SLASH_reverse.value)(((id (^)(id , id , id , id , ...)) cljm_DOT_core_SLASH_list_STAR_.value)(f1.value, f2.value, f3.value, fs.value, nil));
 return ^id(id cljm__varargs, ...) {
 NSMutableArray *args = [NSMutableArray array];
 va_list cljm__args;
@@ -5160,20 +5160,20 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id ret__5106 = cljm_DOT_core_SLASH_apply(cljm_DOT_core_SLASH_first(fs__5105), args, nil);
-id fs__5107 = cljm_DOT_core_SLASH_next(fs__5105);
+id ret__5094 = ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_apply.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(fs__5093), args.value, nil);
+id fs__5095 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(fs__5093);
 while(YES) {
-if(cljm_truthy(fs__5107)) {
+if(cljm_truthy(fs__5095)) {
 {
-var G__5110 = (ret__5106);
-var G__5111 = cljm_DOT_core_SLASH_next(fs__5107);
-ret__5106 = G__5110;
-fs__5107 = G__5111;
+var G__5098 = ((id (^)(id )) .value)(ret__5094);
+var G__5099 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(fs__5095);
+ret__5094 = G__5098;
+fs__5095 = G__5099;
 continue;
 }
 
 } else {
-return ret__5106;
+return ret__5094;
 
 }
 break;
@@ -5205,13 +5205,13 @@ comp.cljm$lang$arity$3 = comp__3;
 comp.cljm$lang$arity$variadic = comp__4.cljm$lang$arity$variadic;
 return comp;
 })()
-;
+];
 /**
 * Takes a function f and fewer than the normal arguments to f, and
 * returns a fn that takes a variable number of additional args. When
 * called, the returned function calls f with args + additional args.
 */
-cljm_DOT_core_SLASH_partial = (function() {
+cljm_DOT_core_SLASH_partial = [[CLJMVar alloc] initWithValue:(function() {
 var partial = null;
 var partial__2 = ^id(id f, id arg1) {
 return ^id(id cljm__varargs, ...) {
@@ -5222,7 +5222,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_apply(f, arg1, args, nil);
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, arg1.value, args.value, nil);
 };
 };
 var partial__3 = ^id(id f, id arg1, id arg2) {
@@ -5234,7 +5234,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_apply(f, arg1, arg2, args, nil);
+return ((id (^)(id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, arg1.value, arg2.value, args.value, nil);
 };
 };
 var partial__4 = ^id(id f, id arg1, id arg2, id arg3) {
@@ -5246,7 +5246,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_apply(f, arg1, arg2, arg3, args, nil);
+return ((id (^)(id , id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, arg1.value, arg2.value, arg3.value, args.value, nil);
 };
 };
 var partial__5 = ^id(id cljm__varargs, id f, id arg1, id arg2, id arg3, ...) {
@@ -5265,7 +5265,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_apply(f, arg1, arg2, arg3, cljm_DOT_core_SLASH_concat(more, args, nil), nil);
+return ((id (^)(id , id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, arg1.value, arg2.value, arg3.value, ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_concat.value)(more.value, args.value, nil), nil);
 };
 };
 partial = function(f, arg1, arg2, arg3, var_args){
@@ -5290,7 +5290,7 @@ partial.cljm$lang$arity$4 = partial__4;
 partial.cljm$lang$arity$variadic = partial__5.cljm$lang$arity$variadic;
 return partial;
 })()
-;
+];
 /**
 * Takes a function f, and returns a function that calls f, replacing
 * a nil first argument to f with the supplied value x. Higher arity
@@ -5298,21 +5298,21 @@ return partial;
 * positions (y, z). Note that the function f can take any number of
 * arguments, not just the one(s) being nil-patched.
 */
-cljm_DOT_core_SLASH_fnil = (function() {
+cljm_DOT_core_SLASH_fnil = [[CLJMVar alloc] initWithValue:(function() {
 var fnil = null;
 var fnil__2 = ^id(id f, id x) {
 return (function() {
-var G__5112 = null;
-var G__5112__1 = ^id(id a) {
-return f((cljm_truthy((a == nil))) ?x:a);
+var G__5100 = null;
+var G__5100__1 = ^id(id a) {
+return ((id (^)(id )) f.value)((cljm_truthy((a.value == nil))) ?x.value:a.value);
 };
-var G__5112__2 = ^id(id a, id b) {
-return f((cljm_truthy((a == nil))) ?x:a, b);
+var G__5100__2 = ^id(id a, id b) {
+return ((id (^)(id , id )) f.value)((cljm_truthy((a.value == nil))) ?x.value:a.value, b.value);
 };
-var G__5112__3 = ^id(id a, id b, id c) {
-return f((cljm_truthy((a == nil))) ?x:a, b, c);
+var G__5100__3 = ^id(id a, id b, id c) {
+return ((id (^)(id , id , id )) f.value)((cljm_truthy((a.value == nil))) ?x.value:a.value, b.value, c.value);
 };
-var G__5112__4 = ^id(id cljm__varargs, id a, id b, id c, ...) {
+var G__5100__4 = ^id(id cljm__varargs, id a, id b, id c, ...) {
 NSMutableArray *ds = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -5320,37 +5320,37 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [ds addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_apply(f, (cljm_truthy((a == nil))) ?x:a, b, c, ds, nil);
+return ((id (^)(id , id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, (cljm_truthy((a.value == nil))) ?x.value:a.value, b.value, c.value, ds.value, nil);
 };
-G__5112 = function(a, b, c, var_args){
+G__5100 = function(a, b, c, var_args){
 var ds = var_args;
 switch(arguments.length){
 case 1:
-return G__5112__1.call(this,a);
+return G__5100__1.call(this,a);
 case 2:
-return G__5112__2.call(this,a, b);
+return G__5100__2.call(this,a, b);
 case 3:
-return G__5112__3.call(this,a, b, c);
+return G__5100__3.call(this,a, b, c);
 default:
-return G__5112__4.cljm$lang$arity$variadic(a, b, c, cljm.core.array_seq(arguments, 3));
+return G__5100__4.cljm$lang$arity$variadic(a, b, c, cljm.core.array_seq(arguments, 3));
 }
 throw('Invalid arity: ' + arguments.length);
 };
-G__5112.cljm$lang$maxFixedArity = 3;
-G__5112.cljm$lang$applyTo = G__5112__4.cljm$lang$applyTo;
-return G__5112;
+G__5100.cljm$lang$maxFixedArity = 3;
+G__5100.cljm$lang$applyTo = G__5100__4.cljm$lang$applyTo;
+return G__5100;
 })()
 };
 var fnil__3 = ^id(id f, id x, id y) {
 return (function() {
-var G__5113 = null;
-var G__5113__2 = ^id(id a, id b) {
-return f((cljm_truthy((a == nil))) ?x:a, (cljm_truthy((b == nil))) ?y:b);
+var G__5101 = null;
+var G__5101__2 = ^id(id a, id b) {
+return ((id (^)(id , id )) f.value)((cljm_truthy((a.value == nil))) ?x.value:a.value, (cljm_truthy((b.value == nil))) ?y.value:b.value);
 };
-var G__5113__3 = ^id(id a, id b, id c) {
-return f((cljm_truthy((a == nil))) ?x:a, (cljm_truthy((b == nil))) ?y:b, c);
+var G__5101__3 = ^id(id a, id b, id c) {
+return ((id (^)(id , id , id )) f.value)((cljm_truthy((a.value == nil))) ?x.value:a.value, (cljm_truthy((b.value == nil))) ?y.value:b.value, c.value);
 };
-var G__5113__4 = ^id(id cljm__varargs, id a, id b, id c, ...) {
+var G__5101__4 = ^id(id cljm__varargs, id a, id b, id c, ...) {
 NSMutableArray *ds = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -5358,35 +5358,35 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [ds addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_apply(f, (cljm_truthy((a == nil))) ?x:a, (cljm_truthy((b == nil))) ?y:b, c, ds, nil);
+return ((id (^)(id , id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, (cljm_truthy((a.value == nil))) ?x.value:a.value, (cljm_truthy((b.value == nil))) ?y.value:b.value, c.value, ds.value, nil);
 };
-G__5113 = function(a, b, c, var_args){
+G__5101 = function(a, b, c, var_args){
 var ds = var_args;
 switch(arguments.length){
 case 2:
-return G__5113__2.call(this,a, b);
+return G__5101__2.call(this,a, b);
 case 3:
-return G__5113__3.call(this,a, b, c);
+return G__5101__3.call(this,a, b, c);
 default:
-return G__5113__4.cljm$lang$arity$variadic(a, b, c, cljm.core.array_seq(arguments, 3));
+return G__5101__4.cljm$lang$arity$variadic(a, b, c, cljm.core.array_seq(arguments, 3));
 }
 throw('Invalid arity: ' + arguments.length);
 };
-G__5113.cljm$lang$maxFixedArity = 3;
-G__5113.cljm$lang$applyTo = G__5113__4.cljm$lang$applyTo;
-return G__5113;
+G__5101.cljm$lang$maxFixedArity = 3;
+G__5101.cljm$lang$applyTo = G__5101__4.cljm$lang$applyTo;
+return G__5101;
 })()
 };
 var fnil__4 = ^id(id f, id x, id y, id z) {
 return (function() {
-var G__5114 = null;
-var G__5114__2 = ^id(id a, id b) {
-return f((cljm_truthy((a == nil))) ?x:a, (cljm_truthy((b == nil))) ?y:b);
+var G__5102 = null;
+var G__5102__2 = ^id(id a, id b) {
+return ((id (^)(id , id )) f.value)((cljm_truthy((a.value == nil))) ?x.value:a.value, (cljm_truthy((b.value == nil))) ?y.value:b.value);
 };
-var G__5114__3 = ^id(id a, id b, id c) {
-return f((cljm_truthy((a == nil))) ?x:a, (cljm_truthy((b == nil))) ?y:b, (cljm_truthy((c == nil))) ?z:c);
+var G__5102__3 = ^id(id a, id b, id c) {
+return ((id (^)(id , id , id )) f.value)((cljm_truthy((a.value == nil))) ?x.value:a.value, (cljm_truthy((b.value == nil))) ?y.value:b.value, (cljm_truthy((c.value == nil))) ?z.value:c.value);
 };
-var G__5114__4 = ^id(id cljm__varargs, id a, id b, id c, ...) {
+var G__5102__4 = ^id(id cljm__varargs, id a, id b, id c, ...) {
 NSMutableArray *ds = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -5394,23 +5394,23 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [ds addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_apply(f, (cljm_truthy((a == nil))) ?x:a, (cljm_truthy((b == nil))) ?y:b, (cljm_truthy((c == nil))) ?z:c, ds, nil);
+return ((id (^)(id , id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, (cljm_truthy((a.value == nil))) ?x.value:a.value, (cljm_truthy((b.value == nil))) ?y.value:b.value, (cljm_truthy((c.value == nil))) ?z.value:c.value, ds.value, nil);
 };
-G__5114 = function(a, b, c, var_args){
+G__5102 = function(a, b, c, var_args){
 var ds = var_args;
 switch(arguments.length){
 case 2:
-return G__5114__2.call(this,a, b);
+return G__5102__2.call(this,a, b);
 case 3:
-return G__5114__3.call(this,a, b, c);
+return G__5102__3.call(this,a, b, c);
 default:
-return G__5114__4.cljm$lang$arity$variadic(a, b, c, cljm.core.array_seq(arguments, 3));
+return G__5102__4.cljm$lang$arity$variadic(a, b, c, cljm.core.array_seq(arguments, 3));
 }
 throw('Invalid arity: ' + arguments.length);
 };
-G__5114.cljm$lang$maxFixedArity = 3;
-G__5114.cljm$lang$applyTo = G__5114__4.cljm$lang$applyTo;
-return G__5114;
+G__5102.cljm$lang$maxFixedArity = 3;
+G__5102.cljm$lang$applyTo = G__5102__4.cljm$lang$applyTo;
+return G__5102;
 })()
 };
 fnil = function(f, x, y, z){
@@ -5429,45 +5429,45 @@ fnil.cljm$lang$arity$3 = fnil__3;
 fnil.cljm$lang$arity$4 = fnil__4;
 return fnil;
 })()
-;
+];
 /**
 * Returns a lazy sequence consisting of the result of applying f to 0
 * and the first item of coll, followed by applying f to 1 and the second
 * item in coll, etc, until coll is exhausted. Thus function f should
 * accept 2 arguments, index and item.
 */
-cljm_DOT_core_SLASH_map_indexed = ^id(id f, id coll) {
-id mapi__5130 = ^id(id idx, id coll) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+cljm_DOT_core_SLASH_map_indexed = [[CLJMVar alloc] initWithValue:^id(id f, id coll) {
+id mapi__5118 = ^id(id idx, id coll) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
-return mapi__5130(@0, coll);
-};
+return ((id (^)(id , id )) mapi__5118.value)(@0, coll.value);
+}];
 /**
 * Returns a lazy sequence of the non-nil results of (f item). Note,
 * this means false return values will be included.  f must be free of
 * side-effects.
 */
-cljm_DOT_core_SLASH_keep = ^id(id f, id coll) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
-};
+cljm_DOT_core_SLASH_keep = [[CLJMVar alloc] initWithValue:^id(id f, id coll) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
+}];
 /**
 * Returns a lazy sequence of the non-nil results of (f index item). Note,
 * this means false return values will be included.  f must be free of
 * side-effects.
 */
-cljm_DOT_core_SLASH_keep_indexed = ^id(id f, id coll) {
-id keepi__5188 = ^id(id idx, id coll) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+cljm_DOT_core_SLASH_keep_indexed = [[CLJMVar alloc] initWithValue:^id(id f, id coll) {
+id keepi__5176 = ^id(id idx, id coll) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
-return keepi__5188(@0, coll);
-};
+return ((id (^)(id , id )) keepi__5176.value)(@0, coll.value);
+}];
 /**
 * Takes a set of predicates and returns a function f that returns true if all of its
 * composing predicates return a logical true value against all of its arguments, else it returns
 * false. Note that f is short-circuiting in that it will stop execution on the first
 * argument that triggers a logical false result against the original predicates.
 */
-cljm_DOT_core_SLASH_every_pred = (function() {
+cljm_DOT_core_SLASH_every_pred = [[CLJMVar alloc] initWithValue:(function() {
 var every_pred = null;
 var every_pred__1 = ^id(id p) {
 return (function() {
@@ -5476,33 +5476,33 @@ var ep1__0 = ^id() {
 return @YES;
 };
 var ep1__1 = ^id(id x) {
-return cljm_DOT_core_SLASH_boolean(p(x));
+return ((id (^)(id )) cljm_DOT_core_SLASH_boolean.value)(((id (^)(id )) p.value)(x.value));
 };
 var ep1__2 = ^id(id x, id y) {
-return cljm_DOT_core_SLASH_boolean({id and__3822__auto____5292 = p(x);
-if(cljm_truthy(and__3822__auto____5292)) {
-return p(y);
+return ((id (^)(id )) cljm_DOT_core_SLASH_boolean.value)({id and__3822__auto____5280 = ((id (^)(id )) p.value)(x.value);
+if(cljm_truthy(and__3822__auto____5280)) {
+return ((id (^)(id )) p.value)(y.value);
 
 } else {
-return and__3822__auto____5292;
+return and__3822__auto____5280;
 
 }
 });
 };
 var ep1__3 = ^id(id x, id y, id z) {
-return cljm_DOT_core_SLASH_boolean({id and__3822__auto____5293 = p(x);
-if(cljm_truthy(and__3822__auto____5293)) {
-id and__3822__auto____5294 = p(y);
-if(cljm_truthy(and__3822__auto____5294)) {
-return p(z);
+return ((id (^)(id )) cljm_DOT_core_SLASH_boolean.value)({id and__3822__auto____5281 = ((id (^)(id )) p.value)(x.value);
+if(cljm_truthy(and__3822__auto____5281)) {
+id and__3822__auto____5282 = ((id (^)(id )) p.value)(y.value);
+if(cljm_truthy(and__3822__auto____5282)) {
+return ((id (^)(id )) p.value)(z.value);
 
 } else {
-return and__3822__auto____5294;
+return and__3822__auto____5282;
 
 }
 
 } else {
-return and__3822__auto____5293;
+return and__3822__auto____5281;
 
 }
 });
@@ -5515,12 +5515,12 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_boolean({id and__3822__auto____5295 = ep1(x, y, z, nil);
-if(cljm_truthy(and__3822__auto____5295)) {
-return cljm_DOT_core_SLASH_every_QMARK_(p, args);
+return ((id (^)(id )) cljm_DOT_core_SLASH_boolean.value)({id and__3822__auto____5283 = ((id (^)(id , id , id , ...)) ep1.value)(x.value, y.value, z.value, nil);
+if(cljm_truthy(and__3822__auto____5283)) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_every_QMARK_.value)(p.value, args.value);
 
 } else {
-return and__3822__auto____5295;
+return and__3822__auto____5283;
 
 }
 });
@@ -5558,76 +5558,76 @@ var ep2__0 = ^id() {
 return @YES;
 };
 var ep2__1 = ^id(id x) {
-return cljm_DOT_core_SLASH_boolean({id and__3822__auto____5307 = p1(x);
-if(cljm_truthy(and__3822__auto____5307)) {
-return p2(x);
+return ((id (^)(id )) cljm_DOT_core_SLASH_boolean.value)({id and__3822__auto____5295 = ((id (^)(id )) p1.value)(x.value);
+if(cljm_truthy(and__3822__auto____5295)) {
+return ((id (^)(id )) p2.value)(x.value);
 
 } else {
-return and__3822__auto____5307;
+return and__3822__auto____5295;
 
 }
 });
 };
 var ep2__2 = ^id(id x, id y) {
-return cljm_DOT_core_SLASH_boolean({id and__3822__auto____5308 = p1(x);
-if(cljm_truthy(and__3822__auto____5308)) {
-id and__3822__auto____5309 = p1(y);
-if(cljm_truthy(and__3822__auto____5309)) {
-id and__3822__auto____5310 = p2(x);
-if(cljm_truthy(and__3822__auto____5310)) {
-return p2(y);
+return ((id (^)(id )) cljm_DOT_core_SLASH_boolean.value)({id and__3822__auto____5296 = ((id (^)(id )) p1.value)(x.value);
+if(cljm_truthy(and__3822__auto____5296)) {
+id and__3822__auto____5297 = ((id (^)(id )) p1.value)(y.value);
+if(cljm_truthy(and__3822__auto____5297)) {
+id and__3822__auto____5298 = ((id (^)(id )) p2.value)(x.value);
+if(cljm_truthy(and__3822__auto____5298)) {
+return ((id (^)(id )) p2.value)(y.value);
 
 } else {
-return and__3822__auto____5310;
+return and__3822__auto____5298;
 
 }
 
 } else {
-return and__3822__auto____5309;
+return and__3822__auto____5297;
 
 }
 
 } else {
-return and__3822__auto____5308;
+return and__3822__auto____5296;
 
 }
 });
 };
 var ep2__3 = ^id(id x, id y, id z) {
-return cljm_DOT_core_SLASH_boolean({id and__3822__auto____5311 = p1(x);
-if(cljm_truthy(and__3822__auto____5311)) {
-id and__3822__auto____5312 = p1(y);
-if(cljm_truthy(and__3822__auto____5312)) {
-id and__3822__auto____5313 = p1(z);
-if(cljm_truthy(and__3822__auto____5313)) {
-id and__3822__auto____5314 = p2(x);
-if(cljm_truthy(and__3822__auto____5314)) {
-id and__3822__auto____5315 = p2(y);
-if(cljm_truthy(and__3822__auto____5315)) {
-return p2(z);
+return ((id (^)(id )) cljm_DOT_core_SLASH_boolean.value)({id and__3822__auto____5299 = ((id (^)(id )) p1.value)(x.value);
+if(cljm_truthy(and__3822__auto____5299)) {
+id and__3822__auto____5300 = ((id (^)(id )) p1.value)(y.value);
+if(cljm_truthy(and__3822__auto____5300)) {
+id and__3822__auto____5301 = ((id (^)(id )) p1.value)(z.value);
+if(cljm_truthy(and__3822__auto____5301)) {
+id and__3822__auto____5302 = ((id (^)(id )) p2.value)(x.value);
+if(cljm_truthy(and__3822__auto____5302)) {
+id and__3822__auto____5303 = ((id (^)(id )) p2.value)(y.value);
+if(cljm_truthy(and__3822__auto____5303)) {
+return ((id (^)(id )) p2.value)(z.value);
 
 } else {
-return and__3822__auto____5315;
+return and__3822__auto____5303;
 
 }
 
 } else {
-return and__3822__auto____5314;
+return and__3822__auto____5302;
 
 }
 
 } else {
-return and__3822__auto____5313;
+return and__3822__auto____5301;
 
 }
 
 } else {
-return and__3822__auto____5312;
+return and__3822__auto____5300;
 
 }
 
 } else {
-return and__3822__auto____5311;
+return and__3822__auto____5299;
 
 }
 });
@@ -5640,21 +5640,21 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_boolean({id and__3822__auto____5316 = ep2(x, y, z, nil);
-if(cljm_truthy(and__3822__auto____5316)) {
-return cljm_DOT_core_SLASH_every_QMARK_(^id(id p1__5163_SHARP_) {
-id and__3822__auto____5317 = p1(p1__5163_SHARP_);
-if(cljm_truthy(and__3822__auto____5317)) {
-return p2(p1__5163_SHARP_);
+return ((id (^)(id )) cljm_DOT_core_SLASH_boolean.value)({id and__3822__auto____5304 = ((id (^)(id , id , id , ...)) ep2.value)(x.value, y.value, z.value, nil);
+if(cljm_truthy(and__3822__auto____5304)) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_every_QMARK_.value)(^id(id p1__5151_SHARP_) {
+id and__3822__auto____5305 = ((id (^)(id )) p1.value)(p1__5151_SHARP_.value);
+if(cljm_truthy(and__3822__auto____5305)) {
+return ((id (^)(id )) p2.value)(p1__5151_SHARP_.value);
 
 } else {
-return and__3822__auto____5317;
+return and__3822__auto____5305;
 
 }
-}, args);
+}, args.value);
 
 } else {
-return and__3822__auto____5316;
+return and__3822__auto____5304;
 
 }
 });
@@ -5692,11 +5692,85 @@ var ep3__0 = ^id() {
 return @YES;
 };
 var ep3__1 = ^id(id x) {
-return cljm_DOT_core_SLASH_boolean({id and__3822__auto____5336 = p1(x);
+return ((id (^)(id )) cljm_DOT_core_SLASH_boolean.value)({id and__3822__auto____5324 = ((id (^)(id )) p1.value)(x.value);
+if(cljm_truthy(and__3822__auto____5324)) {
+id and__3822__auto____5325 = ((id (^)(id )) p2.value)(x.value);
+if(cljm_truthy(and__3822__auto____5325)) {
+return ((id (^)(id )) p3.value)(x.value);
+
+} else {
+return and__3822__auto____5325;
+
+}
+
+} else {
+return and__3822__auto____5324;
+
+}
+});
+};
+var ep3__2 = ^id(id x, id y) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_boolean.value)({id and__3822__auto____5326 = ((id (^)(id )) p1.value)(x.value);
+if(cljm_truthy(and__3822__auto____5326)) {
+id and__3822__auto____5327 = ((id (^)(id )) p2.value)(x.value);
+if(cljm_truthy(and__3822__auto____5327)) {
+id and__3822__auto____5328 = ((id (^)(id )) p3.value)(x.value);
+if(cljm_truthy(and__3822__auto____5328)) {
+id and__3822__auto____5329 = ((id (^)(id )) p1.value)(y.value);
+if(cljm_truthy(and__3822__auto____5329)) {
+id and__3822__auto____5330 = ((id (^)(id )) p2.value)(y.value);
+if(cljm_truthy(and__3822__auto____5330)) {
+return ((id (^)(id )) p3.value)(y.value);
+
+} else {
+return and__3822__auto____5330;
+
+}
+
+} else {
+return and__3822__auto____5329;
+
+}
+
+} else {
+return and__3822__auto____5328;
+
+}
+
+} else {
+return and__3822__auto____5327;
+
+}
+
+} else {
+return and__3822__auto____5326;
+
+}
+});
+};
+var ep3__3 = ^id(id x, id y, id z) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_boolean.value)({id and__3822__auto____5331 = ((id (^)(id )) p1.value)(x.value);
+if(cljm_truthy(and__3822__auto____5331)) {
+id and__3822__auto____5332 = ((id (^)(id )) p2.value)(x.value);
+if(cljm_truthy(and__3822__auto____5332)) {
+id and__3822__auto____5333 = ((id (^)(id )) p3.value)(x.value);
+if(cljm_truthy(and__3822__auto____5333)) {
+id and__3822__auto____5334 = ((id (^)(id )) p1.value)(y.value);
+if(cljm_truthy(and__3822__auto____5334)) {
+id and__3822__auto____5335 = ((id (^)(id )) p2.value)(y.value);
+if(cljm_truthy(and__3822__auto____5335)) {
+id and__3822__auto____5336 = ((id (^)(id )) p3.value)(y.value);
 if(cljm_truthy(and__3822__auto____5336)) {
-id and__3822__auto____5337 = p2(x);
+id and__3822__auto____5337 = ((id (^)(id )) p1.value)(z.value);
 if(cljm_truthy(and__3822__auto____5337)) {
-return p3(x);
+id and__3822__auto____5338 = ((id (^)(id )) p2.value)(z.value);
+if(cljm_truthy(and__3822__auto____5338)) {
+return ((id (^)(id )) p3.value)(z.value);
+
+} else {
+return and__3822__auto____5338;
+
+}
 
 } else {
 return and__3822__auto____5337;
@@ -5707,103 +5781,29 @@ return and__3822__auto____5337;
 return and__3822__auto____5336;
 
 }
-});
-};
-var ep3__2 = ^id(id x, id y) {
-return cljm_DOT_core_SLASH_boolean({id and__3822__auto____5338 = p1(x);
-if(cljm_truthy(and__3822__auto____5338)) {
-id and__3822__auto____5339 = p2(x);
-if(cljm_truthy(and__3822__auto____5339)) {
-id and__3822__auto____5340 = p3(x);
-if(cljm_truthy(and__3822__auto____5340)) {
-id and__3822__auto____5341 = p1(y);
-if(cljm_truthy(and__3822__auto____5341)) {
-id and__3822__auto____5342 = p2(y);
-if(cljm_truthy(and__3822__auto____5342)) {
-return p3(y);
 
 } else {
-return and__3822__auto____5342;
+return and__3822__auto____5335;
 
 }
 
 } else {
-return and__3822__auto____5341;
+return and__3822__auto____5334;
 
 }
 
 } else {
-return and__3822__auto____5340;
+return and__3822__auto____5333;
 
 }
 
 } else {
-return and__3822__auto____5339;
+return and__3822__auto____5332;
 
 }
 
 } else {
-return and__3822__auto____5338;
-
-}
-});
-};
-var ep3__3 = ^id(id x, id y, id z) {
-return cljm_DOT_core_SLASH_boolean({id and__3822__auto____5343 = p1(x);
-if(cljm_truthy(and__3822__auto____5343)) {
-id and__3822__auto____5344 = p2(x);
-if(cljm_truthy(and__3822__auto____5344)) {
-id and__3822__auto____5345 = p3(x);
-if(cljm_truthy(and__3822__auto____5345)) {
-id and__3822__auto____5346 = p1(y);
-if(cljm_truthy(and__3822__auto____5346)) {
-id and__3822__auto____5347 = p2(y);
-if(cljm_truthy(and__3822__auto____5347)) {
-id and__3822__auto____5348 = p3(y);
-if(cljm_truthy(and__3822__auto____5348)) {
-id and__3822__auto____5349 = p1(z);
-if(cljm_truthy(and__3822__auto____5349)) {
-id and__3822__auto____5350 = p2(z);
-if(cljm_truthy(and__3822__auto____5350)) {
-return p3(z);
-
-} else {
-return and__3822__auto____5350;
-
-}
-
-} else {
-return and__3822__auto____5349;
-
-}
-
-} else {
-return and__3822__auto____5348;
-
-}
-
-} else {
-return and__3822__auto____5347;
-
-}
-
-} else {
-return and__3822__auto____5346;
-
-}
-
-} else {
-return and__3822__auto____5345;
-
-}
-
-} else {
-return and__3822__auto____5344;
-
-}
-
-} else {
-return and__3822__auto____5343;
+return and__3822__auto____5331;
 
 }
 });
@@ -5816,28 +5816,28 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_boolean({id and__3822__auto____5351 = ep3(x, y, z, nil);
-if(cljm_truthy(and__3822__auto____5351)) {
-return cljm_DOT_core_SLASH_every_QMARK_(^id(id p1__5164_SHARP_) {
-id and__3822__auto____5352 = p1(p1__5164_SHARP_);
-if(cljm_truthy(and__3822__auto____5352)) {
-id and__3822__auto____5353 = p2(p1__5164_SHARP_);
-if(cljm_truthy(and__3822__auto____5353)) {
-return p3(p1__5164_SHARP_);
+return ((id (^)(id )) cljm_DOT_core_SLASH_boolean.value)({id and__3822__auto____5339 = ((id (^)(id , id , id , ...)) ep3.value)(x.value, y.value, z.value, nil);
+if(cljm_truthy(and__3822__auto____5339)) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_every_QMARK_.value)(^id(id p1__5152_SHARP_) {
+id and__3822__auto____5340 = ((id (^)(id )) p1.value)(p1__5152_SHARP_.value);
+if(cljm_truthy(and__3822__auto____5340)) {
+id and__3822__auto____5341 = ((id (^)(id )) p2.value)(p1__5152_SHARP_.value);
+if(cljm_truthy(and__3822__auto____5341)) {
+return ((id (^)(id )) p3.value)(p1__5152_SHARP_.value);
 
 } else {
-return and__3822__auto____5353;
+return and__3822__auto____5341;
 
 }
 
 } else {
-return and__3822__auto____5352;
+return and__3822__auto____5340;
 
 }
-}, args);
+}, args.value);
 
 } else {
-return and__3822__auto____5351;
+return and__3822__auto____5339;
 
 }
 });
@@ -5876,47 +5876,47 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [ps addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id ps__5354 = cljm_DOT_core_SLASH_list_STAR_(p1, p2, p3, ps, nil);
+id ps__5342 = ((id (^)(id , id , id , id , ...)) cljm_DOT_core_SLASH_list_STAR_.value)(p1.value, p2.value, p3.value, ps.value, nil);
 return (function() {
 var epn = null;
 var epn__0 = ^id() {
 return @YES;
 };
 var epn__1 = ^id(id x) {
-return cljm_DOT_core_SLASH_every_QMARK_(^id(id p1__5165_SHARP_) {
-return p1__5165_SHARP_(x);
-}, ps__5354);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_every_QMARK_.value)(^id(id p1__5153_SHARP_) {
+return ((id (^)(id )) p1__5153_SHARP_.value)(x.value);
+}, ps__5342);
 };
 var epn__2 = ^id(id x, id y) {
-return cljm_DOT_core_SLASH_every_QMARK_(^id(id p1__5166_SHARP_) {
-id and__3822__auto____5359 = p1__5166_SHARP_(x);
-if(cljm_truthy(and__3822__auto____5359)) {
-return p1__5166_SHARP_(y);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_every_QMARK_.value)(^id(id p1__5154_SHARP_) {
+id and__3822__auto____5347 = ((id (^)(id )) p1__5154_SHARP_.value)(x.value);
+if(cljm_truthy(and__3822__auto____5347)) {
+return ((id (^)(id )) p1__5154_SHARP_.value)(y.value);
 
 } else {
-return and__3822__auto____5359;
+return and__3822__auto____5347;
 
 }
-}, ps__5354);
+}, ps__5342);
 };
 var epn__3 = ^id(id x, id y, id z) {
-return cljm_DOT_core_SLASH_every_QMARK_(^id(id p1__5167_SHARP_) {
-id and__3822__auto____5360 = p1__5167_SHARP_(x);
-if(cljm_truthy(and__3822__auto____5360)) {
-id and__3822__auto____5361 = p1__5167_SHARP_(y);
-if(cljm_truthy(and__3822__auto____5361)) {
-return p1__5167_SHARP_(z);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_every_QMARK_.value)(^id(id p1__5155_SHARP_) {
+id and__3822__auto____5348 = ((id (^)(id )) p1__5155_SHARP_.value)(x.value);
+if(cljm_truthy(and__3822__auto____5348)) {
+id and__3822__auto____5349 = ((id (^)(id )) p1__5155_SHARP_.value)(y.value);
+if(cljm_truthy(and__3822__auto____5349)) {
+return ((id (^)(id )) p1__5155_SHARP_.value)(z.value);
 
 } else {
-return and__3822__auto____5361;
+return and__3822__auto____5349;
 
 }
 
 } else {
-return and__3822__auto____5360;
+return and__3822__auto____5348;
 
 }
-}, ps__5354);
+}, ps__5342);
 };
 var epn__4 = ^id(id cljm__varargs, id x, id y, id z, ...) {
 NSMutableArray *args = [NSMutableArray array];
@@ -5926,14 +5926,14 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_boolean({id and__3822__auto____5362 = epn(x, y, z, nil);
-if(cljm_truthy(and__3822__auto____5362)) {
-return cljm_DOT_core_SLASH_every_QMARK_(^id(id p1__5168_SHARP_) {
-return cljm_DOT_core_SLASH_every_QMARK_(p1__5168_SHARP_, args);
-}, ps__5354);
+return ((id (^)(id )) cljm_DOT_core_SLASH_boolean.value)({id and__3822__auto____5350 = ((id (^)(id , id , id , ...)) epn.value)(x.value, y.value, z.value, nil);
+if(cljm_truthy(and__3822__auto____5350)) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_every_QMARK_.value)(^id(id p1__5156_SHARP_) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_every_QMARK_.value)(p1__5156_SHARP_.value, args.value);
+}, ps__5342);
 
 } else {
-return and__3822__auto____5362;
+return and__3822__auto____5350;
 
 }
 });
@@ -5986,14 +5986,14 @@ every_pred.cljm$lang$arity$3 = every_pred__3;
 every_pred.cljm$lang$arity$variadic = every_pred__4.cljm$lang$arity$variadic;
 return every_pred;
 })()
-;
+];
 /**
 * Takes a set of predicates and returns a function f that returns the first logical true value
 * returned by one of its composing predicates against any of its arguments, else it returns
 * logical false. Note that f is short-circuiting in that it will stop execution on the first
 * argument that triggers a logical true result against the original predicates.
 */
-cljm_DOT_core_SLASH_some_fn = (function() {
+cljm_DOT_core_SLASH_some_fn = [[CLJMVar alloc] initWithValue:(function() {
 var some_fn = null;
 var some_fn__1 = ^id(id p) {
 return (function() {
@@ -6002,30 +6002,30 @@ var sp1__0 = ^id() {
 return nil;
 };
 var sp1__1 = ^id(id x) {
-return p(x);
+return ((id (^)(id )) p.value)(x.value);
 };
 var sp1__2 = ^id(id x, id y) {
-id or__3824__auto____5443 = p(x);
-if(cljm_truthy(or__3824__auto____5443)) {
-return or__3824__auto____5443;
+id or__3824__auto____5431 = ((id (^)(id )) p.value)(x.value);
+if(cljm_truthy(or__3824__auto____5431)) {
+return or__3824__auto____5431;
 
 } else {
-return p(y);
+return ((id (^)(id )) p.value)(y.value);
 
 }
 };
 var sp1__3 = ^id(id x, id y, id z) {
-id or__3824__auto____5444 = p(x);
-if(cljm_truthy(or__3824__auto____5444)) {
-return or__3824__auto____5444;
+id or__3824__auto____5432 = ((id (^)(id )) p.value)(x.value);
+if(cljm_truthy(or__3824__auto____5432)) {
+return or__3824__auto____5432;
 
 } else {
-id or__3824__auto____5445 = p(y);
-if(cljm_truthy(or__3824__auto____5445)) {
-return or__3824__auto____5445;
+id or__3824__auto____5433 = ((id (^)(id )) p.value)(y.value);
+if(cljm_truthy(or__3824__auto____5433)) {
+return or__3824__auto____5433;
 
 } else {
-return p(z);
+return ((id (^)(id )) p.value)(z.value);
 
 }
 
@@ -6039,12 +6039,12 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id or__3824__auto____5446 = sp1(x, y, z, nil);
-if(cljm_truthy(or__3824__auto____5446)) {
-return or__3824__auto____5446;
+id or__3824__auto____5434 = ((id (^)(id , id , id , ...)) sp1.value)(x.value, y.value, z.value, nil);
+if(cljm_truthy(or__3824__auto____5434)) {
+return or__3824__auto____5434;
 
 } else {
-return cljm_DOT_core_SLASH_some(p, args);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_some.value)(p.value, args.value);
 
 }
 };
@@ -6081,32 +6081,32 @@ var sp2__0 = ^id() {
 return nil;
 };
 var sp2__1 = ^id(id x) {
-id or__3824__auto____5458 = p1(x);
-if(cljm_truthy(or__3824__auto____5458)) {
-return or__3824__auto____5458;
+id or__3824__auto____5446 = ((id (^)(id )) p1.value)(x.value);
+if(cljm_truthy(or__3824__auto____5446)) {
+return or__3824__auto____5446;
 
 } else {
-return p2(x);
+return ((id (^)(id )) p2.value)(x.value);
 
 }
 };
 var sp2__2 = ^id(id x, id y) {
-id or__3824__auto____5459 = p1(x);
-if(cljm_truthy(or__3824__auto____5459)) {
-return or__3824__auto____5459;
+id or__3824__auto____5447 = ((id (^)(id )) p1.value)(x.value);
+if(cljm_truthy(or__3824__auto____5447)) {
+return or__3824__auto____5447;
 
 } else {
-id or__3824__auto____5460 = p1(y);
-if(cljm_truthy(or__3824__auto____5460)) {
-return or__3824__auto____5460;
+id or__3824__auto____5448 = ((id (^)(id )) p1.value)(y.value);
+if(cljm_truthy(or__3824__auto____5448)) {
+return or__3824__auto____5448;
 
 } else {
-id or__3824__auto____5461 = p2(x);
-if(cljm_truthy(or__3824__auto____5461)) {
-return or__3824__auto____5461;
+id or__3824__auto____5449 = ((id (^)(id )) p2.value)(x.value);
+if(cljm_truthy(or__3824__auto____5449)) {
+return or__3824__auto____5449;
 
 } else {
-return p2(y);
+return ((id (^)(id )) p2.value)(y.value);
 
 }
 
@@ -6115,32 +6115,32 @@ return p2(y);
 }
 };
 var sp2__3 = ^id(id x, id y, id z) {
-id or__3824__auto____5462 = p1(x);
-if(cljm_truthy(or__3824__auto____5462)) {
-return or__3824__auto____5462;
+id or__3824__auto____5450 = ((id (^)(id )) p1.value)(x.value);
+if(cljm_truthy(or__3824__auto____5450)) {
+return or__3824__auto____5450;
 
 } else {
-id or__3824__auto____5463 = p1(y);
-if(cljm_truthy(or__3824__auto____5463)) {
-return or__3824__auto____5463;
+id or__3824__auto____5451 = ((id (^)(id )) p1.value)(y.value);
+if(cljm_truthy(or__3824__auto____5451)) {
+return or__3824__auto____5451;
 
 } else {
-id or__3824__auto____5464 = p1(z);
-if(cljm_truthy(or__3824__auto____5464)) {
-return or__3824__auto____5464;
+id or__3824__auto____5452 = ((id (^)(id )) p1.value)(z.value);
+if(cljm_truthy(or__3824__auto____5452)) {
+return or__3824__auto____5452;
 
 } else {
-id or__3824__auto____5465 = p2(x);
-if(cljm_truthy(or__3824__auto____5465)) {
-return or__3824__auto____5465;
+id or__3824__auto____5453 = ((id (^)(id )) p2.value)(x.value);
+if(cljm_truthy(or__3824__auto____5453)) {
+return or__3824__auto____5453;
 
 } else {
-id or__3824__auto____5466 = p2(y);
-if(cljm_truthy(or__3824__auto____5466)) {
-return or__3824__auto____5466;
+id or__3824__auto____5454 = ((id (^)(id )) p2.value)(y.value);
+if(cljm_truthy(or__3824__auto____5454)) {
+return or__3824__auto____5454;
 
 } else {
-return p2(z);
+return ((id (^)(id )) p2.value)(z.value);
 
 }
 
@@ -6160,21 +6160,21 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id or__3824__auto____5467 = sp2(x, y, z, nil);
-if(cljm_truthy(or__3824__auto____5467)) {
-return or__3824__auto____5467;
+id or__3824__auto____5455 = ((id (^)(id , id , id , ...)) sp2.value)(x.value, y.value, z.value, nil);
+if(cljm_truthy(or__3824__auto____5455)) {
+return or__3824__auto____5455;
 
 } else {
-return cljm_DOT_core_SLASH_some(^id(id p1__5207_SHARP_) {
-id or__3824__auto____5468 = p1(p1__5207_SHARP_);
-if(cljm_truthy(or__3824__auto____5468)) {
-return or__3824__auto____5468;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_some.value)(^id(id p1__5195_SHARP_) {
+id or__3824__auto____5456 = ((id (^)(id )) p1.value)(p1__5195_SHARP_.value);
+if(cljm_truthy(or__3824__auto____5456)) {
+return or__3824__auto____5456;
 
 } else {
-return p2(p1__5207_SHARP_);
+return ((id (^)(id )) p2.value)(p1__5195_SHARP_.value);
 
 }
-}, args);
+}, args.value);
 
 }
 };
@@ -6211,49 +6211,49 @@ var sp3__0 = ^id() {
 return nil;
 };
 var sp3__1 = ^id(id x) {
-id or__3824__auto____5487 = p1(x);
-if(cljm_truthy(or__3824__auto____5487)) {
-return or__3824__auto____5487;
+id or__3824__auto____5475 = ((id (^)(id )) p1.value)(x.value);
+if(cljm_truthy(or__3824__auto____5475)) {
+return or__3824__auto____5475;
 
 } else {
-id or__3824__auto____5488 = p2(x);
-if(cljm_truthy(or__3824__auto____5488)) {
-return or__3824__auto____5488;
+id or__3824__auto____5476 = ((id (^)(id )) p2.value)(x.value);
+if(cljm_truthy(or__3824__auto____5476)) {
+return or__3824__auto____5476;
 
 } else {
-return p3(x);
+return ((id (^)(id )) p3.value)(x.value);
 
 }
 
 }
 };
 var sp3__2 = ^id(id x, id y) {
-id or__3824__auto____5489 = p1(x);
-if(cljm_truthy(or__3824__auto____5489)) {
-return or__3824__auto____5489;
+id or__3824__auto____5477 = ((id (^)(id )) p1.value)(x.value);
+if(cljm_truthy(or__3824__auto____5477)) {
+return or__3824__auto____5477;
 
 } else {
-id or__3824__auto____5490 = p2(x);
-if(cljm_truthy(or__3824__auto____5490)) {
-return or__3824__auto____5490;
+id or__3824__auto____5478 = ((id (^)(id )) p2.value)(x.value);
+if(cljm_truthy(or__3824__auto____5478)) {
+return or__3824__auto____5478;
 
 } else {
-id or__3824__auto____5491 = p3(x);
-if(cljm_truthy(or__3824__auto____5491)) {
-return or__3824__auto____5491;
+id or__3824__auto____5479 = ((id (^)(id )) p3.value)(x.value);
+if(cljm_truthy(or__3824__auto____5479)) {
+return or__3824__auto____5479;
 
 } else {
-id or__3824__auto____5492 = p1(y);
-if(cljm_truthy(or__3824__auto____5492)) {
-return or__3824__auto____5492;
+id or__3824__auto____5480 = ((id (^)(id )) p1.value)(y.value);
+if(cljm_truthy(or__3824__auto____5480)) {
+return or__3824__auto____5480;
 
 } else {
-id or__3824__auto____5493 = p2(y);
-if(cljm_truthy(or__3824__auto____5493)) {
-return or__3824__auto____5493;
+id or__3824__auto____5481 = ((id (^)(id )) p2.value)(y.value);
+if(cljm_truthy(or__3824__auto____5481)) {
+return or__3824__auto____5481;
 
 } else {
-return p3(y);
+return ((id (^)(id )) p3.value)(y.value);
 
 }
 
@@ -6266,47 +6266,47 @@ return p3(y);
 }
 };
 var sp3__3 = ^id(id x, id y, id z) {
-id or__3824__auto____5494 = p1(x);
-if(cljm_truthy(or__3824__auto____5494)) {
-return or__3824__auto____5494;
+id or__3824__auto____5482 = ((id (^)(id )) p1.value)(x.value);
+if(cljm_truthy(or__3824__auto____5482)) {
+return or__3824__auto____5482;
 
 } else {
-id or__3824__auto____5495 = p2(x);
-if(cljm_truthy(or__3824__auto____5495)) {
-return or__3824__auto____5495;
+id or__3824__auto____5483 = ((id (^)(id )) p2.value)(x.value);
+if(cljm_truthy(or__3824__auto____5483)) {
+return or__3824__auto____5483;
 
 } else {
-id or__3824__auto____5496 = p3(x);
-if(cljm_truthy(or__3824__auto____5496)) {
-return or__3824__auto____5496;
+id or__3824__auto____5484 = ((id (^)(id )) p3.value)(x.value);
+if(cljm_truthy(or__3824__auto____5484)) {
+return or__3824__auto____5484;
 
 } else {
-id or__3824__auto____5497 = p1(y);
-if(cljm_truthy(or__3824__auto____5497)) {
-return or__3824__auto____5497;
+id or__3824__auto____5485 = ((id (^)(id )) p1.value)(y.value);
+if(cljm_truthy(or__3824__auto____5485)) {
+return or__3824__auto____5485;
 
 } else {
-id or__3824__auto____5498 = p2(y);
-if(cljm_truthy(or__3824__auto____5498)) {
-return or__3824__auto____5498;
+id or__3824__auto____5486 = ((id (^)(id )) p2.value)(y.value);
+if(cljm_truthy(or__3824__auto____5486)) {
+return or__3824__auto____5486;
 
 } else {
-id or__3824__auto____5499 = p3(y);
-if(cljm_truthy(or__3824__auto____5499)) {
-return or__3824__auto____5499;
+id or__3824__auto____5487 = ((id (^)(id )) p3.value)(y.value);
+if(cljm_truthy(or__3824__auto____5487)) {
+return or__3824__auto____5487;
 
 } else {
-id or__3824__auto____5500 = p1(z);
-if(cljm_truthy(or__3824__auto____5500)) {
-return or__3824__auto____5500;
+id or__3824__auto____5488 = ((id (^)(id )) p1.value)(z.value);
+if(cljm_truthy(or__3824__auto____5488)) {
+return or__3824__auto____5488;
 
 } else {
-id or__3824__auto____5501 = p2(z);
-if(cljm_truthy(or__3824__auto____5501)) {
-return or__3824__auto____5501;
+id or__3824__auto____5489 = ((id (^)(id )) p2.value)(z.value);
+if(cljm_truthy(or__3824__auto____5489)) {
+return or__3824__auto____5489;
 
 } else {
-return p3(z);
+return ((id (^)(id )) p3.value)(z.value);
 
 }
 
@@ -6332,28 +6332,28 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id or__3824__auto____5502 = sp3(x, y, z, nil);
-if(cljm_truthy(or__3824__auto____5502)) {
-return or__3824__auto____5502;
+id or__3824__auto____5490 = ((id (^)(id , id , id , ...)) sp3.value)(x.value, y.value, z.value, nil);
+if(cljm_truthy(or__3824__auto____5490)) {
+return or__3824__auto____5490;
 
 } else {
-return cljm_DOT_core_SLASH_some(^id(id p1__5208_SHARP_) {
-id or__3824__auto____5503 = p1(p1__5208_SHARP_);
-if(cljm_truthy(or__3824__auto____5503)) {
-return or__3824__auto____5503;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_some.value)(^id(id p1__5196_SHARP_) {
+id or__3824__auto____5491 = ((id (^)(id )) p1.value)(p1__5196_SHARP_.value);
+if(cljm_truthy(or__3824__auto____5491)) {
+return or__3824__auto____5491;
 
 } else {
-id or__3824__auto____5504 = p2(p1__5208_SHARP_);
-if(cljm_truthy(or__3824__auto____5504)) {
-return or__3824__auto____5504;
+id or__3824__auto____5492 = ((id (^)(id )) p2.value)(p1__5196_SHARP_.value);
+if(cljm_truthy(or__3824__auto____5492)) {
+return or__3824__auto____5492;
 
 } else {
-return p3(p1__5208_SHARP_);
+return ((id (^)(id )) p3.value)(p1__5196_SHARP_.value);
 
 }
 
 }
-}, args);
+}, args.value);
 
 }
 };
@@ -6391,47 +6391,47 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [ps addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id ps__5505 = cljm_DOT_core_SLASH_list_STAR_(p1, p2, p3, ps, nil);
+id ps__5493 = ((id (^)(id , id , id , id , ...)) cljm_DOT_core_SLASH_list_STAR_.value)(p1.value, p2.value, p3.value, ps.value, nil);
 return (function() {
 var spn = null;
 var spn__0 = ^id() {
 return nil;
 };
 var spn__1 = ^id(id x) {
-return cljm_DOT_core_SLASH_some(^id(id p1__5209_SHARP_) {
-return p1__5209_SHARP_(x);
-}, ps__5505);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_some.value)(^id(id p1__5197_SHARP_) {
+return ((id (^)(id )) p1__5197_SHARP_.value)(x.value);
+}, ps__5493);
 };
 var spn__2 = ^id(id x, id y) {
-return cljm_DOT_core_SLASH_some(^id(id p1__5210_SHARP_) {
-id or__3824__auto____5510 = p1__5210_SHARP_(x);
-if(cljm_truthy(or__3824__auto____5510)) {
-return or__3824__auto____5510;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_some.value)(^id(id p1__5198_SHARP_) {
+id or__3824__auto____5498 = ((id (^)(id )) p1__5198_SHARP_.value)(x.value);
+if(cljm_truthy(or__3824__auto____5498)) {
+return or__3824__auto____5498;
 
 } else {
-return p1__5210_SHARP_(y);
+return ((id (^)(id )) p1__5198_SHARP_.value)(y.value);
 
 }
-}, ps__5505);
+}, ps__5493);
 };
 var spn__3 = ^id(id x, id y, id z) {
-return cljm_DOT_core_SLASH_some(^id(id p1__5211_SHARP_) {
-id or__3824__auto____5511 = p1__5211_SHARP_(x);
-if(cljm_truthy(or__3824__auto____5511)) {
-return or__3824__auto____5511;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_some.value)(^id(id p1__5199_SHARP_) {
+id or__3824__auto____5499 = ((id (^)(id )) p1__5199_SHARP_.value)(x.value);
+if(cljm_truthy(or__3824__auto____5499)) {
+return or__3824__auto____5499;
 
 } else {
-id or__3824__auto____5512 = p1__5211_SHARP_(y);
-if(cljm_truthy(or__3824__auto____5512)) {
-return or__3824__auto____5512;
+id or__3824__auto____5500 = ((id (^)(id )) p1__5199_SHARP_.value)(y.value);
+if(cljm_truthy(or__3824__auto____5500)) {
+return or__3824__auto____5500;
 
 } else {
-return p1__5211_SHARP_(z);
+return ((id (^)(id )) p1__5199_SHARP_.value)(z.value);
 
 }
 
 }
-}, ps__5505);
+}, ps__5493);
 };
 var spn__4 = ^id(id cljm__varargs, id x, id y, id z, ...) {
 NSMutableArray *args = [NSMutableArray array];
@@ -6441,14 +6441,14 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id or__3824__auto____5513 = spn(x, y, z, nil);
-if(cljm_truthy(or__3824__auto____5513)) {
-return or__3824__auto____5513;
+id or__3824__auto____5501 = ((id (^)(id , id , id , ...)) spn.value)(x.value, y.value, z.value, nil);
+if(cljm_truthy(or__3824__auto____5501)) {
+return or__3824__auto____5501;
 
 } else {
-return cljm_DOT_core_SLASH_some(^id(id p1__5212_SHARP_) {
-return cljm_DOT_core_SLASH_some(p1__5212_SHARP_, args);
-}, ps__5505);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_some.value)(^id(id p1__5200_SHARP_) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_some.value)(p1__5200_SHARP_.value, args.value);
+}, ps__5493);
 
 }
 };
@@ -6500,7 +6500,7 @@ some_fn.cljm$lang$arity$3 = some_fn__3;
 some_fn.cljm$lang$arity$variadic = some_fn__4.cljm$lang$arity$variadic;
 return some_fn;
 })()
-;
+];
 /**
 * Returns a lazy sequence consisting of the result of applying f to the
 * set of first items of each coll, followed by applying f to the set
@@ -6508,16 +6508,16 @@ return some_fn;
 * exhausted.  Any remaining items in other colls are ignored. Function
 * f should accept number-of-colls arguments.
 */
-cljm_DOT_core_SLASH_map = (function() {
+cljm_DOT_core_SLASH_map = [[CLJMVar alloc] initWithValue:(function() {
 var map = null;
 var map__2 = ^id(id f, id coll) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
 var map__3 = ^id(id f, id c1, id c2) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
 var map__4 = ^id(id f, id c1, id c2, id c3) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
 var map__5 = ^id(id cljm__varargs, id f, id c1, id c2, id c3, ...) {
 NSMutableArray *colls = [NSMutableArray array];
@@ -6527,12 +6527,12 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [colls addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id step__5549 = ^id(id cs) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+id step__5537 = ^id(id cs) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
-return map(^id(id p1__5363_SHARP_) {
-return cljm_DOT_core_SLASH_apply(f, p1__5363_SHARP_, nil);
-}, step__5549(cljm_DOT_core_SLASH_conj(colls, c3, c2, c1, nil)), nil);
+return ((id (^)(id , id , ...)) map.value)(^id(id p1__5351_SHARP_) {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, p1__5351_SHARP_.value, nil);
+}, ((id (^)(id )) step__5537.value)(((id (^)(id , id , id , id , ...)) cljm_DOT_core_SLASH_conj.value)(colls.value, c3.value, c2.value, c1.value, nil)), nil);
 };
 map = function(f, c1, c2, c3, var_args){
 var colls = var_args;
@@ -6556,59 +6556,59 @@ map.cljm$lang$arity$4 = map__4;
 map.cljm$lang$arity$variadic = map__5.cljm$lang$arity$variadic;
 return map;
 })()
-;
+];
 /**
 * Returns a lazy sequence of the first n items in coll, or all items if
 * there are fewer than n.
 */
-cljm_DOT_core_SLASH_take = ^id(id n, id coll) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
-};
+cljm_DOT_core_SLASH_take = [[CLJMVar alloc] initWithValue:^id(id n, id coll) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
+}];
 /**
 * Returns a lazy sequence of all but the first n items in coll.
 */
-cljm_DOT_core_SLASH_drop = ^id(id n, id coll) {
-id step__5559 = ^id(id n, id coll) {
+cljm_DOT_core_SLASH_drop = [[CLJMVar alloc] initWithValue:^id(id n, id coll) {
+id step__5547 = ^id(id n, id coll) {
 while(YES) {
-id s__5557 = cljm_DOT_core_SLASH_seq(coll);
-if(cljm_truthy({id and__3822__auto____5558 = (n > @0);
-if(cljm_truthy(and__3822__auto____5558)) {
-return s__5557;
+id s__5545 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value);
+if(cljm_truthy({id and__3822__auto____5546 = (n.value > @0);
+if(cljm_truthy(and__3822__auto____5546)) {
+return s__5545;
 
 } else {
-return and__3822__auto____5558;
+return and__3822__auto____5546;
 
 }
 })) {
 {
-var G__5560 = (n - @1);
-var G__5561 = cljm_DOT_core_SLASH_rest(s__5557);
-n = G__5560;
-coll = G__5561;
+var G__5548 = (n.value - @1);
+var G__5549 = ((id (^)(id )) cljm_DOT_core_SLASH_rest.value)(s__5545);
+n = G__5548;
+coll = G__5549;
 continue;
 }
 
 } else {
-return s__5557;
+return s__5545;
 
 }
 break;
 }
 };
-return [cljm_DOT_core_SLASH_LazySeq alloc];
-};
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
+}];
 /**
 * Return a lazy sequence of all but the last n (default 1) items in coll
 */
-cljm_DOT_core_SLASH_drop_last = (function() {
+cljm_DOT_core_SLASH_drop_last = [[CLJMVar alloc] initWithValue:(function() {
 var drop_last = null;
 var drop_last__1 = ^id(id s) {
-return drop_last(@1, s);
+return ((id (^)(id , id )) drop_last.value)(@1, s.value);
 };
 var drop_last__2 = ^id(id n, id s) {
-return cljm_DOT_core_SLASH_map(^id(id x, id _) {
-return x;
-}, s, cljm_DOT_core_SLASH_drop(n, s), nil);
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_map.value)(^id(id x, id _) {
+return x.value;
+}, s.value, ((id (^)(id , id )) cljm_DOT_core_SLASH_drop.value)(n.value, s.value), nil);
 };
 drop_last = function(n, s){
 switch(arguments.length){
@@ -6623,87 +6623,87 @@ drop_last.cljm$lang$arity$1 = drop_last__1;
 drop_last.cljm$lang$arity$2 = drop_last__2;
 return drop_last;
 })()
-;
+];
 /**
 * Returns a seq of the last n items in coll.  Depending on the type
 * of coll may be no better than linear time.  For vectors, see also subvec.
 */
-cljm_DOT_core_SLASH_take_last = ^id(id n, id coll) {
-id s__5564 = cljm_DOT_core_SLASH_seq(coll);
-id lead__5565 = cljm_DOT_core_SLASH_seq(cljm_DOT_core_SLASH_drop(n, coll));
+cljm_DOT_core_SLASH_take_last = [[CLJMVar alloc] initWithValue:^id(id n, id coll) {
+id s__5552 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value);
+id lead__5553 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(((id (^)(id , id )) cljm_DOT_core_SLASH_drop.value)(n.value, coll.value));
 while(YES) {
-if(cljm_truthy(lead__5565)) {
+if(cljm_truthy(lead__5553)) {
 {
-var G__5566 = cljm_DOT_core_SLASH_next(s__5564);
-var G__5567 = cljm_DOT_core_SLASH_next(lead__5565);
-s__5564 = G__5566;
-lead__5565 = G__5567;
+var G__5554 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(s__5552);
+var G__5555 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(lead__5553);
+s__5552 = G__5554;
+lead__5553 = G__5555;
 continue;
 }
 
 } else {
-return s__5564;
+return s__5552;
 
 }
 break;
 }
-};
+}];
 /**
 * Returns a lazy sequence of the items in coll starting from the first
 * item for which (pred item) returns nil.
 */
-cljm_DOT_core_SLASH_drop_while = ^id(id pred, id coll) {
-id step__5573 = ^id(id pred, id coll) {
+cljm_DOT_core_SLASH_drop_while = [[CLJMVar alloc] initWithValue:^id(id pred, id coll) {
+id step__5561 = ^id(id pred, id coll) {
 while(YES) {
-id s__5571 = cljm_DOT_core_SLASH_seq(coll);
-if(cljm_truthy({id and__3822__auto____5572 = s__5571;
-if(cljm_truthy(and__3822__auto____5572)) {
-return pred(cljm_DOT_core_SLASH_first(s__5571));
+id s__5559 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value);
+if(cljm_truthy({id and__3822__auto____5560 = s__5559;
+if(cljm_truthy(and__3822__auto____5560)) {
+return ((id (^)(id )) pred.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(s__5559));
 
 } else {
-return and__3822__auto____5572;
+return and__3822__auto____5560;
 
 }
 })) {
 {
-var G__5574 = pred;
-var G__5575 = cljm_DOT_core_SLASH_rest(s__5571);
-pred = G__5574;
-coll = G__5575;
+var G__5562 = pred.value;
+var G__5563 = ((id (^)(id )) cljm_DOT_core_SLASH_rest.value)(s__5559);
+pred = G__5562;
+coll = G__5563;
 continue;
 }
 
 } else {
-return s__5571;
+return s__5559;
 
 }
 break;
 }
 };
-return [cljm_DOT_core_SLASH_LazySeq alloc];
-};
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
+}];
 /**
 * Returns a lazy (infinite!) sequence of repetitions of the items in coll.
 */
-cljm_DOT_core_SLASH_cycle = ^id(id coll) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
-};
+cljm_DOT_core_SLASH_cycle = [[CLJMVar alloc] initWithValue:^id(id coll) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
+}];
 /**
 * Returns a vector of [(take n coll) (drop n coll)]
 */
-cljm_DOT_core_SLASH_split_at = ^id(id n, id coll) {
-return @[ cljm_DOT_core_SLASH_take(n, coll), cljm_DOT_core_SLASH_drop(n, coll) ];
-};
+cljm_DOT_core_SLASH_split_at = [[CLJMVar alloc] initWithValue:^id(id n, id coll) {
+return @[ ((id (^)(id , id )) cljm_DOT_core_SLASH_take.value)(n.value, coll.value), ((id (^)(id , id )) cljm_DOT_core_SLASH_drop.value)(n.value, coll.value) ];
+}];
 /**
 * Returns a lazy (infinite!, or length n if supplied) sequence of xs.
 */
-cljm_DOT_core_SLASH_repeat = (function() {
+cljm_DOT_core_SLASH_repeat = [[CLJMVar alloc] initWithValue:(function() {
 var repeat = null;
 var repeat__1 = ^id(id x) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
 var repeat__2 = ^id(id n, id x) {
-return cljm_DOT_core_SLASH_take(n, repeat(x));
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_take.value)(n.value, ((id (^)(id )) repeat.value)(x.value));
 };
 repeat = function(n, x){
 switch(arguments.length){
@@ -6718,25 +6718,25 @@ repeat.cljm$lang$arity$1 = repeat__1;
 repeat.cljm$lang$arity$2 = repeat__2;
 return repeat;
 })()
-;
+];
 /**
 * Returns a lazy seq of n xs.
 */
-cljm_DOT_core_SLASH_replicate = ^id(id n, id x) {
-return cljm_DOT_core_SLASH_take(n, cljm_DOT_core_SLASH_repeat(x));
-};
+cljm_DOT_core_SLASH_replicate = [[CLJMVar alloc] initWithValue:^id(id n, id x) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_take.value)(n.value, ((id (^)(id )) cljm_DOT_core_SLASH_repeat.value)(x.value));
+}];
 /**
 * Takes a function of no args, presumably with side effects, and
 * returns an infinite (or length n if supplied) lazy sequence of calls
 * to it
 */
-cljm_DOT_core_SLASH_repeatedly = (function() {
+cljm_DOT_core_SLASH_repeatedly = [[CLJMVar alloc] initWithValue:(function() {
 var repeatedly = null;
 var repeatedly__1 = ^id(id f) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
 var repeatedly__2 = ^id(id n, id f) {
-return cljm_DOT_core_SLASH_take(n, repeatedly(f));
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_take.value)(n.value, ((id (^)(id )) repeatedly.value)(f.value));
 };
 repeatedly = function(n, f){
 switch(arguments.length){
@@ -6751,20 +6751,20 @@ repeatedly.cljm$lang$arity$1 = repeatedly__1;
 repeatedly.cljm$lang$arity$2 = repeatedly__2;
 return repeatedly;
 })()
-;
+];
 /**
 * Returns a lazy sequence of x, (f x), (f (f x)) etc. f must be free of side-effects
 */
-cljm_DOT_core_SLASH_iterate = ^id(id f, id x) {
-return cljm_DOT_core_SLASH_cons(x, [cljm_DOT_core_SLASH_LazySeq alloc]);
-};
+cljm_DOT_core_SLASH_iterate = [[CLJMVar alloc] initWithValue:^id(id f, id x) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(x.value, [cljm_DOT_core_SLASH_LazySeq.value alloc]);
+}];
 /**
 * Returns a lazy seq of the first item in each coll, then the second etc.
 */
-cljm_DOT_core_SLASH_interleave = (function() {
+cljm_DOT_core_SLASH_interleave = [[CLJMVar alloc] initWithValue:(function() {
 var interleave = null;
 var interleave__2 = ^id(id c1, id c2) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
 var interleave__3 = ^id(id cljm__varargs, id c1, id c2, ...) {
 NSMutableArray *colls = [NSMutableArray array];
@@ -6774,7 +6774,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [colls addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
 interleave = function(c1, c2, var_args){
 var colls = var_args;
@@ -6792,31 +6792,31 @@ interleave.cljm$lang$arity$2 = interleave__2;
 interleave.cljm$lang$arity$variadic = interleave__3.cljm$lang$arity$variadic;
 return interleave;
 })()
-;
+];
 /**
 * Returns a lazy seq of the elements of coll separated by sep
 */
-cljm_DOT_core_SLASH_interpose = ^id(id sep, id coll) {
-return cljm_DOT_core_SLASH_drop(@1, cljm_DOT_core_SLASH_interleave(cljm_DOT_core_SLASH_repeat(sep), coll, nil));
-};
+cljm_DOT_core_SLASH_interpose = [[CLJMVar alloc] initWithValue:^id(id sep, id coll) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_drop.value)(@1, ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_interleave.value)(((id (^)(id )) cljm_DOT_core_SLASH_repeat.value)(sep.value), coll.value, nil));
+}];
 /**
 * Take a collection of collections, and return a lazy seq
 * of items from the inner collection
 */
-cljm_DOT_core_SLASH_flatten1 = ^id(id colls) {
-id cat__5597 = ^id(id coll, id colls) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+cljm_DOT_core_SLASH_flatten1 = [[CLJMVar alloc] initWithValue:^id(id colls) {
+id cat__5585 = ^id(id coll, id colls) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
-return cat__5597(nil, colls);
-};
+return ((id (^)(id , id )) cat__5585.value)(nil, colls.value);
+}];
 /**
 * Returns the result of applying concat to the result of applying map
 * to f and colls.  Thus function f should return a collection.
 */
-cljm_DOT_core_SLASH_mapcat = (function() {
+cljm_DOT_core_SLASH_mapcat = [[CLJMVar alloc] initWithValue:(function() {
 var mapcat = null;
 var mapcat__2 = ^id(id f, id coll) {
-return cljm_DOT_core_SLASH_flatten1(cljm_DOT_core_SLASH_map(f, coll, nil));
+return ((id (^)(id )) cljm_DOT_core_SLASH_flatten1.value)(((id (^)(id , id , ...)) cljm_DOT_core_SLASH_map.value)(f.value, coll.value, nil));
 };
 var mapcat__3 = ^id(id cljm__varargs, id f, id coll, ...) {
 NSMutableArray *colls = [NSMutableArray array];
@@ -6826,7 +6826,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [colls addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_flatten1(cljm_DOT_core_SLASH_apply(cljm_DOT_core_SLASH_map, f, coll, colls, nil));
+return ((id (^)(id )) cljm_DOT_core_SLASH_flatten1.value)(((id (^)(id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(cljm_DOT_core_SLASH_map.value, f.value, coll.value, colls.value, nil));
 };
 mapcat = function(f, coll, var_args){
 var colls = var_args;
@@ -6844,21 +6844,21 @@ mapcat.cljm$lang$arity$2 = mapcat__2;
 mapcat.cljm$lang$arity$variadic = mapcat__3.cljm$lang$arity$variadic;
 return mapcat;
 })()
-;
+];
 /**
 * Returns a lazy sequence of the items in coll for which
 * (pred item) returns true. pred must be free of side-effects.
 */
-cljm_DOT_core_SLASH_filter = ^id(id pred, id coll) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
-};
+cljm_DOT_core_SLASH_filter = [[CLJMVar alloc] initWithValue:^id(id pred, id coll) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
+}];
 /**
 * Returns a lazy sequence of the items in coll for which
 * (pred item) returns false. pred must be free of side-effects.
 */
-cljm_DOT_core_SLASH_remove = ^id(id pred, id coll) {
-return cljm_DOT_core_SLASH_filter(cljm_DOT_core_SLASH_complement(pred), coll);
-};
+cljm_DOT_core_SLASH_remove = [[CLJMVar alloc] initWithValue:^id(id pred, id coll) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_filter.value)(((id (^)(id )) cljm_DOT_core_SLASH_complement.value)(pred.value), coll.value);
+}];
 /**
 * Returns a lazy sequence of the nodes in a tree, via a depth-first walk.
 * branch? must be a fn of one arg that returns true if passed a node
@@ -6867,43 +6867,43 @@ return cljm_DOT_core_SLASH_filter(cljm_DOT_core_SLASH_complement(pred), coll);
 * nodes for which branch? returns true. Root is the root node of the
 * tree.
 */
-cljm_DOT_core_SLASH_tree_seq = ^id(id branch_QMARK_, id children, id root) {
-id walk__5618 = ^id(id node) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+cljm_DOT_core_SLASH_tree_seq = [[CLJMVar alloc] initWithValue:^id(id branch_QMARK_, id children, id root) {
+id walk__5606 = ^id(id node) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
-return walk__5618(root);
-};
+return ((id (^)(id )) walk__5606.value)(root.value);
+}];
 /**
 * Takes any nested combination of sequential things (lists, vectors,
 * etc.) and returns their contents as a single, flat sequence.
 * (flatten nil) returns nil.
 */
-cljm_DOT_core_SLASH_flatten = ^id(id x) {
-return cljm_DOT_core_SLASH_filter(^id(id p1__5616_SHARP_) {
-return cljm_DOT_core_SLASH_not(cljm_DOT_core_SLASH_sequential_QMARK_(p1__5616_SHARP_));
-}, cljm_DOT_core_SLASH_rest(cljm_DOT_core_SLASH_tree_seq(cljm_DOT_core_SLASH_sequential_QMARK_, cljm_DOT_core_SLASH_seq, x)));
-};
+cljm_DOT_core_SLASH_flatten = [[CLJMVar alloc] initWithValue:^id(id x) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_filter.value)(^id(id p1__5604_SHARP_) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((id (^)(id )) cljm_DOT_core_SLASH_sequential_QMARK_.value)(p1__5604_SHARP_.value));
+}, ((id (^)(id )) cljm_DOT_core_SLASH_rest.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH_tree_seq.value)(cljm_DOT_core_SLASH_sequential_QMARK_.value, cljm_DOT_core_SLASH_seq.value, x.value)));
+}];
 /**
 * Returns a new coll consisting of to-coll with all of the items of
 * from-coll conjoined.
 */
-cljm_DOT_core_SLASH_into = ^id(id to, id from) {
-if(cljm_truthy({id G__5622__5623 = to;
-if(cljm_truthy(G__5622__5623)) {
-if(cljm_truthy({id or__3824__auto____5624 = (G__5622__5623.cljm$lang$protocol_mask$partition1$ & @1);
-if(cljm_truthy(or__3824__auto____5624)) {
-return or__3824__auto____5624;
+cljm_DOT_core_SLASH_into = [[CLJMVar alloc] initWithValue:^id(id to, id from) {
+if(cljm_truthy({id G__5610__5611 = to.value;
+if(cljm_truthy(G__5610__5611)) {
+if(cljm_truthy({id or__3824__auto____5612 = (G__5610__5611.cljm$lang$protocol_mask$partition1$ & @1);
+if(cljm_truthy(or__3824__auto____5612)) {
+return or__3824__auto____5612;
 
 } else {
-return G__5622__5623.cljm$core$IEditableCollection$;
+return G__5610__5611.cljm$core$IEditableCollection$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__5622__5623.cljm$lang$protocol_mask$partition1$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IEditableCollection, G__5622__5623);
+if(cljm_truthy((!G__5610__5611.cljm$lang$protocol_mask$partition1$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IEditableCollection.value, G__5610__5611);
 
 } else {
 return @NO;
@@ -6913,17 +6913,17 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IEditableCollection, G__5622__5623);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IEditableCollection.value, G__5610__5611);
 
 }
 })) {
-return cljm_DOT_core_SLASH_persistent_BANG_(cljm_DOT_core_SLASH_reduce(cljm_DOT_core_SLASH__conj_BANG_, cljm_DOT_core_SLASH_transient(to), from));
+return ((id (^)(id )) cljm_DOT_core_SLASH_persistent_BANG_.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(cljm_DOT_core_SLASH__conj_BANG_.value, ((id (^)(id )) cljm_DOT_core_SLASH_transient.value)(to.value), from.value));
 
 } else {
-return cljm_DOT_core_SLASH_reduce(cljm_DOT_core_SLASH__conj, to, from);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(cljm_DOT_core_SLASH__conj.value, to.value, from.value);
 
 }
-};
+}];
 /**
 * Returns a vector consisting of the result of applying f to the
 * set of first items of each coll, followed by applying f to the set
@@ -6931,18 +6931,18 @@ return cljm_DOT_core_SLASH_reduce(cljm_DOT_core_SLASH__conj, to, from);
 * exhausted.  Any remaining items in other colls are ignored. Function
 * f should accept number-of-colls arguments.
 */
-cljm_DOT_core_SLASH_mapv = (function() {
+cljm_DOT_core_SLASH_mapv = [[CLJMVar alloc] initWithValue:(function() {
 var mapv = null;
 var mapv__2 = ^id(id f, id coll) {
-return cljm_DOT_core_SLASH_persistent_BANG_(cljm_DOT_core_SLASH_reduce(^id(id v, id o) {
-return cljm_DOT_core_SLASH_conj_BANG_(v, f(o));
-}, cljm_DOT_core_SLASH_transient(@[]), coll));
+return ((id (^)(id )) cljm_DOT_core_SLASH_persistent_BANG_.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id v, id o) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_conj_BANG_.value)(v.value, ((id (^)(id )) f.value)(o.value));
+}, ((id (^)(id )) cljm_DOT_core_SLASH_transient.value)(@[]), coll.value));
 };
 var mapv__3 = ^id(id f, id c1, id c2) {
-return cljm_DOT_core_SLASH_into(@[], cljm_DOT_core_SLASH_map(f, c1, c2, nil));
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_into.value)(@[], ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_map.value)(f.value, c1.value, c2.value, nil));
 };
 var mapv__4 = ^id(id f, id c1, id c2, id c3) {
-return cljm_DOT_core_SLASH_into(@[], cljm_DOT_core_SLASH_map(f, c1, c2, c3, nil));
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_into.value)(@[], ((id (^)(id , id , id , id , ...)) cljm_DOT_core_SLASH_map.value)(f.value, c1.value, c2.value, c3.value, nil));
 };
 var mapv__5 = ^id(id cljm__varargs, id f, id c1, id c2, id c3, ...) {
 NSMutableArray *colls = [NSMutableArray array];
@@ -6952,7 +6952,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [colls addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_into(@[], cljm_DOT_core_SLASH_apply(cljm_DOT_core_SLASH_map, f, c1, c2, c3, colls, nil));
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_into.value)(@[], ((id (^)(id , id , id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(cljm_DOT_core_SLASH_map.value, f.value, c1.value, c2.value, c3.value, colls.value, nil));
 };
 mapv = function(f, c1, c2, c3, var_args){
 var colls = var_args;
@@ -6976,22 +6976,22 @@ mapv.cljm$lang$arity$4 = mapv__4;
 mapv.cljm$lang$arity$variadic = mapv__5.cljm$lang$arity$variadic;
 return mapv;
 })()
-;
+];
 /**
 * Returns a vector of the items in coll for which
 * (pred item) returns true. pred must be free of side-effects.
 */
-cljm_DOT_core_SLASH_filterv = ^id(id pred, id coll) {
-return cljm_DOT_core_SLASH_persistent_BANG_(cljm_DOT_core_SLASH_reduce(^id(id v, id o) {
-if(cljm_truthy(pred(o))) {
-return cljm_DOT_core_SLASH_conj_BANG_(v, o);
+cljm_DOT_core_SLASH_filterv = [[CLJMVar alloc] initWithValue:^id(id pred, id coll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_persistent_BANG_.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id v, id o) {
+if(cljm_truthy(((id (^)(id )) pred.value)(o.value))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_conj_BANG_.value)(v.value, o.value);
 
 } else {
-return v;
+return v.value;
 
 }
-}, cljm_DOT_core_SLASH_transient(@[]), coll));
-};
+}, ((id (^)(id )) cljm_DOT_core_SLASH_transient.value)(@[]), coll.value));
+}];
 /**
 * Returns a lazy sequence of lists of n items each, at offsets step
 * apart. If step is not supplied, defaults to n, i.e. the partitions
@@ -6999,16 +6999,16 @@ return v;
 * necessary to complete last partition upto n items. In case there are
 * not enough padding elements, return a partition with less than n items.
 */
-cljm_DOT_core_SLASH_partition = (function() {
+cljm_DOT_core_SLASH_partition = [[CLJMVar alloc] initWithValue:(function() {
 var partition = null;
 var partition__2 = ^id(id n, id coll) {
-return partition(n, n, coll);
+return ((id (^)(id , id , id )) partition.value)(n.value, n.value, coll.value);
 };
 var partition__3 = ^id(id n, id step, id coll) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
 var partition__4 = ^id(id n, id step, id pad, id coll) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
 partition = function(n, step, pad, coll){
 switch(arguments.length){
@@ -7026,42 +7026,42 @@ partition.cljm$lang$arity$3 = partition__3;
 partition.cljm$lang$arity$4 = partition__4;
 return partition;
 })()
-;
+];
 /**
 * Returns the value in a nested associative structure,
 * where ks is a sequence of keys. Returns nil if the key is not present,
 * or the not-found value if supplied.
 */
-cljm_DOT_core_SLASH_get_in = (function() {
+cljm_DOT_core_SLASH_get_in = [[CLJMVar alloc] initWithValue:(function() {
 var get_in = null;
 var get_in__2 = ^id(id m, id ks) {
-return cljm_DOT_core_SLASH_reduce(cljm_DOT_core_SLASH_get, m, ks);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(cljm_DOT_core_SLASH_get.value, m.value, ks.value);
 };
 var get_in__3 = ^id(id m, id ks, id not_found) {
-id sentinel__5641 = cljm_DOT_core_SLASH_lookup_sentinel;
-id m__5642 = m;
-id ks__5643 = cljm_DOT_core_SLASH_seq(ks);
+id sentinel__5629 = cljm_DOT_core_SLASH_lookup_sentinel.value;
+id m__5630 = m.value;
+id ks__5631 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(ks.value);
 while(YES) {
-if(cljm_truthy(ks__5643)) {
-id m__5644 = cljm_DOT_core_SLASH__lookup(m__5642, cljm_DOT_core_SLASH_first(ks__5643), sentinel__5641);
-if(cljm_truthy(([sentinel__5641 isEqual:m__5644]))) {
-return not_found;
+if(cljm_truthy(ks__5631)) {
+id m__5632 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(m__5630, ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(ks__5631), sentinel__5629);
+if(cljm_truthy(([sentinel__5629 isEqual:m__5632]))) {
+return not_found.value;
 
 } else {
 {
-var G__5645 = sentinel__5641;
-var G__5646 = m__5644;
-var G__5647 = cljm_DOT_core_SLASH_next(ks__5643);
-sentinel__5641 = G__5645;
-m__5642 = G__5646;
-ks__5643 = G__5647;
+var G__5633 = sentinel__5629;
+var G__5634 = m__5632;
+var G__5635 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(ks__5631);
+sentinel__5629 = G__5633;
+m__5630 = G__5634;
+ks__5631 = G__5635;
 continue;
 }
 
 }
 
 } else {
-return m__5642;
+return m__5630;
 
 }
 break;
@@ -7080,24 +7080,24 @@ get_in.cljm$lang$arity$2 = get_in__2;
 get_in.cljm$lang$arity$3 = get_in__3;
 return get_in;
 })()
-;
+];
 /**
 * Associates a value in a nested associative structure, where ks is a
 * sequence of keys and v is the new value and returns a new nested structure.
 * If any levels do not exist, hash-maps will be created.
 */
-cljm_DOT_core_SLASH_assoc_in = ^id(id m, id p__5648, id v) {
-id vec__5653__5654 = p__5648;
-id k__5655 = cljm_DOT_core_SLASH_nth(vec__5653__5654, @0, nil);
-id ks__5656 = cljm_DOT_core_SLASH_nthnext(vec__5653__5654, @1);
-if(cljm_truthy(ks__5656)) {
-return cljm_DOT_core_SLASH_assoc(m, k__5655, assoc_in(cljm_DOT_core_SLASH__lookup(m, k__5655, nil), ks__5656, v), nil);
+cljm_DOT_core_SLASH_assoc_in = [[CLJMVar alloc] initWithValue:^id(id m, id p__5636, id v) {
+id vec__5641__5642 = p__5636.value;
+id k__5643 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__5641__5642, @0, nil);
+id ks__5644 = ((id (^)(id , id )) cljm_DOT_core_SLASH_nthnext.value)(vec__5641__5642, @1);
+if(cljm_truthy(ks__5644)) {
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(m.value, k__5643, ((id (^)(id , id , id )) assoc_in.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(m.value, k__5643, nil), ks__5644, v.value), nil);
 
 } else {
-return cljm_DOT_core_SLASH_assoc(m, k__5655, v, nil);
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(m.value, k__5643, v.value, nil);
 
 }
-};
+}];
 /**
 * 'Updates' a value in a nested associative structure, where ks is a
 * sequence of keys and f is a function that will take the old value
@@ -7105,7 +7105,7 @@ return cljm_DOT_core_SLASH_assoc(m, k__5655, v, nil);
 * nested structure.  If any levels do not exist, hash-maps will be
 * created.
 */
-cljm_DOT_core_SLASH_update_in = ^id(id cljm__varargs, id m, id p__5657, id f, ...) {
+cljm_DOT_core_SLASH_update_in = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, id m, id p__5645, id f, ...) {
 NSMutableArray *args = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -7113,17 +7113,17 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id vec__5662__5663 = p__5657;
-id k__5664 = cljm_DOT_core_SLASH_nth(vec__5662__5663, @0, nil);
-id ks__5665 = cljm_DOT_core_SLASH_nthnext(vec__5662__5663, @1);
-if(cljm_truthy(ks__5665)) {
-return cljm_DOT_core_SLASH_assoc(m, k__5664, cljm_DOT_core_SLASH_apply(update_in, cljm_DOT_core_SLASH__lookup(m, k__5664, nil), ks__5665, f, args, nil), nil);
+id vec__5650__5651 = p__5645.value;
+id k__5652 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__5650__5651, @0, nil);
+id ks__5653 = ((id (^)(id , id )) cljm_DOT_core_SLASH_nthnext.value)(vec__5650__5651, @1);
+if(cljm_truthy(ks__5653)) {
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(m.value, k__5652, ((id (^)(id , id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(update_in.value, ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(m.value, k__5652, nil), ks__5653, f.value, args.value, nil), nil);
 
 } else {
-return cljm_DOT_core_SLASH_assoc(m, k__5664, cljm_DOT_core_SLASH_apply(f, cljm_DOT_core_SLASH__lookup(m, k__5664, nil), args, nil), nil);
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(m.value, k__5652, ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(m.value, k__5652, nil), args.value, nil), nil);
 
 }
-};
+}];
 
 /**
 * @constructor
@@ -7135,186 +7135,186 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 32400159;
 })
-cljm_DOT_core_SLASH_Vector.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_Vector.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/Vector", nil);
+cljm_DOT_core_SLASH_Vector.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_Vector.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/Vector", nil);
 };
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
-var this__5668 = this;
-id h__1314__auto____5669 = this__5668_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____5669 == nil)))) {
-return h__1314__auto____5669;
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+var this__5656 = this;
+id h__1302__auto____5657 = this__5656.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____5657 == nil)))) {
+return h__1302__auto____5657;
 
 } else {
-id h__1314__auto____5670 = cljm_DOT_core_SLASH_hash_coll(coll);
-this__5668_DOT___hash = h__1314__auto____5670;
-return h__1314__auto____5670;
+id h__1302__auto____5658 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_coll.value)(coll.value);
+this__5656.__hash = h__1302__auto____5658;
+return h__1302__auto____5658;
 
 }
 };
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
-var this__5671 = this;
-return cljm_DOT_core_SLASH__nth(coll, k, nil);
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
+var this__5659 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__nth.value)(coll.value, k.value, nil);
 };
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
-var this__5672 = this;
-return cljm_DOT_core_SLASH__nth(coll, k, not_found);
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
+var this__5660 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__nth.value)(coll.value, k.value, not_found.value);
 };
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id coll, id k, id v) {
-var this__5673 = this;
-id new_array__5674 = this__5673_DOT_array.slice();
-(new_array__5674[k] = v);
-return [cljm_DOT_core_SLASH_Vector alloc];
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id coll, id k, id v) {
+var this__5661 = this;
+id new_array__5662 = this__5661.array.slice();
+(new-array__5662[k.value] = v.value);
+return [cljm_DOT_core_SLASH_Vector.value alloc];
 };
-cljm_DOT_core_SLASH_Vector.prototype.call = (function() {
-var G__5705 = null;
-var G__5705__2 = ^id(id this_sym5675, id k) {
-var this__5677 = this;
-id this_sym5675__5678 = this;
-id coll__5679 = this_sym5675__5678;
-return cljm_DOT_core_SLASH__lookup(coll__5679, k);
+cljm_DOT_core_SLASH_Vector.value.prototype.call = (function() {
+var G__5693 = null;
+var G__5693__2 = ^id(id this_sym5663, id k) {
+var this__5665 = this;
+id this_sym5663__5666 = this;
+id coll__5667 = this-sym5663__5666;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__5667, k.value);
 };
-var G__5705__3 = ^id(id this_sym5676, id k, id not_found) {
-var this__5677 = this;
-id this_sym5676__5680 = this;
-id coll__5681 = this_sym5676__5680;
-return cljm_DOT_core_SLASH__lookup(coll__5681, k, not_found);
+var G__5693__3 = ^id(id this_sym5664, id k, id not_found) {
+var this__5665 = this;
+id this_sym5664__5668 = this;
+id coll__5669 = this-sym5664__5668;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__5669, k.value, not_found.value);
 };
-G__5705 = function(this_sym5676, k, not_found){
+G__5693 = function(this_sym5664, k, not_found){
 switch(arguments.length){
 case 2:
-return G__5705__2.call(this,this_sym5676, k);
+return G__5693__2.call(this,this_sym5664, k);
 case 3:
-return G__5705__3.call(this,this_sym5676, k, not_found);
+return G__5693__3.call(this,this_sym5664, k, not_found);
 }
 throw('Invalid arity: ' + arguments.length);
 };
-return G__5705;
+return G__5693;
 })()
 ;
-cljm_DOT_core_SLASH_Vector.prototype.apply = ^id(id this_sym5666, id args5667) {
+cljm_DOT_core_SLASH_Vector.value.prototype.apply = ^id(id this_sym5654, id args5655) {
+var this__5670 = this;
+return [this_sym5654.value.call applythis_sym5654.value, [@[this_sym5654.value] concatargs5655.value.slice()], nil];
+};
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
+var this__5671 = this;
+id new_array__5672 = this__5671.array.slice();
+[new-array__5672 pusho.value];
+return [cljm_DOT_core_SLASH_Vector.value alloc];
+};
+cljm_DOT_core_SLASH_Vector.value.prototype.toString = ^id() {
+var this__5673 = this;
+id this__5674 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__5674, nil);
+};
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$IReduce$_reduce$arity$2 = ^id(id v, id f) {
+var this__5675 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_ci_reduce.value)(this__5675.array, f.value);
+};
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$IReduce$_reduce$arity$3 = ^id(id v, id f, id start) {
+var this__5676 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_ci_reduce.value)(this__5676.array, f.value, start.value);
+};
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
+var this__5677 = this;
+if(cljm_truthy((this__5677.array.length > @0))) {
+id vector_seq__5678 = ^id(id i) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
+};
+return ((id (^)(id )) vector_seq__5678.value)(@0);
+
+} else {
+return nil;
+
+}
+};
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
+var this__5679 = this;
+return this__5679.array.length;
+};
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$IStack$_peek$arity$1 = ^id(id coll) {
+var this__5680 = this;
+id count__5681 = this__5680.array.length;
+if(cljm_truthy((count__5681 > @0))) {
+return (this__5680.array[(count__5681 - @1)]);
+
+} else {
+return nil;
+
+}
+};
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$IStack$_pop$arity$1 = ^id(id coll) {
 var this__5682 = this;
-return [this_sym5666.call applythis_sym5666, [@[this_sym5666] concatargs5667.slice()], nil];
+if(cljm_truthy((this__5682.array.length > @0))) {
+id new_array__5683 = this__5682.array.slice();
+[new-array__5683 pop];
+return [cljm_DOT_core_SLASH_Vector.value alloc];
+
+} else {
+throw [Error.value alloc];
+
+}
 };
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
-var this__5683 = this;
-id new_array__5684 = this__5683_DOT_array.slice();
-[new_array__5684 pusho];
-return [cljm_DOT_core_SLASH_Vector alloc];
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$IVector$_assoc_n$arity$3 = ^id(id coll, id n, id val) {
+var this__5684 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__assoc.value)(coll.value, n.value, val.value);
 };
-cljm_DOT_core_SLASH_Vector.prototype.toString = ^id() {
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
 var this__5685 = this;
-id this__5686 = this;
-return cljm_DOT_core_SLASH_pr_str(this__5686, nil);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_equiv_sequential.value)(coll.value, other.value);
 };
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$IReduce$_reduce$arity$2 = ^id(id v, id f) {
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
+var this__5686 = this;
+return [cljm_DOT_core_SLASH_Vector.value alloc];
+};
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
 var this__5687 = this;
-return cljm_DOT_core_SLASH_ci_reduce(this__5687_DOT_array, f);
+return this__5687.meta;
 };
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$IReduce$_reduce$arity$3 = ^id(id v, id f, id start) {
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$IIndexed$_nth$arity$2 = ^id(id coll, id n) {
 var this__5688 = this;
-return cljm_DOT_core_SLASH_ci_reduce(this__5688_DOT_array, f, start);
-};
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
-var this__5689 = this;
-if(cljm_truthy((this__5689_DOT_array.length > @0))) {
-id vector_seq__5690 = ^id(id i) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
-};
-return vector_seq__5690(@0);
+if(cljm_truthy({id and__3822__auto____5689 = (@0 <= n.value);
+if(cljm_truthy(and__3822__auto____5689)) {
+return (n.value < this__5688.array.length);
+
+} else {
+return and__3822__auto____5689;
+
+}
+})) {
+return (this__5688.array[n.value]);
 
 } else {
 return nil;
 
 }
 };
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
-var this__5691 = this;
-return this__5691_DOT_array.length;
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$IIndexed$_nth$arity$3 = ^id(id coll, id n, id not_found) {
+var this__5690 = this;
+if(cljm_truthy({id and__3822__auto____5691 = (@0 <= n.value);
+if(cljm_truthy(and__3822__auto____5691)) {
+return (n.value < this__5690.array.length);
+
+} else {
+return and__3822__auto____5691;
+
+}
+})) {
+return (this__5690.array[n.value]);
+
+} else {
+return not_found.value;
+
+}
 };
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$IStack$_peek$arity$1 = ^id(id coll) {
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
 var this__5692 = this;
-id count__5693 = this__5692_DOT_array.length;
-if(cljm_truthy((count__5693 > @0))) {
-return (this__5692_DOT_array[(count__5693 - @1)]);
-
-} else {
-return nil;
-
-}
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_with_meta.value)(cljs_DOT_core_DOT_Vector_SLASH_EMPTY.value, this__5692.meta);
 };
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$IStack$_pop$arity$1 = ^id(id coll) {
-var this__5694 = this;
-if(cljm_truthy((this__5694_DOT_array.length > @0))) {
-id new_array__5695 = this__5694_DOT_array.slice();
-[new_array__5695 pop];
-return [cljm_DOT_core_SLASH_Vector alloc];
-
-} else {
-throw [Error alloc];
-
-}
-};
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$IVector$_assoc_n$arity$3 = ^id(id coll, id n, id val) {
-var this__5696 = this;
-return cljm_DOT_core_SLASH__assoc(coll, n, val);
-};
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__5697 = this;
-return cljm_DOT_core_SLASH_equiv_sequential(coll, other);
-};
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
-var this__5698 = this;
-return [cljm_DOT_core_SLASH_Vector alloc];
-};
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
-var this__5699 = this;
-return this__5699_DOT_meta;
-};
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$IIndexed$_nth$arity$2 = ^id(id coll, id n) {
-var this__5700 = this;
-if(cljm_truthy({id and__3822__auto____5701 = (@0 <= n);
-if(cljm_truthy(and__3822__auto____5701)) {
-return (n < this__5700_DOT_array.length);
-
-} else {
-return and__3822__auto____5701;
-
-}
-})) {
-return (this__5700_DOT_array[n]);
-
-} else {
-return nil;
-
-}
-};
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$IIndexed$_nth$arity$3 = ^id(id coll, id n, id not_found) {
-var this__5702 = this;
-if(cljm_truthy({id and__3822__auto____5703 = (@0 <= n);
-if(cljm_truthy(and__3822__auto____5703)) {
-return (n < this__5702_DOT_array.length);
-
-} else {
-return and__3822__auto____5703;
-
-}
-})) {
-return (this__5702_DOT_array[n]);
-
-} else {
-return not_found;
-
-}
-};
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
-var this__5704 = this;
-return cljm_DOT_core_SLASH_with_meta(cljs_DOT_core_DOT_Vector_SLASH_EMPTY, this__5704_DOT_meta);
-};
-cljm_DOT_core_SLASH_Vector;
-cljs_DOT_core_DOT_Vector_SLASH_EMPTY = [cljm_DOT_core_SLASH_Vector alloc];
-cljs_DOT_core_DOT_Vector_SLASH_fromArray = ^id(id xs) {
-return [cljm_DOT_core_SLASH_Vector alloc];
+cljm_DOT_core_SLASH_Vector.value;
+cljs_DOT_core_DOT_Vector_SLASH_EMPTY.value = [cljm_DOT_core_SLASH_Vector.value alloc];
+cljs_DOT_core_DOT_Vector_SLASH_fromArray.value = ^id(id xs) {
+return [cljm_DOT_core_SLASH_Vector.value alloc];
 };
 
 /**
@@ -7324,107 +7324,107 @@ cljm_DOT_core_SLASH_VectorNode = (function (edit, arr){
 this.edit = edit;
 this.arr = arr;
 })
-cljm_DOT_core_SLASH_VectorNode.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_VectorNode.cljm$lang$ctorPrSeq = ^id(id this__1432__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/VectorNode", nil);
+cljm_DOT_core_SLASH_VectorNode.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_VectorNode.value.cljm$lang$ctorPrSeq = ^id(id this__1420__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/VectorNode", nil);
 };
-cljm_DOT_core_SLASH_VectorNode;
-cljm_DOT_core_SLASH_pv_fresh_node = ^id(id edit) {
-return [cljm_DOT_core_SLASH_VectorNode alloc];
-};
-cljm_DOT_core_SLASH_pv_aget = ^id(id node, id idx) {
-return (node.arr[idx]);
-};
-cljm_DOT_core_SLASH_pv_aset = ^id(id node, id idx, id val) {
-return (node.arr[idx] = val);
-};
-cljm_DOT_core_SLASH_pv_clone_node = ^id(id node) {
-return [cljm_DOT_core_SLASH_VectorNode alloc];
-};
-cljm_DOT_core_SLASH_tail_off = ^id(id pv) {
-id cnt__5707 = pv.cnt;
-if(cljm_truthy((cnt__5707 < @32))) {
+cljm_DOT_core_SLASH_VectorNode.value;
+cljm_DOT_core_SLASH_pv_fresh_node = [[CLJMVar alloc] initWithValue:^id(id edit) {
+return [cljm_DOT_core_SLASH_VectorNode.value alloc];
+}];
+cljm_DOT_core_SLASH_pv_aget = [[CLJMVar alloc] initWithValue:^id(id node, id idx) {
+return (node.value.arr[idx.value]);
+}];
+cljm_DOT_core_SLASH_pv_aset = [[CLJMVar alloc] initWithValue:^id(id node, id idx, id val) {
+return (node.value.arr[idx.value] = val.value);
+}];
+cljm_DOT_core_SLASH_pv_clone_node = [[CLJMVar alloc] initWithValue:^id(id node) {
+return [cljm_DOT_core_SLASH_VectorNode.value alloc];
+}];
+cljm_DOT_core_SLASH_tail_off = [[CLJMVar alloc] initWithValue:^id(id pv) {
+id cnt__5695 = pv.value.cnt;
+if(cljm_truthy((cnt__5695 < @32))) {
 return @0;
 
 } else {
-return (((cnt__5707 - @1) >>> @5) << @5);
+return (((cnt__5695 - @1) >>> @5) << @5);
 
 }
-};
-cljm_DOT_core_SLASH_new_path = ^id(id edit, id level, id node) {
-id ll__5713 = level;
-id ret__5714 = node;
+}];
+cljm_DOT_core_SLASH_new_path = [[CLJMVar alloc] initWithValue:^id(id edit, id level, id node) {
+id ll__5701 = level.value;
+id ret__5702 = node.value;
 while(YES) {
-if(cljm_truthy(([ll__5713 isEqual:@0]))) {
-return ret__5714;
+if(cljm_truthy(([ll__5701 isEqual:@0]))) {
+return ret__5702;
 
 } else {
-id embed__5715 = ret__5714;
-id r__5716 = cljm_DOT_core_SLASH_pv_fresh_node(edit);
-id ___5717 = cljm_DOT_core_SLASH_pv_aset(r__5716, @0, embed__5715);
+id embed__5703 = ret__5702;
+id r__5704 = ((id (^)(id )) cljm_DOT_core_SLASH_pv_fresh_node.value)(edit.value);
+id ___5705 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_pv_aset.value)(r__5704, @0, embed__5703);
 {
-var G__5718 = (ll__5713 - @5);
-var G__5719 = r__5716;
-ll__5713 = G__5718;
-ret__5714 = G__5719;
+var G__5706 = (ll__5701 - @5);
+var G__5707 = r__5704;
+ll__5701 = G__5706;
+ret__5702 = G__5707;
 continue;
 }
 
 }
 break;
 }
-};
-cljm_DOT_core_SLASH_push_tail = ^id(id pv, id level, id parent, id tailnode) {
-id ret__5725 = cljm_DOT_core_SLASH_pv_clone_node(parent);
-id subidx__5726 = (((pv.cnt - @1) >>> level) & @31);
-if(cljm_truthy(([@5 isEqual:level]))) {
-cljm_DOT_core_SLASH_pv_aset(ret__5725, subidx__5726, tailnode);
-return ret__5725;
+}];
+cljm_DOT_core_SLASH_push_tail = [[CLJMVar alloc] initWithValue:^id(id pv, id level, id parent, id tailnode) {
+id ret__5713 = ((id (^)(id )) cljm_DOT_core_SLASH_pv_clone_node.value)(parent.value);
+id subidx__5714 = (((pv.value.cnt - @1) >>> level.value) & @31);
+if(cljm_truthy(([@5 isEqual:level.value]))) {
+((id (^)(id , id , id )) cljm_DOT_core_SLASH_pv_aset.value)(ret__5713, subidx__5714, tailnode.value);
+return ret__5713;
 
 } else {
-id child__5727 = cljm_DOT_core_SLASH_pv_aget(parent, subidx__5726);
-if(cljm_truthy(cljm_DOT_core_SLASH_not((child__5727 == nil)))) {
-id node_to_insert__5728 = push_tail(pv, (level - @5), child__5727, tailnode);
-cljm_DOT_core_SLASH_pv_aset(ret__5725, subidx__5726, node_to_insert__5728);
-return ret__5725;
+id child__5715 = ((id (^)(id , id )) cljm_DOT_core_SLASH_pv_aget.value)(parent.value, subidx__5714);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((child__5715 == nil)))) {
+id node_to_insert__5716 = ((id (^)(id , id , id , id )) push_tail.value)(pv.value, (level.value - @5), child__5715, tailnode.value);
+((id (^)(id , id , id )) cljm_DOT_core_SLASH_pv_aset.value)(ret__5713, subidx__5714, node-to-insert__5716);
+return ret__5713;
 
 } else {
-id node_to_insert__5729 = cljm_DOT_core_SLASH_new_path(nil, (level - @5), tailnode);
-cljm_DOT_core_SLASH_pv_aset(ret__5725, subidx__5726, node_to_insert__5729);
-return ret__5725;
+id node_to_insert__5717 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_new_path.value)(nil, (level.value - @5), tailnode.value);
+((id (^)(id , id , id )) cljm_DOT_core_SLASH_pv_aset.value)(ret__5713, subidx__5714, node-to-insert__5717);
+return ret__5713;
 
 }
 
 }
-};
-cljm_DOT_core_SLASH_array_for = ^id(id pv, id i) {
-if(cljm_truthy({id and__3822__auto____5733 = (@0 <= i);
-if(cljm_truthy(and__3822__auto____5733)) {
-return (i < pv.cnt);
+}];
+cljm_DOT_core_SLASH_array_for = [[CLJMVar alloc] initWithValue:^id(id pv, id i) {
+if(cljm_truthy({id and__3822__auto____5721 = (@0 <= i.value);
+if(cljm_truthy(and__3822__auto____5721)) {
+return (i.value < pv.value.cnt);
 
 } else {
-return and__3822__auto____5733;
+return and__3822__auto____5721;
 
 }
 })) {
-if(cljm_truthy((i >= cljm_DOT_core_SLASH_tail_off(pv)))) {
-return pv.tail;
+if(cljm_truthy((i.value >= ((id (^)(id )) cljm_DOT_core_SLASH_tail_off.value)(pv.value)))) {
+return pv.value.tail;
 
 } else {
-id node__5734 = pv.root;
-id level__5735 = pv.shift;
+id node__5722 = pv.value.root;
+id level__5723 = pv.value.shift;
 while(YES) {
-if(cljm_truthy((level__5735 > @0))) {
+if(cljm_truthy((level__5723 > @0))) {
 {
-var G__5736 = cljm_DOT_core_SLASH_pv_aget(node__5734, ((i >>> level__5735) & @31));
-var G__5737 = (level__5735 - @5);
-node__5734 = G__5736;
-level__5735 = G__5737;
+var G__5724 = ((id (^)(id , id )) cljm_DOT_core_SLASH_pv_aget.value)(node__5722, ((i.value >>> level__5723) & @31));
+var G__5725 = (level__5723 - @5);
+node__5722 = G__5724;
+level__5723 = G__5725;
 continue;
 }
 
 } else {
-return node__5734.arr;
+return node__5722.arr;
 
 }
 break;
@@ -7433,54 +7433,54 @@ break;
 }
 
 } else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
-};
-cljm_DOT_core_SLASH_do_assoc = ^id(id pv, id level, id node, id i, id val) {
-id ret__5740 = cljm_DOT_core_SLASH_pv_clone_node(node);
-if(cljm_truthy(([level isEqual:@0]))) {
-cljm_DOT_core_SLASH_pv_aset(ret__5740, (i & @31), val);
-return ret__5740;
+}];
+cljm_DOT_core_SLASH_do_assoc = [[CLJMVar alloc] initWithValue:^id(id pv, id level, id node, id i, id val) {
+id ret__5728 = ((id (^)(id )) cljm_DOT_core_SLASH_pv_clone_node.value)(node.value);
+if(cljm_truthy(([level.value isEqual:@0]))) {
+((id (^)(id , id , id )) cljm_DOT_core_SLASH_pv_aset.value)(ret__5728, (i.value & @31), val.value);
+return ret__5728;
 
 } else {
-id subidx__5741 = ((i >>> level) & @31);
-cljm_DOT_core_SLASH_pv_aset(ret__5740, subidx__5741, do_assoc(pv, (level - @5), cljm_DOT_core_SLASH_pv_aget(node, subidx__5741), i, val));
-return ret__5740;
+id subidx__5729 = ((i.value >>> level.value) & @31);
+((id (^)(id , id , id )) cljm_DOT_core_SLASH_pv_aset.value)(ret__5728, subidx__5729, ((id (^)(id , id , id , id , id )) do_assoc.value)(pv.value, (level.value - @5), ((id (^)(id , id )) cljm_DOT_core_SLASH_pv_aget.value)(node.value, subidx__5729), i.value, val.value));
+return ret__5728;
 
 }
-};
-cljm_DOT_core_SLASH_pop_tail = ^id(id pv, id level, id node) {
-id subidx__5747 = (((pv.cnt - @2) >>> level) & @31);
-if(cljm_truthy((level > @5))) {
-id new_child__5748 = pop_tail(pv, (level - @5), cljm_DOT_core_SLASH_pv_aget(node, subidx__5747));
-if(cljm_truthy({id and__3822__auto____5749 = (new_child__5748 == nil);
-if(cljm_truthy(and__3822__auto____5749)) {
-return ([subidx__5747 isEqual:@0]);
+}];
+cljm_DOT_core_SLASH_pop_tail = [[CLJMVar alloc] initWithValue:^id(id pv, id level, id node) {
+id subidx__5735 = (((pv.value.cnt - @2) >>> level.value) & @31);
+if(cljm_truthy((level.value > @5))) {
+id new_child__5736 = ((id (^)(id , id , id )) pop_tail.value)(pv.value, (level.value - @5), ((id (^)(id , id )) cljm_DOT_core_SLASH_pv_aget.value)(node.value, subidx__5735));
+if(cljm_truthy({id and__3822__auto____5737 = (new-child__5736 == nil);
+if(cljm_truthy(and__3822__auto____5737)) {
+return ([subidx__5735 isEqual:@0]);
 
 } else {
-return and__3822__auto____5749;
+return and__3822__auto____5737;
 
 }
 })) {
 return nil;
 
 } else {
-id ret__5750 = cljm_DOT_core_SLASH_pv_clone_node(node);
-cljm_DOT_core_SLASH_pv_aset(ret__5750, subidx__5747, new_child__5748);
-return ret__5750;
+id ret__5738 = ((id (^)(id )) cljm_DOT_core_SLASH_pv_clone_node.value)(node.value);
+((id (^)(id , id , id )) cljm_DOT_core_SLASH_pv_aset.value)(ret__5738, subidx__5735, new-child__5736);
+return ret__5738;
 
 }
 
 } else {
-if(cljm_truthy(([subidx__5747 isEqual:@0]))) {
+if(cljm_truthy(([subidx__5735 isEqual:@0]))) {
 return nil;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-id ret__5751 = cljm_DOT_core_SLASH_pv_clone_node(node);
-cljm_DOT_core_SLASH_pv_aset(ret__5751, subidx__5747, nil);
-return ret__5751;
+id ret__5739 = ((id (^)(id )) cljm_DOT_core_SLASH_pv_clone_node.value)(node.value);
+((id (^)(id , id , id )) cljm_DOT_core_SLASH_pv_aset.value)(ret__5739, subidx__5735, nil);
+return ret__5739;
 
 } else {
 return nil;
@@ -7490,7 +7490,7 @@ return nil;
 }
 
 }
-};
+}];
 
 /**
 * @constructor
@@ -7505,63 +7505,63 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 1;
 this.cljm$lang$protocol_mask$partition0$ = 167668511;
 })
-cljm_DOT_core_SLASH_PersistentVector.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_PersistentVector.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/PersistentVector", nil);
+cljm_DOT_core_SLASH_PersistentVector.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_PersistentVector.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/PersistentVector", nil);
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IEditableCollection$_as_transient$arity$1 = ^id(id coll) {
-var this__5754 = this;
-return [cljm_DOT_core_SLASH_TransientVector alloc];
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IEditableCollection$_as_transient$arity$1 = ^id(id coll) {
+var this__5742 = this;
+return [cljm_DOT_core_SLASH_TransientVector.value alloc];
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
-var this__5755 = this;
-id h__1314__auto____5756 = this__5755_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____5756 == nil)))) {
-return h__1314__auto____5756;
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+var this__5743 = this;
+id h__1302__auto____5744 = this__5743.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____5744 == nil)))) {
+return h__1302__auto____5744;
 
 } else {
-id h__1314__auto____5757 = cljm_DOT_core_SLASH_hash_coll(coll);
-this__5755_DOT___hash = h__1314__auto____5757;
-return h__1314__auto____5757;
+id h__1302__auto____5745 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_coll.value)(coll.value);
+this__5743.__hash = h__1302__auto____5745;
+return h__1302__auto____5745;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
-var this__5758 = this;
-return cljm_DOT_core_SLASH__nth(coll, k, nil);
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
+var this__5746 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__nth.value)(coll.value, k.value, nil);
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
-var this__5759 = this;
-return cljm_DOT_core_SLASH__nth(coll, k, not_found);
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
+var this__5747 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__nth.value)(coll.value, k.value, not_found.value);
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id coll, id k, id v) {
-var this__5760 = this;
-if(cljm_truthy({id and__3822__auto____5761 = (@0 <= k);
-if(cljm_truthy(and__3822__auto____5761)) {
-return (k < this__5760_DOT_cnt);
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id coll, id k, id v) {
+var this__5748 = this;
+if(cljm_truthy({id and__3822__auto____5749 = (@0 <= k.value);
+if(cljm_truthy(and__3822__auto____5749)) {
+return (k.value < this__5748.cnt);
 
 } else {
-return and__3822__auto____5761;
+return and__3822__auto____5749;
 
 }
 })) {
-if(cljm_truthy((cljm_DOT_core_SLASH_tail_off(coll) <= k))) {
-id new_tail__5762 = this__5760_DOT_tail.slice();
-(new_tail__5762[(k & @31)] = v);
-return [cljm_DOT_core_SLASH_PersistentVector alloc];
+if(cljm_truthy((((id (^)(id )) cljm_DOT_core_SLASH_tail_off.value)(coll.value) <= k.value))) {
+id new_tail__5750 = this__5748.tail.slice();
+(new-tail__5750[(k.value & @31)] = v.value);
+return [cljm_DOT_core_SLASH_PersistentVector.value alloc];
 
 } else {
-return [cljm_DOT_core_SLASH_PersistentVector alloc];
+return [cljm_DOT_core_SLASH_PersistentVector.value alloc];
 
 }
 
 } else {
-if(cljm_truthy(([k isEqual:this__5760_DOT_cnt]))) {
-return cljm_DOT_core_SLASH__conj(coll, v);
+if(cljm_truthy(([k.value isEqual:this__5748.cnt]))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__conj.value)(coll.value, v.value);
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-throw [Error alloc];
+throw [Error.value alloc];
 
 } else {
 return nil;
@@ -7572,197 +7572,197 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.call = (function() {
-var G__5810 = null;
-var G__5810__2 = ^id(id this_sym5763, id k) {
-var this__5765 = this;
-id this_sym5763__5766 = this;
-id coll__5767 = this_sym5763__5766;
-return cljm_DOT_core_SLASH__lookup(coll__5767, k);
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.call = (function() {
+var G__5798 = null;
+var G__5798__2 = ^id(id this_sym5751, id k) {
+var this__5753 = this;
+id this_sym5751__5754 = this;
+id coll__5755 = this-sym5751__5754;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__5755, k.value);
 };
-var G__5810__3 = ^id(id this_sym5764, id k, id not_found) {
-var this__5765 = this;
-id this_sym5764__5768 = this;
-id coll__5769 = this_sym5764__5768;
-return cljm_DOT_core_SLASH__lookup(coll__5769, k, not_found);
+var G__5798__3 = ^id(id this_sym5752, id k, id not_found) {
+var this__5753 = this;
+id this_sym5752__5756 = this;
+id coll__5757 = this-sym5752__5756;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__5757, k.value, not_found.value);
 };
-G__5810 = function(this_sym5764, k, not_found){
+G__5798 = function(this_sym5752, k, not_found){
 switch(arguments.length){
 case 2:
-return G__5810__2.call(this,this_sym5764, k);
+return G__5798__2.call(this,this_sym5752, k);
 case 3:
-return G__5810__3.call(this,this_sym5764, k, not_found);
+return G__5798__3.call(this,this_sym5752, k, not_found);
 }
 throw('Invalid arity: ' + arguments.length);
 };
-return G__5810;
+return G__5798;
 })()
 ;
-cljm_DOT_core_SLASH_PersistentVector.prototype.apply = ^id(id this_sym5752, id args5753) {
-var this__5770 = this;
-return [this_sym5752.call applythis_sym5752, [@[this_sym5752] concatargs5753.slice()], nil];
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.apply = ^id(id this_sym5740, id args5741) {
+var this__5758 = this;
+return [this_sym5740.value.call applythis_sym5740.value, [@[this_sym5740.value] concatargs5741.value.slice()], nil];
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IKVReduce$_kv_reduce$arity$3 = ^id(id v, id f, id init) {
-var this__5771 = this;
-id step_init__5772 = @[@0,init];
-id i__5773 = @0;
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IKVReduce$_kv_reduce$arity$3 = ^id(id v, id f, id init) {
+var this__5759 = this;
+id step_init__5760 = @[@0,init.value];
+id i__5761 = @0;
 while(YES) {
-if(cljm_truthy((i__5773 < this__5771_DOT_cnt))) {
-id arr__5774 = cljm_DOT_core_SLASH_array_for(v, i__5773);
-id len__5775 = arr__5774.length;
-id init__5779 = {id j__5776 = @0;
-id init__5777 = (step_init__5772[@1]);
+if(cljm_truthy((i__5761 < this__5759.cnt))) {
+id arr__5762 = ((id (^)(id , id )) cljm_DOT_core_SLASH_array_for.value)(v.value, i__5761);
+id len__5763 = arr__5762.length;
+id init__5767 = {id j__5764 = @0;
+id init__5765 = (step-init__5760[@1]);
 while(YES) {
-if(cljm_truthy((j__5776 < len__5775))) {
-id init__5778 = f(init__5777, (j__5776 + i__5773), (arr__5774[j__5776]));
-if(cljm_truthy(cljm_DOT_core_SLASH_reduced_QMARK_(init__5778))) {
-return init__5778;
+if(cljm_truthy((j__5764 < len__5763))) {
+id init__5766 = ((id (^)(id , id , id )) f.value)(init__5765, (j__5764 + i__5761), (arr__5762[j__5764]));
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_reduced_QMARK_.value)(init__5766))) {
+return init__5766;
 
 } else {
 {
-var G__5811 = (j__5776 + @1);
-var G__5812 = init__5778;
-j__5776 = G__5811;
-init__5777 = G__5812;
+var G__5799 = (j__5764 + @1);
+var G__5800 = init__5766;
+j__5764 = G__5799;
+init__5765 = G__5800;
 continue;
 }
 
 }
 
 } else {
-(step_init__5772[@0] = len__5775);
-(step_init__5772[@1] = init__5777);
-return init__5777;
+(step-init__5760[@0] = len__5763);
+(step-init__5760[@1] = init__5765);
+return init__5765;
 
 }
 break;
 }
 };
-if(cljm_truthy(cljm_DOT_core_SLASH_reduced_QMARK_(init__5779))) {
-return cljm_DOT_core_SLASH_deref(init__5779);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_reduced_QMARK_.value)(init__5767))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(init__5767);
 
 } else {
 {
-var G__5813 = (i__5773 + (step_init__5772[@0]));
-i__5773 = G__5813;
+var G__5801 = (i__5761 + (step-init__5760[@0]));
+i__5761 = G__5801;
 continue;
 }
 
 }
 
 } else {
-return (step_init__5772[@1]);
+return (step-init__5760[@1]);
 
 }
 break;
 }
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
-var this__5780 = this;
-if(cljm_truthy(((this__5780_DOT_cnt - cljm_DOT_core_SLASH_tail_off(coll)) < @32))) {
-id new_tail__5781 = this__5780_DOT_tail.slice();
-[new_tail__5781 pusho];
-return [cljm_DOT_core_SLASH_PersistentVector alloc];
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
+var this__5768 = this;
+if(cljm_truthy(((this__5768.cnt - ((id (^)(id )) cljm_DOT_core_SLASH_tail_off.value)(coll.value)) < @32))) {
+id new_tail__5769 = this__5768.tail.slice();
+[new-tail__5769 pusho.value];
+return [cljm_DOT_core_SLASH_PersistentVector.value alloc];
 
 } else {
-id root_overflow_QMARK___5782 = ((this__5780_DOT_cnt >>> @5) > (@1 << this__5780_DOT_shift));
-id new_shift__5783 = (cljm_truthy(root_overflow_QMARK___5782)) ?(this__5780_DOT_shift + @5):this__5780_DOT_shift;
-id new_root__5785 = (cljm_truthy(root_overflow_QMARK___5782)) ?{id n_r__5784 = cljm_DOT_core_SLASH_pv_fresh_node(nil);
-cljm_DOT_core_SLASH_pv_aset(n_r__5784, @0, this__5780_DOT_root);
-cljm_DOT_core_SLASH_pv_aset(n_r__5784, @1, cljm_DOT_core_SLASH_new_path(nil, this__5780_DOT_shift, [cljm_DOT_core_SLASH_VectorNode alloc]));
-return n_r__5784;
-}:cljm_DOT_core_SLASH_push_tail(coll, this__5780_DOT_shift, this__5780_DOT_root, [cljm_DOT_core_SLASH_VectorNode alloc]);
-return [cljm_DOT_core_SLASH_PersistentVector alloc];
+id root_overflow_QMARK___5770 = ((this__5768.cnt >>> @5) > (@1 << this__5768.shift));
+id new_shift__5771 = (cljm_truthy(root-overflow?__5770)) ?(this__5768.shift + @5):this__5768.shift;
+id new_root__5773 = (cljm_truthy(root-overflow?__5770)) ?{id n_r__5772 = ((id (^)(id )) cljm_DOT_core_SLASH_pv_fresh_node.value)(nil);
+((id (^)(id , id , id )) cljm_DOT_core_SLASH_pv_aset.value)(n-r__5772, @0, this__5768.root);
+((id (^)(id , id , id )) cljm_DOT_core_SLASH_pv_aset.value)(n-r__5772, @1, ((id (^)(id , id , id )) cljm_DOT_core_SLASH_new_path.value)(nil, this__5768.shift, [cljm_DOT_core_SLASH_VectorNode.value alloc]));
+return n-r__5772;
+}:((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_push_tail.value)(coll.value, this__5768.shift, this__5768.root, [cljm_DOT_core_SLASH_VectorNode.value alloc]);
+return [cljm_DOT_core_SLASH_PersistentVector.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IReversible$_rseq$arity$1 = ^id(id coll) {
-var this__5786 = this;
-if(cljm_truthy((this__5786_DOT_cnt > @0))) {
-return [cljm_DOT_core_SLASH_RSeq alloc];
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IReversible$_rseq$arity$1 = ^id(id coll) {
+var this__5774 = this;
+if(cljm_truthy((this__5774.cnt > @0))) {
+return [cljm_DOT_core_SLASH_RSeq.value alloc];
 
 } else {
 return cljm.core.List.EMPTY;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IMapEntry$_key$arity$1 = ^id(id coll) {
-var this__5787 = this;
-return cljm_DOT_core_SLASH__nth(coll, @0);
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IMapEntry$_key$arity$1 = ^id(id coll) {
+var this__5775 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(coll.value, @0);
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IMapEntry$_val$arity$1 = ^id(id coll) {
-var this__5788 = this;
-return cljm_DOT_core_SLASH__nth(coll, @1);
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IMapEntry$_val$arity$1 = ^id(id coll) {
+var this__5776 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(coll.value, @1);
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.toString = ^id() {
-var this__5789 = this;
-id this__5790 = this;
-return cljm_DOT_core_SLASH_pr_str(this__5790, nil);
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.toString = ^id() {
+var this__5777 = this;
+id this__5778 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__5778, nil);
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IReduce$_reduce$arity$2 = ^id(id v, id f) {
-var this__5791 = this;
-return cljm_DOT_core_SLASH_ci_reduce(v, f);
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IReduce$_reduce$arity$2 = ^id(id v, id f) {
+var this__5779 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_ci_reduce.value)(v.value, f.value);
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IReduce$_reduce$arity$3 = ^id(id v, id f, id start) {
-var this__5792 = this;
-return cljm_DOT_core_SLASH_ci_reduce(v, f, start);
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IReduce$_reduce$arity$3 = ^id(id v, id f, id start) {
+var this__5780 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_ci_reduce.value)(v.value, f.value, start.value);
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
-var this__5793 = this;
-if(cljm_truthy(([this__5793_DOT_cnt isEqual:@0]))) {
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
+var this__5781 = this;
+if(cljm_truthy(([this__5781.cnt isEqual:@0]))) {
 return nil;
 
 } else {
-return cljm_DOT_core_SLASH_chunked_seq(coll, @0, @0);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_chunked_seq.value)(coll.value, @0, @0);
 
 }
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
-var this__5794 = this;
-return this__5794_DOT_cnt;
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
+var this__5782 = this;
+return this__5782.cnt;
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IStack$_peek$arity$1 = ^id(id coll) {
-var this__5795 = this;
-if(cljm_truthy((this__5795_DOT_cnt > @0))) {
-return cljm_DOT_core_SLASH__nth(coll, (this__5795_DOT_cnt - @1));
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IStack$_peek$arity$1 = ^id(id coll) {
+var this__5783 = this;
+if(cljm_truthy((this__5783.cnt > @0))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(coll.value, (this__5783.cnt - @1));
 
 } else {
 return nil;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IStack$_pop$arity$1 = ^id(id coll) {
-var this__5796 = this;
-if(cljm_truthy(([this__5796_DOT_cnt isEqual:@0]))) {
-throw [Error alloc];
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IStack$_pop$arity$1 = ^id(id coll) {
+var this__5784 = this;
+if(cljm_truthy(([this__5784.cnt isEqual:@0]))) {
+throw [Error.value alloc];
 
 } else {
-if(cljm_truthy(([@1 isEqual:this__5796_DOT_cnt]))) {
-return cljm_DOT_core_SLASH__with_meta(cljs_DOT_core_DOT_PersistentVector_SLASH_EMPTY, this__5796_DOT_meta);
+if(cljm_truthy(([@1 isEqual:this__5784.cnt]))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__with_meta.value)(cljs_DOT_core_DOT_PersistentVector_SLASH_EMPTY.value, this__5784.meta);
 
 } else {
-if(cljm_truthy((@1 < (this__5796_DOT_cnt - cljm_DOT_core_SLASH_tail_off(coll))))) {
-return [cljm_DOT_core_SLASH_PersistentVector alloc];
+if(cljm_truthy((@1 < (this__5784.cnt - ((id (^)(id )) cljm_DOT_core_SLASH_tail_off.value)(coll.value))))) {
+return [cljm_DOT_core_SLASH_PersistentVector.value alloc];
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-id new_tail__5797 = cljm_DOT_core_SLASH_array_for(coll, (this__5796_DOT_cnt - @2));
-id nr__5798 = cljm_DOT_core_SLASH_pop_tail(coll, this__5796_DOT_shift, this__5796_DOT_root);
-id new_root__5799 = (cljm_truthy((nr__5798 == nil))) ?cljs_DOT_core_DOT_PersistentVector_SLASH_EMPTY_NODE:nr__5798;
-id cnt_1__5800 = (this__5796_DOT_cnt - @1);
-if(cljm_truthy({id and__3822__auto____5801 = (@5 < this__5796_DOT_shift);
-if(cljm_truthy(and__3822__auto____5801)) {
-return (cljm_DOT_core_SLASH_pv_aget(new_root__5799, @1) == nil);
+id new_tail__5785 = ((id (^)(id , id )) cljm_DOT_core_SLASH_array_for.value)(coll.value, (this__5784.cnt - @2));
+id nr__5786 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_pop_tail.value)(coll.value, this__5784.shift, this__5784.root);
+id new_root__5787 = (cljm_truthy((nr__5786 == nil))) ?cljs_DOT_core_DOT_PersistentVector_SLASH_EMPTY_NODE.value:nr__5786;
+id cnt_1__5788 = (this__5784.cnt - @1);
+if(cljm_truthy({id and__3822__auto____5789 = (@5 < this__5784.shift);
+if(cljm_truthy(and__3822__auto____5789)) {
+return (((id (^)(id , id )) cljm_DOT_core_SLASH_pv_aget.value)(new-root__5787, @1) == nil);
 
 } else {
-return and__3822__auto____5801;
+return and__3822__auto____5789;
 
 }
 })) {
-return [cljm_DOT_core_SLASH_PersistentVector alloc];
+return [cljm_DOT_core_SLASH_PersistentVector.value alloc];
 
 } else {
-return [cljm_DOT_core_SLASH_PersistentVector alloc];
+return [cljm_DOT_core_SLASH_PersistentVector.value alloc];
 
 }
 
@@ -7777,74 +7777,74 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IVector$_assoc_n$arity$3 = ^id(id coll, id n, id val) {
-var this__5802 = this;
-return cljm_DOT_core_SLASH__assoc(coll, n, val);
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IVector$_assoc_n$arity$3 = ^id(id coll, id n, id val) {
+var this__5790 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__assoc.value)(coll.value, n.value, val.value);
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__5803 = this;
-return cljm_DOT_core_SLASH_equiv_sequential(coll, other);
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
+var this__5791 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_equiv_sequential.value)(coll.value, other.value);
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
-var this__5804 = this;
-return [cljm_DOT_core_SLASH_PersistentVector alloc];
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
+var this__5792 = this;
+return [cljm_DOT_core_SLASH_PersistentVector.value alloc];
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
-var this__5805 = this;
-return this__5805_DOT_meta;
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
+var this__5793 = this;
+return this__5793.meta;
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IIndexed$_nth$arity$2 = ^id(id coll, id n) {
-var this__5806 = this;
-return (cljm_DOT_core_SLASH_array_for(coll, n)[(n & @31)]);
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IIndexed$_nth$arity$2 = ^id(id coll, id n) {
+var this__5794 = this;
+return (((id (^)(id , id )) cljm_DOT_core_SLASH_array_for.value)(coll.value, n.value)[(n.value & @31)]);
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IIndexed$_nth$arity$3 = ^id(id coll, id n, id not_found) {
-var this__5807 = this;
-if(cljm_truthy({id and__3822__auto____5808 = (@0 <= n);
-if(cljm_truthy(and__3822__auto____5808)) {
-return (n < this__5807_DOT_cnt);
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IIndexed$_nth$arity$3 = ^id(id coll, id n, id not_found) {
+var this__5795 = this;
+if(cljm_truthy({id and__3822__auto____5796 = (@0 <= n.value);
+if(cljm_truthy(and__3822__auto____5796)) {
+return (n.value < this__5795.cnt);
 
 } else {
-return and__3822__auto____5808;
+return and__3822__auto____5796;
 
 }
 })) {
-return cljm_DOT_core_SLASH__nth(coll, n);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(coll.value, n.value);
 
 } else {
-return not_found;
+return not_found.value;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
-var this__5809 = this;
-return cljm_DOT_core_SLASH_with_meta(cljs_DOT_core_DOT_PersistentVector_SLASH_EMPTY, this__5809_DOT_meta);
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
+var this__5797 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_with_meta.value)(cljs_DOT_core_DOT_PersistentVector_SLASH_EMPTY.value, this__5797.meta);
 };
-cljm_DOT_core_SLASH_PersistentVector;
-cljs_DOT_core_DOT_PersistentVector_SLASH_EMPTY_NODE = cljm_DOT_core_SLASH_pv_fresh_node(nil);
-cljs_DOT_core_DOT_PersistentVector_SLASH_EMPTY = [cljm_DOT_core_SLASH_PersistentVector alloc];
-cljs_DOT_core_DOT_PersistentVector_SLASH_fromArray = ^id(id xs, id no_clone) {
-id l__5814 = [xs count];
-id xs__5815 = (cljm_truthy(([no_clone isEqual:@YES]))) ?xs:xs.slice();
-if(cljm_truthy((l__5814 < @32))) {
-return [cljm_DOT_core_SLASH_PersistentVector alloc];
+cljm_DOT_core_SLASH_PersistentVector.value;
+cljs_DOT_core_DOT_PersistentVector_SLASH_EMPTY_NODE.value = ((id (^)(id )) cljm_DOT_core_SLASH_pv_fresh_node.value)(nil);
+cljs_DOT_core_DOT_PersistentVector_SLASH_EMPTY.value = [cljm_DOT_core_SLASH_PersistentVector.value alloc];
+cljs_DOT_core_DOT_PersistentVector_SLASH_fromArray.value = ^id(id xs, id no_clone) {
+id l__5802 = [xs.value count];
+id xs__5803 = (cljm_truthy(([no_clone.value isEqual:@YES]))) ?xs.value:xs.value.slice();
+if(cljm_truthy((l__5802 < @32))) {
+return [cljm_DOT_core_SLASH_PersistentVector.value alloc];
 
 } else {
-id node__5816 = [xs__5815 slice@0, @32, nil];
-id v__5817 = [cljm_DOT_core_SLASH_PersistentVector alloc];
-id i__5818 = @32;
-id out__5819 = cljm_DOT_core_SLASH__as_transient(v__5817);
+id node__5804 = [xs__5803 slice@0, @32, nil];
+id v__5805 = [cljm_DOT_core_SLASH_PersistentVector.value alloc];
+id i__5806 = @32;
+id out__5807 = ((id (^)(id )) cljm_DOT_core_SLASH__as_transient.value)(v__5805);
 while(YES) {
-if(cljm_truthy((i__5818 < l__5814))) {
+if(cljm_truthy((i__5806 < l__5802))) {
 {
-var G__5820 = (i__5818 + @1);
-var G__5821 = cljm_DOT_core_SLASH_conj_BANG_(out__5819, (xs__5815[i__5818]));
-i__5818 = G__5820;
-out__5819 = G__5821;
+var G__5808 = (i__5806 + @1);
+var G__5809 = ((id (^)(id , id )) cljm_DOT_core_SLASH_conj_BANG_.value)(out__5807, (xs__5803[i__5806]));
+i__5806 = G__5808;
+out__5807 = G__5809;
 continue;
 }
 
 } else {
-return cljm_DOT_core_SLASH_persistent_BANG_(out__5819);
+return ((id (^)(id )) cljm_DOT_core_SLASH_persistent_BANG_.value)(out__5807);
 
 }
 break;
@@ -7852,10 +7852,10 @@ break;
 
 }
 };
-cljm_DOT_core_SLASH_vec = ^id(id coll) {
-return cljm_DOT_core_SLASH__persistent_BANG_(cljm_DOT_core_SLASH_reduce(cljm_DOT_core_SLASH__conj_BANG_, cljm_DOT_core_SLASH__as_transient(cljs_DOT_core_DOT_PersistentVector_SLASH_EMPTY), coll));
-};
-cljm_DOT_core_SLASH_vector = ^id(id cljm__varargs, ...) {
+cljm_DOT_core_SLASH_vec = [[CLJMVar alloc] initWithValue:^id(id coll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__persistent_BANG_.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(cljm_DOT_core_SLASH__conj_BANG_.value, ((id (^)(id )) cljm_DOT_core_SLASH__as_transient.value)(cljs_DOT_core_DOT_PersistentVector_SLASH_EMPTY.value), coll.value));
+}];
+cljm_DOT_core_SLASH_vector = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, ...) {
 NSMutableArray *args = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -7863,8 +7863,8 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_vec(args);
-};
+return ((id (^)(id )) cljm_DOT_core_SLASH_vec.value)(args.value);
+}];
 
 /**
 * @constructor
@@ -7878,113 +7878,113 @@ this.meta = meta;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 27525356;
 })
-cljm_DOT_core_SLASH_ChunkedSeq.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_ChunkedSeq.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/ChunkedSeq", nil);
+cljm_DOT_core_SLASH_ChunkedSeq.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_ChunkedSeq.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/ChunkedSeq", nil);
 };
-cljm_DOT_core_SLASH_ChunkedSeq.prototype.cljm$core$INext$_next$arity$1 = ^id(id coll) {
+cljm_DOT_core_SLASH_ChunkedSeq.value.prototype.cljm$core$INext$_next$arity$1 = ^id(id coll) {
+var this__5810 = this;
+if(cljm_truthy(((this__5810.off + @1) < [this__5810.node count]))) {
+id s__5811 = ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_chunked_seq.value)(this__5810.vec, this__5810.node, this__5810.i, (this__5810.off + @1));
+if(cljm_truthy((s__5811 == nil))) {
+return nil;
+
+} else {
+return s__5811;
+
+}
+
+} else {
+return ((id (^)(id )) cljm_DOT_core_SLASH__chunked_next.value)(coll.value);
+
+}
+};
+cljm_DOT_core_SLASH_ChunkedSeq.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
+var this__5812 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(o.value, coll.value);
+};
+cljm_DOT_core_SLASH_ChunkedSeq.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
+var this__5813 = this;
+return coll.value;
+};
+cljm_DOT_core_SLASH_ChunkedSeq.value.prototype.cljm$core$ISeq$_first$arity$1 = ^id(id coll) {
+var this__5814 = this;
+return (this__5814.node[this__5814.off]);
+};
+cljm_DOT_core_SLASH_ChunkedSeq.value.prototype.cljm$core$ISeq$_rest$arity$1 = ^id(id coll) {
+var this__5815 = this;
+if(cljm_truthy(((this__5815.off + @1) < [this__5815.node count]))) {
+id s__5816 = ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_chunked_seq.value)(this__5815.vec, this__5815.node, this__5815.i, (this__5815.off + @1));
+if(cljm_truthy((s__5816 == nil))) {
+return cljm.core.List.EMPTY;
+
+} else {
+return s__5816;
+
+}
+
+} else {
+return ((id (^)(id )) cljm_DOT_core_SLASH__chunked_rest.value)(coll.value);
+
+}
+};
+cljm_DOT_core_SLASH_ChunkedSeq.value.prototype.cljm$core$IChunkedNext$ = @YES;
+cljm_DOT_core_SLASH_ChunkedSeq.value.prototype.cljm$core$IChunkedNext$_chunked_next$arity$1 = ^id(id coll) {
+var this__5817 = this;
+id l__5818 = [this__5817.node count];
+id s__5819 = (cljm_truthy(((this__5817.i + l__5818) < ((id (^)(id )) cljm_DOT_core_SLASH__count.value)(this__5817.vec)))) ?((id (^)(id , id , id )) cljm_DOT_core_SLASH_chunked_seq.value)(this__5817.vec, (this__5817.i + l__5818), @0):nil;
+if(cljm_truthy((s__5819 == nil))) {
+return nil;
+
+} else {
+return s__5819;
+
+}
+};
+cljm_DOT_core_SLASH_ChunkedSeq.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
+var this__5820 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_equiv_sequential.value)(coll.value, other.value);
+};
+cljm_DOT_core_SLASH_ChunkedSeq.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id m) {
+var this__5821 = this;
+return ((id (^)(id , id , id , id , id )) cljm_DOT_core_SLASH_chunked_seq.value)(this__5821.vec, this__5821.node, this__5821.i, this__5821.off, m.value);
+};
+cljm_DOT_core_SLASH_ChunkedSeq.value.prototype.cljm$core$IWithMeta$_meta$arity$1 = ^id(id coll) {
 var this__5822 = this;
-if(cljm_truthy(((this__5822_DOT_off + @1) < [this__5822_DOT_node count]))) {
-id s__5823 = cljm_DOT_core_SLASH_chunked_seq(this__5822_DOT_vec, this__5822_DOT_node, this__5822_DOT_i, (this__5822_DOT_off + @1));
-if(cljm_truthy((s__5823 == nil))) {
-return nil;
-
-} else {
-return s__5823;
-
-}
-
-} else {
-return cljm_DOT_core_SLASH__chunked_next(coll);
-
-}
+return this__5822.meta;
 };
-cljm_DOT_core_SLASH_ChunkedSeq.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
+cljm_DOT_core_SLASH_ChunkedSeq.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
+var this__5823 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_with_meta.value)(cljs_DOT_core_DOT_PersistentVector_SLASH_EMPTY.value, this__5823.meta);
+};
+cljm_DOT_core_SLASH_ChunkedSeq.value.prototype.cljm$core$IChunkedSeq$ = @YES;
+cljm_DOT_core_SLASH_ChunkedSeq.value.prototype.cljm$core$IChunkedSeq$_chunked_first$arity$1 = ^id(id coll) {
 var this__5824 = this;
-return cljm_DOT_core_SLASH_cons(o, coll);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_array_chunk.value)(this__5824.node, this__5824.off);
 };
-cljm_DOT_core_SLASH_ChunkedSeq.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
+cljm_DOT_core_SLASH_ChunkedSeq.value.prototype.cljm$core$IChunkedSeq$_chunked_rest$arity$1 = ^id(id coll) {
 var this__5825 = this;
-return coll;
-};
-cljm_DOT_core_SLASH_ChunkedSeq.prototype.cljm$core$ISeq$_first$arity$1 = ^id(id coll) {
-var this__5826 = this;
-return (this__5826_DOT_node[this__5826_DOT_off]);
-};
-cljm_DOT_core_SLASH_ChunkedSeq.prototype.cljm$core$ISeq$_rest$arity$1 = ^id(id coll) {
-var this__5827 = this;
-if(cljm_truthy(((this__5827_DOT_off + @1) < [this__5827_DOT_node count]))) {
-id s__5828 = cljm_DOT_core_SLASH_chunked_seq(this__5827_DOT_vec, this__5827_DOT_node, this__5827_DOT_i, (this__5827_DOT_off + @1));
-if(cljm_truthy((s__5828 == nil))) {
+id l__5826 = [this__5825.node count];
+id s__5827 = (cljm_truthy(((this__5825.i + l__5826) < ((id (^)(id )) cljm_DOT_core_SLASH__count.value)(this__5825.vec)))) ?((id (^)(id , id , id )) cljm_DOT_core_SLASH_chunked_seq.value)(this__5825.vec, (this__5825.i + l__5826), @0):nil;
+if(cljm_truthy((s__5827 == nil))) {
 return cljm.core.List.EMPTY;
 
 } else {
-return s__5828;
-
-}
-
-} else {
-return cljm_DOT_core_SLASH__chunked_rest(coll);
+return s__5827;
 
 }
 };
-cljm_DOT_core_SLASH_ChunkedSeq.prototype.cljm$core$IChunkedNext$ = @YES;
-cljm_DOT_core_SLASH_ChunkedSeq.prototype.cljm$core$IChunkedNext$_chunked_next$arity$1 = ^id(id coll) {
-var this__5829 = this;
-id l__5830 = [this__5829_DOT_node count];
-id s__5831 = (cljm_truthy(((this__5829_DOT_i + l__5830) < cljm_DOT_core_SLASH__count(this__5829_DOT_vec)))) ?cljm_DOT_core_SLASH_chunked_seq(this__5829_DOT_vec, (this__5829_DOT_i + l__5830), @0):nil;
-if(cljm_truthy((s__5831 == nil))) {
-return nil;
-
-} else {
-return s__5831;
-
-}
-};
-cljm_DOT_core_SLASH_ChunkedSeq.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__5832 = this;
-return cljm_DOT_core_SLASH_equiv_sequential(coll, other);
-};
-cljm_DOT_core_SLASH_ChunkedSeq.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id m) {
-var this__5833 = this;
-return cljm_DOT_core_SLASH_chunked_seq(this__5833_DOT_vec, this__5833_DOT_node, this__5833_DOT_i, this__5833_DOT_off, m);
-};
-cljm_DOT_core_SLASH_ChunkedSeq.prototype.cljm$core$IWithMeta$_meta$arity$1 = ^id(id coll) {
-var this__5834 = this;
-return this__5834_DOT_meta;
-};
-cljm_DOT_core_SLASH_ChunkedSeq.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
-var this__5835 = this;
-return cljm_DOT_core_SLASH_with_meta(cljs_DOT_core_DOT_PersistentVector_SLASH_EMPTY, this__5835_DOT_meta);
-};
-cljm_DOT_core_SLASH_ChunkedSeq.prototype.cljm$core$IChunkedSeq$ = @YES;
-cljm_DOT_core_SLASH_ChunkedSeq.prototype.cljm$core$IChunkedSeq$_chunked_first$arity$1 = ^id(id coll) {
-var this__5836 = this;
-return cljm_DOT_core_SLASH_array_chunk(this__5836_DOT_node, this__5836_DOT_off);
-};
-cljm_DOT_core_SLASH_ChunkedSeq.prototype.cljm$core$IChunkedSeq$_chunked_rest$arity$1 = ^id(id coll) {
-var this__5837 = this;
-id l__5838 = [this__5837_DOT_node count];
-id s__5839 = (cljm_truthy(((this__5837_DOT_i + l__5838) < cljm_DOT_core_SLASH__count(this__5837_DOT_vec)))) ?cljm_DOT_core_SLASH_chunked_seq(this__5837_DOT_vec, (this__5837_DOT_i + l__5838), @0):nil;
-if(cljm_truthy((s__5839 == nil))) {
-return cljm.core.List.EMPTY;
-
-} else {
-return s__5839;
-
-}
-};
-cljm_DOT_core_SLASH_ChunkedSeq;
-cljm_DOT_core_SLASH_chunked_seq = (function() {
+cljm_DOT_core_SLASH_ChunkedSeq.value;
+cljm_DOT_core_SLASH_chunked_seq = [[CLJMVar alloc] initWithValue:(function() {
 var chunked_seq = null;
 var chunked_seq__3 = ^id(id vec, id i, id off) {
-return chunked_seq(vec, cljm_DOT_core_SLASH_array_for(vec, i), i, off, nil);
+return ((id (^)(id , id , id , id , id )) chunked_seq.value)(vec.value, ((id (^)(id , id )) cljm_DOT_core_SLASH_array_for.value)(vec.value, i.value), i.value, off.value, nil);
 };
 var chunked_seq__4 = ^id(id vec, id node, id i, id off) {
-return chunked_seq(vec, node, i, off, nil);
+return ((id (^)(id , id , id , id , id )) chunked_seq.value)(vec.value, node.value, i.value, off.value, nil);
 };
 var chunked_seq__5 = ^id(id vec, id node, id i, id off, id meta) {
-return [cljm_DOT_core_SLASH_ChunkedSeq alloc];
+return [cljm_DOT_core_SLASH_ChunkedSeq.value alloc];
 };
 chunked_seq = function(vec, node, i, off, meta){
 switch(arguments.length){
@@ -8002,7 +8002,7 @@ chunked_seq.cljm$lang$arity$4 = chunked_seq__4;
 chunked_seq.cljm$lang$arity$5 = chunked_seq__5;
 return chunked_seq;
 })()
-;
+];
 
 /**
 * @constructor
@@ -8016,143 +8016,143 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 32400159;
 })
-cljm_DOT_core_SLASH_Subvec.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_Subvec.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/Subvec", nil);
+cljm_DOT_core_SLASH_Subvec.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_Subvec.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/Subvec", nil);
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
-var this__5842 = this;
-id h__1314__auto____5843 = this__5842_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____5843 == nil)))) {
-return h__1314__auto____5843;
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+var this__5830 = this;
+id h__1302__auto____5831 = this__5830.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____5831 == nil)))) {
+return h__1302__auto____5831;
 
 } else {
-id h__1314__auto____5844 = cljm_DOT_core_SLASH_hash_coll(coll);
-this__5842_DOT___hash = h__1314__auto____5844;
-return h__1314__auto____5844;
+id h__1302__auto____5832 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_coll.value)(coll.value);
+this__5830.__hash = h__1302__auto____5832;
+return h__1302__auto____5832;
 
 }
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
-var this__5845 = this;
-return cljm_DOT_core_SLASH__nth(coll, k, nil);
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
+var this__5833 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__nth.value)(coll.value, k.value, nil);
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
-var this__5846 = this;
-return cljm_DOT_core_SLASH__nth(coll, k, not_found);
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
+var this__5834 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__nth.value)(coll.value, k.value, not_found.value);
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id coll, id key, id val) {
-var this__5847 = this;
-id v_pos__5848 = (this__5847_DOT_start + key);
-return [cljm_DOT_core_SLASH_Subvec alloc];
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id coll, id key, id val) {
+var this__5835 = this;
+id v_pos__5836 = (this__5835.start + key.value);
+return [cljm_DOT_core_SLASH_Subvec.value alloc];
 };
-cljm_DOT_core_SLASH_Subvec.prototype.call = (function() {
-var G__5874 = null;
-var G__5874__2 = ^id(id this_sym5849, id k) {
-var this__5851 = this;
-id this_sym5849__5852 = this;
-id coll__5853 = this_sym5849__5852;
-return cljm_DOT_core_SLASH__lookup(coll__5853, k);
+cljm_DOT_core_SLASH_Subvec.value.prototype.call = (function() {
+var G__5862 = null;
+var G__5862__2 = ^id(id this_sym5837, id k) {
+var this__5839 = this;
+id this_sym5837__5840 = this;
+id coll__5841 = this-sym5837__5840;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__5841, k.value);
 };
-var G__5874__3 = ^id(id this_sym5850, id k, id not_found) {
-var this__5851 = this;
-id this_sym5850__5854 = this;
-id coll__5855 = this_sym5850__5854;
-return cljm_DOT_core_SLASH__lookup(coll__5855, k, not_found);
+var G__5862__3 = ^id(id this_sym5838, id k, id not_found) {
+var this__5839 = this;
+id this_sym5838__5842 = this;
+id coll__5843 = this-sym5838__5842;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__5843, k.value, not_found.value);
 };
-G__5874 = function(this_sym5850, k, not_found){
+G__5862 = function(this_sym5838, k, not_found){
 switch(arguments.length){
 case 2:
-return G__5874__2.call(this,this_sym5850, k);
+return G__5862__2.call(this,this_sym5838, k);
 case 3:
-return G__5874__3.call(this,this_sym5850, k, not_found);
+return G__5862__3.call(this,this_sym5838, k, not_found);
 }
 throw('Invalid arity: ' + arguments.length);
 };
-return G__5874;
+return G__5862;
 })()
 ;
-cljm_DOT_core_SLASH_Subvec.prototype.apply = ^id(id this_sym5840, id args5841) {
-var this__5856 = this;
-return [this_sym5840.call applythis_sym5840, [@[this_sym5840] concatargs5841.slice()], nil];
+cljm_DOT_core_SLASH_Subvec.value.prototype.apply = ^id(id this_sym5828, id args5829) {
+var this__5844 = this;
+return [this_sym5828.value.call applythis_sym5828.value, [@[this_sym5828.value] concatargs5829.value.slice()], nil];
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
-var this__5857 = this;
-return [cljm_DOT_core_SLASH_Subvec alloc];
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
+var this__5845 = this;
+return [cljm_DOT_core_SLASH_Subvec.value alloc];
 };
-cljm_DOT_core_SLASH_Subvec.prototype.toString = ^id() {
-var this__5858 = this;
-id this__5859 = this;
-return cljm_DOT_core_SLASH_pr_str(this__5859, nil);
+cljm_DOT_core_SLASH_Subvec.value.prototype.toString = ^id() {
+var this__5846 = this;
+id this__5847 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__5847, nil);
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$IReduce$_reduce$arity$2 = ^id(id coll, id f) {
-var this__5860 = this;
-return cljm_DOT_core_SLASH_ci_reduce(coll, f);
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$IReduce$_reduce$arity$2 = ^id(id coll, id f) {
+var this__5848 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_ci_reduce.value)(coll.value, f.value);
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$IReduce$_reduce$arity$3 = ^id(id coll, id f, id start) {
-var this__5861 = this;
-return cljm_DOT_core_SLASH_ci_reduce(coll, f, start);
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$IReduce$_reduce$arity$3 = ^id(id coll, id f, id start) {
+var this__5849 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_ci_reduce.value)(coll.value, f.value, start.value);
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
-var this__5862 = this;
-id subvec_seq__5863 = ^id(id i) {
-if(cljm_truthy(([i isEqual:this__5862_DOT_end]))) {
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
+var this__5850 = this;
+id subvec_seq__5851 = ^id(id i) {
+if(cljm_truthy(([i.value isEqual:this__5850.end]))) {
 return nil;
 
 } else {
-return cljm_DOT_core_SLASH_cons(cljm_DOT_core_SLASH__nth(this__5862_DOT_v, i), [cljm_DOT_core_SLASH_LazySeq alloc]);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(this__5850.v, i.value), [cljm_DOT_core_SLASH_LazySeq.value alloc]);
 
 }
 };
-return subvec_seq__5863(this__5862_DOT_start);
+return ((id (^)(id )) subvec_seq__5851.value)(this__5850.start);
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
-var this__5864 = this;
-return (this__5864_DOT_end - this__5864_DOT_start);
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
+var this__5852 = this;
+return (this__5852.end - this__5852.start);
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$IStack$_peek$arity$1 = ^id(id coll) {
-var this__5865 = this;
-return cljm_DOT_core_SLASH__nth(this__5865_DOT_v, (this__5865_DOT_end - @1));
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$IStack$_peek$arity$1 = ^id(id coll) {
+var this__5853 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(this__5853.v, (this__5853.end - @1));
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$IStack$_pop$arity$1 = ^id(id coll) {
-var this__5866 = this;
-if(cljm_truthy(([this__5866_DOT_start isEqual:this__5866_DOT_end]))) {
-throw [Error alloc];
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$IStack$_pop$arity$1 = ^id(id coll) {
+var this__5854 = this;
+if(cljm_truthy(([this__5854.start isEqual:this__5854.end]))) {
+throw [Error.value alloc];
 
 } else {
-return [cljm_DOT_core_SLASH_Subvec alloc];
+return [cljm_DOT_core_SLASH_Subvec.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$IVector$_assoc_n$arity$3 = ^id(id coll, id n, id val) {
-var this__5867 = this;
-return cljm_DOT_core_SLASH__assoc(coll, n, val);
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$IVector$_assoc_n$arity$3 = ^id(id coll, id n, id val) {
+var this__5855 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__assoc.value)(coll.value, n.value, val.value);
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__5868 = this;
-return cljm_DOT_core_SLASH_equiv_sequential(coll, other);
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
+var this__5856 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_equiv_sequential.value)(coll.value, other.value);
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
-var this__5869 = this;
-return [cljm_DOT_core_SLASH_Subvec alloc];
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
+var this__5857 = this;
+return [cljm_DOT_core_SLASH_Subvec.value alloc];
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
-var this__5870 = this;
-return this__5870_DOT_meta;
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
+var this__5858 = this;
+return this__5858.meta;
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$IIndexed$_nth$arity$2 = ^id(id coll, id n) {
-var this__5871 = this;
-return cljm_DOT_core_SLASH__nth(this__5871_DOT_v, (this__5871_DOT_start + n));
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$IIndexed$_nth$arity$2 = ^id(id coll, id n) {
+var this__5859 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(this__5859.v, (this__5859.start + n.value));
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$IIndexed$_nth$arity$3 = ^id(id coll, id n, id not_found) {
-var this__5872 = this;
-return cljm_DOT_core_SLASH__nth(this__5872_DOT_v, (this__5872_DOT_start + n), not_found);
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$IIndexed$_nth$arity$3 = ^id(id coll, id n, id not_found) {
+var this__5860 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__nth.value)(this__5860.v, (this__5860.start + n.value), not_found.value);
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
-var this__5873 = this;
-return cljm_DOT_core_SLASH_with_meta(cljs_DOT_core_DOT_Vector_SLASH_EMPTY, this__5873_DOT_meta);
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
+var this__5861 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_with_meta.value)(cljs_DOT_core_DOT_Vector_SLASH_EMPTY.value, this__5861.meta);
 };
-cljm_DOT_core_SLASH_Subvec;
+cljm_DOT_core_SLASH_Subvec.value;
 /**
 * Returns a persistent vector of the items in vector from
 * start (inclusive) to end (exclusive).  If end is not supplied,
@@ -8160,13 +8160,13 @@ cljm_DOT_core_SLASH_Subvec;
 * the resulting vector shares structure with the original and no
 * trimming is done.
 */
-cljm_DOT_core_SLASH_subvec = (function() {
+cljm_DOT_core_SLASH_subvec = [[CLJMVar alloc] initWithValue:(function() {
 var subvec = null;
 var subvec__2 = ^id(id v, id start) {
-return subvec(v, start, cljm_DOT_core_SLASH_count(v));
+return ((id (^)(id , id , id )) subvec.value)(v.value, start.value, ((id (^)(id )) cljm_DOT_core_SLASH_count.value)(v.value));
 };
 var subvec__3 = ^id(id v, id start, id end) {
-return [cljm_DOT_core_SLASH_Subvec alloc];
+return [cljm_DOT_core_SLASH_Subvec.value alloc];
 };
 subvec = function(v, start, end){
 switch(arguments.length){
@@ -8181,68 +8181,68 @@ subvec.cljm$lang$arity$2 = subvec__2;
 subvec.cljm$lang$arity$3 = subvec__3;
 return subvec;
 })()
-;
-cljm_DOT_core_SLASH_tv_ensure_editable = ^id(id edit, id node) {
-if(cljm_truthy(([edit isEqual:node.edit]))) {
-return node;
+];
+cljm_DOT_core_SLASH_tv_ensure_editable = [[CLJMVar alloc] initWithValue:^id(id edit, id node) {
+if(cljm_truthy(([edit.value isEqual:node.value.edit]))) {
+return node.value;
 
 } else {
-return [cljm_DOT_core_SLASH_VectorNode alloc];
+return [cljm_DOT_core_SLASH_VectorNode.value alloc];
 
 }
-};
-cljm_DOT_core_SLASH_tv_editable_root = ^id(id node) {
-return [cljm_DOT_core_SLASH_VectorNode alloc];
-};
-cljm_DOT_core_SLASH_tv_editable_tail = ^id(id tl) {
-id ret__5876 = cljm_DOT_core_SLASH_make_array(@32);
-cljm_DOT_core_SLASH_array_copy(tl, @0, ret__5876, @0, tl.length);
-return ret__5876;
-};
-cljm_DOT_core_SLASH_tv_push_tail = ^id(id tv, id level, id parent, id tail_node) {
-id ret__5880 = cljm_DOT_core_SLASH_tv_ensure_editable(tv.root.edit, parent);
-id subidx__5881 = (((tv.cnt - @1) >>> level) & @31);
-cljm_DOT_core_SLASH_pv_aset(ret__5880, subidx__5881, (cljm_truthy(([level isEqual:@5]))) ?tail_node:{id child__5882 = cljm_DOT_core_SLASH_pv_aget(ret__5880, subidx__5881);
-if(cljm_truthy(cljm_DOT_core_SLASH_not((child__5882 == nil)))) {
-return tv_push_tail(tv, (level - @5), child__5882, tail_node);
+}];
+cljm_DOT_core_SLASH_tv_editable_root = [[CLJMVar alloc] initWithValue:^id(id node) {
+return [cljm_DOT_core_SLASH_VectorNode.value alloc];
+}];
+cljm_DOT_core_SLASH_tv_editable_tail = [[CLJMVar alloc] initWithValue:^id(id tl) {
+id ret__5864 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)(@32);
+((id (^)(id , id , id , id , id )) cljm_DOT_core_SLASH_array_copy.value)(tl.value, @0, ret__5864, @0, tl.value.length);
+return ret__5864;
+}];
+cljm_DOT_core_SLASH_tv_push_tail = [[CLJMVar alloc] initWithValue:^id(id tv, id level, id parent, id tail_node) {
+id ret__5868 = ((id (^)(id , id )) cljm_DOT_core_SLASH_tv_ensure_editable.value)(tv.value.root.edit, parent.value);
+id subidx__5869 = (((tv.value.cnt - @1) >>> level.value) & @31);
+((id (^)(id , id , id )) cljm_DOT_core_SLASH_pv_aset.value)(ret__5868, subidx__5869, (cljm_truthy(([level.value isEqual:@5]))) ?tail_node.value:{id child__5870 = ((id (^)(id , id )) cljm_DOT_core_SLASH_pv_aget.value)(ret__5868, subidx__5869);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((child__5870 == nil)))) {
+return ((id (^)(id , id , id , id )) tv_push_tail.value)(tv.value, (level.value - @5), child__5870, tail_node.value);
 
 } else {
-return cljm_DOT_core_SLASH_new_path(tv.root.edit, (level - @5), tail_node);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_new_path.value)(tv.value.root.edit, (level.value - @5), tail_node.value);
 
 }
 });
-return ret__5880;
-};
-cljm_DOT_core_SLASH_tv_pop_tail = ^id(id tv, id level, id node) {
-id node__5887 = cljm_DOT_core_SLASH_tv_ensure_editable(tv.root.edit, node);
-id subidx__5888 = (((tv.cnt - @2) >>> level) & @31);
-if(cljm_truthy((level > @5))) {
-id new_child__5889 = tv_pop_tail(tv, (level - @5), cljm_DOT_core_SLASH_pv_aget(node__5887, subidx__5888));
-if(cljm_truthy({id and__3822__auto____5890 = (new_child__5889 == nil);
-if(cljm_truthy(and__3822__auto____5890)) {
-return ([subidx__5888 isEqual:@0]);
+return ret__5868;
+}];
+cljm_DOT_core_SLASH_tv_pop_tail = [[CLJMVar alloc] initWithValue:^id(id tv, id level, id node) {
+id node__5875 = ((id (^)(id , id )) cljm_DOT_core_SLASH_tv_ensure_editable.value)(tv.value.root.edit, node.value);
+id subidx__5876 = (((tv.value.cnt - @2) >>> level.value) & @31);
+if(cljm_truthy((level.value > @5))) {
+id new_child__5877 = ((id (^)(id , id , id )) tv_pop_tail.value)(tv.value, (level.value - @5), ((id (^)(id , id )) cljm_DOT_core_SLASH_pv_aget.value)(node__5875, subidx__5876));
+if(cljm_truthy({id and__3822__auto____5878 = (new-child__5877 == nil);
+if(cljm_truthy(and__3822__auto____5878)) {
+return ([subidx__5876 isEqual:@0]);
 
 } else {
-return and__3822__auto____5890;
+return and__3822__auto____5878;
 
 }
 })) {
 return nil;
 
 } else {
-cljm_DOT_core_SLASH_pv_aset(node__5887, subidx__5888, new_child__5889);
-return node__5887;
+((id (^)(id , id , id )) cljm_DOT_core_SLASH_pv_aset.value)(node__5875, subidx__5876, new-child__5877);
+return node__5875;
 
 }
 
 } else {
-if(cljm_truthy(([subidx__5888 isEqual:@0]))) {
+if(cljm_truthy(([subidx__5876 isEqual:@0]))) {
 return nil;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-cljm_DOT_core_SLASH_pv_aset(node__5887, subidx__5888, nil);
-return node__5887;
+((id (^)(id , id , id )) cljm_DOT_core_SLASH_pv_aset.value)(node__5875, subidx__5876, nil);
+return node__5875;
 
 } else {
 return nil;
@@ -8252,36 +8252,36 @@ return nil;
 }
 
 }
-};
-cljm_DOT_core_SLASH_editable_array_for = ^id(id tv, id i) {
-if(cljm_truthy({id and__3822__auto____5895 = (@0 <= i);
-if(cljm_truthy(and__3822__auto____5895)) {
-return (i < tv.cnt);
+}];
+cljm_DOT_core_SLASH_editable_array_for = [[CLJMVar alloc] initWithValue:^id(id tv, id i) {
+if(cljm_truthy({id and__3822__auto____5883 = (@0 <= i.value);
+if(cljm_truthy(and__3822__auto____5883)) {
+return (i.value < tv.value.cnt);
 
 } else {
-return and__3822__auto____5895;
+return and__3822__auto____5883;
 
 }
 })) {
-if(cljm_truthy((i >= cljm_DOT_core_SLASH_tail_off(tv)))) {
-return tv.tail;
+if(cljm_truthy((i.value >= ((id (^)(id )) cljm_DOT_core_SLASH_tail_off.value)(tv.value)))) {
+return tv.value.tail;
 
 } else {
-id root__5896 = tv.root;
-id node__5897 = root__5896;
-id level__5898 = tv.shift;
+id root__5884 = tv.value.root;
+id node__5885 = root__5884;
+id level__5886 = tv.value.shift;
 while(YES) {
-if(cljm_truthy((level__5898 > @0))) {
+if(cljm_truthy((level__5886 > @0))) {
 {
-var G__5899 = cljm_DOT_core_SLASH_tv_ensure_editable(root__5896.edit, cljm_DOT_core_SLASH_pv_aget(node__5897, ((i >>> level__5898) & @31)));
-var G__5900 = (level__5898 - @5);
-node__5897 = G__5899;
-level__5898 = G__5900;
+var G__5887 = ((id (^)(id , id )) cljm_DOT_core_SLASH_tv_ensure_editable.value)(root__5884.edit, ((id (^)(id , id )) cljm_DOT_core_SLASH_pv_aget.value)(node__5885, ((i.value >>> level__5886) & @31)));
+var G__5888 = (level__5886 - @5);
+node__5885 = G__5887;
+level__5886 = G__5888;
 continue;
 }
 
 } else {
-return node__5897.arr;
+return node__5885.arr;
 
 }
 break;
@@ -8290,10 +8290,10 @@ break;
 }
 
 } else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
-};
+}];
 
 /**
 * @constructor
@@ -8306,180 +8306,180 @@ this.tail = tail;
 this.cljm$lang$protocol_mask$partition0$ = 275;
 this.cljm$lang$protocol_mask$partition1$ = 22;
 })
-cljm_DOT_core_SLASH_TransientVector.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_TransientVector.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/TransientVector", nil);
+cljm_DOT_core_SLASH_TransientVector.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_TransientVector.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/TransientVector", nil);
 };
-cljm_DOT_core_SLASH_TransientVector.prototype.call = (function() {
-var G__5940 = null;
-var G__5940__2 = ^id(id this_sym5903, id k) {
-var this__5905 = this;
-id this_sym5903__5906 = this;
-id coll__5907 = this_sym5903__5906;
-return cljm_DOT_core_SLASH__lookup(coll__5907, k);
+cljm_DOT_core_SLASH_TransientVector.value.prototype.call = (function() {
+var G__5928 = null;
+var G__5928__2 = ^id(id this_sym5891, id k) {
+var this__5893 = this;
+id this_sym5891__5894 = this;
+id coll__5895 = this-sym5891__5894;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__5895, k.value);
 };
-var G__5940__3 = ^id(id this_sym5904, id k, id not_found) {
-var this__5905 = this;
-id this_sym5904__5908 = this;
-id coll__5909 = this_sym5904__5908;
-return cljm_DOT_core_SLASH__lookup(coll__5909, k, not_found);
+var G__5928__3 = ^id(id this_sym5892, id k, id not_found) {
+var this__5893 = this;
+id this_sym5892__5896 = this;
+id coll__5897 = this-sym5892__5896;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__5897, k.value, not_found.value);
 };
-G__5940 = function(this_sym5904, k, not_found){
+G__5928 = function(this_sym5892, k, not_found){
 switch(arguments.length){
 case 2:
-return G__5940__2.call(this,this_sym5904, k);
+return G__5928__2.call(this,this_sym5892, k);
 case 3:
-return G__5940__3.call(this,this_sym5904, k, not_found);
+return G__5928__3.call(this,this_sym5892, k, not_found);
 }
 throw('Invalid arity: ' + arguments.length);
 };
-return G__5940;
+return G__5928;
 })()
 ;
-cljm_DOT_core_SLASH_TransientVector.prototype.apply = ^id(id this_sym5901, id args5902) {
-var this__5910 = this;
-return [this_sym5901.call applythis_sym5901, [@[this_sym5901] concatargs5902.slice()], nil];
+cljm_DOT_core_SLASH_TransientVector.value.prototype.apply = ^id(id this_sym5889, id args5890) {
+var this__5898 = this;
+return [this_sym5889.value.call applythis_sym5889.value, [@[this_sym5889.value] concatargs5890.value.slice()], nil];
 };
-cljm_DOT_core_SLASH_TransientVector.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
-var this__5911 = this;
-return cljm_DOT_core_SLASH__nth(coll, k, nil);
+cljm_DOT_core_SLASH_TransientVector.value.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
+var this__5899 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__nth.value)(coll.value, k.value, nil);
 };
-cljm_DOT_core_SLASH_TransientVector.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
+cljm_DOT_core_SLASH_TransientVector.value.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
+var this__5900 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__nth.value)(coll.value, k.value, not_found.value);
+};
+cljm_DOT_core_SLASH_TransientVector.value.prototype.cljm$core$IIndexed$_nth$arity$2 = ^id(id coll, id n) {
+var this__5901 = this;
+if(cljm_truthy(this__5901.root.edit)) {
+return (((id (^)(id , id )) cljm_DOT_core_SLASH_array_for.value)(coll.value, n.value)[(n.value & @31)]);
+
+} else {
+throw [Error.value alloc];
+
+}
+};
+cljm_DOT_core_SLASH_TransientVector.value.prototype.cljm$core$IIndexed$_nth$arity$3 = ^id(id coll, id n, id not_found) {
+var this__5902 = this;
+if(cljm_truthy({id and__3822__auto____5903 = (@0 <= n.value);
+if(cljm_truthy(and__3822__auto____5903)) {
+return (n.value < this__5902.cnt);
+
+} else {
+return and__3822__auto____5903;
+
+}
+})) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(coll.value, n.value);
+
+} else {
+return not_found.value;
+
+}
+};
+cljm_DOT_core_SLASH_TransientVector.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
+var this__5904 = this;
+if(cljm_truthy(this__5904.root.edit)) {
+return this__5904.cnt;
+
+} else {
+throw [Error.value alloc];
+
+}
+};
+cljm_DOT_core_SLASH_TransientVector.value.prototype.cljm$core$ITransientVector$_assoc_n_BANG_$arity$3 = ^id(id tcoll, id n, id val) {
+var this__5905 = this;
+if(cljm_truthy(this__5905.root.edit)) {
+if(cljm_truthy({id and__3822__auto____5906 = (@0 <= n.value);
+if(cljm_truthy(and__3822__auto____5906)) {
+return (n.value < this__5905.cnt);
+
+} else {
+return and__3822__auto____5906;
+
+}
+})) {
+if(cljm_truthy((((id (^)(id )) cljm_DOT_core_SLASH_tail_off.value)(tcoll.value) <= n.value))) {
+(this__5905.tail[(n.value & @31)] = val.value);
+return tcoll.value;
+
+} else {
+id new_root__5911 = ((id (^)(id , id )) .value)(this__5905.shift, this__5905.root);
+this__5905.root = new-root__5911;
+return tcoll.value;
+
+}
+
+} else {
+if(cljm_truthy(([n.value isEqual:this__5905.cnt]))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__conj_BANG_.value)(tcoll.value, val.value);
+
+} else {
+if(cljm_truthy(cljm_keyword(@":else"))) {
+throw [Error.value alloc];
+
+} else {
+return nil;
+
+}
+
+}
+
+}
+
+} else {
+throw [Error.value alloc];
+
+}
+};
+cljm_DOT_core_SLASH_TransientVector.value.prototype.cljm$core$ITransientVector$_pop_BANG_$arity$1 = ^id(id tcoll) {
 var this__5912 = this;
-return cljm_DOT_core_SLASH__nth(coll, k, not_found);
-};
-cljm_DOT_core_SLASH_TransientVector.prototype.cljm$core$IIndexed$_nth$arity$2 = ^id(id coll, id n) {
-var this__5913 = this;
-if(cljm_truthy(this__5913_DOT_root.edit)) {
-return (cljm_DOT_core_SLASH_array_for(coll, n)[(n & @31)]);
+if(cljm_truthy(this__5912.root.edit)) {
+if(cljm_truthy(([this__5912.cnt isEqual:@0]))) {
+throw [Error.value alloc];
 
 } else {
-throw [Error alloc];
-
-}
-};
-cljm_DOT_core_SLASH_TransientVector.prototype.cljm$core$IIndexed$_nth$arity$3 = ^id(id coll, id n, id not_found) {
-var this__5914 = this;
-if(cljm_truthy({id and__3822__auto____5915 = (@0 <= n);
-if(cljm_truthy(and__3822__auto____5915)) {
-return (n < this__5914_DOT_cnt);
+if(cljm_truthy(([@1 isEqual:this__5912.cnt]))) {
+this__5912.cnt = @0;
+return tcoll.value;
 
 } else {
-return and__3822__auto____5915;
-
-}
-})) {
-return cljm_DOT_core_SLASH__nth(coll, n);
-
-} else {
-return not_found;
-
-}
-};
-cljm_DOT_core_SLASH_TransientVector.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
-var this__5916 = this;
-if(cljm_truthy(this__5916_DOT_root.edit)) {
-return this__5916_DOT_cnt;
-
-} else {
-throw [Error alloc];
-
-}
-};
-cljm_DOT_core_SLASH_TransientVector.prototype.cljm$core$ITransientVector$_assoc_n_BANG_$arity$3 = ^id(id tcoll, id n, id val) {
-var this__5917 = this;
-if(cljm_truthy(this__5917_DOT_root.edit)) {
-if(cljm_truthy({id and__3822__auto____5918 = (@0 <= n);
-if(cljm_truthy(and__3822__auto____5918)) {
-return (n < this__5917_DOT_cnt);
-
-} else {
-return and__3822__auto____5918;
-
-}
-})) {
-if(cljm_truthy((cljm_DOT_core_SLASH_tail_off(tcoll) <= n))) {
-(this__5917_DOT_tail[(n & @31)] = val);
-return tcoll;
-
-} else {
-id new_root__5923 = (this__5917_DOT_shift, this__5917_DOT_root);
-this__5917_DOT_root = new_root__5923;
-return tcoll;
-
-}
-
-} else {
-if(cljm_truthy(([n isEqual:this__5917_DOT_cnt]))) {
-return cljm_DOT_core_SLASH__conj_BANG_(tcoll, val);
+if(cljm_truthy((((this__5912.cnt - @1) & @31) > @0))) {
+this__5912.cnt = (this__5912.cnt - @1);
+return tcoll.value;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-throw [Error alloc];
+id new_tail__5913 = ((id (^)(id , id )) cljm_DOT_core_SLASH_editable_array_for.value)(tcoll.value, (this__5912.cnt - @2));
+id new_root__5915 = {id nr__5914 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_tv_pop_tail.value)(tcoll.value, this__5912.shift, this__5912.root);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((nr__5914 == nil)))) {
+return nr__5914;
 
 } else {
-return nil;
-
-}
-
-}
-
-}
-
-} else {
-throw [Error alloc];
+return [cljm_DOT_core_SLASH_VectorNode.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_TransientVector.prototype.cljm$core$ITransientVector$_pop_BANG_$arity$1 = ^id(id tcoll) {
-var this__5924 = this;
-if(cljm_truthy(this__5924_DOT_root.edit)) {
-if(cljm_truthy(([this__5924_DOT_cnt isEqual:@0]))) {
-throw [Error alloc];
+if(cljm_truthy({id and__3822__auto____5916 = (@5 < this__5912.shift);
+if(cljm_truthy(and__3822__auto____5916)) {
+return (((id (^)(id , id )) cljm_DOT_core_SLASH_pv_aget.value)(new-root__5915, @1) == nil);
 
 } else {
-if(cljm_truthy(([@1 isEqual:this__5924_DOT_cnt]))) {
-this__5924_DOT_cnt = @0;
-return tcoll;
-
-} else {
-if(cljm_truthy((((this__5924_DOT_cnt - @1) & @31) > @0))) {
-this__5924_DOT_cnt = (this__5924_DOT_cnt - @1);
-return tcoll;
-
-} else {
-if(cljm_truthy(cljm_keyword(@":else"))) {
-id new_tail__5925 = cljm_DOT_core_SLASH_editable_array_for(tcoll, (this__5924_DOT_cnt - @2));
-id new_root__5927 = {id nr__5926 = cljm_DOT_core_SLASH_tv_pop_tail(tcoll, this__5924_DOT_shift, this__5924_DOT_root);
-if(cljm_truthy(cljm_DOT_core_SLASH_not((nr__5926 == nil)))) {
-return nr__5926;
-
-} else {
-return [cljm_DOT_core_SLASH_VectorNode alloc];
-
-}
-};
-if(cljm_truthy({id and__3822__auto____5928 = (@5 < this__5924_DOT_shift);
-if(cljm_truthy(and__3822__auto____5928)) {
-return (cljm_DOT_core_SLASH_pv_aget(new_root__5927, @1) == nil);
-
-} else {
-return and__3822__auto____5928;
+return and__3822__auto____5916;
 
 }
 })) {
-id new_root__5929 = cljm_DOT_core_SLASH_tv_ensure_editable(this__5924_DOT_root.edit, cljm_DOT_core_SLASH_pv_aget(new_root__5927, @0));
-this__5924_DOT_root = new_root__5929;
-this__5924_DOT_shift = (this__5924_DOT_shift - @5);
-this__5924_DOT_cnt = (this__5924_DOT_cnt - @1);
-this__5924_DOT_tail = new_tail__5925;
-return tcoll;
+id new_root__5917 = ((id (^)(id , id )) cljm_DOT_core_SLASH_tv_ensure_editable.value)(this__5912.root.edit, ((id (^)(id , id )) cljm_DOT_core_SLASH_pv_aget.value)(new-root__5915, @0));
+this__5912.root = new-root__5917;
+this__5912.shift = (this__5912.shift - @5);
+this__5912.cnt = (this__5912.cnt - @1);
+this__5912.tail = new-tail__5913;
+return tcoll.value;
 
 } else {
-this__5924_DOT_root = new_root__5927;
-this__5924_DOT_cnt = (this__5924_DOT_cnt - @1);
-this__5924_DOT_tail = new_tail__5925;
-return tcoll;
+this__5912.root = new-root__5915;
+this__5912.cnt = (this__5912.cnt - @1);
+this__5912.tail = new-tail__5913;
+return tcoll.value;
 
 }
 
@@ -8495,67 +8495,67 @@ return nil;
 }
 
 } else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_TransientVector.prototype.cljm$core$ITransientAssociative$_assoc_BANG_$arity$3 = ^id(id tcoll, id key, id val) {
-var this__5930 = this;
-return cljm_DOT_core_SLASH__assoc_n_BANG_(tcoll, key, val);
+cljm_DOT_core_SLASH_TransientVector.value.prototype.cljm$core$ITransientAssociative$_assoc_BANG_$arity$3 = ^id(id tcoll, id key, id val) {
+var this__5918 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__assoc_n_BANG_.value)(tcoll.value, key.value, val.value);
 };
-cljm_DOT_core_SLASH_TransientVector.prototype.cljm$core$ITransientCollection$_conj_BANG_$arity$2 = ^id(id tcoll, id o) {
-var this__5931 = this;
-if(cljm_truthy(this__5931_DOT_root.edit)) {
-if(cljm_truthy(((this__5931_DOT_cnt - cljm_DOT_core_SLASH_tail_off(tcoll)) < @32))) {
-(this__5931_DOT_tail[(this__5931_DOT_cnt & @31)] = o);
-this__5931_DOT_cnt = (this__5931_DOT_cnt + @1);
-return tcoll;
+cljm_DOT_core_SLASH_TransientVector.value.prototype.cljm$core$ITransientCollection$_conj_BANG_$arity$2 = ^id(id tcoll, id o) {
+var this__5919 = this;
+if(cljm_truthy(this__5919.root.edit)) {
+if(cljm_truthy(((this__5919.cnt - ((id (^)(id )) cljm_DOT_core_SLASH_tail_off.value)(tcoll.value)) < @32))) {
+(this__5919.tail[(this__5919.cnt & @31)] = o.value);
+this__5919.cnt = (this__5919.cnt + @1);
+return tcoll.value;
 
 } else {
-id tail_node__5932 = [cljm_DOT_core_SLASH_VectorNode alloc];
-id new_tail__5933 = cljm_DOT_core_SLASH_make_array(@32);
-(new_tail__5933[@0] = o);
-this__5931_DOT_tail = new_tail__5933;
-if(cljm_truthy(((this__5931_DOT_cnt >>> @5) > (@1 << this__5931_DOT_shift)))) {
-id new_root_array__5934 = cljm_DOT_core_SLASH_make_array(@32);
-id new_shift__5935 = (this__5931_DOT_shift + @5);
-(new_root_array__5934[@0] = this__5931_DOT_root);
-(new_root_array__5934[@1] = cljm_DOT_core_SLASH_new_path(this__5931_DOT_root.edit, this__5931_DOT_shift, tail_node__5932));
-this__5931_DOT_root = [cljm_DOT_core_SLASH_VectorNode alloc];
-this__5931_DOT_shift = new_shift__5935;
-this__5931_DOT_cnt = (this__5931_DOT_cnt + @1);
-return tcoll;
+id tail_node__5920 = [cljm_DOT_core_SLASH_VectorNode.value alloc];
+id new_tail__5921 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)(@32);
+(new-tail__5921[@0] = o.value);
+this__5919.tail = new-tail__5921;
+if(cljm_truthy(((this__5919.cnt >>> @5) > (@1 << this__5919.shift)))) {
+id new_root_array__5922 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)(@32);
+id new_shift__5923 = (this__5919.shift + @5);
+(new-root-array__5922[@0] = this__5919.root);
+(new-root-array__5922[@1] = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_new_path.value)(this__5919.root.edit, this__5919.shift, tail-node__5920));
+this__5919.root = [cljm_DOT_core_SLASH_VectorNode.value alloc];
+this__5919.shift = new-shift__5923;
+this__5919.cnt = (this__5919.cnt + @1);
+return tcoll.value;
 
 } else {
-id new_root__5936 = cljm_DOT_core_SLASH_tv_push_tail(tcoll, this__5931_DOT_shift, this__5931_DOT_root, tail_node__5932);
-this__5931_DOT_root = new_root__5936;
-this__5931_DOT_cnt = (this__5931_DOT_cnt + @1);
-return tcoll;
+id new_root__5924 = ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_tv_push_tail.value)(tcoll.value, this__5919.shift, this__5919.root, tail-node__5920);
+this__5919.root = new-root__5924;
+this__5919.cnt = (this__5919.cnt + @1);
+return tcoll.value;
 
 }
 
 }
 
 } else {
-throw [Error alloc];
-
-}
-};
-cljm_DOT_core_SLASH_TransientVector.prototype.cljm$core$ITransientCollection$_persistent_BANG_$arity$1 = ^id(id tcoll) {
-var this__5937 = this;
-if(cljm_truthy(this__5937_DOT_root.edit)) {
-this__5937_DOT_root.edit = nil;
-id len__5938 = (this__5937_DOT_cnt - cljm_DOT_core_SLASH_tail_off(tcoll));
-id trimmed_tail__5939 = cljm_DOT_core_SLASH_make_array(len__5938);
-cljm_DOT_core_SLASH_array_copy(this__5937_DOT_tail, @0, trimmed_tail__5939, @0, len__5938);
-return [cljm_DOT_core_SLASH_PersistentVector alloc];
-
-} else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_TransientVector;
+cljm_DOT_core_SLASH_TransientVector.value.prototype.cljm$core$ITransientCollection$_persistent_BANG_$arity$1 = ^id(id tcoll) {
+var this__5925 = this;
+if(cljm_truthy(this__5925.root.edit)) {
+this__5925.root.edit = nil;
+id len__5926 = (this__5925.cnt - ((id (^)(id )) cljm_DOT_core_SLASH_tail_off.value)(tcoll.value));
+id trimmed_tail__5927 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)(len__5926);
+((id (^)(id , id , id , id , id )) cljm_DOT_core_SLASH_array_copy.value)(this__5925.tail, @0, trimmed-tail__5927, @0, len__5926);
+return [cljm_DOT_core_SLASH_PersistentVector.value alloc];
+
+} else {
+throw [Error.value alloc];
+
+}
+};
+cljm_DOT_core_SLASH_TransientVector.value;
 
 /**
 * @constructor
@@ -8568,75 +8568,75 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 31850572;
 })
-cljm_DOT_core_SLASH_PersistentQueueSeq.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_PersistentQueueSeq.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/PersistentQueueSeq", nil);
+cljm_DOT_core_SLASH_PersistentQueueSeq.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_PersistentQueueSeq.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/PersistentQueueSeq", nil);
 };
-cljm_DOT_core_SLASH_PersistentQueueSeq.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+cljm_DOT_core_SLASH_PersistentQueueSeq.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+var this__5929 = this;
+id h__1302__auto____5930 = this__5929.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____5930 == nil)))) {
+return h__1302__auto____5930;
+
+} else {
+id h__1302__auto____5931 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_coll.value)(coll.value);
+this__5929.__hash = h__1302__auto____5931;
+return h__1302__auto____5931;
+
+}
+};
+cljm_DOT_core_SLASH_PersistentQueueSeq.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
+var this__5932 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(o.value, coll.value);
+};
+cljm_DOT_core_SLASH_PersistentQueueSeq.value.prototype.toString = ^id() {
+var this__5933 = this;
+id this__5934 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__5934, nil);
+};
+cljm_DOT_core_SLASH_PersistentQueueSeq.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
+var this__5935 = this;
+return coll.value;
+};
+cljm_DOT_core_SLASH_PersistentQueueSeq.value.prototype.cljm$core$ISeq$_first$arity$1 = ^id(id coll) {
+var this__5936 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(this__5936.front);
+};
+cljm_DOT_core_SLASH_PersistentQueueSeq.value.prototype.cljm$core$ISeq$_rest$arity$1 = ^id(id coll) {
+var this__5937 = this;
+id temp__3971__auto____5938 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(this__5937.front);
+if(cljm_truthy(temp__3971__auto____5938)) {
+id f1__5939 = temp__3971__auto____5938;
+return [cljm_DOT_core_SLASH_PersistentQueueSeq.value alloc];
+
+} else {
+if(cljm_truthy((this__5937.rear == nil))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__empty.value)(coll.value);
+
+} else {
+return [cljm_DOT_core_SLASH_PersistentQueueSeq.value alloc];
+
+}
+
+}
+};
+cljm_DOT_core_SLASH_PersistentQueueSeq.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
+var this__5940 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_equiv_sequential.value)(coll.value, other.value);
+};
+cljm_DOT_core_SLASH_PersistentQueueSeq.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
 var this__5941 = this;
-id h__1314__auto____5942 = this__5941_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____5942 == nil)))) {
-return h__1314__auto____5942;
-
-} else {
-id h__1314__auto____5943 = cljm_DOT_core_SLASH_hash_coll(coll);
-this__5941_DOT___hash = h__1314__auto____5943;
-return h__1314__auto____5943;
-
-}
+return [cljm_DOT_core_SLASH_PersistentQueueSeq.value alloc];
 };
-cljm_DOT_core_SLASH_PersistentQueueSeq.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
-var this__5944 = this;
-return cljm_DOT_core_SLASH_cons(o, coll);
+cljm_DOT_core_SLASH_PersistentQueueSeq.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
+var this__5942 = this;
+return this__5942.meta;
 };
-cljm_DOT_core_SLASH_PersistentQueueSeq.prototype.toString = ^id() {
-var this__5945 = this;
-id this__5946 = this;
-return cljm_DOT_core_SLASH_pr_str(this__5946, nil);
+cljm_DOT_core_SLASH_PersistentQueueSeq.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
+var this__5943 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_with_meta.value)(cljs_DOT_core_DOT_List_SLASH_EMPTY.value, this__5943.meta);
 };
-cljm_DOT_core_SLASH_PersistentQueueSeq.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
-var this__5947 = this;
-return coll;
-};
-cljm_DOT_core_SLASH_PersistentQueueSeq.prototype.cljm$core$ISeq$_first$arity$1 = ^id(id coll) {
-var this__5948 = this;
-return cljm_DOT_core_SLASH__first(this__5948_DOT_front);
-};
-cljm_DOT_core_SLASH_PersistentQueueSeq.prototype.cljm$core$ISeq$_rest$arity$1 = ^id(id coll) {
-var this__5949 = this;
-id temp__3971__auto____5950 = cljm_DOT_core_SLASH_next(this__5949_DOT_front);
-if(cljm_truthy(temp__3971__auto____5950)) {
-id f1__5951 = temp__3971__auto____5950;
-return [cljm_DOT_core_SLASH_PersistentQueueSeq alloc];
-
-} else {
-if(cljm_truthy((this__5949_DOT_rear == nil))) {
-return cljm_DOT_core_SLASH__empty(coll);
-
-} else {
-return [cljm_DOT_core_SLASH_PersistentQueueSeq alloc];
-
-}
-
-}
-};
-cljm_DOT_core_SLASH_PersistentQueueSeq.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__5952 = this;
-return cljm_DOT_core_SLASH_equiv_sequential(coll, other);
-};
-cljm_DOT_core_SLASH_PersistentQueueSeq.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
-var this__5953 = this;
-return [cljm_DOT_core_SLASH_PersistentQueueSeq alloc];
-};
-cljm_DOT_core_SLASH_PersistentQueueSeq.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
-var this__5954 = this;
-return this__5954_DOT_meta;
-};
-cljm_DOT_core_SLASH_PersistentQueueSeq.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
-var this__5955 = this;
-return cljm_DOT_core_SLASH_with_meta(cljs_DOT_core_DOT_List_SLASH_EMPTY, this__5955_DOT_meta);
-};
-cljm_DOT_core_SLASH_PersistentQueueSeq;
+cljm_DOT_core_SLASH_PersistentQueueSeq.value;
 
 /**
 * @constructor
@@ -8650,109 +8650,109 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 31858766;
 })
-cljm_DOT_core_SLASH_PersistentQueue.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_PersistentQueue.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/PersistentQueue", nil);
+cljm_DOT_core_SLASH_PersistentQueue.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_PersistentQueue.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/PersistentQueue", nil);
 };
-cljm_DOT_core_SLASH_PersistentQueue.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
-var this__5956 = this;
-id h__1314__auto____5957 = this__5956_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____5957 == nil)))) {
-return h__1314__auto____5957;
+cljm_DOT_core_SLASH_PersistentQueue.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+var this__5944 = this;
+id h__1302__auto____5945 = this__5944.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____5945 == nil)))) {
+return h__1302__auto____5945;
 
 } else {
-id h__1314__auto____5958 = cljm_DOT_core_SLASH_hash_coll(coll);
-this__5956_DOT___hash = h__1314__auto____5958;
-return h__1314__auto____5958;
+id h__1302__auto____5946 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_coll.value)(coll.value);
+this__5944.__hash = h__1302__auto____5946;
+return h__1302__auto____5946;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentQueue.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
-var this__5959 = this;
-if(cljm_truthy(this__5959_DOT_front)) {
-return [cljm_DOT_core_SLASH_PersistentQueue alloc];
+cljm_DOT_core_SLASH_PersistentQueue.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
+var this__5947 = this;
+if(cljm_truthy(this__5947.front)) {
+return [cljm_DOT_core_SLASH_PersistentQueue.value alloc];
 
 } else {
-return [cljm_DOT_core_SLASH_PersistentQueue alloc];
+return [cljm_DOT_core_SLASH_PersistentQueue.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_PersistentQueue.prototype.toString = ^id() {
-var this__5961 = this;
-id this__5962 = this;
-return cljm_DOT_core_SLASH_pr_str(this__5962, nil);
+cljm_DOT_core_SLASH_PersistentQueue.value.prototype.toString = ^id() {
+var this__5949 = this;
+id this__5950 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__5950, nil);
 };
-cljm_DOT_core_SLASH_PersistentQueue.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
-var this__5963 = this;
-id rear__5964 = cljm_DOT_core_SLASH_seq(this__5963_DOT_rear);
-if(cljm_truthy({id or__3824__auto____5965 = this__5963_DOT_front;
-if(cljm_truthy(or__3824__auto____5965)) {
-return or__3824__auto____5965;
+cljm_DOT_core_SLASH_PersistentQueue.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
+var this__5951 = this;
+id rear__5952 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(this__5951.rear);
+if(cljm_truthy({id or__3824__auto____5953 = this__5951.front;
+if(cljm_truthy(or__3824__auto____5953)) {
+return or__3824__auto____5953;
 
 } else {
-return rear__5964;
+return rear__5952;
 
 }
 })) {
-return [cljm_DOT_core_SLASH_PersistentQueueSeq alloc];
+return [cljm_DOT_core_SLASH_PersistentQueueSeq.value alloc];
 
 } else {
 return nil;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentQueue.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
-var this__5966 = this;
-return this__5966_DOT_count;
+cljm_DOT_core_SLASH_PersistentQueue.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
+var this__5954 = this;
+return this__5954.count;
 };
-cljm_DOT_core_SLASH_PersistentQueue.prototype.cljm$core$IStack$_peek$arity$1 = ^id(id coll) {
-var this__5967 = this;
-return cljm_DOT_core_SLASH__first(this__5967_DOT_front);
+cljm_DOT_core_SLASH_PersistentQueue.value.prototype.cljm$core$IStack$_peek$arity$1 = ^id(id coll) {
+var this__5955 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH__first.value)(this__5955.front);
 };
-cljm_DOT_core_SLASH_PersistentQueue.prototype.cljm$core$IStack$_pop$arity$1 = ^id(id coll) {
-var this__5968 = this;
-if(cljm_truthy(this__5968_DOT_front)) {
-id temp__3971__auto____5969 = cljm_DOT_core_SLASH_next(this__5968_DOT_front);
-if(cljm_truthy(temp__3971__auto____5969)) {
-id f1__5970 = temp__3971__auto____5969;
-return [cljm_DOT_core_SLASH_PersistentQueue alloc];
+cljm_DOT_core_SLASH_PersistentQueue.value.prototype.cljm$core$IStack$_pop$arity$1 = ^id(id coll) {
+var this__5956 = this;
+if(cljm_truthy(this__5956.front)) {
+id temp__3971__auto____5957 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(this__5956.front);
+if(cljm_truthy(temp__3971__auto____5957)) {
+id f1__5958 = temp__3971__auto____5957;
+return [cljm_DOT_core_SLASH_PersistentQueue.value alloc];
 
 } else {
-return [cljm_DOT_core_SLASH_PersistentQueue alloc];
+return [cljm_DOT_core_SLASH_PersistentQueue.value alloc];
 
 }
 
 } else {
-return coll;
+return coll.value;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentQueue.prototype.cljm$core$ISeq$_first$arity$1 = ^id(id coll) {
-var this__5971 = this;
-return cljm_DOT_core_SLASH_first(this__5971_DOT_front);
+cljm_DOT_core_SLASH_PersistentQueue.value.prototype.cljm$core$ISeq$_first$arity$1 = ^id(id coll) {
+var this__5959 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(this__5959.front);
 };
-cljm_DOT_core_SLASH_PersistentQueue.prototype.cljm$core$ISeq$_rest$arity$1 = ^id(id coll) {
-var this__5972 = this;
-return cljm_DOT_core_SLASH_rest(cljm_DOT_core_SLASH_seq(coll));
+cljm_DOT_core_SLASH_PersistentQueue.value.prototype.cljm$core$ISeq$_rest$arity$1 = ^id(id coll) {
+var this__5960 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH_rest.value)(((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value));
 };
-cljm_DOT_core_SLASH_PersistentQueue.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__5973 = this;
-return cljm_DOT_core_SLASH_equiv_sequential(coll, other);
+cljm_DOT_core_SLASH_PersistentQueue.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
+var this__5961 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_equiv_sequential.value)(coll.value, other.value);
 };
-cljm_DOT_core_SLASH_PersistentQueue.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
-var this__5974 = this;
-return [cljm_DOT_core_SLASH_PersistentQueue alloc];
+cljm_DOT_core_SLASH_PersistentQueue.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
+var this__5962 = this;
+return [cljm_DOT_core_SLASH_PersistentQueue.value alloc];
 };
-cljm_DOT_core_SLASH_PersistentQueue.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
-var this__5975 = this;
-return this__5975_DOT_meta;
+cljm_DOT_core_SLASH_PersistentQueue.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
+var this__5963 = this;
+return this__5963.meta;
 };
-cljm_DOT_core_SLASH_PersistentQueue.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
-var this__5976 = this;
-return cljs_DOT_core_DOT_PersistentQueue_SLASH_EMPTY;
+cljm_DOT_core_SLASH_PersistentQueue.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
+var this__5964 = this;
+return cljs_DOT_core_DOT_PersistentQueue_SLASH_EMPTY.value;
 };
-cljm_DOT_core_SLASH_PersistentQueue;
-cljs_DOT_core_DOT_PersistentQueue_SLASH_EMPTY = [cljm_DOT_core_SLASH_PersistentQueue alloc];
+cljm_DOT_core_SLASH_PersistentQueue.value;
+cljs_DOT_core_DOT_PersistentQueue_SLASH_EMPTY.value = [cljm_DOT_core_SLASH_PersistentQueue.value alloc];
 
 /**
 * @constructor
@@ -8761,37 +8761,37 @@ cljm_DOT_core_SLASH_NeverEquiv = (function (){
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 2097152;
 })
-cljm_DOT_core_SLASH_NeverEquiv.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_NeverEquiv.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/NeverEquiv", nil);
+cljm_DOT_core_SLASH_NeverEquiv.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_NeverEquiv.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/NeverEquiv", nil);
 };
-cljm_DOT_core_SLASH_NeverEquiv.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id o, id other) {
-var this__5977 = this;
+cljm_DOT_core_SLASH_NeverEquiv.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id o, id other) {
+var this__5965 = this;
 return @NO;
 };
-cljm_DOT_core_SLASH_NeverEquiv;
-cljm_DOT_core_SLASH_never_equiv = [cljm_DOT_core_SLASH_NeverEquiv alloc];
+cljm_DOT_core_SLASH_NeverEquiv.value;
+cljm_DOT_core_SLASH_never_equiv = [[CLJMVar alloc] initWithValue:[cljm_DOT_core_SLASH_NeverEquiv.value alloc]];
 /**
 * Assumes y is a map. Returns true if x equals y, otherwise returns
 * false.
 */
-cljm_DOT_core_SLASH_equiv_map = ^id(id x, id y) {
-return cljm_DOT_core_SLASH_boolean((cljm_truthy(cljm_DOT_core_SLASH_map_QMARK_(y))) ?(cljm_truthy(([cljm_DOT_core_SLASH_count(x) isEqual:cljm_DOT_core_SLASH_count(y)]))) ?cljm_DOT_core_SLASH_every_QMARK_(cljm_DOT_core_SLASH_identity, cljm_DOT_core_SLASH_map(^id(id xkv) {
-return cljm_DOT_core_SLASH__EQ_(cljm_DOT_core_SLASH__lookup(y, cljm_DOT_core_SLASH_first(xkv), cljm_DOT_core_SLASH_never_equiv), cljm_DOT_core_SLASH_second(xkv), nil);
-}, x, nil)):nil:nil);
-};
-cljm_DOT_core_SLASH_scan_array = ^id(id incr, id k, id array) {
-id len__5980 = [array count];
-id i__5981 = @0;
+cljm_DOT_core_SLASH_equiv_map = [[CLJMVar alloc] initWithValue:^id(id x, id y) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_boolean.value)((cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_map_QMARK_.value)(y.value))) ?(cljm_truthy(([((id (^)(id )) cljm_DOT_core_SLASH_count.value)(x.value) isEqual:((id (^)(id )) cljm_DOT_core_SLASH_count.value)(y.value)]))) ?((id (^)(id , id )) cljm_DOT_core_SLASH_every_QMARK_.value)(cljm_DOT_core_SLASH_identity.value, ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_map.value)(^id(id xkv) {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH__EQ_.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(y.value, ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(xkv.value), cljm_DOT_core_SLASH_never_equiv.value), ((id (^)(id )) cljm_DOT_core_SLASH_second.value)(xkv.value), nil);
+}, x.value, nil)):nil:nil);
+}];
+cljm_DOT_core_SLASH_scan_array = [[CLJMVar alloc] initWithValue:^id(id incr, id k, id array) {
+id len__5968 = [array.value count];
+id i__5969 = @0;
 while(YES) {
-if(cljm_truthy((i__5981 < len__5980))) {
-if(cljm_truthy(([k isEqual:(array[i__5981])]))) {
-return i__5981;
+if(cljm_truthy((i__5969 < len__5968))) {
+if(cljm_truthy(([k.value isEqual:(array.value[i__5969])]))) {
+return i__5969;
 
 } else {
 {
-var G__5982 = (i__5981 + incr);
-i__5981 = G__5982;
+var G__5970 = (i__5969 + incr.value);
+i__5969 = G__5970;
 continue;
 }
 
@@ -8803,15 +8803,15 @@ return nil;
 }
 break;
 }
-};
-cljm_DOT_core_SLASH_obj_map_compare_keys = ^id(id a, id b) {
-id a__5985 = cljm_DOT_core_SLASH_hash(a);
-id b__5986 = cljm_DOT_core_SLASH_hash(b);
-if(cljm_truthy((a__5985 < b__5986))) {
+}];
+cljm_DOT_core_SLASH_obj_map_compare_keys = [[CLJMVar alloc] initWithValue:^id(id a, id b) {
+id a__5973 = ((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(a.value);
+id b__5974 = ((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(b.value);
+if(cljm_truthy((a__5973 < b__5974))) {
 return @-1;
 
 } else {
-if(cljm_truthy((a__5985 > b__5986))) {
+if(cljm_truthy((a__5973 > b__5974))) {
 return @1;
 
 } else {
@@ -8826,43 +8826,43 @@ return nil;
 }
 
 }
-};
-cljm_DOT_core_SLASH_obj_map__GT_hash_map = ^id(id m, id k, id v) {
-id ks__5994 = m.keys;
-id len__5995 = ks__5994.length;
-id so__5996 = m.strobj;
-id out__5997 = cljm_DOT_core_SLASH_with_meta(cljs_DOT_core_DOT_PersistentHashMap_SLASH_EMPTY, cljm_DOT_core_SLASH_meta(m));
+}];
+cljm_DOT_core_SLASH_obj_map__GT_hash_map = [[CLJMVar alloc] initWithValue:^id(id m, id k, id v) {
+id ks__5982 = m.value.keys;
+id len__5983 = ks__5982.length;
+id so__5984 = m.value.strobj;
+id out__5985 = ((id (^)(id , id )) cljm_DOT_core_SLASH_with_meta.value)(cljs_DOT_core_DOT_PersistentHashMap_SLASH_EMPTY.value, ((id (^)(id )) cljm_DOT_core_SLASH_meta.value)(m.value));
+id i__5986 = @0;
+id out__5987 = ((id (^)(id )) cljm_DOT_core_SLASH_transient.value)(out__5985);
+while(YES) {
+if(cljm_truthy((i__5986 < len__5983))) {
+id k__5988 = (ks__5982[i__5986]);
+{
+var G__5989 = (i__5986 + @1);
+var G__5990 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_assoc_BANG_.value)(out__5987, k__5988, (so__5984[k__5988]));
+i__5986 = G__5989;
+out__5987 = G__5990;
+continue;
+}
+
+} else {
+return ((id (^)(id )) cljm_DOT_core_SLASH_persistent_BANG_.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH_assoc_BANG_.value)(out__5987, k.value, v.value));
+
+}
+break;
+}
+}];
+cljm_DOT_core_SLASH_obj_clone = [[CLJMVar alloc] initWithValue:^id(id obj, id ks) {
+id new_obj__5996 = @{};
+id l__5997 = [ks.value count];
 id i__5998 = @0;
-id out__5999 = cljm_DOT_core_SLASH_transient(out__5997);
 while(YES) {
-if(cljm_truthy((i__5998 < len__5995))) {
-id k__6000 = (ks__5994[i__5998]);
+if(cljm_truthy((i__5998 < l__5997))) {
+id k__5999 = (ks.value[i__5998]);
+(new-obj__5996[k__5999] = (obj.value[k__5999]));
 {
-var G__6001 = (i__5998 + @1);
-var G__6002 = cljm_DOT_core_SLASH_assoc_BANG_(out__5999, k__6000, (so__5996[k__6000]));
-i__5998 = G__6001;
-out__5999 = G__6002;
-continue;
-}
-
-} else {
-return cljm_DOT_core_SLASH_persistent_BANG_(cljm_DOT_core_SLASH_assoc_BANG_(out__5999, k, v));
-
-}
-break;
-}
-};
-cljm_DOT_core_SLASH_obj_clone = ^id(id obj, id ks) {
-id new_obj__6008 = @{};
-id l__6009 = [ks count];
-id i__6010 = @0;
-while(YES) {
-if(cljm_truthy((i__6010 < l__6009))) {
-id k__6011 = (ks[i__6010]);
-(new_obj__6008[k__6011] = (obj[k__6011]));
-{
-var G__6012 = (i__6010 + @1);
-i__6010 = G__6012;
+var G__6000 = (i__5998 + @1);
+i__5998 = G__6000;
 continue;
 }
 
@@ -8871,8 +8871,8 @@ continue;
 }
 break;
 }
-return new_obj__6008;
-};
+return new-obj__5996;
+}];
 
 /**
 * @constructor
@@ -8886,93 +8886,93 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 1;
 this.cljm$lang$protocol_mask$partition0$ = 15075087;
 })
-cljm_DOT_core_SLASH_ObjMap.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_ObjMap.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/ObjMap", nil);
+cljm_DOT_core_SLASH_ObjMap.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_ObjMap.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/ObjMap", nil);
 };
-cljm_DOT_core_SLASH_ObjMap.prototype.cljm$core$IEditableCollection$_as_transient$arity$1 = ^id(id coll) {
+cljm_DOT_core_SLASH_ObjMap.value.prototype.cljm$core$IEditableCollection$_as_transient$arity$1 = ^id(id coll) {
+var this__6003 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH_transient.value)(((id (^)(id , id )) cljm_DOT_core_SLASH_into.value)(((id (^)(, ...)) cljm_DOT_core_SLASH_hash_map.value)(, nil), coll.value));
+};
+cljm_DOT_core_SLASH_ObjMap.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+var this__6004 = this;
+id h__1302__auto____6005 = this__6004.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____6005 == nil)))) {
+return h__1302__auto____6005;
+
+} else {
+id h__1302__auto____6006 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_imap.value)(coll.value);
+this__6004.__hash = h__1302__auto____6006;
+return h__1302__auto____6006;
+
+}
+};
+cljm_DOT_core_SLASH_ObjMap.value.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
+var this__6007 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll.value, k.value, nil);
+};
+cljm_DOT_core_SLASH_ObjMap.value.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
+var this__6008 = this;
+if(cljm_truthy({id and__3822__auto____6009 = ((id (^)(id )) goog_SLASH_isString.value)(k.value);
+if(cljm_truthy(and__3822__auto____6009)) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)((((id (^)(id , id , id )) cljm_DOT_core_SLASH_scan_array.value)(@1, k.value, this__6008.keys) == nil));
+
+} else {
+return and__3822__auto____6009;
+
+}
+})) {
+return (this__6008.strobj[k.value]);
+
+} else {
+return not_found.value;
+
+}
+};
+cljm_DOT_core_SLASH_ObjMap.value.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id coll, id k, id v) {
+var this__6010 = this;
+if(cljm_truthy(((id (^)(id )) goog_SLASH_isString.value)(k.value))) {
+if(cljm_truthy({id or__3824__auto____6011 = (this__6010.update-count > cljs_DOT_core_DOT_ObjMap_SLASH_HASHMAP_THRESHOLD.value);
+if(cljm_truthy(or__3824__auto____6011)) {
+return or__3824__auto____6011;
+
+} else {
+return ([this__6010.keys count] >= cljs_DOT_core_DOT_ObjMap_SLASH_HASHMAP_THRESHOLD.value);
+
+}
+})) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_obj_map__GT_hash_map.value)(coll.value, k.value, v.value);
+
+} else {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((((id (^)(id , id , id )) cljm_DOT_core_SLASH_scan_array.value)(@1, k.value, this__6010.keys) == nil)))) {
+id new_strobj__6012 = ((id (^)(id , id )) cljm_DOT_core_SLASH_obj_clone.value)(this__6010.strobj, this__6010.keys);
+(new-strobj__6012[k.value] = v.value);
+return [cljm_DOT_core_SLASH_ObjMap.value alloc];
+
+} else {
+id new_strobj__6013 = ((id (^)(id , id )) cljm_DOT_core_SLASH_obj_clone.value)(this__6010.strobj, this__6010.keys);
+id new_keys__6014 = this__6010.keys.slice();
+(new-strobj__6013[k.value] = v.value);
+[new-keys__6014 pushk.value];
+return [cljm_DOT_core_SLASH_ObjMap.value alloc];
+
+}
+
+}
+
+} else {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_obj_map__GT_hash_map.value)(coll.value, k.value, v.value);
+
+}
+};
+cljm_DOT_core_SLASH_ObjMap.value.prototype.cljm$core$IAssociative$_contains_key_QMARK_$arity$2 = ^id(id coll, id k) {
 var this__6015 = this;
-return cljm_DOT_core_SLASH_transient(cljm_DOT_core_SLASH_into(cljm_DOT_core_SLASH_hash_map(, nil), coll));
-};
-cljm_DOT_core_SLASH_ObjMap.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
-var this__6016 = this;
-id h__1314__auto____6017 = this__6016_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____6017 == nil)))) {
-return h__1314__auto____6017;
+if(cljm_truthy({id and__3822__auto____6016 = ((id (^)(id )) goog_SLASH_isString.value)(k.value);
+if(cljm_truthy(and__3822__auto____6016)) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)((((id (^)(id , id , id )) cljm_DOT_core_SLASH_scan_array.value)(@1, k.value, this__6015.keys) == nil));
 
 } else {
-id h__1314__auto____6018 = cljm_DOT_core_SLASH_hash_imap(coll);
-this__6016_DOT___hash = h__1314__auto____6018;
-return h__1314__auto____6018;
-
-}
-};
-cljm_DOT_core_SLASH_ObjMap.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
-var this__6019 = this;
-return cljm_DOT_core_SLASH__lookup(coll, k, nil);
-};
-cljm_DOT_core_SLASH_ObjMap.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
-var this__6020 = this;
-if(cljm_truthy({id and__3822__auto____6021 = goog_SLASH_isString(k);
-if(cljm_truthy(and__3822__auto____6021)) {
-return cljm_DOT_core_SLASH_not((cljm_DOT_core_SLASH_scan_array(@1, k, this__6020_DOT_keys) == nil));
-
-} else {
-return and__3822__auto____6021;
-
-}
-})) {
-return (this__6020_DOT_strobj[k]);
-
-} else {
-return not_found;
-
-}
-};
-cljm_DOT_core_SLASH_ObjMap.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id coll, id k, id v) {
-var this__6022 = this;
-if(cljm_truthy(goog_SLASH_isString(k))) {
-if(cljm_truthy({id or__3824__auto____6023 = (this__6022_DOT_update_count > cljs_DOT_core_DOT_ObjMap_SLASH_HASHMAP_THRESHOLD);
-if(cljm_truthy(or__3824__auto____6023)) {
-return or__3824__auto____6023;
-
-} else {
-return ([this__6022_DOT_keys count] >= cljs_DOT_core_DOT_ObjMap_SLASH_HASHMAP_THRESHOLD);
-
-}
-})) {
-return cljm_DOT_core_SLASH_obj_map__GT_hash_map(coll, k, v);
-
-} else {
-if(cljm_truthy(cljm_DOT_core_SLASH_not((cljm_DOT_core_SLASH_scan_array(@1, k, this__6022_DOT_keys) == nil)))) {
-id new_strobj__6024 = cljm_DOT_core_SLASH_obj_clone(this__6022_DOT_strobj, this__6022_DOT_keys);
-(new_strobj__6024[k] = v);
-return [cljm_DOT_core_SLASH_ObjMap alloc];
-
-} else {
-id new_strobj__6025 = cljm_DOT_core_SLASH_obj_clone(this__6022_DOT_strobj, this__6022_DOT_keys);
-id new_keys__6026 = this__6022_DOT_keys.slice();
-(new_strobj__6025[k] = v);
-[new_keys__6026 pushk];
-return [cljm_DOT_core_SLASH_ObjMap alloc];
-
-}
-
-}
-
-} else {
-return cljm_DOT_core_SLASH_obj_map__GT_hash_map(coll, k, v);
-
-}
-};
-cljm_DOT_core_SLASH_ObjMap.prototype.cljm$core$IAssociative$_contains_key_QMARK_$arity$2 = ^id(id coll, id k) {
-var this__6027 = this;
-if(cljm_truthy({id and__3822__auto____6028 = goog_SLASH_isString(k);
-if(cljm_truthy(and__3822__auto____6028)) {
-return cljm_DOT_core_SLASH_not((cljm_DOT_core_SLASH_scan_array(@1, k, this__6027_DOT_keys) == nil));
-
-} else {
-return and__3822__auto____6028;
+return and__3822__auto____6016;
 
 }
 })) {
@@ -8983,110 +8983,110 @@ return @NO;
 
 }
 };
-cljm_DOT_core_SLASH_ObjMap.prototype.call = (function() {
-var G__6050 = null;
-var G__6050__2 = ^id(id this_sym6029, id k) {
-var this__6031 = this;
-id this_sym6029__6032 = this;
-id coll__6033 = this_sym6029__6032;
-return cljm_DOT_core_SLASH__lookup(coll__6033, k);
+cljm_DOT_core_SLASH_ObjMap.value.prototype.call = (function() {
+var G__6038 = null;
+var G__6038__2 = ^id(id this_sym6017, id k) {
+var this__6019 = this;
+id this_sym6017__6020 = this;
+id coll__6021 = this-sym6017__6020;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__6021, k.value);
 };
-var G__6050__3 = ^id(id this_sym6030, id k, id not_found) {
-var this__6031 = this;
-id this_sym6030__6034 = this;
-id coll__6035 = this_sym6030__6034;
-return cljm_DOT_core_SLASH__lookup(coll__6035, k, not_found);
+var G__6038__3 = ^id(id this_sym6018, id k, id not_found) {
+var this__6019 = this;
+id this_sym6018__6022 = this;
+id coll__6023 = this-sym6018__6022;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__6023, k.value, not_found.value);
 };
-G__6050 = function(this_sym6030, k, not_found){
+G__6038 = function(this_sym6018, k, not_found){
 switch(arguments.length){
 case 2:
-return G__6050__2.call(this,this_sym6030, k);
+return G__6038__2.call(this,this_sym6018, k);
 case 3:
-return G__6050__3.call(this,this_sym6030, k, not_found);
+return G__6038__3.call(this,this_sym6018, k, not_found);
 }
 throw('Invalid arity: ' + arguments.length);
 };
-return G__6050;
+return G__6038;
 })()
 ;
-cljm_DOT_core_SLASH_ObjMap.prototype.apply = ^id(id this_sym6013, id args6014) {
-var this__6036 = this;
-return [this_sym6013.call applythis_sym6013, [@[this_sym6013] concatargs6014.slice()], nil];
+cljm_DOT_core_SLASH_ObjMap.value.prototype.apply = ^id(id this_sym6001, id args6002) {
+var this__6024 = this;
+return [this_sym6001.value.call applythis_sym6001.value, [@[this_sym6001.value] concatargs6002.value.slice()], nil];
 };
-cljm_DOT_core_SLASH_ObjMap.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id entry) {
-var this__6037 = this;
-if(cljm_truthy(cljm_DOT_core_SLASH_vector_QMARK_(entry))) {
-return cljm_DOT_core_SLASH__assoc(coll, cljm_DOT_core_SLASH__nth(entry, @0), cljm_DOT_core_SLASH__nth(entry, @1));
+cljm_DOT_core_SLASH_ObjMap.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id entry) {
+var this__6025 = this;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_vector_QMARK_.value)(entry.value))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__assoc.value)(coll.value, ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(entry.value, @0), ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(entry.value, @1));
 
 } else {
-return cljm_DOT_core_SLASH_reduce(cljm_DOT_core_SLASH__conj, coll, entry);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(cljm_DOT_core_SLASH__conj.value, coll.value, entry.value);
 
 }
 };
-cljm_DOT_core_SLASH_ObjMap.prototype.toString = ^id() {
-var this__6038 = this;
-id this__6039 = this;
-return cljm_DOT_core_SLASH_pr_str(this__6039, nil);
+cljm_DOT_core_SLASH_ObjMap.value.prototype.toString = ^id() {
+var this__6026 = this;
+id this__6027 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__6027, nil);
 };
-cljm_DOT_core_SLASH_ObjMap.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
-var this__6040 = this;
-if(cljm_truthy((this__6040_DOT_keys.length > @0))) {
-return cljm_DOT_core_SLASH_map(^id(id p1__6003_SHARP_) {
-return cljm_DOT_core_SLASH_vector(p1__6003_SHARP_, (this__6040_DOT_strobj[p1__6003_SHARP_]), nil);
-}, [this__6040_DOT_keys sortcljm_DOT_core_SLASH_obj_map_compare_keys], nil);
+cljm_DOT_core_SLASH_ObjMap.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
+var this__6028 = this;
+if(cljm_truthy((this__6028.keys.length > @0))) {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_map.value)(^id(id p1__5991_SHARP_) {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_vector.value)(p1__5991_SHARP_.value, (this__6028.strobj[p1__5991_SHARP_.value]), nil);
+}, [this__6028.keys sortcljm_DOT_core_SLASH_obj_map_compare_keys.value], nil);
 
 } else {
 return nil;
 
 }
 };
-cljm_DOT_core_SLASH_ObjMap.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
-var this__6041 = this;
-return this__6041_DOT_keys.length;
+cljm_DOT_core_SLASH_ObjMap.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
+var this__6029 = this;
+return this__6029.keys.length;
 };
-cljm_DOT_core_SLASH_ObjMap.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__6042 = this;
-return cljm_DOT_core_SLASH_equiv_map(coll, other);
+cljm_DOT_core_SLASH_ObjMap.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
+var this__6030 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_equiv_map.value)(coll.value, other.value);
 };
-cljm_DOT_core_SLASH_ObjMap.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
-var this__6043 = this;
-return [cljm_DOT_core_SLASH_ObjMap alloc];
+cljm_DOT_core_SLASH_ObjMap.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
+var this__6031 = this;
+return [cljm_DOT_core_SLASH_ObjMap.value alloc];
 };
-cljm_DOT_core_SLASH_ObjMap.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
-var this__6044 = this;
-return this__6044_DOT_meta;
+cljm_DOT_core_SLASH_ObjMap.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
+var this__6032 = this;
+return this__6032.meta;
 };
-cljm_DOT_core_SLASH_ObjMap.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
-var this__6045 = this;
-return cljm_DOT_core_SLASH_with_meta(cljs_DOT_core_DOT_ObjMap_SLASH_EMPTY, this__6045_DOT_meta);
+cljm_DOT_core_SLASH_ObjMap.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
+var this__6033 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_with_meta.value)(cljs_DOT_core_DOT_ObjMap_SLASH_EMPTY.value, this__6033.meta);
 };
-cljm_DOT_core_SLASH_ObjMap.prototype.cljm$core$IMap$_dissoc$arity$2 = ^id(id coll, id k) {
-var this__6046 = this;
-if(cljm_truthy({id and__3822__auto____6047 = goog_SLASH_isString(k);
-if(cljm_truthy(and__3822__auto____6047)) {
-return cljm_DOT_core_SLASH_not((cljm_DOT_core_SLASH_scan_array(@1, k, this__6046_DOT_keys) == nil));
+cljm_DOT_core_SLASH_ObjMap.value.prototype.cljm$core$IMap$_dissoc$arity$2 = ^id(id coll, id k) {
+var this__6034 = this;
+if(cljm_truthy({id and__3822__auto____6035 = ((id (^)(id )) goog_SLASH_isString.value)(k.value);
+if(cljm_truthy(and__3822__auto____6035)) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)((((id (^)(id , id , id )) cljm_DOT_core_SLASH_scan_array.value)(@1, k.value, this__6034.keys) == nil));
 
 } else {
-return and__3822__auto____6047;
+return and__3822__auto____6035;
 
 }
 })) {
-id new_keys__6048 = this__6046_DOT_keys.slice();
-id new_strobj__6049 = cljm_DOT_core_SLASH_obj_clone(this__6046_DOT_strobj, this__6046_DOT_keys);
-[new_keys__6048 splicecljm_DOT_core_SLASH_scan_array(@1, k, new_keys__6048), @1, nil];
-cljm_DOT_core_SLASH_js_delete(new_strobj__6049, k);
-return [cljm_DOT_core_SLASH_ObjMap alloc];
+id new_keys__6036 = this__6034.keys.slice();
+id new_strobj__6037 = ((id (^)(id , id )) cljm_DOT_core_SLASH_obj_clone.value)(this__6034.strobj, this__6034.keys);
+[new-keys__6036 splice((id (^)(id , id , id )) cljm_DOT_core_SLASH_scan_array.value)(@1, k.value, new-keys__6036), @1, nil];
+((id (^)(id , id )) cljm_DOT_core_SLASH_js_delete.value)(new-strobj__6037, k.value);
+return [cljm_DOT_core_SLASH_ObjMap.value alloc];
 
 } else {
-return coll;
+return coll.value;
 
 }
 };
-cljm_DOT_core_SLASH_ObjMap;
-cljs_DOT_core_DOT_ObjMap_SLASH_EMPTY = [cljm_DOT_core_SLASH_ObjMap alloc];
-cljs_DOT_core_DOT_ObjMap_SLASH_HASHMAP_THRESHOLD = @32;
-cljs_DOT_core_DOT_ObjMap_SLASH_fromObject = ^id(id ks, id obj) {
-return [cljm_DOT_core_SLASH_ObjMap alloc];
+cljm_DOT_core_SLASH_ObjMap.value;
+cljs_DOT_core_DOT_ObjMap_SLASH_EMPTY.value = [cljm_DOT_core_SLASH_ObjMap.value alloc];
+cljs_DOT_core_DOT_ObjMap_SLASH_HASHMAP_THRESHOLD.value = @32;
+cljs_DOT_core_DOT_ObjMap_SLASH_fromObject.value = ^id(id ks, id obj) {
+return [cljm_DOT_core_SLASH_ObjMap.value alloc];
 };
 
 /**
@@ -9100,71 +9100,71 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 15075087;
 })
-cljm_DOT_core_SLASH_HashMap.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_HashMap.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/HashMap", nil);
+cljm_DOT_core_SLASH_HashMap.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_HashMap.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/HashMap", nil);
 };
-cljm_DOT_core_SLASH_HashMap.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
-var this__6054 = this;
-id h__1314__auto____6055 = this__6054_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____6055 == nil)))) {
-return h__1314__auto____6055;
+cljm_DOT_core_SLASH_HashMap.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+var this__6042 = this;
+id h__1302__auto____6043 = this__6042.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____6043 == nil)))) {
+return h__1302__auto____6043;
 
 } else {
-id h__1314__auto____6056 = cljm_DOT_core_SLASH_hash_imap(coll);
-this__6054_DOT___hash = h__1314__auto____6056;
-return h__1314__auto____6056;
+id h__1302__auto____6044 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_imap.value)(coll.value);
+this__6042.__hash = h__1302__auto____6044;
+return h__1302__auto____6044;
 
 }
 };
-cljm_DOT_core_SLASH_HashMap.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
+cljm_DOT_core_SLASH_HashMap.value.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
+var this__6045 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll.value, k.value, nil);
+};
+cljm_DOT_core_SLASH_HashMap.value.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
+var this__6046 = this;
+id bucket__6047 = (this__6046.hashobj[((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(k.value)]);
+id i__6048 = (cljm_truthy(bucket__6047)) ?((id (^)(id , id , id )) cljm_DOT_core_SLASH_scan_array.value)(@2, k.value, bucket__6047):nil;
+if(cljm_truthy(i__6048)) {
+return (bucket__6047[(i__6048 + @1)]);
+
+} else {
+return not_found.value;
+
+}
+};
+cljm_DOT_core_SLASH_HashMap.value.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id coll, id k, id v) {
+var this__6049 = this;
+id h__6050 = ((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(k.value);
+id bucket__6051 = (this__6049.hashobj[h__6050]);
+if(cljm_truthy(bucket__6051)) {
+id new_bucket__6052 = bucket__6051.slice();
+id new_hashobj__6053 = ((id (^)(id )) goog_DOT_object_SLASH_clone.value)(this__6049.hashobj);
+(new-hashobj__6053[h__6050] = new-bucket__6052);
+id temp__3971__auto____6054 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_scan_array.value)(@2, k.value, new-bucket__6052);
+if(cljm_truthy(temp__3971__auto____6054)) {
+id i__6055 = temp__3971__auto____6054;
+(new-bucket__6052[(i__6055 + @1)] = v.value);
+return [cljm_DOT_core_SLASH_HashMap.value alloc];
+
+} else {
+[new-bucket__6052 pushk.value, v.value, nil];
+return [cljm_DOT_core_SLASH_HashMap.value alloc];
+
+}
+
+} else {
+id new_hashobj__6056 = ((id (^)(id )) goog_DOT_object_SLASH_clone.value)(this__6049.hashobj);
+(new-hashobj__6056[h__6050] = @[k.value,v.value]);
+return [cljm_DOT_core_SLASH_HashMap.value alloc];
+
+}
+};
+cljm_DOT_core_SLASH_HashMap.value.prototype.cljm$core$IAssociative$_contains_key_QMARK_$arity$2 = ^id(id coll, id k) {
 var this__6057 = this;
-return cljm_DOT_core_SLASH__lookup(coll, k, nil);
-};
-cljm_DOT_core_SLASH_HashMap.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
-var this__6058 = this;
-id bucket__6059 = (this__6058_DOT_hashobj[cljm_DOT_core_SLASH_hash(k)]);
-id i__6060 = (cljm_truthy(bucket__6059)) ?cljm_DOT_core_SLASH_scan_array(@2, k, bucket__6059):nil;
-if(cljm_truthy(i__6060)) {
-return (bucket__6059[(i__6060 + @1)]);
-
-} else {
-return not_found;
-
-}
-};
-cljm_DOT_core_SLASH_HashMap.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id coll, id k, id v) {
-var this__6061 = this;
-id h__6062 = cljm_DOT_core_SLASH_hash(k);
-id bucket__6063 = (this__6061_DOT_hashobj[h__6062]);
-if(cljm_truthy(bucket__6063)) {
-id new_bucket__6064 = bucket__6063.slice();
-id new_hashobj__6065 = goog_DOT_object_SLASH_clone(this__6061_DOT_hashobj);
-(new_hashobj__6065[h__6062] = new_bucket__6064);
-id temp__3971__auto____6066 = cljm_DOT_core_SLASH_scan_array(@2, k, new_bucket__6064);
-if(cljm_truthy(temp__3971__auto____6066)) {
-id i__6067 = temp__3971__auto____6066;
-(new_bucket__6064[(i__6067 + @1)] = v);
-return [cljm_DOT_core_SLASH_HashMap alloc];
-
-} else {
-[new_bucket__6064 pushk, v, nil];
-return [cljm_DOT_core_SLASH_HashMap alloc];
-
-}
-
-} else {
-id new_hashobj__6068 = goog_DOT_object_SLASH_clone(this__6061_DOT_hashobj);
-(new_hashobj__6068[h__6062] = @[k,v]);
-return [cljm_DOT_core_SLASH_HashMap alloc];
-
-}
-};
-cljm_DOT_core_SLASH_HashMap.prototype.cljm$core$IAssociative$_contains_key_QMARK_$arity$2 = ^id(id coll, id k) {
-var this__6069 = this;
-id bucket__6070 = (this__6069_DOT_hashobj[cljm_DOT_core_SLASH_hash(k)]);
-id i__6071 = (cljm_truthy(bucket__6070)) ?cljm_DOT_core_SLASH_scan_array(@2, k, bucket__6070):nil;
-if(cljm_truthy(i__6071)) {
+id bucket__6058 = (this__6057.hashobj[((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(k.value)]);
+id i__6059 = (cljm_truthy(bucket__6058)) ?((id (^)(id , id , id )) cljm_DOT_core_SLASH_scan_array.value)(@2, k.value, bucket__6058):nil;
+if(cljm_truthy(i__6059)) {
 return @YES;
 
 } else {
@@ -9172,147 +9172,147 @@ return @NO;
 
 }
 };
-cljm_DOT_core_SLASH_HashMap.prototype.call = (function() {
-var G__6096 = null;
-var G__6096__2 = ^id(id this_sym6072, id k) {
-var this__6074 = this;
-id this_sym6072__6075 = this;
-id coll__6076 = this_sym6072__6075;
-return cljm_DOT_core_SLASH__lookup(coll__6076, k);
+cljm_DOT_core_SLASH_HashMap.value.prototype.call = (function() {
+var G__6084 = null;
+var G__6084__2 = ^id(id this_sym6060, id k) {
+var this__6062 = this;
+id this_sym6060__6063 = this;
+id coll__6064 = this-sym6060__6063;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__6064, k.value);
 };
-var G__6096__3 = ^id(id this_sym6073, id k, id not_found) {
-var this__6074 = this;
-id this_sym6073__6077 = this;
-id coll__6078 = this_sym6073__6077;
-return cljm_DOT_core_SLASH__lookup(coll__6078, k, not_found);
+var G__6084__3 = ^id(id this_sym6061, id k, id not_found) {
+var this__6062 = this;
+id this_sym6061__6065 = this;
+id coll__6066 = this-sym6061__6065;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__6066, k.value, not_found.value);
 };
-G__6096 = function(this_sym6073, k, not_found){
+G__6084 = function(this_sym6061, k, not_found){
 switch(arguments.length){
 case 2:
-return G__6096__2.call(this,this_sym6073, k);
+return G__6084__2.call(this,this_sym6061, k);
 case 3:
-return G__6096__3.call(this,this_sym6073, k, not_found);
+return G__6084__3.call(this,this_sym6061, k, not_found);
 }
 throw('Invalid arity: ' + arguments.length);
 };
-return G__6096;
+return G__6084;
 })()
 ;
-cljm_DOT_core_SLASH_HashMap.prototype.apply = ^id(id this_sym6052, id args6053) {
-var this__6079 = this;
-return [this_sym6052.call applythis_sym6052, [@[this_sym6052] concatargs6053.slice()], nil];
+cljm_DOT_core_SLASH_HashMap.value.prototype.apply = ^id(id this_sym6040, id args6041) {
+var this__6067 = this;
+return [this_sym6040.value.call applythis_sym6040.value, [@[this_sym6040.value] concatargs6041.value.slice()], nil];
 };
-cljm_DOT_core_SLASH_HashMap.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id entry) {
-var this__6080 = this;
-if(cljm_truthy(cljm_DOT_core_SLASH_vector_QMARK_(entry))) {
-return cljm_DOT_core_SLASH__assoc(coll, cljm_DOT_core_SLASH__nth(entry, @0), cljm_DOT_core_SLASH__nth(entry, @1));
+cljm_DOT_core_SLASH_HashMap.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id entry) {
+var this__6068 = this;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_vector_QMARK_.value)(entry.value))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__assoc.value)(coll.value, ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(entry.value, @0), ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(entry.value, @1));
 
 } else {
-return cljm_DOT_core_SLASH_reduce(cljm_DOT_core_SLASH__conj, coll, entry);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(cljm_DOT_core_SLASH__conj.value, coll.value, entry.value);
 
 }
 };
-cljm_DOT_core_SLASH_HashMap.prototype.toString = ^id() {
-var this__6081 = this;
-id this__6082 = this;
-return cljm_DOT_core_SLASH_pr_str(this__6082, nil);
+cljm_DOT_core_SLASH_HashMap.value.prototype.toString = ^id() {
+var this__6069 = this;
+id this__6070 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__6070, nil);
 };
-cljm_DOT_core_SLASH_HashMap.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
-var this__6083 = this;
-if(cljm_truthy((this__6083_DOT_count > @0))) {
-id hashes__6084 = [cljm_DOT_core_SLASH_js_keys(this__6083_DOT_hashobj) sort];
-return cljm_DOT_core_SLASH_mapcat(^id(id p1__6051_SHARP_) {
-return cljm_DOT_core_SLASH_map(cljm_DOT_core_SLASH_vec, cljm_DOT_core_SLASH_partition(@2, (this__6083_DOT_hashobj[p1__6051_SHARP_])), nil);
-}, hashes__6084, nil);
+cljm_DOT_core_SLASH_HashMap.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
+var this__6071 = this;
+if(cljm_truthy((this__6071.count > @0))) {
+id hashes__6072 = [((id (^)(id )) cljm_DOT_core_SLASH_js_keys.value)(this__6071.hashobj) sort];
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_mapcat.value)(^id(id p1__6039_SHARP_) {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_map.value)(cljm_DOT_core_SLASH_vec.value, ((id (^)(id , id )) cljm_DOT_core_SLASH_partition.value)(@2, (this__6071.hashobj[p1__6039_SHARP_.value])), nil);
+}, hashes__6072, nil);
 
 } else {
 return nil;
 
 }
 };
-cljm_DOT_core_SLASH_HashMap.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
-var this__6085 = this;
-return this__6085_DOT_count;
+cljm_DOT_core_SLASH_HashMap.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
+var this__6073 = this;
+return this__6073.count;
 };
-cljm_DOT_core_SLASH_HashMap.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__6086 = this;
-return cljm_DOT_core_SLASH_equiv_map(coll, other);
+cljm_DOT_core_SLASH_HashMap.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
+var this__6074 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_equiv_map.value)(coll.value, other.value);
 };
-cljm_DOT_core_SLASH_HashMap.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
-var this__6087 = this;
-return [cljm_DOT_core_SLASH_HashMap alloc];
+cljm_DOT_core_SLASH_HashMap.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
+var this__6075 = this;
+return [cljm_DOT_core_SLASH_HashMap.value alloc];
 };
-cljm_DOT_core_SLASH_HashMap.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
-var this__6088 = this;
-return this__6088_DOT_meta;
+cljm_DOT_core_SLASH_HashMap.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
+var this__6076 = this;
+return this__6076.meta;
 };
-cljm_DOT_core_SLASH_HashMap.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
-var this__6089 = this;
-return cljm_DOT_core_SLASH_with_meta(cljs_DOT_core_DOT_HashMap_SLASH_EMPTY, this__6089_DOT_meta);
+cljm_DOT_core_SLASH_HashMap.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
+var this__6077 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_with_meta.value)(cljs_DOT_core_DOT_HashMap_SLASH_EMPTY.value, this__6077.meta);
 };
-cljm_DOT_core_SLASH_HashMap.prototype.cljm$core$IMap$_dissoc$arity$2 = ^id(id coll, id k) {
-var this__6090 = this;
-id h__6091 = cljm_DOT_core_SLASH_hash(k);
-id bucket__6092 = (this__6090_DOT_hashobj[h__6091]);
-id i__6093 = (cljm_truthy(bucket__6092)) ?cljm_DOT_core_SLASH_scan_array(@2, k, bucket__6092):nil;
-if(cljm_truthy(cljm_DOT_core_SLASH_not(i__6093))) {
-return coll;
+cljm_DOT_core_SLASH_HashMap.value.prototype.cljm$core$IMap$_dissoc$arity$2 = ^id(id coll, id k) {
+var this__6078 = this;
+id h__6079 = ((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(k.value);
+id bucket__6080 = (this__6078.hashobj[h__6079]);
+id i__6081 = (cljm_truthy(bucket__6080)) ?((id (^)(id , id , id )) cljm_DOT_core_SLASH_scan_array.value)(@2, k.value, bucket__6080):nil;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)(i__6081))) {
+return coll.value;
 
 } else {
-id new_hashobj__6094 = goog_DOT_object_SLASH_clone(this__6090_DOT_hashobj);
-if(cljm_truthy((@3 > bucket__6092.length))) {
-cljm_DOT_core_SLASH_js_delete(new_hashobj__6094, h__6091);
+id new_hashobj__6082 = ((id (^)(id )) goog_DOT_object_SLASH_clone.value)(this__6078.hashobj);
+if(cljm_truthy((@3 > bucket__6080.length))) {
+((id (^)(id , id )) cljm_DOT_core_SLASH_js_delete.value)(new-hashobj__6082, h__6079);
 
 } else {
-id new_bucket__6095 = bucket__6092.slice();
-[new_bucket__6095 splicei__6093, @2, nil];
-(new_hashobj__6094[h__6091] = new_bucket__6095);
+id new_bucket__6083 = bucket__6080.slice();
+[new-bucket__6083 splicei__6081, @2, nil];
+(new-hashobj__6082[h__6079] = new-bucket__6083);
 
 }
-return [cljm_DOT_core_SLASH_HashMap alloc];
+return [cljm_DOT_core_SLASH_HashMap.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_HashMap;
-cljs_DOT_core_DOT_HashMap_SLASH_EMPTY = [cljm_DOT_core_SLASH_HashMap alloc];
-cljs_DOT_core_DOT_HashMap_SLASH_fromArrays = ^id(id ks, id vs) {
-id len__6097 = ks.length;
-id i__6098 = @0;
-id out__6099 = cljs_DOT_core_DOT_HashMap_SLASH_EMPTY;
+cljm_DOT_core_SLASH_HashMap.value;
+cljs_DOT_core_DOT_HashMap_SLASH_EMPTY.value = [cljm_DOT_core_SLASH_HashMap.value alloc];
+cljs_DOT_core_DOT_HashMap_SLASH_fromArrays.value = ^id(id ks, id vs) {
+id len__6085 = ks.value.length;
+id i__6086 = @0;
+id out__6087 = cljs_DOT_core_DOT_HashMap_SLASH_EMPTY.value;
 while(YES) {
-if(cljm_truthy((i__6098 < len__6097))) {
+if(cljm_truthy((i__6086 < len__6085))) {
 {
-var G__6100 = (i__6098 + @1);
-var G__6101 = cljm_DOT_core_SLASH_assoc(out__6099, (ks[i__6098]), (vs[i__6098]), nil);
-i__6098 = G__6100;
-out__6099 = G__6101;
+var G__6088 = (i__6086 + @1);
+var G__6089 = ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(out__6087, (ks.value[i__6086]), (vs.value[i__6086]), nil);
+i__6086 = G__6088;
+out__6087 = G__6089;
 continue;
 }
 
 } else {
-return out__6099;
+return out__6087;
 
 }
 break;
 }
 };
-cljm_DOT_core_SLASH_array_map_index_of = ^id(id m, id k) {
-id arr__6105 = m.arr;
-id len__6106 = arr__6105.length;
-id i__6107 = @0;
+cljm_DOT_core_SLASH_array_map_index_of = [[CLJMVar alloc] initWithValue:^id(id m, id k) {
+id arr__6093 = m.value.arr;
+id len__6094 = arr__6093.length;
+id i__6095 = @0;
 while(YES) {
-if(cljm_truthy((len__6106 <= i__6107))) {
+if(cljm_truthy((len__6094 <= i__6095))) {
 return @-1;
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH__EQ_((arr__6105[i__6107]), k, nil))) {
-return i__6107;
+if(cljm_truthy(((id (^)(id , id , ...)) cljm_DOT_core_SLASH__EQ_.value)((arr__6093[i__6095]), k.value, nil))) {
+return i__6095;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
 {
-var G__6108 = (i__6107 + @2);
-i__6107 = G__6108;
+var G__6096 = (i__6095 + @2);
+i__6095 = G__6096;
 continue;
 }
 
@@ -9326,7 +9326,7 @@ return nil;
 }
 break;
 }
-};
+}];
 
 /**
 * @constructor
@@ -9339,61 +9339,61 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 1;
 this.cljm$lang$protocol_mask$partition0$ = 16123663;
 })
-cljm_DOT_core_SLASH_PersistentArrayMap.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_PersistentArrayMap.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/PersistentArrayMap", nil);
+cljm_DOT_core_SLASH_PersistentArrayMap.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_PersistentArrayMap.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/PersistentArrayMap", nil);
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.cljm$core$IEditableCollection$_as_transient$arity$1 = ^id(id coll) {
-var this__6111 = this;
-return [cljm_DOT_core_SLASH_TransientArrayMap alloc];
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.cljm$core$IEditableCollection$_as_transient$arity$1 = ^id(id coll) {
+var this__6099 = this;
+return [cljm_DOT_core_SLASH_TransientArrayMap.value alloc];
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
-var this__6112 = this;
-id h__1314__auto____6113 = this__6112_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____6113 == nil)))) {
-return h__1314__auto____6113;
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+var this__6100 = this;
+id h__1302__auto____6101 = this__6100.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____6101 == nil)))) {
+return h__1302__auto____6101;
 
 } else {
-id h__1314__auto____6114 = cljm_DOT_core_SLASH_hash_imap(coll);
-this__6112_DOT___hash = h__1314__auto____6114;
-return h__1314__auto____6114;
+id h__1302__auto____6102 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_imap.value)(coll.value);
+this__6100.__hash = h__1302__auto____6102;
+return h__1302__auto____6102;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
-var this__6115 = this;
-return cljm_DOT_core_SLASH__lookup(coll, k, nil);
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
+var this__6103 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll.value, k.value, nil);
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
-var this__6116 = this;
-id idx__6117 = cljm_DOT_core_SLASH_array_map_index_of(coll, k);
-if(cljm_truthy(([idx__6117 isEqual:@-1]))) {
-return not_found;
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
+var this__6104 = this;
+id idx__6105 = ((id (^)(id , id )) cljm_DOT_core_SLASH_array_map_index_of.value)(coll.value, k.value);
+if(cljm_truthy(([idx__6105 isEqual:@-1]))) {
+return not_found.value;
 
 } else {
-return (this__6116_DOT_arr[(idx__6117 + @1)]);
+return (this__6104.arr[(idx__6105 + @1)]);
 
 }
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id coll, id k, id v) {
-var this__6118 = this;
-id idx__6119 = cljm_DOT_core_SLASH_array_map_index_of(coll, k);
-if(cljm_truthy(([idx__6119 isEqual:@-1]))) {
-if(cljm_truthy((this__6118_DOT_cnt < cljs_DOT_core_DOT_PersistentArrayMap_SLASH_HASHMAP_THRESHOLD))) {
-return [cljm_DOT_core_SLASH_PersistentArrayMap alloc];
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id coll, id k, id v) {
+var this__6106 = this;
+id idx__6107 = ((id (^)(id , id )) cljm_DOT_core_SLASH_array_map_index_of.value)(coll.value, k.value);
+if(cljm_truthy(([idx__6107 isEqual:@-1]))) {
+if(cljm_truthy((this__6106.cnt < cljs_DOT_core_DOT_PersistentArrayMap_SLASH_HASHMAP_THRESHOLD.value))) {
+return [cljm_DOT_core_SLASH_PersistentArrayMap.value alloc];
 
 } else {
-return cljm_DOT_core_SLASH_persistent_BANG_(cljm_DOT_core_SLASH_assoc_BANG_(cljm_DOT_core_SLASH_transient(cljm_DOT_core_SLASH_into(cljs_DOT_core_DOT_PersistentHashMap_SLASH_EMPTY, coll)), k, v));
+return ((id (^)(id )) cljm_DOT_core_SLASH_persistent_BANG_.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH_assoc_BANG_.value)(((id (^)(id )) cljm_DOT_core_SLASH_transient.value)(((id (^)(id , id )) cljm_DOT_core_SLASH_into.value)(cljs_DOT_core_DOT_PersistentHashMap_SLASH_EMPTY.value, coll.value)), k.value, v.value));
 
 }
 
 } else {
-if(cljm_truthy(([v isEqual:(this__6118_DOT_arr[(idx__6119 + @1)])]))) {
-return coll;
+if(cljm_truthy(([v.value isEqual:(this__6106.arr[(idx__6107 + @1)])]))) {
+return coll.value;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return [cljm_DOT_core_SLASH_PersistentArrayMap alloc];
+return [cljm_DOT_core_SLASH_PersistentArrayMap.value alloc];
 
 } else {
 return nil;
@@ -9404,57 +9404,57 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.cljm$core$IAssociative$_contains_key_QMARK_$arity$2 = ^id(id coll, id k) {
-var this__6124 = this;
-return cljm_DOT_core_SLASH_not(([cljm_DOT_core_SLASH_array_map_index_of(coll, k) isEqual:@-1]));
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.cljm$core$IAssociative$_contains_key_QMARK_$arity$2 = ^id(id coll, id k) {
+var this__6112 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(([((id (^)(id , id )) cljm_DOT_core_SLASH_array_map_index_of.value)(coll.value, k.value) isEqual:@-1]));
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.call = (function() {
-var G__6156 = null;
-var G__6156__2 = ^id(id this_sym6125, id k) {
-var this__6127 = this;
-id this_sym6125__6128 = this;
-id coll__6129 = this_sym6125__6128;
-return cljm_DOT_core_SLASH__lookup(coll__6129, k);
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.call = (function() {
+var G__6144 = null;
+var G__6144__2 = ^id(id this_sym6113, id k) {
+var this__6115 = this;
+id this_sym6113__6116 = this;
+id coll__6117 = this-sym6113__6116;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__6117, k.value);
 };
-var G__6156__3 = ^id(id this_sym6126, id k, id not_found) {
-var this__6127 = this;
-id this_sym6126__6130 = this;
-id coll__6131 = this_sym6126__6130;
-return cljm_DOT_core_SLASH__lookup(coll__6131, k, not_found);
+var G__6144__3 = ^id(id this_sym6114, id k, id not_found) {
+var this__6115 = this;
+id this_sym6114__6118 = this;
+id coll__6119 = this-sym6114__6118;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__6119, k.value, not_found.value);
 };
-G__6156 = function(this_sym6126, k, not_found){
+G__6144 = function(this_sym6114, k, not_found){
 switch(arguments.length){
 case 2:
-return G__6156__2.call(this,this_sym6126, k);
+return G__6144__2.call(this,this_sym6114, k);
 case 3:
-return G__6156__3.call(this,this_sym6126, k, not_found);
+return G__6144__3.call(this,this_sym6114, k, not_found);
 }
 throw('Invalid arity: ' + arguments.length);
 };
-return G__6156;
+return G__6144;
 })()
 ;
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.apply = ^id(id this_sym6109, id args6110) {
-var this__6132 = this;
-return [this_sym6109.call applythis_sym6109, [@[this_sym6109] concatargs6110.slice()], nil];
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.apply = ^id(id this_sym6097, id args6098) {
+var this__6120 = this;
+return [this_sym6097.value.call applythis_sym6097.value, [@[this_sym6097.value] concatargs6098.value.slice()], nil];
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.cljm$core$IKVReduce$_kv_reduce$arity$3 = ^id(id coll, id f, id init) {
-var this__6133 = this;
-id len__6134 = this__6133_DOT_arr.length;
-id i__6135 = @0;
-id init__6136 = init;
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.cljm$core$IKVReduce$_kv_reduce$arity$3 = ^id(id coll, id f, id init) {
+var this__6121 = this;
+id len__6122 = this__6121.arr.length;
+id i__6123 = @0;
+id init__6124 = init.value;
 while(YES) {
-if(cljm_truthy((i__6135 < len__6134))) {
-id init__6137 = f(init__6136, (this__6133_DOT_arr[i__6135]), (this__6133_DOT_arr[(i__6135 + @1)]));
-if(cljm_truthy(cljm_DOT_core_SLASH_reduced_QMARK_(init__6137))) {
-return cljm_DOT_core_SLASH_deref(init__6137);
+if(cljm_truthy((i__6123 < len__6122))) {
+id init__6125 = ((id (^)(id , id , id )) f.value)(init__6124, (this__6121.arr[i__6123]), (this__6121.arr[(i__6123 + @1)]));
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_reduced_QMARK_.value)(init__6125))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(init__6125);
 
 } else {
 {
-var G__6157 = (i__6135 + @2);
-var G__6158 = init__6137;
-i__6135 = G__6157;
-init__6136 = G__6158;
+var G__6145 = (i__6123 + @2);
+var G__6146 = init__6125;
+i__6123 = G__6145;
+init__6124 = G__6146;
 continue;
 }
 
@@ -9467,91 +9467,91 @@ return nil;
 break;
 }
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id entry) {
-var this__6138 = this;
-if(cljm_truthy(cljm_DOT_core_SLASH_vector_QMARK_(entry))) {
-return cljm_DOT_core_SLASH__assoc(coll, cljm_DOT_core_SLASH__nth(entry, @0), cljm_DOT_core_SLASH__nth(entry, @1));
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id entry) {
+var this__6126 = this;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_vector_QMARK_.value)(entry.value))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__assoc.value)(coll.value, ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(entry.value, @0), ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(entry.value, @1));
 
 } else {
-return cljm_DOT_core_SLASH_reduce(cljm_DOT_core_SLASH__conj, coll, entry);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(cljm_DOT_core_SLASH__conj.value, coll.value, entry.value);
 
 }
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.toString = ^id() {
-var this__6139 = this;
-id this__6140 = this;
-return cljm_DOT_core_SLASH_pr_str(this__6140, nil);
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.toString = ^id() {
+var this__6127 = this;
+id this__6128 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__6128, nil);
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
-var this__6141 = this;
-if(cljm_truthy((this__6141_DOT_cnt > @0))) {
-id len__6142 = this__6141_DOT_arr.length;
-id array_map_seq__6143 = ^id(id i) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
+var this__6129 = this;
+if(cljm_truthy((this__6129.cnt > @0))) {
+id len__6130 = this__6129.arr.length;
+id array_map_seq__6131 = ^id(id i) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
-return array_map_seq__6143(@0);
+return ((id (^)(id )) array_map_seq__6131.value)(@0);
 
 } else {
 return nil;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
-var this__6144 = this;
-return this__6144_DOT_cnt;
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
+var this__6132 = this;
+return this__6132.cnt;
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__6145 = this;
-return cljm_DOT_core_SLASH_equiv_map(coll, other);
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
+var this__6133 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_equiv_map.value)(coll.value, other.value);
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
-var this__6146 = this;
-return [cljm_DOT_core_SLASH_PersistentArrayMap alloc];
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
+var this__6134 = this;
+return [cljm_DOT_core_SLASH_PersistentArrayMap.value alloc];
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
-var this__6147 = this;
-return this__6147_DOT_meta;
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
+var this__6135 = this;
+return this__6135.meta;
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
-var this__6148 = this;
-return cljm_DOT_core_SLASH__with_meta(cljs_DOT_core_DOT_PersistentArrayMap_SLASH_EMPTY, this__6148_DOT_meta);
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
+var this__6136 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__with_meta.value)(cljs_DOT_core_DOT_PersistentArrayMap_SLASH_EMPTY.value, this__6136.meta);
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.cljm$core$IMap$_dissoc$arity$2 = ^id(id coll, id k) {
-var this__6149 = this;
-id idx__6150 = cljm_DOT_core_SLASH_array_map_index_of(coll, k);
-if(cljm_truthy((idx__6150 >= @0))) {
-id len__6151 = this__6149_DOT_arr.length;
-id new_len__6152 = (len__6151 - @2);
-if(cljm_truthy(([new_len__6152 isEqual:@0]))) {
-return cljm_DOT_core_SLASH__empty(coll);
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.cljm$core$IMap$_dissoc$arity$2 = ^id(id coll, id k) {
+var this__6137 = this;
+id idx__6138 = ((id (^)(id , id )) cljm_DOT_core_SLASH_array_map_index_of.value)(coll.value, k.value);
+if(cljm_truthy((idx__6138 >= @0))) {
+id len__6139 = this__6137.arr.length;
+id new_len__6140 = (len__6139 - @2);
+if(cljm_truthy(([new-len__6140 isEqual:@0]))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__empty.value)(coll.value);
 
 } else {
-id new_arr__6153 = cljm_DOT_core_SLASH_make_array(new_len__6152);
-id s__6154 = @0;
-id d__6155 = @0;
+id new_arr__6141 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)(new-len__6140);
+id s__6142 = @0;
+id d__6143 = @0;
 while(YES) {
-if(cljm_truthy((s__6154 >= len__6151))) {
-return [cljm_DOT_core_SLASH_PersistentArrayMap alloc];
+if(cljm_truthy((s__6142 >= len__6139))) {
+return [cljm_DOT_core_SLASH_PersistentArrayMap.value alloc];
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH__EQ_(k, (this__6149_DOT_arr[s__6154]), nil))) {
+if(cljm_truthy(((id (^)(id , id , ...)) cljm_DOT_core_SLASH__EQ_.value)(k.value, (this__6137.arr[s__6142]), nil))) {
 {
-var G__6159 = (s__6154 + @2);
-var G__6160 = d__6155;
-s__6154 = G__6159;
-d__6155 = G__6160;
+var G__6147 = (s__6142 + @2);
+var G__6148 = d__6143;
+s__6142 = G__6147;
+d__6143 = G__6148;
 continue;
 }
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-(new_arr__6153[d__6155] = (this__6149_DOT_arr[s__6154]));
-(new_arr__6153[(d__6155 + @1)] = (this__6149_DOT_arr[(s__6154 + @1)]));
+(new-arr__6141[d__6143] = (this__6137.arr[s__6142]));
+(new-arr__6141[(d__6143 + @1)] = (this__6137.arr[(s__6142 + @1)]));
 {
-var G__6161 = (s__6154 + @2);
-var G__6162 = (d__6155 + @2);
-s__6154 = G__6161;
-d__6155 = G__6162;
+var G__6149 = (s__6142 + @2);
+var G__6150 = (d__6143 + @2);
+s__6142 = G__6149;
+d__6143 = G__6150;
 continue;
 }
 
@@ -9569,29 +9569,29 @@ break;
 }
 
 } else {
-return coll;
+return coll.value;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentArrayMap;
-cljs_DOT_core_DOT_PersistentArrayMap_SLASH_EMPTY = [cljm_DOT_core_SLASH_PersistentArrayMap alloc];
-cljs_DOT_core_DOT_PersistentArrayMap_SLASH_HASHMAP_THRESHOLD = @16;
-cljs_DOT_core_DOT_PersistentArrayMap_SLASH_fromArrays = ^id(id ks, id vs) {
-id len__6163 = cljm_DOT_core_SLASH_count(ks);
-id i__6164 = @0;
-id out__6165 = cljm_DOT_core_SLASH_transient(cljs_DOT_core_DOT_PersistentArrayMap_SLASH_EMPTY);
+cljm_DOT_core_SLASH_PersistentArrayMap.value;
+cljs_DOT_core_DOT_PersistentArrayMap_SLASH_EMPTY.value = [cljm_DOT_core_SLASH_PersistentArrayMap.value alloc];
+cljs_DOT_core_DOT_PersistentArrayMap_SLASH_HASHMAP_THRESHOLD.value = @16;
+cljs_DOT_core_DOT_PersistentArrayMap_SLASH_fromArrays.value = ^id(id ks, id vs) {
+id len__6151 = ((id (^)(id )) cljm_DOT_core_SLASH_count.value)(ks.value);
+id i__6152 = @0;
+id out__6153 = ((id (^)(id )) cljm_DOT_core_SLASH_transient.value)(cljs_DOT_core_DOT_PersistentArrayMap_SLASH_EMPTY.value);
 while(YES) {
-if(cljm_truthy((i__6164 < len__6163))) {
+if(cljm_truthy((i__6152 < len__6151))) {
 {
-var G__6166 = (i__6164 + @1);
-var G__6167 = cljm_DOT_core_SLASH_assoc_BANG_(out__6165, (ks[i__6164]), (vs[i__6164]));
-i__6164 = G__6166;
-out__6165 = G__6167;
+var G__6154 = (i__6152 + @1);
+var G__6155 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_assoc_BANG_.value)(out__6153, (ks.value[i__6152]), (vs.value[i__6152]));
+i__6152 = G__6154;
+out__6153 = G__6155;
 continue;
 }
 
 } else {
-return cljm_DOT_core_SLASH_persistent_BANG_(out__6165);
+return ((id (^)(id )) cljm_DOT_core_SLASH_persistent_BANG_.value)(out__6153);
 
 }
 break;
@@ -9608,85 +9608,85 @@ this.arr = arr;
 this.cljm$lang$protocol_mask$partition1$ = 14;
 this.cljm$lang$protocol_mask$partition0$ = 258;
 })
-cljm_DOT_core_SLASH_TransientArrayMap.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_TransientArrayMap.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/TransientArrayMap", nil);
+cljm_DOT_core_SLASH_TransientArrayMap.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_TransientArrayMap.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/TransientArrayMap", nil);
 };
-cljm_DOT_core_SLASH_TransientArrayMap.prototype.cljm$core$ITransientMap$_dissoc_BANG_$arity$2 = ^id(id tcoll, id key) {
-var this__6168 = this;
-if(cljm_truthy(this__6168_DOT_editable_QMARK_)) {
-id idx__6169 = cljm_DOT_core_SLASH_array_map_index_of(tcoll, key);
-if(cljm_truthy((idx__6169 >= @0))) {
-(this__6168_DOT_arr[idx__6169] = (this__6168_DOT_arr[(this__6168_DOT_len - @2)]));
-(this__6168_DOT_arr[(idx__6169 + @1)] = (this__6168_DOT_arr[(this__6168_DOT_len - @1)]));
-id G__6170__6171 = this__6168_DOT_arr;
-[G__6170__6171 pop];
-[G__6170__6171 pop];
-G__6170__6171;
-this__6168_DOT_len = (this__6168_DOT_len - @2);
+cljm_DOT_core_SLASH_TransientArrayMap.value.prototype.cljm$core$ITransientMap$_dissoc_BANG_$arity$2 = ^id(id tcoll, id key) {
+var this__6156 = this;
+if(cljm_truthy(this__6156.editable?)) {
+id idx__6157 = ((id (^)(id , id )) cljm_DOT_core_SLASH_array_map_index_of.value)(tcoll.value, key.value);
+if(cljm_truthy((idx__6157 >= @0))) {
+(this__6156.arr[idx__6157] = (this__6156.arr[(this__6156.len - @2)]));
+(this__6156.arr[(idx__6157 + @1)] = (this__6156.arr[(this__6156.len - @1)]));
+id G__6158__6159 = this__6156.arr;
+[G__6158__6159 pop];
+[G__6158__6159 pop];
+G__6158__6159;
+this__6156.len = (this__6156.len - @2);
 
 } else {
 
 }
-return tcoll;
+return tcoll.value;
 
 } else {
-throw [Error alloc];
-
-}
-};
-cljm_DOT_core_SLASH_TransientArrayMap.prototype.cljm$core$ITransientAssociative$_assoc_BANG_$arity$3 = ^id(id tcoll, id key, id val) {
-var this__6172 = this;
-if(cljm_truthy(this__6172_DOT_editable_QMARK_)) {
-id idx__6173 = cljm_DOT_core_SLASH_array_map_index_of(tcoll, key);
-if(cljm_truthy(([idx__6173 isEqual:@-1]))) {
-if(cljm_truthy(((this__6172_DOT_len + @2) <= (@2 * cljs_DOT_core_DOT_PersistentArrayMap_SLASH_HASHMAP_THRESHOLD)))) {
-this__6172_DOT_len = (this__6172_DOT_len + @2);
-[this__6172_DOT_arr pushkey];
-[this__6172_DOT_arr pushval];
-return tcoll;
-
-} else {
-return cljm_DOT_core_SLASH_assoc_BANG_(cljm_DOT_core_SLASH_array__GT_transient_hash_map(this__6172_DOT_len, this__6172_DOT_arr), key, val);
-
-}
-
-} else {
-if(cljm_truthy(([val isEqual:(this__6172_DOT_arr[(idx__6173 + @1)])]))) {
-return tcoll;
-
-} else {
-(this__6172_DOT_arr[(idx__6173 + @1)] = val);
-return tcoll;
-
-}
-
-}
-
-} else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_TransientArrayMap.prototype.cljm$core$ITransientCollection$_conj_BANG_$arity$2 = ^id(id tcoll, id o) {
-var this__6174 = this;
-if(cljm_truthy(this__6174_DOT_editable_QMARK_)) {
-if(cljm_truthy({id G__6175__6176 = o;
-if(cljm_truthy(G__6175__6176)) {
-if(cljm_truthy({id or__3824__auto____6177 = (G__6175__6176.cljm$lang$protocol_mask$partition0$ & @2048);
-if(cljm_truthy(or__3824__auto____6177)) {
-return or__3824__auto____6177;
+cljm_DOT_core_SLASH_TransientArrayMap.value.prototype.cljm$core$ITransientAssociative$_assoc_BANG_$arity$3 = ^id(id tcoll, id key, id val) {
+var this__6160 = this;
+if(cljm_truthy(this__6160.editable?)) {
+id idx__6161 = ((id (^)(id , id )) cljm_DOT_core_SLASH_array_map_index_of.value)(tcoll.value, key.value);
+if(cljm_truthy(([idx__6161 isEqual:@-1]))) {
+if(cljm_truthy(((this__6160.len + @2) <= (@2 * cljs_DOT_core_DOT_PersistentArrayMap_SLASH_HASHMAP_THRESHOLD.value)))) {
+this__6160.len = (this__6160.len + @2);
+[this__6160.arr pushkey.value];
+[this__6160.arr pushval.value];
+return tcoll.value;
 
 } else {
-return G__6175__6176.cljm$core$IMapEntry$;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_assoc_BANG_.value)(((id (^)(id , id )) cljm_DOT_core_SLASH_array__GT_transient_hash_map.value)(this__6160.len, this__6160.arr), key.value, val.value);
+
+}
+
+} else {
+if(cljm_truthy(([val.value isEqual:(this__6160.arr[(idx__6161 + @1)])]))) {
+return tcoll.value;
+
+} else {
+(this__6160.arr[(idx__6161 + @1)] = val.value);
+return tcoll.value;
+
+}
+
+}
+
+} else {
+throw [Error.value alloc];
+
+}
+};
+cljm_DOT_core_SLASH_TransientArrayMap.value.prototype.cljm$core$ITransientCollection$_conj_BANG_$arity$2 = ^id(id tcoll, id o) {
+var this__6162 = this;
+if(cljm_truthy(this__6162.editable?)) {
+if(cljm_truthy({id G__6163__6164 = o.value;
+if(cljm_truthy(G__6163__6164)) {
+if(cljm_truthy({id or__3824__auto____6165 = (G__6163__6164.cljm$lang$protocol_mask$partition0$ & @2048);
+if(cljm_truthy(or__3824__auto____6165)) {
+return or__3824__auto____6165;
+
+} else {
+return G__6163__6164.cljm$core$IMapEntry$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__6175__6176.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IMapEntry, G__6175__6176);
+if(cljm_truthy((!G__6163__6164.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IMapEntry.value, G__6163__6164);
 
 } else {
 return @NO;
@@ -9696,29 +9696,29 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IMapEntry, G__6175__6176);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IMapEntry.value, G__6163__6164);
 
 }
 })) {
-return cljm_DOT_core_SLASH__assoc_BANG_(tcoll, cljm_DOT_core_SLASH_key(o), cljm_DOT_core_SLASH_val(o));
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__assoc_BANG_.value)(tcoll.value, ((id (^)(id )) cljm_DOT_core_SLASH_key.value)(o.value), ((id (^)(id )) cljm_DOT_core_SLASH_val.value)(o.value));
 
 } else {
-id es__6178 = cljm_DOT_core_SLASH_seq(o);
-id tcoll__6179 = tcoll;
+id es__6166 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(o.value);
+id tcoll__6167 = tcoll.value;
 while(YES) {
-id temp__3971__auto____6180 = cljm_DOT_core_SLASH_first(es__6178);
-if(cljm_truthy(temp__3971__auto____6180)) {
-id e__6181 = temp__3971__auto____6180;
+id temp__3971__auto____6168 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(es__6166);
+if(cljm_truthy(temp__3971__auto____6168)) {
+id e__6169 = temp__3971__auto____6168;
 {
-var G__6187 = cljm_DOT_core_SLASH_next(es__6178);
-var G__6188 = cljm_DOT_core_SLASH__assoc_BANG_(tcoll__6179, cljm_DOT_core_SLASH_key(e__6181), cljm_DOT_core_SLASH_val(e__6181));
-es__6178 = G__6187;
-tcoll__6179 = G__6188;
+var G__6175 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(es__6166);
+var G__6176 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH__assoc_BANG_.value)(tcoll__6167, ((id (^)(id )) cljm_DOT_core_SLASH_key.value)(e__6169), ((id (^)(id )) cljm_DOT_core_SLASH_val.value)(e__6169));
+es__6166 = G__6175;
+tcoll__6167 = G__6176;
 continue;
 }
 
 } else {
-return tcoll__6179;
+return tcoll__6167;
 
 }
 break;
@@ -9727,73 +9727,73 @@ break;
 }
 
 } else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_TransientArrayMap.prototype.cljm$core$ITransientCollection$_persistent_BANG_$arity$1 = ^id(id tcoll) {
-var this__6182 = this;
-if(cljm_truthy(this__6182_DOT_editable_QMARK_)) {
-this__6182_DOT_editable_QMARK_ = @NO;
-return [cljm_DOT_core_SLASH_PersistentArrayMap alloc];
+cljm_DOT_core_SLASH_TransientArrayMap.value.prototype.cljm$core$ITransientCollection$_persistent_BANG_$arity$1 = ^id(id tcoll) {
+var this__6170 = this;
+if(cljm_truthy(this__6170.editable?)) {
+this__6170.editable? = @NO;
+return [cljm_DOT_core_SLASH_PersistentArrayMap.value alloc];
 
 } else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_TransientArrayMap.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id tcoll, id k) {
-var this__6183 = this;
-return cljm_DOT_core_SLASH__lookup(tcoll, k, nil);
+cljm_DOT_core_SLASH_TransientArrayMap.value.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id tcoll, id k) {
+var this__6171 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(tcoll.value, k.value, nil);
 };
-cljm_DOT_core_SLASH_TransientArrayMap.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id tcoll, id k, id not_found) {
-var this__6184 = this;
-if(cljm_truthy(this__6184_DOT_editable_QMARK_)) {
-id idx__6185 = cljm_DOT_core_SLASH_array_map_index_of(tcoll, k);
-if(cljm_truthy(([idx__6185 isEqual:@-1]))) {
-return not_found;
+cljm_DOT_core_SLASH_TransientArrayMap.value.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id tcoll, id k, id not_found) {
+var this__6172 = this;
+if(cljm_truthy(this__6172.editable?)) {
+id idx__6173 = ((id (^)(id , id )) cljm_DOT_core_SLASH_array_map_index_of.value)(tcoll.value, k.value);
+if(cljm_truthy(([idx__6173 isEqual:@-1]))) {
+return not_found.value;
 
 } else {
-return (this__6184_DOT_arr[(idx__6185 + @1)]);
+return (this__6172.arr[(idx__6173 + @1)]);
 
 }
 
 } else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_TransientArrayMap.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id tcoll) {
-var this__6186 = this;
-if(cljm_truthy(this__6186_DOT_editable_QMARK_)) {
-return cljm_DOT_core_SLASH_quot(this__6186_DOT_len, @2);
+cljm_DOT_core_SLASH_TransientArrayMap.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id tcoll) {
+var this__6174 = this;
+if(cljm_truthy(this__6174.editable?)) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_quot.value)(this__6174.len, @2);
 
 } else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_TransientArrayMap;
-cljm_DOT_core_SLASH_array__GT_transient_hash_map = ^id(id len, id arr) {
-id out__6191 = cljm_DOT_core_SLASH_transient(@{});
-id i__6192 = @0;
+cljm_DOT_core_SLASH_TransientArrayMap.value;
+cljm_DOT_core_SLASH_array__GT_transient_hash_map = [[CLJMVar alloc] initWithValue:^id(id len, id arr) {
+id out__6179 = ((id (^)(id )) cljm_DOT_core_SLASH_transient.value)(@{});
+id i__6180 = @0;
 while(YES) {
-if(cljm_truthy((i__6192 < len))) {
+if(cljm_truthy((i__6180 < len.value))) {
 {
-var G__6193 = cljm_DOT_core_SLASH_assoc_BANG_(out__6191, (arr[i__6192]), (arr[(i__6192 + @1)]));
-var G__6194 = (i__6192 + @2);
-out__6191 = G__6193;
-i__6192 = G__6194;
+var G__6181 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_assoc_BANG_.value)(out__6179, (arr.value[i__6180]), (arr.value[(i__6180 + @1)]));
+var G__6182 = (i__6180 + @2);
+out__6179 = G__6181;
+i__6180 = G__6182;
 continue;
 }
 
 } else {
-return out__6191;
+return out__6179;
 
 }
 break;
 }
-};
+}];
 
 /**
 * @constructor
@@ -9801,35 +9801,35 @@ break;
 cljm_DOT_core_SLASH_Box = (function (val){
 this.val = val;
 })
-cljm_DOT_core_SLASH_Box.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_Box.cljm$lang$ctorPrSeq = ^id(id this__1432__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/Box", nil);
+cljm_DOT_core_SLASH_Box.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_Box.value.cljm$lang$ctorPrSeq = ^id(id this__1420__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/Box", nil);
 };
-cljm_DOT_core_SLASH_Box;
-cljm_DOT_core_SLASH_key_test = ^id(id key, id other) {
-if(cljm_truthy(goog_SLASH_isString(key))) {
-return ([key isEqual:other]);
+cljm_DOT_core_SLASH_Box.value;
+cljm_DOT_core_SLASH_key_test = [[CLJMVar alloc] initWithValue:^id(id key, id other) {
+if(cljm_truthy(((id (^)(id )) goog_SLASH_isString.value)(key.value))) {
+return ([key.value isEqual:other.value]);
 
 } else {
-return cljm_DOT_core_SLASH__EQ_(key, other, nil);
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH__EQ_.value)(key.value, other.value, nil);
 
 }
-};
-cljm_DOT_core_SLASH_mask = ^id(id hash, id shift) {
-return ((hash >>> shift) & @31);
-};
-cljm_DOT_core_SLASH_clone_and_set = (function() {
+}];
+cljm_DOT_core_SLASH_mask = [[CLJMVar alloc] initWithValue:^id(id hash, id shift) {
+return ((hash.value >>> shift.value) & @31);
+}];
+cljm_DOT_core_SLASH_clone_and_set = [[CLJMVar alloc] initWithValue:(function() {
 var clone_and_set = null;
 var clone_and_set__3 = ^id(id arr, id i, id a) {
-id G__6199__6200 = arr.slice();
-(G__6199__6200[i] = a);
-return G__6199__6200;
+id G__6187__6188 = arr.value.slice();
+(G__6187__6188[i.value] = a.value);
+return G__6187__6188;
 };
 var clone_and_set__5 = ^id(id arr, id i, id a, id j, id b) {
-id G__6201__6202 = arr.slice();
-(G__6201__6202[i] = a);
-(G__6201__6202[j] = b);
-return G__6201__6202;
+id G__6189__6190 = arr.value.slice();
+(G__6189__6190[i.value] = a.value);
+(G__6189__6190[j.value] = b.value);
+return G__6189__6190;
 };
 clone_and_set = function(arr, i, a, j, b){
 switch(arguments.length){
@@ -9844,31 +9844,31 @@ clone_and_set.cljm$lang$arity$3 = clone_and_set__3;
 clone_and_set.cljm$lang$arity$5 = clone_and_set__5;
 return clone_and_set;
 })()
-;
-cljm_DOT_core_SLASH_remove_pair = ^id(id arr, id i) {
-id new_arr__6204 = cljm_DOT_core_SLASH_make_array((arr.length - @2));
-cljm_DOT_core_SLASH_array_copy(arr, @0, new_arr__6204, @0, (@2 * i));
-cljm_DOT_core_SLASH_array_copy(arr, (@2 * (i + @1)), new_arr__6204, (@2 * i), (new_arr__6204.length - (@2 * i)));
-return new_arr__6204;
-};
-cljm_DOT_core_SLASH_bitmap_indexed_node_index = ^id(id bitmap, id bit) {
-return cljm_DOT_core_SLASH_bit_count((bitmap & (bit - @1)));
-};
-cljm_DOT_core_SLASH_bitpos = ^id(id hash, id shift) {
-return (@1 << ((hash >>> shift) & 0x01f));
-};
-cljm_DOT_core_SLASH_edit_and_set = (function() {
+];
+cljm_DOT_core_SLASH_remove_pair = [[CLJMVar alloc] initWithValue:^id(id arr, id i) {
+id new_arr__6192 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)((arr.value.length - @2));
+((id (^)(id , id , id , id , id )) cljm_DOT_core_SLASH_array_copy.value)(arr.value, @0, new-arr__6192, @0, (@2 * i.value));
+((id (^)(id , id , id , id , id )) cljm_DOT_core_SLASH_array_copy.value)(arr.value, (@2 * (i.value + @1)), new-arr__6192, (@2 * i.value), (new-arr__6192.length - (@2 * i.value)));
+return new-arr__6192;
+}];
+cljm_DOT_core_SLASH_bitmap_indexed_node_index = [[CLJMVar alloc] initWithValue:^id(id bitmap, id bit) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_bit_count.value)((bitmap.value & (bit.value - @1)));
+}];
+cljm_DOT_core_SLASH_bitpos = [[CLJMVar alloc] initWithValue:^id(id hash, id shift) {
+return (@1 << ((hash.value >>> shift.value) & 0x01f));
+}];
+cljm_DOT_core_SLASH_edit_and_set = [[CLJMVar alloc] initWithValue:(function() {
 var edit_and_set = null;
 var edit_and_set__4 = ^id(id inode, id edit, id i, id a) {
-id editable__6207 = [inode ensureedit editable];
-(editable__6207.arr[i] = a);
-return editable__6207;
+id editable__6195 = [inode.value ensureedit.value editable];
+(editable__6195.arr[i.value] = a.value);
+return editable__6195;
 };
 var edit_and_set__6 = ^id(id inode, id edit, id i, id a, id j, id b) {
-id editable__6208 = [inode ensureedit editable];
-(editable__6208.arr[i] = a);
-(editable__6208.arr[j] = b);
-return editable__6208;
+id editable__6196 = [inode.value ensureedit.value editable];
+(editable__6196.arr[i.value] = a.value);
+(editable__6196.arr[j.value] = b.value);
+return editable__6196;
 };
 edit_and_set = function(inode, edit, i, a, j, b){
 switch(arguments.length){
@@ -9883,50 +9883,50 @@ edit_and_set.cljm$lang$arity$4 = edit_and_set__4;
 edit_and_set.cljm$lang$arity$6 = edit_and_set__6;
 return edit_and_set;
 })()
-;
-cljm_DOT_core_SLASH_inode_kv_reduce = ^id(id arr, id f, id init) {
-id len__6215 = arr.length;
-id i__6216 = @0;
-id init__6217 = init;
+];
+cljm_DOT_core_SLASH_inode_kv_reduce = [[CLJMVar alloc] initWithValue:^id(id arr, id f, id init) {
+id len__6203 = arr.value.length;
+id i__6204 = @0;
+id init__6205 = init.value;
 while(YES) {
-if(cljm_truthy((i__6216 < len__6215))) {
-id init__6220 = {id k__6218 = (arr[i__6216]);
-if(cljm_truthy(cljm_DOT_core_SLASH_not((k__6218 == nil)))) {
-return f(init__6217, k__6218, (arr[(i__6216 + @1)]));
+if(cljm_truthy((i__6204 < len__6203))) {
+id init__6208 = {id k__6206 = (arr.value[i__6204]);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((k__6206 == nil)))) {
+return ((id (^)(id , id , id )) f.value)(init__6205, k__6206, (arr.value[(i__6204 + @1)]));
 
 } else {
-id node__6219 = (arr[(i__6216 + @1)]);
-if(cljm_truthy(cljm_DOT_core_SLASH_not((node__6219 == nil)))) {
-return [node__6219 kvf reduceinit__6217];
+id node__6207 = (arr.value[(i__6204 + @1)]);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((node__6207 == nil)))) {
+return [node__6207 kvf.value reduceinit__6205];
 
 } else {
-return init__6217;
+return init__6205;
 
 }
 
 }
 };
-if(cljm_truthy(cljm_DOT_core_SLASH_reduced_QMARK_(init__6220))) {
-return cljm_DOT_core_SLASH_deref(init__6220);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_reduced_QMARK_.value)(init__6208))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(init__6208);
 
 } else {
 {
-var G__6221 = (i__6216 + @2);
-var G__6222 = init__6220;
-i__6216 = G__6221;
-init__6217 = G__6222;
+var G__6209 = (i__6204 + @2);
+var G__6210 = init__6208;
+i__6204 = G__6209;
+init__6205 = G__6210;
 continue;
 }
 
 }
 
 } else {
-return init__6217;
+return init__6205;
 
 }
 break;
 }
-};
+}];
 
 /**
 * @constructor
@@ -9936,70 +9936,70 @@ this.edit = edit;
 this.bitmap = bitmap;
 this.arr = arr;
 })
-cljm_DOT_core_SLASH_BitmapIndexedNode.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_BitmapIndexedNode.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/BitmapIndexedNode", nil);
+cljm_DOT_core_SLASH_BitmapIndexedNode.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_BitmapIndexedNode.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/BitmapIndexedNode", nil);
 };
-cljm_DOT_core_SLASH_BitmapIndexedNode.prototype.edit_and_remove_pair = ^id(id e, id bit, id i) {
-var this__6223 = this;
-id inode__6224 = this;
-if(cljm_truthy(([this__6223_DOT_bitmap isEqual:bit]))) {
+cljm_DOT_core_SLASH_BitmapIndexedNode.value.prototype.edit_and_remove_pair = ^id(id e, id bit, id i) {
+var this__6211 = this;
+id inode__6212 = this;
+if(cljm_truthy(([this__6211.bitmap isEqual:bit.value]))) {
 return nil;
 
 } else {
-id editable__6225 = [inode__6224 ensuree editable];
-id earr__6226 = editable__6225.arr;
-id len__6227 = earr__6226.length;
-editable__6225.bitmap = (bit ^ editable__6225.bitmap);
-cljm_DOT_core_SLASH_array_copy(earr__6226, (@2 * (i + @1)), earr__6226, (@2 * i), (len__6227 - (@2 * (i + @1))));
-(earr__6226[(len__6227 - @2)] = nil);
-(earr__6226[(len__6227 - @1)] = nil);
-return editable__6225;
+id editable__6213 = [inode__6212 ensuree.value editable];
+id earr__6214 = editable__6213.arr;
+id len__6215 = earr__6214.length;
+editable__6213.bitmap = (bit.value ^ editable__6213.bitmap);
+((id (^)(id , id , id , id , id )) cljm_DOT_core_SLASH_array_copy.value)(earr__6214, (@2 * (i.value + @1)), earr__6214, (@2 * i.value), (len__6215 - (@2 * (i.value + @1))));
+(earr__6214[(len__6215 - @2)] = nil);
+(earr__6214[(len__6215 - @1)] = nil);
+return editable__6213;
 
 }
 };
-cljm_DOT_core_SLASH_BitmapIndexedNode.prototype.inode_assoc_BANG_ = ^id(id edit, id shift, id hash, id key, id val, id added_leaf_QMARK_) {
-var this__6228 = this;
-id inode__6229 = this;
-id bit__6230 = (1 << ((hash >>> shift) & 0x01f));
-id idx__6231 = cljm_DOT_core_SLASH_bitmap_indexed_node_index(this__6228_DOT_bitmap, bit__6230);
-if(cljm_truthy(([(this__6228_DOT_bitmap & bit__6230) isEqual:@0]))) {
-id n__6232 = cljm_DOT_core_SLASH_bit_count(this__6228_DOT_bitmap);
-if(cljm_truthy(((@2 * n__6232) < this__6228_DOT_arr.length))) {
-id editable__6233 = [inode__6229 ensureedit editable];
-id earr__6234 = editable__6233.arr;
-added_leaf_QMARK_.val = @YES;
-cljm_DOT_core_SLASH_array_copy_downward(earr__6234, (@2 * idx__6231), earr__6234, (@2 * (idx__6231 + @1)), (@2 * (n__6232 - idx__6231)));
-(earr__6234[(@2 * idx__6231)] = key);
-(earr__6234[((@2 * idx__6231) + @1)] = val);
-editable__6233.bitmap = (editable__6233.bitmap | bit__6230);
-return editable__6233;
+cljm_DOT_core_SLASH_BitmapIndexedNode.value.prototype.inode_assoc_BANG_ = ^id(id edit, id shift, id hash, id key, id val, id added_leaf_QMARK_) {
+var this__6216 = this;
+id inode__6217 = this;
+id bit__6218 = (1 << ((hash.value >>> shift.value) & 0x01f));
+id idx__6219 = ((id (^)(id , id )) cljm_DOT_core_SLASH_bitmap_indexed_node_index.value)(this__6216.bitmap, bit__6218);
+if(cljm_truthy(([(this__6216.bitmap & bit__6218) isEqual:@0]))) {
+id n__6220 = ((id (^)(id )) cljm_DOT_core_SLASH_bit_count.value)(this__6216.bitmap);
+if(cljm_truthy(((@2 * n__6220) < this__6216.arr.length))) {
+id editable__6221 = [inode__6217 ensureedit.value editable];
+id earr__6222 = editable__6221.arr;
+added_leaf_QMARK_.value.val = @YES;
+((id (^)(id , id , id , id , id )) cljm_DOT_core_SLASH_array_copy_downward.value)(earr__6222, (@2 * idx__6219), earr__6222, (@2 * (idx__6219 + @1)), (@2 * (n__6220 - idx__6219)));
+(earr__6222[(@2 * idx__6219)] = key.value);
+(earr__6222[((@2 * idx__6219) + @1)] = val.value);
+editable__6221.bitmap = (editable__6221.bitmap | bit__6218);
+return editable__6221;
 
 } else {
-if(cljm_truthy((n__6232 >= @16))) {
-id nodes__6235 = cljm_DOT_core_SLASH_make_array(@32);
-id jdx__6236 = ((hash >>> shift) & 0x01f);
-(nodes__6235[jdx__6236] = [cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY inodeedit assoc(shift + @5), hash, key, val, added_leaf_QMARK_, nil]);
-id i__6237 = @0;
-id j__6238 = @0;
+if(cljm_truthy((n__6220 >= @16))) {
+id nodes__6223 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)(@32);
+id jdx__6224 = ((hash.value >>> shift.value) & 0x01f);
+(nodes__6223[jdx__6224] = [cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY.value inodeedit.value assoc(shift.value + @5), hash.value, key.value, val.value, added_leaf_QMARK_.value, nil]);
+id i__6225 = @0;
+id j__6226 = @0;
 while(YES) {
-if(cljm_truthy((i__6237 < @32))) {
-if(cljm_truthy(([((this__6228_DOT_bitmap >>> i__6237) & @1) isEqual:@0]))) {
+if(cljm_truthy((i__6225 < @32))) {
+if(cljm_truthy(([((this__6216.bitmap >>> i__6225) & @1) isEqual:@0]))) {
 {
-var G__6291 = (i__6237 + @1);
-var G__6292 = j__6238;
-i__6237 = G__6291;
-j__6238 = G__6292;
+var G__6279 = (i__6225 + @1);
+var G__6280 = j__6226;
+i__6225 = G__6279;
+j__6226 = G__6280;
 continue;
 }
 
 } else {
-(nodes__6235[i__6237] = (cljm_truthy(cljm_DOT_core_SLASH_not(((this__6228_DOT_arr[j__6238]) == nil)))) ?[cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY inodeedit assoc(shift + @5), cljs_DOT_core_SLASH_hash((this__6228_DOT_arr[j__6238])), (this__6228_DOT_arr[j__6238]), (this__6228_DOT_arr[(j__6238 + @1)]), added_leaf_QMARK_, nil]:(this__6228_DOT_arr[(j__6238 + @1)]));
+(nodes__6223[i__6225] = (cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((this__6216.arr[j__6226]) == nil)))) ?[cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY.value inodeedit.value assoc(shift.value + @5), ((id (^)(id )) cljs_DOT_core_SLASH_hash.value)((this__6216.arr[j__6226])), (this__6216.arr[j__6226]), (this__6216.arr[(j__6226 + @1)]), added_leaf_QMARK_.value, nil]:(this__6216.arr[(j__6226 + @1)]));
 {
-var G__6293 = (i__6237 + @1);
-var G__6294 = (j__6238 + @2);
-i__6237 = G__6293;
-j__6238 = G__6294;
+var G__6281 = (i__6225 + @1);
+var G__6282 = (j__6226 + @2);
+i__6225 = G__6281;
+j__6226 = G__6282;
 continue;
 }
 
@@ -10010,20 +10010,20 @@ continue;
 }
 break;
 }
-return [cljm_DOT_core_SLASH_ArrayNode alloc];
+return [cljm_DOT_core_SLASH_ArrayNode.value alloc];
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-id new_arr__6239 = cljm_DOT_core_SLASH_make_array((@2 * (n__6232 + @4)));
-cljm_DOT_core_SLASH_array_copy(this__6228_DOT_arr, @0, new_arr__6239, @0, (@2 * idx__6231));
-(new_arr__6239[(@2 * idx__6231)] = key);
-(new_arr__6239[((@2 * idx__6231) + @1)] = val);
-cljm_DOT_core_SLASH_array_copy(this__6228_DOT_arr, (@2 * idx__6231), new_arr__6239, (@2 * (idx__6231 + @1)), (@2 * (n__6232 - idx__6231)));
-added_leaf_QMARK_.val = @YES;
-id editable__6240 = [inode__6229 ensureedit editable];
-editable__6240.arr = new_arr__6239;
-editable__6240.bitmap = (editable__6240.bitmap | bit__6230);
-return editable__6240;
+id new_arr__6227 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)((@2 * (n__6220 + @4)));
+((id (^)(id , id , id , id , id )) cljm_DOT_core_SLASH_array_copy.value)(this__6216.arr, @0, new-arr__6227, @0, (@2 * idx__6219));
+(new-arr__6227[(@2 * idx__6219)] = key.value);
+(new-arr__6227[((@2 * idx__6219) + @1)] = val.value);
+((id (^)(id , id , id , id , id )) cljm_DOT_core_SLASH_array_copy.value)(this__6216.arr, (@2 * idx__6219), new-arr__6227, (@2 * (idx__6219 + @1)), (@2 * (n__6220 - idx__6219)));
+added_leaf_QMARK_.value.val = @YES;
+id editable__6228 = [inode__6217 ensureedit.value editable];
+editable__6228.arr = new-arr__6227;
+editable__6228.bitmap = (editable__6228.bitmap | bit__6218);
+return editable__6228;
 
 } else {
 return nil;
@@ -10035,32 +10035,32 @@ return nil;
 }
 
 } else {
-id key_or_nil__6241 = (this__6228_DOT_arr[(@2 * idx__6231)]);
-id val_or_node__6242 = (this__6228_DOT_arr[((@2 * idx__6231) + @1)]);
-if(cljm_truthy((key_or_nil__6241 == nil))) {
-id n__6243 = [val_or_node__6242 inodeedit assoc(shift + @5), hash, key, val, added_leaf_QMARK_, nil];
-if(cljm_truthy(([n__6243 isEqual:val_or_node__6242]))) {
-return inode__6229;
+id key_or_nil__6229 = (this__6216.arr[(@2 * idx__6219)]);
+id val_or_node__6230 = (this__6216.arr[((@2 * idx__6219) + @1)]);
+if(cljm_truthy((key-or-nil__6229 == nil))) {
+id n__6231 = [val-or-node__6230 inodeedit.value assoc(shift.value + @5), hash.value, key.value, val.value, added_leaf_QMARK_.value, nil];
+if(cljm_truthy(([n__6231 isEqual:val-or-node__6230]))) {
+return inode__6217;
 
 } else {
-return cljm_DOT_core_SLASH_edit_and_set(inode__6229, edit, ((@2 * idx__6231) + @1), n__6243);
+return ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_edit_and_set.value)(inode__6217, edit.value, ((@2 * idx__6219) + @1), n__6231);
 
 }
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_key_test(key, key_or_nil__6241))) {
-if(cljm_truthy(([val isEqual:val_or_node__6242]))) {
-return inode__6229;
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_key_test.value)(key.value, key-or-nil__6229))) {
+if(cljm_truthy(([val.value isEqual:val-or-node__6230]))) {
+return inode__6217;
 
 } else {
-return cljm_DOT_core_SLASH_edit_and_set(inode__6229, edit, ((@2 * idx__6231) + @1), val);
+return ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_edit_and_set.value)(inode__6217, edit.value, ((@2 * idx__6219) + @1), val.value);
 
 }
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-added_leaf_QMARK_.val = @YES;
-return cljm_DOT_core_SLASH_edit_and_set(inode__6229, edit, (@2 * idx__6231), nil, ((@2 * idx__6231) + @1), cljm_DOT_core_SLASH_create_node(edit, (shift + @5), key_or_nil__6241, val_or_node__6242, hash, key, val));
+added_leaf_QMARK_.value.val = @YES;
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_edit_and_set.value)(inode__6217, edit.value, (@2 * idx__6219), nil, ((@2 * idx__6219) + @1), ((id (^)(id , id , id , id , id , id , id )) cljm_DOT_core_SLASH_create_node.value)(edit.value, (shift.value + @5), key-or-nil__6229, val-or-node__6230, hash.value, key.value, val.value));
 
 } else {
 return nil;
@@ -10073,38 +10073,38 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_BitmapIndexedNode.prototype.inode_seq = ^id() {
-var this__6244 = this;
-id inode__6245 = this;
-return cljm_DOT_core_SLASH_create_inode_seq(this__6244_DOT_arr);
+cljm_DOT_core_SLASH_BitmapIndexedNode.value.prototype.inode_seq = ^id() {
+var this__6232 = this;
+id inode__6233 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH_create_inode_seq.value)(this__6232.arr);
 };
-cljm_DOT_core_SLASH_BitmapIndexedNode.prototype.inode_without_BANG_ = ^id(id edit, id shift, id hash, id key, id removed_leaf_QMARK_) {
-var this__6246 = this;
-id inode__6247 = this;
-id bit__6248 = (1 << ((hash >>> shift) & 0x01f));
-if(cljm_truthy(([(this__6246_DOT_bitmap & bit__6248) isEqual:@0]))) {
-return inode__6247;
+cljm_DOT_core_SLASH_BitmapIndexedNode.value.prototype.inode_without_BANG_ = ^id(id edit, id shift, id hash, id key, id removed_leaf_QMARK_) {
+var this__6234 = this;
+id inode__6235 = this;
+id bit__6236 = (1 << ((hash.value >>> shift.value) & 0x01f));
+if(cljm_truthy(([(this__6234.bitmap & bit__6236) isEqual:@0]))) {
+return inode__6235;
 
 } else {
-id idx__6249 = cljm_DOT_core_SLASH_bitmap_indexed_node_index(this__6246_DOT_bitmap, bit__6248);
-id key_or_nil__6250 = (this__6246_DOT_arr[(@2 * idx__6249)]);
-id val_or_node__6251 = (this__6246_DOT_arr[((@2 * idx__6249) + @1)]);
-if(cljm_truthy((key_or_nil__6250 == nil))) {
-id n__6252 = [val_or_node__6251 inodeedit without(shift + @5), hash, key, removed_leaf_QMARK_, nil];
-if(cljm_truthy(([n__6252 isEqual:val_or_node__6251]))) {
-return inode__6247;
+id idx__6237 = ((id (^)(id , id )) cljm_DOT_core_SLASH_bitmap_indexed_node_index.value)(this__6234.bitmap, bit__6236);
+id key_or_nil__6238 = (this__6234.arr[(@2 * idx__6237)]);
+id val_or_node__6239 = (this__6234.arr[((@2 * idx__6237) + @1)]);
+if(cljm_truthy((key-or-nil__6238 == nil))) {
+id n__6240 = [val-or-node__6239 inodeedit.value without(shift.value + @5), hash.value, key.value, removed_leaf_QMARK_.value, nil];
+if(cljm_truthy(([n__6240 isEqual:val-or-node__6239]))) {
+return inode__6235;
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_not((n__6252 == nil)))) {
-return cljm_DOT_core_SLASH_edit_and_set(inode__6247, edit, ((@2 * idx__6249) + @1), n__6252);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((n__6240 == nil)))) {
+return ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_edit_and_set.value)(inode__6235, edit.value, ((@2 * idx__6237) + @1), n__6240);
 
 } else {
-if(cljm_truthy(([this__6246_DOT_bitmap isEqual:bit__6248]))) {
+if(cljm_truthy(([this__6234.bitmap isEqual:bit__6236]))) {
 return nil;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return [inode__6247 editedit andbit__6248 removeidx__6249 pair];
+return [inode__6235 editedit.value andbit__6236 removeidx__6237 pair];
 
 } else {
 return nil;
@@ -10118,13 +10118,13 @@ return nil;
 }
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_key_test(key, key_or_nil__6250))) {
-(removed_leaf_QMARK_[@0] = @YES);
-return [inode__6247 editedit andbit__6248 removeidx__6249 pair];
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_key_test.value)(key.value, key-or-nil__6238))) {
+(removed_leaf_QMARK_.value[@0] = @YES);
+return [inode__6235 editedit.value andbit__6236 removeidx__6237 pair];
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return inode__6247;
+return inode__6235;
 
 } else {
 return nil;
@@ -10137,85 +10137,85 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_BitmapIndexedNode.prototype.ensure_editable = ^id(id e) {
+cljm_DOT_core_SLASH_BitmapIndexedNode.value.prototype.ensure_editable = ^id(id e) {
+var this__6241 = this;
+id inode__6242 = this;
+if(cljm_truthy(([e.value isEqual:this__6241.edit]))) {
+return inode__6242;
+
+} else {
+id n__6243 = ((id (^)(id )) cljm_DOT_core_SLASH_bit_count.value)(this__6241.bitmap);
+id new_arr__6244 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)((cljm_truthy((n__6243 < @0))) ?@4:(@2 * (n__6243 + @1)));
+((id (^)(id , id , id , id , id )) cljm_DOT_core_SLASH_array_copy.value)(this__6241.arr, @0, new-arr__6244, @0, (@2 * n__6243));
+return [cljm_DOT_core_SLASH_BitmapIndexedNode.value alloc];
+
+}
+};
+cljm_DOT_core_SLASH_BitmapIndexedNode.value.prototype.kv_reduce = ^id(id f, id init) {
+var this__6245 = this;
+id inode__6246 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_inode_kv_reduce.value)(this__6245.arr, f.value, init.value);
+};
+cljm_DOT_core_SLASH_BitmapIndexedNode.value.prototype.inode_find = ^id(id shift, id hash, id key, id not_found) {
+var this__6247 = this;
+id inode__6248 = this;
+id bit__6249 = (1 << ((hash.value >>> shift.value) & 0x01f));
+if(cljm_truthy(([(this__6247.bitmap & bit__6249) isEqual:@0]))) {
+return not_found.value;
+
+} else {
+id idx__6250 = ((id (^)(id , id )) cljm_DOT_core_SLASH_bitmap_indexed_node_index.value)(this__6247.bitmap, bit__6249);
+id key_or_nil__6251 = (this__6247.arr[(@2 * idx__6250)]);
+id val_or_node__6252 = (this__6247.arr[((@2 * idx__6250) + @1)]);
+if(cljm_truthy((key-or-nil__6251 == nil))) {
+return [val-or-node__6252 inode(shift.value + @5) findhash.value, key.value, not_found.value, nil];
+
+} else {
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_key_test.value)(key.value, key-or-nil__6251))) {
+return @[ key-or-nil__6251, val-or-node__6252 ];
+
+} else {
+if(cljm_truthy(cljm_keyword(@":else"))) {
+return not_found.value;
+
+} else {
+return nil;
+
+}
+
+}
+
+}
+
+}
+};
+cljm_DOT_core_SLASH_BitmapIndexedNode.value.prototype.inode_without = ^id(id shift, id hash, id key) {
 var this__6253 = this;
 id inode__6254 = this;
-if(cljm_truthy(([e isEqual:this__6253_DOT_edit]))) {
+id bit__6255 = (1 << ((hash.value >>> shift.value) & 0x01f));
+if(cljm_truthy(([(this__6253.bitmap & bit__6255) isEqual:@0]))) {
 return inode__6254;
 
 } else {
-id n__6255 = cljm_DOT_core_SLASH_bit_count(this__6253_DOT_bitmap);
-id new_arr__6256 = cljm_DOT_core_SLASH_make_array((cljm_truthy((n__6255 < @0))) ?@4:(@2 * (n__6255 + @1)));
-cljm_DOT_core_SLASH_array_copy(this__6253_DOT_arr, @0, new_arr__6256, @0, (@2 * n__6255));
-return [cljm_DOT_core_SLASH_BitmapIndexedNode alloc];
-
-}
-};
-cljm_DOT_core_SLASH_BitmapIndexedNode.prototype.kv_reduce = ^id(id f, id init) {
-var this__6257 = this;
-id inode__6258 = this;
-return cljm_DOT_core_SLASH_inode_kv_reduce(this__6257_DOT_arr, f, init);
-};
-cljm_DOT_core_SLASH_BitmapIndexedNode.prototype.inode_find = ^id(id shift, id hash, id key, id not_found) {
-var this__6259 = this;
-id inode__6260 = this;
-id bit__6261 = (1 << ((hash >>> shift) & 0x01f));
-if(cljm_truthy(([(this__6259_DOT_bitmap & bit__6261) isEqual:@0]))) {
-return not_found;
+id idx__6256 = ((id (^)(id , id )) cljm_DOT_core_SLASH_bitmap_indexed_node_index.value)(this__6253.bitmap, bit__6255);
+id key_or_nil__6257 = (this__6253.arr[(@2 * idx__6256)]);
+id val_or_node__6258 = (this__6253.arr[((@2 * idx__6256) + @1)]);
+if(cljm_truthy((key-or-nil__6257 == nil))) {
+id n__6259 = [val-or-node__6258 inode(shift.value + @5) withouthash.value, key.value, nil];
+if(cljm_truthy(([n__6259 isEqual:val-or-node__6258]))) {
+return inode__6254;
 
 } else {
-id idx__6262 = cljm_DOT_core_SLASH_bitmap_indexed_node_index(this__6259_DOT_bitmap, bit__6261);
-id key_or_nil__6263 = (this__6259_DOT_arr[(@2 * idx__6262)]);
-id val_or_node__6264 = (this__6259_DOT_arr[((@2 * idx__6262) + @1)]);
-if(cljm_truthy((key_or_nil__6263 == nil))) {
-return [val_or_node__6264 inode(shift + @5) findhash, key, not_found, nil];
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((n__6259 == nil)))) {
+return [cljm_DOT_core_SLASH_BitmapIndexedNode.value alloc];
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_key_test(key, key_or_nil__6263))) {
-return @[ key_or_nil__6263, val_or_node__6264 ];
-
-} else {
-if(cljm_truthy(cljm_keyword(@":else"))) {
-return not_found;
-
-} else {
-return nil;
-
-}
-
-}
-
-}
-
-}
-};
-cljm_DOT_core_SLASH_BitmapIndexedNode.prototype.inode_without = ^id(id shift, id hash, id key) {
-var this__6265 = this;
-id inode__6266 = this;
-id bit__6267 = (1 << ((hash >>> shift) & 0x01f));
-if(cljm_truthy(([(this__6265_DOT_bitmap & bit__6267) isEqual:@0]))) {
-return inode__6266;
-
-} else {
-id idx__6268 = cljm_DOT_core_SLASH_bitmap_indexed_node_index(this__6265_DOT_bitmap, bit__6267);
-id key_or_nil__6269 = (this__6265_DOT_arr[(@2 * idx__6268)]);
-id val_or_node__6270 = (this__6265_DOT_arr[((@2 * idx__6268) + @1)]);
-if(cljm_truthy((key_or_nil__6269 == nil))) {
-id n__6271 = [val_or_node__6270 inode(shift + @5) withouthash, key, nil];
-if(cljm_truthy(([n__6271 isEqual:val_or_node__6270]))) {
-return inode__6266;
-
-} else {
-if(cljm_truthy(cljm_DOT_core_SLASH_not((n__6271 == nil)))) {
-return [cljm_DOT_core_SLASH_BitmapIndexedNode alloc];
-
-} else {
-if(cljm_truthy(([this__6265_DOT_bitmap isEqual:bit__6267]))) {
+if(cljm_truthy(([this__6253.bitmap isEqual:bit__6255]))) {
 return nil;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return [cljm_DOT_core_SLASH_BitmapIndexedNode alloc];
+return [cljm_DOT_core_SLASH_BitmapIndexedNode.value alloc];
 
 } else {
 return nil;
@@ -10229,12 +10229,12 @@ return nil;
 }
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_key_test(key, key_or_nil__6269))) {
-return [cljm_DOT_core_SLASH_BitmapIndexedNode alloc];
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_key_test.value)(key.value, key-or-nil__6257))) {
+return [cljm_DOT_core_SLASH_BitmapIndexedNode.value alloc];
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return inode__6266;
+return inode__6254;
 
 } else {
 return nil;
@@ -10247,37 +10247,37 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_BitmapIndexedNode.prototype.inode_assoc = ^id(id shift, id hash, id key, id val, id added_leaf_QMARK_) {
-var this__6272 = this;
-id inode__6273 = this;
-id bit__6274 = (1 << ((hash >>> shift) & 0x01f));
-id idx__6275 = cljm_DOT_core_SLASH_bitmap_indexed_node_index(this__6272_DOT_bitmap, bit__6274);
-if(cljm_truthy(([(this__6272_DOT_bitmap & bit__6274) isEqual:@0]))) {
-id n__6276 = cljm_DOT_core_SLASH_bit_count(this__6272_DOT_bitmap);
-if(cljm_truthy((n__6276 >= @16))) {
-id nodes__6277 = cljm_DOT_core_SLASH_make_array(@32);
-id jdx__6278 = ((hash >>> shift) & 0x01f);
-(nodes__6277[jdx__6278] = [cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY inode(shift + @5) assochash, key, val, added_leaf_QMARK_, nil]);
-id i__6279 = @0;
-id j__6280 = @0;
+cljm_DOT_core_SLASH_BitmapIndexedNode.value.prototype.inode_assoc = ^id(id shift, id hash, id key, id val, id added_leaf_QMARK_) {
+var this__6260 = this;
+id inode__6261 = this;
+id bit__6262 = (1 << ((hash.value >>> shift.value) & 0x01f));
+id idx__6263 = ((id (^)(id , id )) cljm_DOT_core_SLASH_bitmap_indexed_node_index.value)(this__6260.bitmap, bit__6262);
+if(cljm_truthy(([(this__6260.bitmap & bit__6262) isEqual:@0]))) {
+id n__6264 = ((id (^)(id )) cljm_DOT_core_SLASH_bit_count.value)(this__6260.bitmap);
+if(cljm_truthy((n__6264 >= @16))) {
+id nodes__6265 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)(@32);
+id jdx__6266 = ((hash.value >>> shift.value) & 0x01f);
+(nodes__6265[jdx__6266] = [cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY.value inode(shift.value + @5) assochash.value, key.value, val.value, added_leaf_QMARK_.value, nil]);
+id i__6267 = @0;
+id j__6268 = @0;
 while(YES) {
-if(cljm_truthy((i__6279 < @32))) {
-if(cljm_truthy(([((this__6272_DOT_bitmap >>> i__6279) & @1) isEqual:@0]))) {
+if(cljm_truthy((i__6267 < @32))) {
+if(cljm_truthy(([((this__6260.bitmap >>> i__6267) & @1) isEqual:@0]))) {
 {
-var G__6295 = (i__6279 + @1);
-var G__6296 = j__6280;
-i__6279 = G__6295;
-j__6280 = G__6296;
+var G__6283 = (i__6267 + @1);
+var G__6284 = j__6268;
+i__6267 = G__6283;
+j__6268 = G__6284;
 continue;
 }
 
 } else {
-(nodes__6277[i__6279] = (cljm_truthy(cljm_DOT_core_SLASH_not(((this__6272_DOT_arr[j__6280]) == nil)))) ?[cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY inode(shift + @5) assoccljs_DOT_core_SLASH_hash((this__6272_DOT_arr[j__6280])), (this__6272_DOT_arr[j__6280]), (this__6272_DOT_arr[(j__6280 + @1)]), added_leaf_QMARK_, nil]:(this__6272_DOT_arr[(j__6280 + @1)]));
+(nodes__6265[i__6267] = (cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((this__6260.arr[j__6268]) == nil)))) ?[cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY.value inode(shift.value + @5) assoc((id (^)(id )) cljs_DOT_core_SLASH_hash.value)((this__6260.arr[j__6268])), (this__6260.arr[j__6268]), (this__6260.arr[(j__6268 + @1)]), added_leaf_QMARK_.value, nil]:(this__6260.arr[(j__6268 + @1)]));
 {
-var G__6297 = (i__6279 + @1);
-var G__6298 = (j__6280 + @2);
-i__6279 = G__6297;
-j__6280 = G__6298;
+var G__6285 = (i__6267 + @1);
+var G__6286 = (j__6268 + @2);
+i__6267 = G__6285;
+j__6268 = G__6286;
 continue;
 }
 
@@ -10288,46 +10288,46 @@ continue;
 }
 break;
 }
-return [cljm_DOT_core_SLASH_ArrayNode alloc];
+return [cljm_DOT_core_SLASH_ArrayNode.value alloc];
 
 } else {
-id new_arr__6281 = cljm_DOT_core_SLASH_make_array((@2 * (n__6276 + @1)));
-cljm_DOT_core_SLASH_array_copy(this__6272_DOT_arr, @0, new_arr__6281, @0, (@2 * idx__6275));
-(new_arr__6281[(@2 * idx__6275)] = key);
-(new_arr__6281[((@2 * idx__6275) + @1)] = val);
-cljm_DOT_core_SLASH_array_copy(this__6272_DOT_arr, (@2 * idx__6275), new_arr__6281, (@2 * (idx__6275 + @1)), (@2 * (n__6276 - idx__6275)));
-added_leaf_QMARK_.val = @YES;
-return [cljm_DOT_core_SLASH_BitmapIndexedNode alloc];
+id new_arr__6269 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)((@2 * (n__6264 + @1)));
+((id (^)(id , id , id , id , id )) cljm_DOT_core_SLASH_array_copy.value)(this__6260.arr, @0, new-arr__6269, @0, (@2 * idx__6263));
+(new-arr__6269[(@2 * idx__6263)] = key.value);
+(new-arr__6269[((@2 * idx__6263) + @1)] = val.value);
+((id (^)(id , id , id , id , id )) cljm_DOT_core_SLASH_array_copy.value)(this__6260.arr, (@2 * idx__6263), new-arr__6269, (@2 * (idx__6263 + @1)), (@2 * (n__6264 - idx__6263)));
+added_leaf_QMARK_.value.val = @YES;
+return [cljm_DOT_core_SLASH_BitmapIndexedNode.value alloc];
 
 }
 
 } else {
-id key_or_nil__6282 = (this__6272_DOT_arr[(@2 * idx__6275)]);
-id val_or_node__6283 = (this__6272_DOT_arr[((@2 * idx__6275) + @1)]);
-if(cljm_truthy((key_or_nil__6282 == nil))) {
-id n__6284 = [val_or_node__6283 inode(shift + @5) assochash, key, val, added_leaf_QMARK_, nil];
-if(cljm_truthy(([n__6284 isEqual:val_or_node__6283]))) {
-return inode__6273;
+id key_or_nil__6270 = (this__6260.arr[(@2 * idx__6263)]);
+id val_or_node__6271 = (this__6260.arr[((@2 * idx__6263) + @1)]);
+if(cljm_truthy((key-or-nil__6270 == nil))) {
+id n__6272 = [val-or-node__6271 inode(shift.value + @5) assochash.value, key.value, val.value, added_leaf_QMARK_.value, nil];
+if(cljm_truthy(([n__6272 isEqual:val-or-node__6271]))) {
+return inode__6261;
 
 } else {
-return [cljm_DOT_core_SLASH_BitmapIndexedNode alloc];
+return [cljm_DOT_core_SLASH_BitmapIndexedNode.value alloc];
 
 }
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_key_test(key, key_or_nil__6282))) {
-if(cljm_truthy(([val isEqual:val_or_node__6283]))) {
-return inode__6273;
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_key_test.value)(key.value, key-or-nil__6270))) {
+if(cljm_truthy(([val.value isEqual:val-or-node__6271]))) {
+return inode__6261;
 
 } else {
-return [cljm_DOT_core_SLASH_BitmapIndexedNode alloc];
+return [cljm_DOT_core_SLASH_BitmapIndexedNode.value alloc];
 
 }
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-added_leaf_QMARK_.val = @YES;
-return [cljm_DOT_core_SLASH_BitmapIndexedNode alloc];
+added_leaf_QMARK_.value.val = @YES;
+return [cljm_DOT_core_SLASH_BitmapIndexedNode.value alloc];
 
 } else {
 return nil;
@@ -10340,27 +10340,27 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_BitmapIndexedNode.prototype.inode_lookup = ^id(id shift, id hash, id key, id not_found) {
-var this__6285 = this;
-id inode__6286 = this;
-id bit__6287 = (1 << ((hash >>> shift) & 0x01f));
-if(cljm_truthy(([(this__6285_DOT_bitmap & bit__6287) isEqual:@0]))) {
-return not_found;
+cljm_DOT_core_SLASH_BitmapIndexedNode.value.prototype.inode_lookup = ^id(id shift, id hash, id key, id not_found) {
+var this__6273 = this;
+id inode__6274 = this;
+id bit__6275 = (1 << ((hash.value >>> shift.value) & 0x01f));
+if(cljm_truthy(([(this__6273.bitmap & bit__6275) isEqual:@0]))) {
+return not_found.value;
 
 } else {
-id idx__6288 = cljm_DOT_core_SLASH_bitmap_indexed_node_index(this__6285_DOT_bitmap, bit__6287);
-id key_or_nil__6289 = (this__6285_DOT_arr[(@2 * idx__6288)]);
-id val_or_node__6290 = (this__6285_DOT_arr[((@2 * idx__6288) + @1)]);
-if(cljm_truthy((key_or_nil__6289 == nil))) {
-return [val_or_node__6290 inode(shift + @5) lookuphash, key, not_found, nil];
+id idx__6276 = ((id (^)(id , id )) cljm_DOT_core_SLASH_bitmap_indexed_node_index.value)(this__6273.bitmap, bit__6275);
+id key_or_nil__6277 = (this__6273.arr[(@2 * idx__6276)]);
+id val_or_node__6278 = (this__6273.arr[((@2 * idx__6276) + @1)]);
+if(cljm_truthy((key-or-nil__6277 == nil))) {
+return [val-or-node__6278 inode(shift.value + @5) lookuphash.value, key.value, not_found.value, nil];
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_key_test(key, key_or_nil__6289))) {
-return val_or_node__6290;
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_key_test.value)(key.value, key-or-nil__6277))) {
+return val-or-node__6278;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return not_found;
+return not_found.value;
 
 } else {
 return nil;
@@ -10373,57 +10373,57 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_BitmapIndexedNode;
-cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY = [cljm_DOT_core_SLASH_BitmapIndexedNode alloc];
-cljm_DOT_core_SLASH_pack_array_node = ^id(id array_node, id edit, id idx) {
-id arr__6306 = array_node.arr;
-id len__6307 = (@2 * (array_node.cnt - @1));
-id new_arr__6308 = cljm_DOT_core_SLASH_make_array(len__6307);
-id i__6309 = @0;
-id j__6310 = @1;
-id bitmap__6311 = @0;
+cljm_DOT_core_SLASH_BitmapIndexedNode.value;
+cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY.value = [cljm_DOT_core_SLASH_BitmapIndexedNode.value alloc];
+cljm_DOT_core_SLASH_pack_array_node = [[CLJMVar alloc] initWithValue:^id(id array_node, id edit, id idx) {
+id arr__6294 = array_node.value.arr;
+id len__6295 = (@2 * (array_node.value.cnt - @1));
+id new_arr__6296 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)(len__6295);
+id i__6297 = @0;
+id j__6298 = @1;
+id bitmap__6299 = @0;
 while(YES) {
-if(cljm_truthy((i__6309 < len__6307))) {
-if(cljm_truthy({id and__3822__auto____6312 = cljm_DOT_core_SLASH_not(([i__6309 isEqual:idx]));
-if(cljm_truthy(and__3822__auto____6312)) {
-return cljm_DOT_core_SLASH_not(((arr__6306[i__6309]) == nil));
+if(cljm_truthy((i__6297 < len__6295))) {
+if(cljm_truthy({id and__3822__auto____6300 = ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(([i__6297 isEqual:idx.value]));
+if(cljm_truthy(and__3822__auto____6300)) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((arr__6294[i__6297]) == nil));
 
 } else {
-return and__3822__auto____6312;
+return and__3822__auto____6300;
 
 }
 })) {
-(new_arr__6308[j__6310] = (arr__6306[i__6309]));
+(new-arr__6296[j__6298] = (arr__6294[i__6297]));
 {
-var G__6313 = (i__6309 + @1);
-var G__6314 = (j__6310 + @2);
-var G__6315 = (bitmap__6311 | (@1 << i__6309));
-i__6309 = G__6313;
-j__6310 = G__6314;
-bitmap__6311 = G__6315;
+var G__6301 = (i__6297 + @1);
+var G__6302 = (j__6298 + @2);
+var G__6303 = (bitmap__6299 | (@1 << i__6297));
+i__6297 = G__6301;
+j__6298 = G__6302;
+bitmap__6299 = G__6303;
 continue;
 }
 
 } else {
 {
-var G__6316 = (i__6309 + @1);
-var G__6317 = j__6310;
-var G__6318 = bitmap__6311;
-i__6309 = G__6316;
-j__6310 = G__6317;
-bitmap__6311 = G__6318;
+var G__6304 = (i__6297 + @1);
+var G__6305 = j__6298;
+var G__6306 = bitmap__6299;
+i__6297 = G__6304;
+j__6298 = G__6305;
+bitmap__6299 = G__6306;
 continue;
 }
 
 }
 
 } else {
-return [cljm_DOT_core_SLASH_BitmapIndexedNode alloc];
+return [cljm_DOT_core_SLASH_BitmapIndexedNode.value alloc];
 
 }
 break;
 }
-};
+}];
 
 /**
 * @constructor
@@ -10433,65 +10433,65 @@ this.edit = edit;
 this.cnt = cnt;
 this.arr = arr;
 })
-cljm_DOT_core_SLASH_ArrayNode.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_ArrayNode.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/ArrayNode", nil);
+cljm_DOT_core_SLASH_ArrayNode.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_ArrayNode.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/ArrayNode", nil);
 };
-cljm_DOT_core_SLASH_ArrayNode.prototype.inode_assoc_BANG_ = ^id(id edit, id shift, id hash, id key, id val, id added_leaf_QMARK_) {
-var this__6319 = this;
-id inode__6320 = this;
-id idx__6321 = ((hash >>> shift) & 0x01f);
-id node__6322 = (this__6319_DOT_arr[idx__6321]);
-if(cljm_truthy((node__6322 == nil))) {
-id editable__6323 = cljm_DOT_core_SLASH_edit_and_set(inode__6320, edit, idx__6321, [cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY inodeedit assoc(shift + @5), hash, key, val, added_leaf_QMARK_, nil]);
-editable__6323.cnt = (editable__6323.cnt + @1);
-return editable__6323;
+cljm_DOT_core_SLASH_ArrayNode.value.prototype.inode_assoc_BANG_ = ^id(id edit, id shift, id hash, id key, id val, id added_leaf_QMARK_) {
+var this__6307 = this;
+id inode__6308 = this;
+id idx__6309 = ((hash.value >>> shift.value) & 0x01f);
+id node__6310 = (this__6307.arr[idx__6309]);
+if(cljm_truthy((node__6310 == nil))) {
+id editable__6311 = ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_edit_and_set.value)(inode__6308, edit.value, idx__6309, [cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY.value inodeedit.value assoc(shift.value + @5), hash.value, key.value, val.value, added_leaf_QMARK_.value, nil]);
+editable__6311.cnt = (editable__6311.cnt + @1);
+return editable__6311;
 
 } else {
-id n__6324 = [node__6322 inodeedit assoc(shift + @5), hash, key, val, added_leaf_QMARK_, nil];
-if(cljm_truthy(([n__6324 isEqual:node__6322]))) {
-return inode__6320;
+id n__6312 = [node__6310 inodeedit.value assoc(shift.value + @5), hash.value, key.value, val.value, added_leaf_QMARK_.value, nil];
+if(cljm_truthy(([n__6312 isEqual:node__6310]))) {
+return inode__6308;
 
 } else {
-return cljm_DOT_core_SLASH_edit_and_set(inode__6320, edit, idx__6321, n__6324);
+return ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_edit_and_set.value)(inode__6308, edit.value, idx__6309, n__6312);
 
 }
 
 }
 };
-cljm_DOT_core_SLASH_ArrayNode.prototype.inode_seq = ^id() {
-var this__6325 = this;
-id inode__6326 = this;
-return cljm_DOT_core_SLASH_create_array_node_seq(this__6325_DOT_arr);
+cljm_DOT_core_SLASH_ArrayNode.value.prototype.inode_seq = ^id() {
+var this__6313 = this;
+id inode__6314 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH_create_array_node_seq.value)(this__6313.arr);
 };
-cljm_DOT_core_SLASH_ArrayNode.prototype.inode_without_BANG_ = ^id(id edit, id shift, id hash, id key, id removed_leaf_QMARK_) {
-var this__6327 = this;
-id inode__6328 = this;
-id idx__6329 = ((hash >>> shift) & 0x01f);
-id node__6330 = (this__6327_DOT_arr[idx__6329]);
-if(cljm_truthy((node__6330 == nil))) {
-return inode__6328;
+cljm_DOT_core_SLASH_ArrayNode.value.prototype.inode_without_BANG_ = ^id(id edit, id shift, id hash, id key, id removed_leaf_QMARK_) {
+var this__6315 = this;
+id inode__6316 = this;
+id idx__6317 = ((hash.value >>> shift.value) & 0x01f);
+id node__6318 = (this__6315.arr[idx__6317]);
+if(cljm_truthy((node__6318 == nil))) {
+return inode__6316;
 
 } else {
-id n__6331 = [node__6330 inodeedit without(shift + @5), hash, key, removed_leaf_QMARK_, nil];
-if(cljm_truthy(([n__6331 isEqual:node__6330]))) {
-return inode__6328;
+id n__6319 = [node__6318 inodeedit.value without(shift.value + @5), hash.value, key.value, removed_leaf_QMARK_.value, nil];
+if(cljm_truthy(([n__6319 isEqual:node__6318]))) {
+return inode__6316;
 
 } else {
-if(cljm_truthy((n__6331 == nil))) {
-if(cljm_truthy((this__6327_DOT_cnt <= @8))) {
-return cljm_DOT_core_SLASH_pack_array_node(inode__6328, edit, idx__6329);
+if(cljm_truthy((n__6319 == nil))) {
+if(cljm_truthy((this__6315.cnt <= @8))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_pack_array_node.value)(inode__6316, edit.value, idx__6317);
 
 } else {
-id editable__6332 = cljm_DOT_core_SLASH_edit_and_set(inode__6328, edit, idx__6329, n__6331);
-editable__6332.cnt = (editable__6332.cnt - @1);
-return editable__6332;
+id editable__6320 = ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_edit_and_set.value)(inode__6316, edit.value, idx__6317, n__6319);
+editable__6320.cnt = (editable__6320.cnt - @1);
+return editable__6320;
 
 }
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return cljm_DOT_core_SLASH_edit_and_set(inode__6328, edit, idx__6329, n__6331);
+return ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_edit_and_set.value)(inode__6316, edit.value, idx__6317, n__6319);
 
 } else {
 return nil;
@@ -10504,37 +10504,37 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_ArrayNode.prototype.ensure_editable = ^id(id e) {
-var this__6333 = this;
-id inode__6334 = this;
-if(cljm_truthy(([e isEqual:this__6333_DOT_edit]))) {
-return inode__6334;
+cljm_DOT_core_SLASH_ArrayNode.value.prototype.ensure_editable = ^id(id e) {
+var this__6321 = this;
+id inode__6322 = this;
+if(cljm_truthy(([e.value isEqual:this__6321.edit]))) {
+return inode__6322;
 
 } else {
-return [cljm_DOT_core_SLASH_ArrayNode alloc];
+return [cljm_DOT_core_SLASH_ArrayNode.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_ArrayNode.prototype.kv_reduce = ^id(id f, id init) {
-var this__6335 = this;
-id inode__6336 = this;
-id len__6337 = this__6335_DOT_arr.length;
-id i__6338 = @0;
-id init__6339 = init;
+cljm_DOT_core_SLASH_ArrayNode.value.prototype.kv_reduce = ^id(id f, id init) {
+var this__6323 = this;
+id inode__6324 = this;
+id len__6325 = this__6323.arr.length;
+id i__6326 = @0;
+id init__6327 = init.value;
 while(YES) {
-if(cljm_truthy((i__6338 < len__6337))) {
-id node__6340 = (this__6335_DOT_arr[i__6338]);
-if(cljm_truthy(cljm_DOT_core_SLASH_not((node__6340 == nil)))) {
-id init__6341 = [node__6340 kvf reduceinit__6339];
-if(cljm_truthy(cljm_DOT_core_SLASH_reduced_QMARK_(init__6341))) {
-return cljm_DOT_core_SLASH_deref(init__6341);
+if(cljm_truthy((i__6326 < len__6325))) {
+id node__6328 = (this__6323.arr[i__6326]);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((node__6328 == nil)))) {
+id init__6329 = [node__6328 kvf.value reduceinit__6327];
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_reduced_QMARK_.value)(init__6329))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(init__6329);
 
 } else {
 {
-var G__6360 = (i__6338 + @1);
-var G__6361 = init__6341;
-i__6338 = G__6360;
-init__6339 = G__6361;
+var G__6348 = (i__6326 + @1);
+var G__6349 = init__6329;
+i__6326 = G__6348;
+init__6327 = G__6349;
 continue;
 }
 
@@ -10546,48 +10546,48 @@ return nil;
 }
 
 } else {
-return init__6339;
+return init__6327;
 
 }
 break;
 }
 };
-cljm_DOT_core_SLASH_ArrayNode.prototype.inode_find = ^id(id shift, id hash, id key, id not_found) {
-var this__6342 = this;
-id inode__6343 = this;
-id idx__6344 = ((hash >>> shift) & 0x01f);
-id node__6345 = (this__6342_DOT_arr[idx__6344]);
-if(cljm_truthy(cljm_DOT_core_SLASH_not((node__6345 == nil)))) {
-return [node__6345 inode(shift + @5) findhash, key, not_found, nil];
+cljm_DOT_core_SLASH_ArrayNode.value.prototype.inode_find = ^id(id shift, id hash, id key, id not_found) {
+var this__6330 = this;
+id inode__6331 = this;
+id idx__6332 = ((hash.value >>> shift.value) & 0x01f);
+id node__6333 = (this__6330.arr[idx__6332]);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((node__6333 == nil)))) {
+return [node__6333 inode(shift.value + @5) findhash.value, key.value, not_found.value, nil];
 
 } else {
-return not_found;
+return not_found.value;
 
 }
 };
-cljm_DOT_core_SLASH_ArrayNode.prototype.inode_without = ^id(id shift, id hash, id key) {
-var this__6346 = this;
-id inode__6347 = this;
-id idx__6348 = ((hash >>> shift) & 0x01f);
-id node__6349 = (this__6346_DOT_arr[idx__6348]);
-if(cljm_truthy(cljm_DOT_core_SLASH_not((node__6349 == nil)))) {
-id n__6350 = [node__6349 inode(shift + @5) withouthash, key, nil];
-if(cljm_truthy(([n__6350 isEqual:node__6349]))) {
-return inode__6347;
+cljm_DOT_core_SLASH_ArrayNode.value.prototype.inode_without = ^id(id shift, id hash, id key) {
+var this__6334 = this;
+id inode__6335 = this;
+id idx__6336 = ((hash.value >>> shift.value) & 0x01f);
+id node__6337 = (this__6334.arr[idx__6336]);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((node__6337 == nil)))) {
+id n__6338 = [node__6337 inode(shift.value + @5) withouthash.value, key.value, nil];
+if(cljm_truthy(([n__6338 isEqual:node__6337]))) {
+return inode__6335;
 
 } else {
-if(cljm_truthy((n__6350 == nil))) {
-if(cljm_truthy((this__6346_DOT_cnt <= @8))) {
-return cljm_DOT_core_SLASH_pack_array_node(inode__6347, nil, idx__6348);
+if(cljm_truthy((n__6338 == nil))) {
+if(cljm_truthy((this__6334.cnt <= @8))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_pack_array_node.value)(inode__6335, nil, idx__6336);
 
 } else {
-return [cljm_DOT_core_SLASH_ArrayNode alloc];
+return [cljm_DOT_core_SLASH_ArrayNode.value alloc];
 
 }
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return [cljm_DOT_core_SLASH_ArrayNode alloc];
+return [cljm_DOT_core_SLASH_ArrayNode.value alloc];
 
 } else {
 return nil;
@@ -10599,56 +10599,56 @@ return nil;
 }
 
 } else {
-return inode__6347;
+return inode__6335;
 
 }
 };
-cljm_DOT_core_SLASH_ArrayNode.prototype.inode_assoc = ^id(id shift, id hash, id key, id val, id added_leaf_QMARK_) {
-var this__6351 = this;
-id inode__6352 = this;
-id idx__6353 = ((hash >>> shift) & 0x01f);
-id node__6354 = (this__6351_DOT_arr[idx__6353]);
-if(cljm_truthy((node__6354 == nil))) {
-return [cljm_DOT_core_SLASH_ArrayNode alloc];
+cljm_DOT_core_SLASH_ArrayNode.value.prototype.inode_assoc = ^id(id shift, id hash, id key, id val, id added_leaf_QMARK_) {
+var this__6339 = this;
+id inode__6340 = this;
+id idx__6341 = ((hash.value >>> shift.value) & 0x01f);
+id node__6342 = (this__6339.arr[idx__6341]);
+if(cljm_truthy((node__6342 == nil))) {
+return [cljm_DOT_core_SLASH_ArrayNode.value alloc];
 
 } else {
-id n__6355 = [node__6354 inode(shift + @5) assochash, key, val, added_leaf_QMARK_, nil];
-if(cljm_truthy(([n__6355 isEqual:node__6354]))) {
-return inode__6352;
+id n__6343 = [node__6342 inode(shift.value + @5) assochash.value, key.value, val.value, added_leaf_QMARK_.value, nil];
+if(cljm_truthy(([n__6343 isEqual:node__6342]))) {
+return inode__6340;
 
 } else {
-return [cljm_DOT_core_SLASH_ArrayNode alloc];
+return [cljm_DOT_core_SLASH_ArrayNode.value alloc];
 
 }
 
 }
 };
-cljm_DOT_core_SLASH_ArrayNode.prototype.inode_lookup = ^id(id shift, id hash, id key, id not_found) {
-var this__6356 = this;
-id inode__6357 = this;
-id idx__6358 = ((hash >>> shift) & 0x01f);
-id node__6359 = (this__6356_DOT_arr[idx__6358]);
-if(cljm_truthy(cljm_DOT_core_SLASH_not((node__6359 == nil)))) {
-return [node__6359 inode(shift + @5) lookuphash, key, not_found, nil];
+cljm_DOT_core_SLASH_ArrayNode.value.prototype.inode_lookup = ^id(id shift, id hash, id key, id not_found) {
+var this__6344 = this;
+id inode__6345 = this;
+id idx__6346 = ((hash.value >>> shift.value) & 0x01f);
+id node__6347 = (this__6344.arr[idx__6346]);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((node__6347 == nil)))) {
+return [node__6347 inode(shift.value + @5) lookuphash.value, key.value, not_found.value, nil];
 
 } else {
-return not_found;
+return not_found.value;
 
 }
 };
-cljm_DOT_core_SLASH_ArrayNode;
-cljm_DOT_core_SLASH_hash_collision_node_find_index = ^id(id arr, id cnt, id key) {
-id lim__6364 = (@2 * cnt);
-id i__6365 = @0;
+cljm_DOT_core_SLASH_ArrayNode.value;
+cljm_DOT_core_SLASH_hash_collision_node_find_index = [[CLJMVar alloc] initWithValue:^id(id arr, id cnt, id key) {
+id lim__6352 = (@2 * cnt.value);
+id i__6353 = @0;
 while(YES) {
-if(cljm_truthy((i__6365 < lim__6364))) {
-if(cljm_truthy(cljm_DOT_core_SLASH_key_test(key, (arr[i__6365])))) {
-return i__6365;
+if(cljm_truthy((i__6353 < lim__6352))) {
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_key_test.value)(key.value, (arr.value[i__6353])))) {
+return i__6353;
 
 } else {
 {
-var G__6366 = (i__6365 + @2);
-i__6365 = G__6366;
+var G__6354 = (i__6353 + @2);
+i__6353 = G__6354;
 continue;
 }
 
@@ -10660,7 +10660,7 @@ return @-1;
 }
 break;
 }
-};
+}];
 
 /**
 * @constructor
@@ -10671,112 +10671,112 @@ this.collision_hash = collision_hash;
 this.cnt = cnt;
 this.arr = arr;
 })
-cljm_DOT_core_SLASH_HashCollisionNode.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_HashCollisionNode.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/HashCollisionNode", nil);
+cljm_DOT_core_SLASH_HashCollisionNode.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_HashCollisionNode.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/HashCollisionNode", nil);
 };
-cljm_DOT_core_SLASH_HashCollisionNode.prototype.inode_assoc_BANG_ = ^id(id edit, id shift, id hash, id key, id val, id added_leaf_QMARK_) {
-var this__6367 = this;
-id inode__6368 = this;
-if(cljm_truthy(([hash isEqual:this__6367_DOT_collision_hash]))) {
-id idx__6369 = cljm_DOT_core_SLASH_hash_collision_node_find_index(this__6367_DOT_arr, this__6367_DOT_cnt, key);
-if(cljm_truthy(([idx__6369 isEqual:@-1]))) {
-if(cljm_truthy((this__6367_DOT_arr.length > (@2 * this__6367_DOT_cnt)))) {
-id editable__6370 = cljm_DOT_core_SLASH_edit_and_set(inode__6368, edit, (@2 * this__6367_DOT_cnt), key, ((@2 * this__6367_DOT_cnt) + @1), val);
-added_leaf_QMARK_.val = @YES;
-editable__6370.cnt = (editable__6370.cnt + @1);
-return editable__6370;
+cljm_DOT_core_SLASH_HashCollisionNode.value.prototype.inode_assoc_BANG_ = ^id(id edit, id shift, id hash, id key, id val, id added_leaf_QMARK_) {
+var this__6355 = this;
+id inode__6356 = this;
+if(cljm_truthy(([hash.value isEqual:this__6355.collision-hash]))) {
+id idx__6357 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_hash_collision_node_find_index.value)(this__6355.arr, this__6355.cnt, key.value);
+if(cljm_truthy(([idx__6357 isEqual:@-1]))) {
+if(cljm_truthy((this__6355.arr.length > (@2 * this__6355.cnt)))) {
+id editable__6358 = ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_edit_and_set.value)(inode__6356, edit.value, (@2 * this__6355.cnt), key.value, ((@2 * this__6355.cnt) + @1), val.value);
+added_leaf_QMARK_.value.val = @YES;
+editable__6358.cnt = (editable__6358.cnt + @1);
+return editable__6358;
 
 } else {
-id len__6371 = this__6367_DOT_arr.length;
-id new_arr__6372 = cljm_DOT_core_SLASH_make_array((len__6371 + @2));
-cljm_DOT_core_SLASH_array_copy(this__6367_DOT_arr, @0, new_arr__6372, @0, len__6371);
-(new_arr__6372[len__6371] = key);
-(new_arr__6372[(len__6371 + @1)] = val);
-added_leaf_QMARK_.val = @YES;
-return [inode__6368 ensureedit editable(this__6367_DOT_cnt + @1) arraynew_arr__6372];
+id len__6359 = this__6355.arr.length;
+id new_arr__6360 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)((len__6359 + @2));
+((id (^)(id , id , id , id , id )) cljm_DOT_core_SLASH_array_copy.value)(this__6355.arr, @0, new-arr__6360, @0, len__6359);
+(new-arr__6360[len__6359] = key.value);
+(new-arr__6360[(len__6359 + @1)] = val.value);
+added_leaf_QMARK_.value.val = @YES;
+return [inode__6356 ensureedit.value editable(this__6355.cnt + @1) arraynew-arr__6360];
 
 }
 
 } else {
-if(cljm_truthy(([(this__6367_DOT_arr[(idx__6369 + @1)]) isEqual:val]))) {
-return inode__6368;
+if(cljm_truthy(([(this__6355.arr[(idx__6357 + @1)]) isEqual:val.value]))) {
+return inode__6356;
 
 } else {
-return cljm_DOT_core_SLASH_edit_and_set(inode__6368, edit, (idx__6369 + @1), val);
+return ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_edit_and_set.value)(inode__6356, edit.value, (idx__6357 + @1), val.value);
 
 }
 
 }
 
 } else {
-return [[cljm_DOT_core_SLASH_BitmapIndexedNode alloc] inodeedit assocshift, hash, key, val, added_leaf_QMARK_, nil];
+return [[cljm_DOT_core_SLASH_BitmapIndexedNode.value alloc] inodeedit.value assocshift.value, hash.value, key.value, val.value, added_leaf_QMARK_.value, nil];
 
 }
 };
-cljm_DOT_core_SLASH_HashCollisionNode.prototype.inode_seq = ^id() {
+cljm_DOT_core_SLASH_HashCollisionNode.value.prototype.inode_seq = ^id() {
+var this__6361 = this;
+id inode__6362 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH_create_inode_seq.value)(this__6361.arr);
+};
+cljm_DOT_core_SLASH_HashCollisionNode.value.prototype.inode_without_BANG_ = ^id(id edit, id shift, id hash, id key, id removed_leaf_QMARK_) {
+var this__6363 = this;
+id inode__6364 = this;
+id idx__6365 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_hash_collision_node_find_index.value)(this__6363.arr, this__6363.cnt, key.value);
+if(cljm_truthy(([idx__6365 isEqual:@-1]))) {
+return inode__6364;
+
+} else {
+(removed_leaf_QMARK_.value[@0] = @YES);
+if(cljm_truthy(([this__6363.cnt isEqual:@1]))) {
+return nil;
+
+} else {
+id editable__6366 = [inode__6364 ensureedit.value editable];
+id earr__6367 = editable__6366.arr;
+(earr__6367[idx__6365] = (earr__6367[((@2 * this__6363.cnt) - @2)]));
+(earr__6367[(idx__6365 + @1)] = (earr__6367[((@2 * this__6363.cnt) - @1)]));
+(earr__6367[((@2 * this__6363.cnt) - @1)] = nil);
+(earr__6367[((@2 * this__6363.cnt) - @2)] = nil);
+editable__6366.cnt = (editable__6366.cnt - @1);
+return editable__6366;
+
+}
+
+}
+};
+cljm_DOT_core_SLASH_HashCollisionNode.value.prototype.ensure_editable = ^id(id e) {
+var this__6368 = this;
+id inode__6369 = this;
+if(cljm_truthy(([e.value isEqual:this__6368.edit]))) {
+return inode__6369;
+
+} else {
+id new_arr__6370 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)((@2 * (this__6368.cnt + @1)));
+((id (^)(id , id , id , id , id )) cljm_DOT_core_SLASH_array_copy.value)(this__6368.arr, @0, new-arr__6370, @0, (@2 * this__6368.cnt));
+return [cljm_DOT_core_SLASH_HashCollisionNode.value alloc];
+
+}
+};
+cljm_DOT_core_SLASH_HashCollisionNode.value.prototype.kv_reduce = ^id(id f, id init) {
+var this__6371 = this;
+id inode__6372 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_inode_kv_reduce.value)(this__6371.arr, f.value, init.value);
+};
+cljm_DOT_core_SLASH_HashCollisionNode.value.prototype.inode_find = ^id(id shift, id hash, id key, id not_found) {
 var this__6373 = this;
 id inode__6374 = this;
-return cljm_DOT_core_SLASH_create_inode_seq(this__6373_DOT_arr);
-};
-cljm_DOT_core_SLASH_HashCollisionNode.prototype.inode_without_BANG_ = ^id(id edit, id shift, id hash, id key, id removed_leaf_QMARK_) {
-var this__6375 = this;
-id inode__6376 = this;
-id idx__6377 = cljm_DOT_core_SLASH_hash_collision_node_find_index(this__6375_DOT_arr, this__6375_DOT_cnt, key);
-if(cljm_truthy(([idx__6377 isEqual:@-1]))) {
-return inode__6376;
+id idx__6375 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_hash_collision_node_find_index.value)(this__6373.arr, this__6373.cnt, key.value);
+if(cljm_truthy((idx__6375 < @0))) {
+return not_found.value;
 
 } else {
-(removed_leaf_QMARK_[@0] = @YES);
-if(cljm_truthy(([this__6375_DOT_cnt isEqual:@1]))) {
-return nil;
-
-} else {
-id editable__6378 = [inode__6376 ensureedit editable];
-id earr__6379 = editable__6378.arr;
-(earr__6379[idx__6377] = (earr__6379[((@2 * this__6375_DOT_cnt) - @2)]));
-(earr__6379[(idx__6377 + @1)] = (earr__6379[((@2 * this__6375_DOT_cnt) - @1)]));
-(earr__6379[((@2 * this__6375_DOT_cnt) - @1)] = nil);
-(earr__6379[((@2 * this__6375_DOT_cnt) - @2)] = nil);
-editable__6378.cnt = (editable__6378.cnt - @1);
-return editable__6378;
-
-}
-
-}
-};
-cljm_DOT_core_SLASH_HashCollisionNode.prototype.ensure_editable = ^id(id e) {
-var this__6380 = this;
-id inode__6381 = this;
-if(cljm_truthy(([e isEqual:this__6380_DOT_edit]))) {
-return inode__6381;
-
-} else {
-id new_arr__6382 = cljm_DOT_core_SLASH_make_array((@2 * (this__6380_DOT_cnt + @1)));
-cljm_DOT_core_SLASH_array_copy(this__6380_DOT_arr, @0, new_arr__6382, @0, (@2 * this__6380_DOT_cnt));
-return [cljm_DOT_core_SLASH_HashCollisionNode alloc];
-
-}
-};
-cljm_DOT_core_SLASH_HashCollisionNode.prototype.kv_reduce = ^id(id f, id init) {
-var this__6383 = this;
-id inode__6384 = this;
-return cljm_DOT_core_SLASH_inode_kv_reduce(this__6383_DOT_arr, f, init);
-};
-cljm_DOT_core_SLASH_HashCollisionNode.prototype.inode_find = ^id(id shift, id hash, id key, id not_found) {
-var this__6385 = this;
-id inode__6386 = this;
-id idx__6387 = cljm_DOT_core_SLASH_hash_collision_node_find_index(this__6385_DOT_arr, this__6385_DOT_cnt, key);
-if(cljm_truthy((idx__6387 < @0))) {
-return not_found;
-
-} else {
-if(cljm_truthy(cljm_DOT_core_SLASH_key_test(key, (this__6385_DOT_arr[idx__6387])))) {
-return @[ (this__6385_DOT_arr[idx__6387]), (this__6385_DOT_arr[(idx__6387 + @1)]) ];
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_key_test.value)(key.value, (this__6373.arr[idx__6375])))) {
+return @[ (this__6373.arr[idx__6375]), (this__6373.arr[(idx__6375 + @1)]) ];
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return not_found;
+return not_found.value;
 
 } else {
 return nil;
@@ -10787,20 +10787,20 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_HashCollisionNode.prototype.inode_without = ^id(id shift, id hash, id key) {
-var this__6388 = this;
-id inode__6389 = this;
-id idx__6390 = cljm_DOT_core_SLASH_hash_collision_node_find_index(this__6388_DOT_arr, this__6388_DOT_cnt, key);
-if(cljm_truthy(([idx__6390 isEqual:@-1]))) {
-return inode__6389;
+cljm_DOT_core_SLASH_HashCollisionNode.value.prototype.inode_without = ^id(id shift, id hash, id key) {
+var this__6376 = this;
+id inode__6377 = this;
+id idx__6378 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_hash_collision_node_find_index.value)(this__6376.arr, this__6376.cnt, key.value);
+if(cljm_truthy(([idx__6378 isEqual:@-1]))) {
+return inode__6377;
 
 } else {
-if(cljm_truthy(([this__6388_DOT_cnt isEqual:@1]))) {
+if(cljm_truthy(([this__6376.cnt isEqual:@1]))) {
 return nil;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return [cljm_DOT_core_SLASH_HashCollisionNode alloc];
+return [cljm_DOT_core_SLASH_HashCollisionNode.value alloc];
 
 } else {
 return nil;
@@ -10811,50 +10811,50 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_HashCollisionNode.prototype.inode_assoc = ^id(id shift, id hash, id key, id val, id added_leaf_QMARK_) {
-var this__6391 = this;
-id inode__6392 = this;
-if(cljm_truthy(([hash isEqual:this__6391_DOT_collision_hash]))) {
-id idx__6393 = cljm_DOT_core_SLASH_hash_collision_node_find_index(this__6391_DOT_arr, this__6391_DOT_cnt, key);
-if(cljm_truthy(([idx__6393 isEqual:@-1]))) {
-id len__6394 = this__6391_DOT_arr.length;
-id new_arr__6395 = cljm_DOT_core_SLASH_make_array((len__6394 + @2));
-cljm_DOT_core_SLASH_array_copy(this__6391_DOT_arr, @0, new_arr__6395, @0, len__6394);
-(new_arr__6395[len__6394] = key);
-(new_arr__6395[(len__6394 + @1)] = val);
-added_leaf_QMARK_.val = @YES;
-return [cljm_DOT_core_SLASH_HashCollisionNode alloc];
+cljm_DOT_core_SLASH_HashCollisionNode.value.prototype.inode_assoc = ^id(id shift, id hash, id key, id val, id added_leaf_QMARK_) {
+var this__6379 = this;
+id inode__6380 = this;
+if(cljm_truthy(([hash.value isEqual:this__6379.collision-hash]))) {
+id idx__6381 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_hash_collision_node_find_index.value)(this__6379.arr, this__6379.cnt, key.value);
+if(cljm_truthy(([idx__6381 isEqual:@-1]))) {
+id len__6382 = this__6379.arr.length;
+id new_arr__6383 = ((id (^)(id )) cljm_DOT_core_SLASH_make_array.value)((len__6382 + @2));
+((id (^)(id , id , id , id , id )) cljm_DOT_core_SLASH_array_copy.value)(this__6379.arr, @0, new-arr__6383, @0, len__6382);
+(new-arr__6383[len__6382] = key.value);
+(new-arr__6383[(len__6382 + @1)] = val.value);
+added_leaf_QMARK_.value.val = @YES;
+return [cljm_DOT_core_SLASH_HashCollisionNode.value alloc];
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH__EQ_((this__6391_DOT_arr[idx__6393]), val, nil))) {
-return inode__6392;
+if(cljm_truthy(((id (^)(id , id , ...)) cljm_DOT_core_SLASH__EQ_.value)((this__6379.arr[idx__6381]), val.value, nil))) {
+return inode__6380;
 
 } else {
-return [cljm_DOT_core_SLASH_HashCollisionNode alloc];
+return [cljm_DOT_core_SLASH_HashCollisionNode.value alloc];
 
 }
 
 }
 
 } else {
-return [[cljm_DOT_core_SLASH_BitmapIndexedNode alloc] inodeshift assochash, key, val, added_leaf_QMARK_, nil];
+return [[cljm_DOT_core_SLASH_BitmapIndexedNode.value alloc] inodeshift.value assochash.value, key.value, val.value, added_leaf_QMARK_.value, nil];
 
 }
 };
-cljm_DOT_core_SLASH_HashCollisionNode.prototype.inode_lookup = ^id(id shift, id hash, id key, id not_found) {
-var this__6396 = this;
-id inode__6397 = this;
-id idx__6398 = cljm_DOT_core_SLASH_hash_collision_node_find_index(this__6396_DOT_arr, this__6396_DOT_cnt, key);
-if(cljm_truthy((idx__6398 < @0))) {
-return not_found;
+cljm_DOT_core_SLASH_HashCollisionNode.value.prototype.inode_lookup = ^id(id shift, id hash, id key, id not_found) {
+var this__6384 = this;
+id inode__6385 = this;
+id idx__6386 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_hash_collision_node_find_index.value)(this__6384.arr, this__6384.cnt, key.value);
+if(cljm_truthy((idx__6386 < @0))) {
+return not_found.value;
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_key_test(key, (this__6396_DOT_arr[idx__6398])))) {
-return (this__6396_DOT_arr[(idx__6398 + @1)]);
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_key_test.value)(key.value, (this__6384.arr[idx__6386])))) {
+return (this__6384.arr[(idx__6386 + @1)]);
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return not_found;
+return not_found.value;
 
 } else {
 return nil;
@@ -10865,41 +10865,41 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_HashCollisionNode.prototype.ensure_editable_array = ^id(id e, id count, id array) {
-var this__6399 = this;
-id inode__6400 = this;
-if(cljm_truthy(([e isEqual:this__6399_DOT_edit]))) {
-this__6399_DOT_arr = array;
-this__6399_DOT_cnt = count;
-return inode__6400;
+cljm_DOT_core_SLASH_HashCollisionNode.value.prototype.ensure_editable_array = ^id(id e, id count, id array) {
+var this__6387 = this;
+id inode__6388 = this;
+if(cljm_truthy(([e.value isEqual:this__6387.edit]))) {
+this__6387.arr = array.value;
+this__6387.cnt = count.value;
+return inode__6388;
 
 } else {
-return [cljm_DOT_core_SLASH_HashCollisionNode alloc];
+return [cljm_DOT_core_SLASH_HashCollisionNode.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_HashCollisionNode;
-cljm_DOT_core_SLASH_create_node = (function() {
+cljm_DOT_core_SLASH_HashCollisionNode.value;
+cljm_DOT_core_SLASH_create_node = [[CLJMVar alloc] initWithValue:(function() {
 var create_node = null;
 var create_node__6 = ^id(id shift, id key1, id val1, id key2hash, id key2, id val2) {
-id key1hash__6405 = cljm_DOT_core_SLASH_hash(key1);
-if(cljm_truthy(([key1hash__6405 isEqual:key2hash]))) {
-return [cljm_DOT_core_SLASH_HashCollisionNode alloc];
+id key1hash__6393 = ((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(key1.value);
+if(cljm_truthy(([key1hash__6393 isEqual:key2hash.value]))) {
+return [cljm_DOT_core_SLASH_HashCollisionNode.value alloc];
 
 } else {
-id added_leaf_QMARK___6406 = [cljm_DOT_core_SLASH_Box alloc];
-return [[cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY inodeshift assockey1hash__6405, key1, val1, added_leaf_QMARK___6406, nil] inodeshift assockey2hash, key2, val2, added_leaf_QMARK___6406, nil];
+id added_leaf_QMARK___6394 = [cljm_DOT_core_SLASH_Box.value alloc];
+return [[cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY.value inodeshift.value assockey1hash__6393, key1.value, val1.value, added-leaf?__6394, nil] inodeshift.value assockey2hash.value, key2.value, val2.value, added-leaf?__6394, nil];
 
 }
 };
 var create_node__7 = ^id(id edit, id shift, id key1, id val1, id key2hash, id key2, id val2) {
-id key1hash__6407 = cljm_DOT_core_SLASH_hash(key1);
-if(cljm_truthy(([key1hash__6407 isEqual:key2hash]))) {
-return [cljm_DOT_core_SLASH_HashCollisionNode alloc];
+id key1hash__6395 = ((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(key1.value);
+if(cljm_truthy(([key1hash__6395 isEqual:key2hash.value]))) {
+return [cljm_DOT_core_SLASH_HashCollisionNode.value alloc];
 
 } else {
-id added_leaf_QMARK___6408 = [cljm_DOT_core_SLASH_Box alloc];
-return [[cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY inodeedit assocshift, key1hash__6407, key1, val1, added_leaf_QMARK___6408, nil] inodeedit assocshift, key2hash, key2, val2, added_leaf_QMARK___6408, nil];
+id added_leaf_QMARK___6396 = [cljm_DOT_core_SLASH_Box.value alloc];
+return [[cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY.value inodeedit.value assocshift.value, key1hash__6395, key1.value, val1.value, added-leaf?__6396, nil] inodeedit.value assocshift.value, key2hash.value, key2.value, val2.value, added-leaf?__6396, nil];
 
 }
 };
@@ -10916,7 +10916,7 @@ create_node.cljm$lang$arity$6 = create_node__6;
 create_node.cljm$lang$arity$7 = create_node__7;
 return create_node;
 })()
-;
+];
 
 /**
 * @constructor
@@ -10930,100 +10930,100 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 31850572;
 })
-cljm_DOT_core_SLASH_NodeSeq.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_NodeSeq.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/NodeSeq", nil);
+cljm_DOT_core_SLASH_NodeSeq.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_NodeSeq.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/NodeSeq", nil);
 };
-cljm_DOT_core_SLASH_NodeSeq.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+cljm_DOT_core_SLASH_NodeSeq.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+var this__6397 = this;
+id h__1302__auto____6398 = this__6397.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____6398 == nil)))) {
+return h__1302__auto____6398;
+
+} else {
+id h__1302__auto____6399 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_coll.value)(coll.value);
+this__6397.__hash = h__1302__auto____6399;
+return h__1302__auto____6399;
+
+}
+};
+cljm_DOT_core_SLASH_NodeSeq.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
+var this__6400 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(o.value, coll.value);
+};
+cljm_DOT_core_SLASH_NodeSeq.value.prototype.toString = ^id() {
+var this__6401 = this;
+id this__6402 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__6402, nil);
+};
+cljm_DOT_core_SLASH_NodeSeq.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id this$) {
+var this__6403 = this;
+return this$.value;
+};
+cljm_DOT_core_SLASH_NodeSeq.value.prototype.cljm$core$ISeq$_first$arity$1 = ^id(id coll) {
+var this__6404 = this;
+if(cljm_truthy((this__6404.s == nil))) {
+return @[ (this__6404.nodes[this__6404.i]), (this__6404.nodes[(this__6404.i + @1)]) ];
+
+} else {
+return ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(this__6404.s);
+
+}
+};
+cljm_DOT_core_SLASH_NodeSeq.value.prototype.cljm$core$ISeq$_rest$arity$1 = ^id(id coll) {
+var this__6405 = this;
+if(cljm_truthy((this__6405.s == nil))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_create_inode_seq.value)(this__6405.nodes, (this__6405.i + @2), nil);
+
+} else {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_create_inode_seq.value)(this__6405.nodes, this__6405.i, ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(this__6405.s));
+
+}
+};
+cljm_DOT_core_SLASH_NodeSeq.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
+var this__6406 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_equiv_sequential.value)(coll.value, other.value);
+};
+cljm_DOT_core_SLASH_NodeSeq.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
+var this__6407 = this;
+return [cljm_DOT_core_SLASH_NodeSeq.value alloc];
+};
+cljm_DOT_core_SLASH_NodeSeq.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
+var this__6408 = this;
+return this__6408.meta;
+};
+cljm_DOT_core_SLASH_NodeSeq.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
 var this__6409 = this;
-id h__1314__auto____6410 = this__6409_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____6410 == nil)))) {
-return h__1314__auto____6410;
-
-} else {
-id h__1314__auto____6411 = cljm_DOT_core_SLASH_hash_coll(coll);
-this__6409_DOT___hash = h__1314__auto____6411;
-return h__1314__auto____6411;
-
-}
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_with_meta.value)(cljs_DOT_core_DOT_List_SLASH_EMPTY.value, this__6409.meta);
 };
-cljm_DOT_core_SLASH_NodeSeq.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
-var this__6412 = this;
-return cljm_DOT_core_SLASH_cons(o, coll);
-};
-cljm_DOT_core_SLASH_NodeSeq.prototype.toString = ^id() {
-var this__6413 = this;
-id this__6414 = this;
-return cljm_DOT_core_SLASH_pr_str(this__6414, nil);
-};
-cljm_DOT_core_SLASH_NodeSeq.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id this$) {
-var this__6415 = this;
-return this$;
-};
-cljm_DOT_core_SLASH_NodeSeq.prototype.cljm$core$ISeq$_first$arity$1 = ^id(id coll) {
-var this__6416 = this;
-if(cljm_truthy((this__6416_DOT_s == nil))) {
-return @[ (this__6416_DOT_nodes[this__6416_DOT_i]), (this__6416_DOT_nodes[(this__6416_DOT_i + @1)]) ];
-
-} else {
-return cljm_DOT_core_SLASH_first(this__6416_DOT_s);
-
-}
-};
-cljm_DOT_core_SLASH_NodeSeq.prototype.cljm$core$ISeq$_rest$arity$1 = ^id(id coll) {
-var this__6417 = this;
-if(cljm_truthy((this__6417_DOT_s == nil))) {
-return cljm_DOT_core_SLASH_create_inode_seq(this__6417_DOT_nodes, (this__6417_DOT_i + @2), nil);
-
-} else {
-return cljm_DOT_core_SLASH_create_inode_seq(this__6417_DOT_nodes, this__6417_DOT_i, cljm_DOT_core_SLASH_next(this__6417_DOT_s));
-
-}
-};
-cljm_DOT_core_SLASH_NodeSeq.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__6418 = this;
-return cljm_DOT_core_SLASH_equiv_sequential(coll, other);
-};
-cljm_DOT_core_SLASH_NodeSeq.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
-var this__6419 = this;
-return [cljm_DOT_core_SLASH_NodeSeq alloc];
-};
-cljm_DOT_core_SLASH_NodeSeq.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
-var this__6420 = this;
-return this__6420_DOT_meta;
-};
-cljm_DOT_core_SLASH_NodeSeq.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
-var this__6421 = this;
-return cljm_DOT_core_SLASH_with_meta(cljs_DOT_core_DOT_List_SLASH_EMPTY, this__6421_DOT_meta);
-};
-cljm_DOT_core_SLASH_NodeSeq;
-cljm_DOT_core_SLASH_create_inode_seq = (function() {
+cljm_DOT_core_SLASH_NodeSeq.value;
+cljm_DOT_core_SLASH_create_inode_seq = [[CLJMVar alloc] initWithValue:(function() {
 var create_inode_seq = null;
 var create_inode_seq__1 = ^id(id nodes) {
-return create_inode_seq(nodes, @0, nil);
+return ((id (^)(id , id , id )) create_inode_seq.value)(nodes.value, @0, nil);
 };
 var create_inode_seq__3 = ^id(id nodes, id i, id s) {
-if(cljm_truthy((s == nil))) {
-id len__6428 = nodes.length;
-id j__6429 = i;
+if(cljm_truthy((s.value == nil))) {
+id len__6416 = nodes.value.length;
+id j__6417 = i.value;
 while(YES) {
-if(cljm_truthy((j__6429 < len__6428))) {
-if(cljm_truthy(cljm_DOT_core_SLASH_not(((nodes[j__6429]) == nil)))) {
-return [cljm_DOT_core_SLASH_NodeSeq alloc];
+if(cljm_truthy((j__6417 < len__6416))) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((nodes.value[j__6417]) == nil)))) {
+return [cljm_DOT_core_SLASH_NodeSeq.value alloc];
 
 } else {
-id temp__3971__auto____6430 = (nodes[(j__6429 + @1)]);
-if(cljm_truthy(temp__3971__auto____6430)) {
-id node__6431 = temp__3971__auto____6430;
-id temp__3971__auto____6432 = [node__6431 inode];
-if(cljm_truthy(temp__3971__auto____6432)) {
-id node_seq__6433 = temp__3971__auto____6432;
-return [cljm_DOT_core_SLASH_NodeSeq alloc];
+id temp__3971__auto____6418 = (nodes.value[(j__6417 + @1)]);
+if(cljm_truthy(temp__3971__auto____6418)) {
+id node__6419 = temp__3971__auto____6418;
+id temp__3971__auto____6420 = [node__6419 inode];
+if(cljm_truthy(temp__3971__auto____6420)) {
+id node_seq__6421 = temp__3971__auto____6420;
+return [cljm_DOT_core_SLASH_NodeSeq.value alloc];
 
 } else {
 {
-var G__6434 = (j__6429 + @2);
-j__6429 = G__6434;
+var G__6422 = (j__6417 + @2);
+j__6417 = G__6422;
 continue;
 }
 
@@ -11031,8 +11031,8 @@ continue;
 
 } else {
 {
-var G__6435 = (j__6429 + @2);
-j__6429 = G__6435;
+var G__6423 = (j__6417 + @2);
+j__6417 = G__6423;
 continue;
 }
 
@@ -11048,7 +11048,7 @@ break;
 }
 
 } else {
-return [cljm_DOT_core_SLASH_NodeSeq alloc];
+return [cljm_DOT_core_SLASH_NodeSeq.value alloc];
 
 }
 };
@@ -11065,7 +11065,7 @@ create_inode_seq.cljm$lang$arity$1 = create_inode_seq__1;
 create_inode_seq.cljm$lang$arity$3 = create_inode_seq__3;
 return create_inode_seq;
 })()
-;
+];
 
 /**
 * @constructor
@@ -11079,84 +11079,84 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 31850572;
 })
-cljm_DOT_core_SLASH_ArrayNodeSeq.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_ArrayNodeSeq.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/ArrayNodeSeq", nil);
+cljm_DOT_core_SLASH_ArrayNodeSeq.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_ArrayNodeSeq.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/ArrayNodeSeq", nil);
 };
-cljm_DOT_core_SLASH_ArrayNodeSeq.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
-var this__6436 = this;
-id h__1314__auto____6437 = this__6436_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____6437 == nil)))) {
-return h__1314__auto____6437;
+cljm_DOT_core_SLASH_ArrayNodeSeq.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+var this__6424 = this;
+id h__1302__auto____6425 = this__6424.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____6425 == nil)))) {
+return h__1302__auto____6425;
 
 } else {
-id h__1314__auto____6438 = cljm_DOT_core_SLASH_hash_coll(coll);
-this__6436_DOT___hash = h__1314__auto____6438;
-return h__1314__auto____6438;
+id h__1302__auto____6426 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_coll.value)(coll.value);
+this__6424.__hash = h__1302__auto____6426;
+return h__1302__auto____6426;
 
 }
 };
-cljm_DOT_core_SLASH_ArrayNodeSeq.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
-var this__6439 = this;
-return cljm_DOT_core_SLASH_cons(o, coll);
+cljm_DOT_core_SLASH_ArrayNodeSeq.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
+var this__6427 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(o.value, coll.value);
 };
-cljm_DOT_core_SLASH_ArrayNodeSeq.prototype.toString = ^id() {
-var this__6440 = this;
-id this__6441 = this;
-return cljm_DOT_core_SLASH_pr_str(this__6441, nil);
+cljm_DOT_core_SLASH_ArrayNodeSeq.value.prototype.toString = ^id() {
+var this__6428 = this;
+id this__6429 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__6429, nil);
 };
-cljm_DOT_core_SLASH_ArrayNodeSeq.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id this$) {
-var this__6442 = this;
-return this$;
+cljm_DOT_core_SLASH_ArrayNodeSeq.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id this$) {
+var this__6430 = this;
+return this$.value;
 };
-cljm_DOT_core_SLASH_ArrayNodeSeq.prototype.cljm$core$ISeq$_first$arity$1 = ^id(id coll) {
-var this__6443 = this;
-return cljm_DOT_core_SLASH_first(this__6443_DOT_s);
+cljm_DOT_core_SLASH_ArrayNodeSeq.value.prototype.cljm$core$ISeq$_first$arity$1 = ^id(id coll) {
+var this__6431 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(this__6431.s);
 };
-cljm_DOT_core_SLASH_ArrayNodeSeq.prototype.cljm$core$ISeq$_rest$arity$1 = ^id(id coll) {
-var this__6444 = this;
-return cljm_DOT_core_SLASH_create_array_node_seq(nil, this__6444_DOT_nodes, this__6444_DOT_i, cljm_DOT_core_SLASH_next(this__6444_DOT_s));
+cljm_DOT_core_SLASH_ArrayNodeSeq.value.prototype.cljm$core$ISeq$_rest$arity$1 = ^id(id coll) {
+var this__6432 = this;
+return ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_create_array_node_seq.value)(nil, this__6432.nodes, this__6432.i, ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(this__6432.s));
 };
-cljm_DOT_core_SLASH_ArrayNodeSeq.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__6445 = this;
-return cljm_DOT_core_SLASH_equiv_sequential(coll, other);
+cljm_DOT_core_SLASH_ArrayNodeSeq.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
+var this__6433 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_equiv_sequential.value)(coll.value, other.value);
 };
-cljm_DOT_core_SLASH_ArrayNodeSeq.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
-var this__6446 = this;
-return [cljm_DOT_core_SLASH_ArrayNodeSeq alloc];
+cljm_DOT_core_SLASH_ArrayNodeSeq.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
+var this__6434 = this;
+return [cljm_DOT_core_SLASH_ArrayNodeSeq.value alloc];
 };
-cljm_DOT_core_SLASH_ArrayNodeSeq.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
-var this__6447 = this;
-return this__6447_DOT_meta;
+cljm_DOT_core_SLASH_ArrayNodeSeq.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
+var this__6435 = this;
+return this__6435.meta;
 };
-cljm_DOT_core_SLASH_ArrayNodeSeq.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
-var this__6448 = this;
-return cljm_DOT_core_SLASH_with_meta(cljs_DOT_core_DOT_List_SLASH_EMPTY, this__6448_DOT_meta);
+cljm_DOT_core_SLASH_ArrayNodeSeq.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
+var this__6436 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_with_meta.value)(cljs_DOT_core_DOT_List_SLASH_EMPTY.value, this__6436.meta);
 };
-cljm_DOT_core_SLASH_ArrayNodeSeq;
-cljm_DOT_core_SLASH_create_array_node_seq = (function() {
+cljm_DOT_core_SLASH_ArrayNodeSeq.value;
+cljm_DOT_core_SLASH_create_array_node_seq = [[CLJMVar alloc] initWithValue:(function() {
 var create_array_node_seq = null;
 var create_array_node_seq__1 = ^id(id nodes) {
-return create_array_node_seq(nil, nodes, @0, nil);
+return ((id (^)(id , id , id , id )) create_array_node_seq.value)(nil, nodes.value, @0, nil);
 };
 var create_array_node_seq__4 = ^id(id meta, id nodes, id i, id s) {
-if(cljm_truthy((s == nil))) {
-id len__6455 = nodes.length;
-id j__6456 = i;
+if(cljm_truthy((s.value == nil))) {
+id len__6443 = nodes.value.length;
+id j__6444 = i.value;
 while(YES) {
-if(cljm_truthy((j__6456 < len__6455))) {
-id temp__3971__auto____6457 = (nodes[j__6456]);
-if(cljm_truthy(temp__3971__auto____6457)) {
-id nj__6458 = temp__3971__auto____6457;
-id temp__3971__auto____6459 = [nj__6458 inode];
-if(cljm_truthy(temp__3971__auto____6459)) {
-id ns__6460 = temp__3971__auto____6459;
-return [cljm_DOT_core_SLASH_ArrayNodeSeq alloc];
+if(cljm_truthy((j__6444 < len__6443))) {
+id temp__3971__auto____6445 = (nodes.value[j__6444]);
+if(cljm_truthy(temp__3971__auto____6445)) {
+id nj__6446 = temp__3971__auto____6445;
+id temp__3971__auto____6447 = [nj__6446 inode];
+if(cljm_truthy(temp__3971__auto____6447)) {
+id ns__6448 = temp__3971__auto____6447;
+return [cljm_DOT_core_SLASH_ArrayNodeSeq.value alloc];
 
 } else {
 {
-var G__6461 = (j__6456 + @1);
-j__6456 = G__6461;
+var G__6449 = (j__6444 + @1);
+j__6444 = G__6449;
 continue;
 }
 
@@ -11164,8 +11164,8 @@ continue;
 
 } else {
 {
-var G__6462 = (j__6456 + @1);
-j__6456 = G__6462;
+var G__6450 = (j__6444 + @1);
+j__6444 = G__6450;
 continue;
 }
 
@@ -11179,7 +11179,7 @@ break;
 }
 
 } else {
-return [cljm_DOT_core_SLASH_ArrayNodeSeq alloc];
+return [cljm_DOT_core_SLASH_ArrayNodeSeq.value alloc];
 
 }
 };
@@ -11196,7 +11196,7 @@ create_array_node_seq.cljm$lang$arity$1 = create_array_node_seq__1;
 create_array_node_seq.cljm$lang$arity$4 = create_array_node_seq__4;
 return create_array_node_seq;
 })()
-;
+];
 
 /**
 * @constructor
@@ -11211,49 +11211,49 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 1;
 this.cljm$lang$protocol_mask$partition0$ = 16123663;
 })
-cljm_DOT_core_SLASH_PersistentHashMap.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_PersistentHashMap.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/PersistentHashMap", nil);
+cljm_DOT_core_SLASH_PersistentHashMap.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_PersistentHashMap.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/PersistentHashMap", nil);
 };
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.cljm$core$IEditableCollection$_as_transient$arity$1 = ^id(id coll) {
-var this__6465 = this;
-return [cljm_DOT_core_SLASH_TransientHashMap alloc];
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.cljm$core$IEditableCollection$_as_transient$arity$1 = ^id(id coll) {
+var this__6453 = this;
+return [cljm_DOT_core_SLASH_TransientHashMap.value alloc];
 };
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
-var this__6466 = this;
-id h__1314__auto____6467 = this__6466_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____6467 == nil)))) {
-return h__1314__auto____6467;
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+var this__6454 = this;
+id h__1302__auto____6455 = this__6454.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____6455 == nil)))) {
+return h__1302__auto____6455;
 
 } else {
-id h__1314__auto____6468 = cljm_DOT_core_SLASH_hash_imap(coll);
-this__6466_DOT___hash = h__1314__auto____6468;
-return h__1314__auto____6468;
+id h__1302__auto____6456 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_imap.value)(coll.value);
+this__6454.__hash = h__1302__auto____6456;
+return h__1302__auto____6456;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
-var this__6469 = this;
-return cljm_DOT_core_SLASH__lookup(coll, k, nil);
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
+var this__6457 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll.value, k.value, nil);
 };
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
-var this__6470 = this;
-if(cljm_truthy((k == nil))) {
-if(cljm_truthy(this__6470_DOT_has_nil_QMARK_)) {
-return this__6470_DOT_nil_val;
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
+var this__6458 = this;
+if(cljm_truthy((k.value == nil))) {
+if(cljm_truthy(this__6458.has-nil?)) {
+return this__6458.nil-val;
 
 } else {
-return not_found;
+return not_found.value;
 
 }
 
 } else {
-if(cljm_truthy((this__6470_DOT_root == nil))) {
-return not_found;
+if(cljm_truthy((this__6458.root == nil))) {
+return not_found.value;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return [this__6470_DOT_root inode@0 lookupcljm_DOT_core_SLASH_hash(k), k, not_found, nil];
+return [this__6458.root inode@0 lookup((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(k.value), k.value, not_found.value, nil];
 
 } else {
 return nil;
@@ -11264,50 +11264,50 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id coll, id k, id v) {
-var this__6471 = this;
-if(cljm_truthy((k == nil))) {
-if(cljm_truthy({id and__3822__auto____6472 = this__6471_DOT_has_nil_QMARK_;
-if(cljm_truthy(and__3822__auto____6472)) {
-return ([v isEqual:this__6471_DOT_nil_val]);
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id coll, id k, id v) {
+var this__6459 = this;
+if(cljm_truthy((k.value == nil))) {
+if(cljm_truthy({id and__3822__auto____6460 = this__6459.has-nil?;
+if(cljm_truthy(and__3822__auto____6460)) {
+return ([v.value isEqual:this__6459.nil-val]);
 
 } else {
-return and__3822__auto____6472;
+return and__3822__auto____6460;
 
 }
 })) {
-return coll;
+return coll.value;
 
 } else {
-return [cljm_DOT_core_SLASH_PersistentHashMap alloc];
+return [cljm_DOT_core_SLASH_PersistentHashMap.value alloc];
 
 }
 
 } else {
-id added_leaf_QMARK___6473 = [cljm_DOT_core_SLASH_Box alloc];
-id new_root__6474 = [(cljm_truthy((this__6471_DOT_root == nil))) ?cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY:this__6471_DOT_root inode@0 assoccljm_DOT_core_SLASH_hash(k), k, v, added_leaf_QMARK___6473, nil];
-if(cljm_truthy(([new_root__6474 isEqual:this__6471_DOT_root]))) {
-return coll;
+id added_leaf_QMARK___6461 = [cljm_DOT_core_SLASH_Box.value alloc];
+id new_root__6462 = [(cljm_truthy((this__6459.root == nil))) ?cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY.value:this__6459.root inode@0 assoc((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(k.value), k.value, v.value, added-leaf?__6461, nil];
+if(cljm_truthy(([new-root__6462 isEqual:this__6459.root]))) {
+return coll.value;
 
 } else {
-return [cljm_DOT_core_SLASH_PersistentHashMap alloc];
+return [cljm_DOT_core_SLASH_PersistentHashMap.value alloc];
 
 }
 
 }
 };
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.cljm$core$IAssociative$_contains_key_QMARK_$arity$2 = ^id(id coll, id k) {
-var this__6475 = this;
-if(cljm_truthy((k == nil))) {
-return this__6475_DOT_has_nil_QMARK_;
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.cljm$core$IAssociative$_contains_key_QMARK_$arity$2 = ^id(id coll, id k) {
+var this__6463 = this;
+if(cljm_truthy((k.value == nil))) {
+return this__6463.has-nil?;
 
 } else {
-if(cljm_truthy((this__6475_DOT_root == nil))) {
+if(cljm_truthy((this__6463.root == nil))) {
 return @NO;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return cljm_DOT_core_SLASH_not(([[this__6475_DOT_root inode@0 lookupcljm_DOT_core_SLASH_hash(k), k, cljm_DOT_core_SLASH_lookup_sentinel, nil] isEqual:cljm_DOT_core_SLASH_lookup_sentinel]));
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(([[this__6463.root inode@0 lookup((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(k.value), k.value, cljm_DOT_core_SLASH_lookup_sentinel.value, nil] isEqual:cljm_DOT_core_SLASH_lookup_sentinel.value]));
 
 } else {
 return nil;
@@ -11318,134 +11318,134 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.call = (function() {
-var G__6498 = null;
-var G__6498__2 = ^id(id this_sym6476, id k) {
-var this__6478 = this;
-id this_sym6476__6479 = this;
-id coll__6480 = this_sym6476__6479;
-return cljm_DOT_core_SLASH__lookup(coll__6480, k);
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.call = (function() {
+var G__6486 = null;
+var G__6486__2 = ^id(id this_sym6464, id k) {
+var this__6466 = this;
+id this_sym6464__6467 = this;
+id coll__6468 = this-sym6464__6467;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__6468, k.value);
 };
-var G__6498__3 = ^id(id this_sym6477, id k, id not_found) {
-var this__6478 = this;
-id this_sym6477__6481 = this;
-id coll__6482 = this_sym6477__6481;
-return cljm_DOT_core_SLASH__lookup(coll__6482, k, not_found);
+var G__6486__3 = ^id(id this_sym6465, id k, id not_found) {
+var this__6466 = this;
+id this_sym6465__6469 = this;
+id coll__6470 = this-sym6465__6469;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__6470, k.value, not_found.value);
 };
-G__6498 = function(this_sym6477, k, not_found){
+G__6486 = function(this_sym6465, k, not_found){
 switch(arguments.length){
 case 2:
-return G__6498__2.call(this,this_sym6477, k);
+return G__6486__2.call(this,this_sym6465, k);
 case 3:
-return G__6498__3.call(this,this_sym6477, k, not_found);
+return G__6486__3.call(this,this_sym6465, k, not_found);
 }
 throw('Invalid arity: ' + arguments.length);
 };
-return G__6498;
+return G__6486;
 })()
 ;
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.apply = ^id(id this_sym6463, id args6464) {
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.apply = ^id(id this_sym6451, id args6452) {
+var this__6471 = this;
+return [this_sym6451.value.call applythis_sym6451.value, [@[this_sym6451.value] concatargs6452.value.slice()], nil];
+};
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.cljm$core$IKVReduce$_kv_reduce$arity$3 = ^id(id coll, id f, id init) {
+var this__6472 = this;
+id init__6473 = (cljm_truthy(this__6472.has-nil?)) ?((id (^)(id , id , id )) f.value)(init.value, nil, this__6472.nil-val):init.value;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_reduced_QMARK_.value)(init__6473))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(init__6473);
+
+} else {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((this__6472.root == nil)))) {
+return [this__6472.root kvf.value reduceinit__6473];
+
+} else {
+if(cljm_truthy(cljm_keyword(@":else"))) {
+return init__6473;
+
+} else {
+return nil;
+
+}
+
+}
+
+}
+};
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id entry) {
+var this__6474 = this;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_vector_QMARK_.value)(entry.value))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__assoc.value)(coll.value, ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(entry.value, @0), ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(entry.value, @1));
+
+} else {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(cljm_DOT_core_SLASH__conj.value, coll.value, entry.value);
+
+}
+};
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.toString = ^id() {
+var this__6475 = this;
+id this__6476 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__6476, nil);
+};
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
+var this__6477 = this;
+if(cljm_truthy((this__6477.cnt > @0))) {
+id s__6478 = (cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((this__6477.root == nil)))) ?[this__6477.root inode]:nil;
+if(cljm_truthy(this__6477.has-nil?)) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(@[ nil, this__6477.nil-val ], s__6478);
+
+} else {
+return s__6478;
+
+}
+
+} else {
+return nil;
+
+}
+};
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
+var this__6479 = this;
+return this__6479.cnt;
+};
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
+var this__6480 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_equiv_map.value)(coll.value, other.value);
+};
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
+var this__6481 = this;
+return [cljm_DOT_core_SLASH_PersistentHashMap.value alloc];
+};
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
+var this__6482 = this;
+return this__6482.meta;
+};
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
 var this__6483 = this;
-return [this_sym6463.call applythis_sym6463, [@[this_sym6463] concatargs6464.slice()], nil];
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__with_meta.value)(cljs_DOT_core_DOT_PersistentHashMap_SLASH_EMPTY.value, this__6483.meta);
 };
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.cljm$core$IKVReduce$_kv_reduce$arity$3 = ^id(id coll, id f, id init) {
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.cljm$core$IMap$_dissoc$arity$2 = ^id(id coll, id k) {
 var this__6484 = this;
-id init__6485 = (cljm_truthy(this__6484_DOT_has_nil_QMARK_)) ?f(init, nil, this__6484_DOT_nil_val):init;
-if(cljm_truthy(cljm_DOT_core_SLASH_reduced_QMARK_(init__6485))) {
-return cljm_DOT_core_SLASH_deref(init__6485);
+if(cljm_truthy((k.value == nil))) {
+if(cljm_truthy(this__6484.has-nil?)) {
+return [cljm_DOT_core_SLASH_PersistentHashMap.value alloc];
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_not((this__6484_DOT_root == nil)))) {
-return [this__6484_DOT_root kvf reduceinit__6485];
-
-} else {
-if(cljm_truthy(cljm_keyword(@":else"))) {
-return init__6485;
-
-} else {
-return nil;
-
-}
-
-}
-
-}
-};
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id entry) {
-var this__6486 = this;
-if(cljm_truthy(cljm_DOT_core_SLASH_vector_QMARK_(entry))) {
-return cljm_DOT_core_SLASH__assoc(coll, cljm_DOT_core_SLASH__nth(entry, @0), cljm_DOT_core_SLASH__nth(entry, @1));
-
-} else {
-return cljm_DOT_core_SLASH_reduce(cljm_DOT_core_SLASH__conj, coll, entry);
-
-}
-};
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.toString = ^id() {
-var this__6487 = this;
-id this__6488 = this;
-return cljm_DOT_core_SLASH_pr_str(this__6488, nil);
-};
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
-var this__6489 = this;
-if(cljm_truthy((this__6489_DOT_cnt > @0))) {
-id s__6490 = (cljm_truthy(cljm_DOT_core_SLASH_not((this__6489_DOT_root == nil)))) ?[this__6489_DOT_root inode]:nil;
-if(cljm_truthy(this__6489_DOT_has_nil_QMARK_)) {
-return cljm_DOT_core_SLASH_cons(@[ nil, this__6489_DOT_nil_val ], s__6490);
-
-} else {
-return s__6490;
+return coll.value;
 
 }
 
 } else {
-return nil;
-
-}
-};
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
-var this__6491 = this;
-return this__6491_DOT_cnt;
-};
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__6492 = this;
-return cljm_DOT_core_SLASH_equiv_map(coll, other);
-};
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
-var this__6493 = this;
-return [cljm_DOT_core_SLASH_PersistentHashMap alloc];
-};
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
-var this__6494 = this;
-return this__6494_DOT_meta;
-};
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
-var this__6495 = this;
-return cljm_DOT_core_SLASH__with_meta(cljs_DOT_core_DOT_PersistentHashMap_SLASH_EMPTY, this__6495_DOT_meta);
-};
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.cljm$core$IMap$_dissoc$arity$2 = ^id(id coll, id k) {
-var this__6496 = this;
-if(cljm_truthy((k == nil))) {
-if(cljm_truthy(this__6496_DOT_has_nil_QMARK_)) {
-return [cljm_DOT_core_SLASH_PersistentHashMap alloc];
-
-} else {
-return coll;
-
-}
-
-} else {
-if(cljm_truthy((this__6496_DOT_root == nil))) {
-return coll;
+if(cljm_truthy((this__6484.root == nil))) {
+return coll.value;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-id new_root__6497 = [this__6496_DOT_root inode@0 withoutcljm_DOT_core_SLASH_hash(k), k, nil];
-if(cljm_truthy(([new_root__6497 isEqual:this__6496_DOT_root]))) {
-return coll;
+id new_root__6485 = [this__6484.root inode@0 without((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(k.value), k.value, nil];
+if(cljm_truthy(([new-root__6485 isEqual:this__6484.root]))) {
+return coll.value;
 
 } else {
-return [cljm_DOT_core_SLASH_PersistentHashMap alloc];
+return [cljm_DOT_core_SLASH_PersistentHashMap.value alloc];
 
 }
 
@@ -11458,24 +11458,24 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentHashMap;
-cljs_DOT_core_DOT_PersistentHashMap_SLASH_EMPTY = [cljm_DOT_core_SLASH_PersistentHashMap alloc];
-cljs_DOT_core_DOT_PersistentHashMap_SLASH_fromArrays = ^id(id ks, id vs) {
-id len__6499 = ks.length;
-id i__6500 = @0;
-id out__6501 = cljm_DOT_core_SLASH_transient(cljs_DOT_core_DOT_PersistentHashMap_SLASH_EMPTY);
+cljm_DOT_core_SLASH_PersistentHashMap.value;
+cljs_DOT_core_DOT_PersistentHashMap_SLASH_EMPTY.value = [cljm_DOT_core_SLASH_PersistentHashMap.value alloc];
+cljs_DOT_core_DOT_PersistentHashMap_SLASH_fromArrays.value = ^id(id ks, id vs) {
+id len__6487 = ks.value.length;
+id i__6488 = @0;
+id out__6489 = ((id (^)(id )) cljm_DOT_core_SLASH_transient.value)(cljs_DOT_core_DOT_PersistentHashMap_SLASH_EMPTY.value);
 while(YES) {
-if(cljm_truthy((i__6500 < len__6499))) {
+if(cljm_truthy((i__6488 < len__6487))) {
 {
-var G__6502 = (i__6500 + @1);
-var G__6503 = cljm_DOT_core_SLASH_assoc_BANG_(out__6501, (ks[i__6500]), (vs[i__6500]));
-i__6500 = G__6502;
-out__6501 = G__6503;
+var G__6490 = (i__6488 + @1);
+var G__6491 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_assoc_BANG_.value)(out__6489, (ks.value[i__6488]), (vs.value[i__6488]));
+i__6488 = G__6490;
+out__6489 = G__6491;
 continue;
 }
 
 } else {
-return cljm_DOT_core_SLASH_persistent_BANG_(out__6501);
+return ((id (^)(id )) cljm_DOT_core_SLASH_persistent_BANG_.value)(out__6489);
 
 }
 break;
@@ -11494,31 +11494,31 @@ this.nil_val = nil_val;
 this.cljm$lang$protocol_mask$partition1$ = 14;
 this.cljm$lang$protocol_mask$partition0$ = 258;
 })
-cljm_DOT_core_SLASH_TransientHashMap.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_TransientHashMap.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/TransientHashMap", nil);
+cljm_DOT_core_SLASH_TransientHashMap.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_TransientHashMap.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/TransientHashMap", nil);
 };
-cljm_DOT_core_SLASH_TransientHashMap.prototype.cljm$core$ITransientMap$_dissoc_BANG_$arity$2 = ^id(id tcoll, id key) {
-var this__6504 = this;
-return [tcoll withoutkey];
+cljm_DOT_core_SLASH_TransientHashMap.value.prototype.cljm$core$ITransientMap$_dissoc_BANG_$arity$2 = ^id(id tcoll, id key) {
+var this__6492 = this;
+return [tcoll.value withoutkey.value];
 };
-cljm_DOT_core_SLASH_TransientHashMap.prototype.cljm$core$ITransientAssociative$_assoc_BANG_$arity$3 = ^id(id tcoll, id key, id val) {
-var this__6505 = this;
-return [tcoll assockey, val, nil];
+cljm_DOT_core_SLASH_TransientHashMap.value.prototype.cljm$core$ITransientAssociative$_assoc_BANG_$arity$3 = ^id(id tcoll, id key, id val) {
+var this__6493 = this;
+return [tcoll.value assockey.value, val.value, nil];
 };
-cljm_DOT_core_SLASH_TransientHashMap.prototype.cljm$core$ITransientCollection$_conj_BANG_$arity$2 = ^id(id tcoll, id val) {
-var this__6506 = this;
-return [tcoll conjval];
+cljm_DOT_core_SLASH_TransientHashMap.value.prototype.cljm$core$ITransientCollection$_conj_BANG_$arity$2 = ^id(id tcoll, id val) {
+var this__6494 = this;
+return [tcoll.value conjval.value];
 };
-cljm_DOT_core_SLASH_TransientHashMap.prototype.cljm$core$ITransientCollection$_persistent_BANG_$arity$1 = ^id(id tcoll) {
-var this__6507 = this;
-return [tcoll persistent];
+cljm_DOT_core_SLASH_TransientHashMap.value.prototype.cljm$core$ITransientCollection$_persistent_BANG_$arity$1 = ^id(id tcoll) {
+var this__6495 = this;
+return [tcoll.value persistent];
 };
-cljm_DOT_core_SLASH_TransientHashMap.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id tcoll, id k) {
-var this__6508 = this;
-if(cljm_truthy((k == nil))) {
-if(cljm_truthy(this__6508_DOT_has_nil_QMARK_)) {
-return this__6508_DOT_nil_val;
+cljm_DOT_core_SLASH_TransientHashMap.value.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id tcoll, id k) {
+var this__6496 = this;
+if(cljm_truthy((k.value == nil))) {
+if(cljm_truthy(this__6496.has-nil?)) {
+return this__6496.nil-val;
 
 } else {
 return nil;
@@ -11526,68 +11526,68 @@ return nil;
 }
 
 } else {
-if(cljm_truthy((this__6508_DOT_root == nil))) {
+if(cljm_truthy((this__6496.root == nil))) {
 return nil;
 
 } else {
-return [this__6508_DOT_root inode@0 lookupcljm_DOT_core_SLASH_hash(k), k, nil];
+return [this__6496.root inode@0 lookup((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(k.value), k.value, nil];
 
 }
 
 }
 };
-cljm_DOT_core_SLASH_TransientHashMap.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id tcoll, id k, id not_found) {
-var this__6509 = this;
-if(cljm_truthy((k == nil))) {
-if(cljm_truthy(this__6509_DOT_has_nil_QMARK_)) {
-return this__6509_DOT_nil_val;
+cljm_DOT_core_SLASH_TransientHashMap.value.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id tcoll, id k, id not_found) {
+var this__6497 = this;
+if(cljm_truthy((k.value == nil))) {
+if(cljm_truthy(this__6497.has-nil?)) {
+return this__6497.nil-val;
 
 } else {
-return not_found;
+return not_found.value;
 
 }
 
 } else {
-if(cljm_truthy((this__6509_DOT_root == nil))) {
-return not_found;
+if(cljm_truthy((this__6497.root == nil))) {
+return not_found.value;
 
 } else {
-return [this__6509_DOT_root inode@0 lookupcljm_DOT_core_SLASH_hash(k), k, not_found, nil];
+return [this__6497.root inode@0 lookup((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(k.value), k.value, not_found.value, nil];
 
 }
-
-}
-};
-cljm_DOT_core_SLASH_TransientHashMap.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
-var this__6510 = this;
-if(cljm_truthy(this__6510_DOT_edit)) {
-return this__6510_DOT_count;
-
-} else {
-throw [Error alloc];
 
 }
 };
-cljm_DOT_core_SLASH_TransientHashMap.prototype.conj_BANG_ = ^id(id o) {
-var this__6511 = this;
-id tcoll__6512 = this;
-if(cljm_truthy(this__6511_DOT_edit)) {
-if(cljm_truthy({id G__6513__6514 = o;
-if(cljm_truthy(G__6513__6514)) {
-if(cljm_truthy({id or__3824__auto____6515 = (G__6513__6514.cljm$lang$protocol_mask$partition0$ & @2048);
-if(cljm_truthy(or__3824__auto____6515)) {
-return or__3824__auto____6515;
+cljm_DOT_core_SLASH_TransientHashMap.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
+var this__6498 = this;
+if(cljm_truthy(this__6498.edit)) {
+return this__6498.count;
 
 } else {
-return G__6513__6514.cljm$core$IMapEntry$;
+throw [Error.value alloc];
+
+}
+};
+cljm_DOT_core_SLASH_TransientHashMap.value.prototype.conj_BANG_ = ^id(id o) {
+var this__6499 = this;
+id tcoll__6500 = this;
+if(cljm_truthy(this__6499.edit)) {
+if(cljm_truthy({id G__6501__6502 = o.value;
+if(cljm_truthy(G__6501__6502)) {
+if(cljm_truthy({id or__3824__auto____6503 = (G__6501__6502.cljm$lang$protocol_mask$partition0$ & @2048);
+if(cljm_truthy(or__3824__auto____6503)) {
+return or__3824__auto____6503;
+
+} else {
+return G__6501__6502.cljm$core$IMapEntry$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__6513__6514.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IMapEntry, G__6513__6514);
+if(cljm_truthy((!G__6501__6502.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IMapEntry.value, G__6501__6502);
 
 } else {
 return @NO;
@@ -11597,29 +11597,29 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IMapEntry, G__6513__6514);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IMapEntry.value, G__6501__6502);
 
 }
 })) {
-return [tcoll__6512 assoccljm_DOT_core_SLASH_key(o), cljm_DOT_core_SLASH_val(o), nil];
+return [tcoll__6500 assoc((id (^)(id )) cljm_DOT_core_SLASH_key.value)(o.value), ((id (^)(id )) cljm_DOT_core_SLASH_val.value)(o.value), nil];
 
 } else {
-id es__6516 = cljm_DOT_core_SLASH_seq(o);
-id tcoll__6517 = tcoll__6512;
+id es__6504 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(o.value);
+id tcoll__6505 = tcoll__6500;
 while(YES) {
-id temp__3971__auto____6518 = cljm_DOT_core_SLASH_first(es__6516);
-if(cljm_truthy(temp__3971__auto____6518)) {
-id e__6519 = temp__3971__auto____6518;
+id temp__3971__auto____6506 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(es__6504);
+if(cljm_truthy(temp__3971__auto____6506)) {
+id e__6507 = temp__3971__auto____6506;
 {
-var G__6530 = cljm_DOT_core_SLASH_next(es__6516);
-var G__6531 = [tcoll__6517 assoccljm_DOT_core_SLASH_key(e__6519), cljm_DOT_core_SLASH_val(e__6519), nil];
-es__6516 = G__6530;
-tcoll__6517 = G__6531;
+var G__6518 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(es__6504);
+var G__6519 = [tcoll__6505 assoc((id (^)(id )) cljm_DOT_core_SLASH_key.value)(e__6507), ((id (^)(id )) cljm_DOT_core_SLASH_val.value)(e__6507), nil];
+es__6504 = G__6518;
+tcoll__6505 = G__6519;
 continue;
 }
 
 } else {
-return tcoll__6517;
+return tcoll__6505;
 
 }
 break;
@@ -11628,133 +11628,133 @@ break;
 }
 
 } else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_TransientHashMap.prototype.assoc_BANG_ = ^id(id k, id v) {
-var this__6520 = this;
-id tcoll__6521 = this;
-if(cljm_truthy(this__6520_DOT_edit)) {
-if(cljm_truthy((k == nil))) {
-if(cljm_truthy(([this__6520_DOT_nil_val isEqual:v]))) {
+cljm_DOT_core_SLASH_TransientHashMap.value.prototype.assoc_BANG_ = ^id(id k, id v) {
+var this__6508 = this;
+id tcoll__6509 = this;
+if(cljm_truthy(this__6508.edit)) {
+if(cljm_truthy((k.value == nil))) {
+if(cljm_truthy(([this__6508.nil-val isEqual:v.value]))) {
 
 } else {
-this__6520_DOT_nil_val = v;
+this__6508.nil-val = v.value;
 
 }
-if(cljm_truthy(this__6520_DOT_has_nil_QMARK_)) {
+if(cljm_truthy(this__6508.has-nil?)) {
 
 } else {
-this__6520_DOT_count = (this__6520_DOT_count + @1);
-this__6520_DOT_has_nil_QMARK_ = @YES;
+this__6508.count = (this__6508.count + @1);
+this__6508.has-nil? = @YES;
 
 }
-return tcoll__6521;
+return tcoll__6509;
 
 } else {
-id added_leaf_QMARK___6522 = [cljm_DOT_core_SLASH_Box alloc];
-id node__6523 = [(cljm_truthy((this__6520_DOT_root == nil))) ?cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY:this__6520_DOT_root inodethis__6520_DOT_edit assoc@0, cljm_DOT_core_SLASH_hash(k), k, v, added_leaf_QMARK___6522, nil];
-if(cljm_truthy(([node__6523 isEqual:this__6520_DOT_root]))) {
+id added_leaf_QMARK___6510 = [cljm_DOT_core_SLASH_Box.value alloc];
+id node__6511 = [(cljm_truthy((this__6508.root == nil))) ?cljs_DOT_core_DOT_BitmapIndexedNode_SLASH_EMPTY.value:this__6508.root inodethis__6508.edit assoc@0, ((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(k.value), k.value, v.value, added-leaf?__6510, nil];
+if(cljm_truthy(([node__6511 isEqual:this__6508.root]))) {
 
 } else {
-this__6520_DOT_root = node__6523;
+this__6508.root = node__6511;
 
 }
-if(cljm_truthy(added_leaf_QMARK___6522.val)) {
-this__6520_DOT_count = (this__6520_DOT_count + @1);
-
-} else {
-
-}
-return tcoll__6521;
-
-}
-
-} else {
-throw [Error alloc];
-
-}
-};
-cljm_DOT_core_SLASH_TransientHashMap.prototype.without_BANG_ = ^id(id k) {
-var this__6524 = this;
-id tcoll__6525 = this;
-if(cljm_truthy(this__6524_DOT_edit)) {
-if(cljm_truthy((k == nil))) {
-if(cljm_truthy(this__6524_DOT_has_nil_QMARK_)) {
-this__6524_DOT_has_nil_QMARK_ = @NO;
-this__6524_DOT_nil_val = nil;
-this__6524_DOT_count = (this__6524_DOT_count - @1);
-return tcoll__6525;
-
-} else {
-return tcoll__6525;
-
-}
-
-} else {
-if(cljm_truthy((this__6524_DOT_root == nil))) {
-return tcoll__6525;
-
-} else {
-id removed_leaf_QMARK___6526 = [cljm_DOT_core_SLASH_Box alloc];
-id node__6527 = [this__6524_DOT_root inodethis__6524_DOT_edit without@0, cljm_DOT_core_SLASH_hash(k), k, removed_leaf_QMARK___6526, nil];
-if(cljm_truthy(([node__6527 isEqual:this__6524_DOT_root]))) {
-
-} else {
-this__6524_DOT_root = node__6527;
-
-}
-if(cljm_truthy((removed_leaf_QMARK___6526[@0]))) {
-this__6524_DOT_count = (this__6524_DOT_count - @1);
+if(cljm_truthy(added-leaf?__6510.val)) {
+this__6508.count = (this__6508.count + @1);
 
 } else {
 
 }
-return tcoll__6525;
-
-}
+return tcoll__6509;
 
 }
 
 } else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_TransientHashMap.prototype.persistent_BANG_ = ^id() {
-var this__6528 = this;
-id tcoll__6529 = this;
-if(cljm_truthy(this__6528_DOT_edit)) {
-this__6528_DOT_edit = nil;
-return [cljm_DOT_core_SLASH_PersistentHashMap alloc];
+cljm_DOT_core_SLASH_TransientHashMap.value.prototype.without_BANG_ = ^id(id k) {
+var this__6512 = this;
+id tcoll__6513 = this;
+if(cljm_truthy(this__6512.edit)) {
+if(cljm_truthy((k.value == nil))) {
+if(cljm_truthy(this__6512.has-nil?)) {
+this__6512.has-nil? = @NO;
+this__6512.nil-val = nil;
+this__6512.count = (this__6512.count - @1);
+return tcoll__6513;
 
 } else {
-throw [Error alloc];
+return tcoll__6513;
+
+}
+
+} else {
+if(cljm_truthy((this__6512.root == nil))) {
+return tcoll__6513;
+
+} else {
+id removed_leaf_QMARK___6514 = [cljm_DOT_core_SLASH_Box.value alloc];
+id node__6515 = [this__6512.root inodethis__6512.edit without@0, ((id (^)(id )) cljm_DOT_core_SLASH_hash.value)(k.value), k.value, removed-leaf?__6514, nil];
+if(cljm_truthy(([node__6515 isEqual:this__6512.root]))) {
+
+} else {
+this__6512.root = node__6515;
+
+}
+if(cljm_truthy((removed-leaf?__6514[@0]))) {
+this__6512.count = (this__6512.count - @1);
+
+} else {
+
+}
+return tcoll__6513;
+
+}
+
+}
+
+} else {
+throw [Error.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_TransientHashMap;
-cljm_DOT_core_SLASH_tree_map_seq_push = ^id(id node, id stack, id ascending_QMARK_) {
-id t__6534 = node;
-id stack__6535 = stack;
+cljm_DOT_core_SLASH_TransientHashMap.value.prototype.persistent_BANG_ = ^id() {
+var this__6516 = this;
+id tcoll__6517 = this;
+if(cljm_truthy(this__6516.edit)) {
+this__6516.edit = nil;
+return [cljm_DOT_core_SLASH_PersistentHashMap.value alloc];
+
+} else {
+throw [Error.value alloc];
+
+}
+};
+cljm_DOT_core_SLASH_TransientHashMap.value;
+cljm_DOT_core_SLASH_tree_map_seq_push = [[CLJMVar alloc] initWithValue:^id(id node, id stack, id ascending_QMARK_) {
+id t__6522 = node.value;
+id stack__6523 = stack.value;
 while(YES) {
-if(cljm_truthy(cljm_DOT_core_SLASH_not((t__6534 == nil)))) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((t__6522 == nil)))) {
 {
-var G__6536 = (cljm_truthy(ascending_QMARK_)) ?t__6534.left:t__6534.right;
-var G__6537 = cljm_DOT_core_SLASH_conj(stack__6535, t__6534, nil);
-t__6534 = G__6536;
-stack__6535 = G__6537;
+var G__6524 = (cljm_truthy(ascending_QMARK_.value)) ?t__6522.left:t__6522.right;
+var G__6525 = ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(stack__6523, t__6522, nil);
+t__6522 = G__6524;
+stack__6523 = G__6525;
 continue;
 }
 
 } else {
-return stack__6535;
+return stack__6523;
 
 }
 break;
 }
-};
+}];
 
 /**
 * @constructor
@@ -11768,90 +11768,90 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 31850570;
 })
-cljm_DOT_core_SLASH_PersistentTreeMapSeq.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_PersistentTreeMapSeq.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/PersistentTreeMapSeq", nil);
+cljm_DOT_core_SLASH_PersistentTreeMapSeq.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_PersistentTreeMapSeq.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/PersistentTreeMapSeq", nil);
 };
-cljm_DOT_core_SLASH_PersistentTreeMapSeq.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
-var this__6538 = this;
-id h__1314__auto____6539 = this__6538_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____6539 == nil)))) {
-return h__1314__auto____6539;
+cljm_DOT_core_SLASH_PersistentTreeMapSeq.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+var this__6526 = this;
+id h__1302__auto____6527 = this__6526.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____6527 == nil)))) {
+return h__1302__auto____6527;
 
 } else {
-id h__1314__auto____6540 = cljm_DOT_core_SLASH_hash_coll(coll);
-this__6538_DOT___hash = h__1314__auto____6540;
-return h__1314__auto____6540;
+id h__1302__auto____6528 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_coll.value)(coll.value);
+this__6526.__hash = h__1302__auto____6528;
+return h__1302__auto____6528;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentTreeMapSeq.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
-var this__6541 = this;
-return cljm_DOT_core_SLASH_cons(o, coll);
+cljm_DOT_core_SLASH_PersistentTreeMapSeq.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
+var this__6529 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(o.value, coll.value);
 };
-cljm_DOT_core_SLASH_PersistentTreeMapSeq.prototype.toString = ^id() {
-var this__6542 = this;
-id this__6543 = this;
-return cljm_DOT_core_SLASH_pr_str(this__6543, nil);
+cljm_DOT_core_SLASH_PersistentTreeMapSeq.value.prototype.toString = ^id() {
+var this__6530 = this;
+id this__6531 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__6531, nil);
 };
-cljm_DOT_core_SLASH_PersistentTreeMapSeq.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id this$) {
-var this__6544 = this;
-return this$;
+cljm_DOT_core_SLASH_PersistentTreeMapSeq.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id this$) {
+var this__6532 = this;
+return this$.value;
 };
-cljm_DOT_core_SLASH_PersistentTreeMapSeq.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
-var this__6545 = this;
-if(cljm_truthy((this__6545_DOT_cnt < @0))) {
-return (cljm_DOT_core_SLASH_count(cljm_DOT_core_SLASH_next(coll)) + @1);
+cljm_DOT_core_SLASH_PersistentTreeMapSeq.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
+var this__6533 = this;
+if(cljm_truthy((this__6533.cnt < @0))) {
+return (((id (^)(id )) cljm_DOT_core_SLASH_count.value)(((id (^)(id )) cljm_DOT_core_SLASH_next.value)(coll.value)) + @1);
 
 } else {
-return this__6545_DOT_cnt;
+return this__6533.cnt;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentTreeMapSeq.prototype.cljm$core$ISeq$_first$arity$1 = ^id(id this$) {
-var this__6546 = this;
-return cljm_DOT_core_SLASH_peek(this__6546_DOT_stack);
+cljm_DOT_core_SLASH_PersistentTreeMapSeq.value.prototype.cljm$core$ISeq$_first$arity$1 = ^id(id this$) {
+var this__6534 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH_peek.value)(this__6534.stack);
 };
-cljm_DOT_core_SLASH_PersistentTreeMapSeq.prototype.cljm$core$ISeq$_rest$arity$1 = ^id(id this$) {
-var this__6547 = this;
-id t__6548 = cljm_DOT_core_SLASH_first(this__6547_DOT_stack);
-id next_stack__6549 = cljm_DOT_core_SLASH_tree_map_seq_push((cljm_truthy(this__6547_DOT_ascending_QMARK_)) ?t__6548.right:t__6548.left, cljm_DOT_core_SLASH_next(this__6547_DOT_stack), this__6547_DOT_ascending_QMARK_);
-if(cljm_truthy(cljm_DOT_core_SLASH_not((next_stack__6549 == nil)))) {
-return [cljm_DOT_core_SLASH_PersistentTreeMapSeq alloc];
+cljm_DOT_core_SLASH_PersistentTreeMapSeq.value.prototype.cljm$core$ISeq$_rest$arity$1 = ^id(id this$) {
+var this__6535 = this;
+id t__6536 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(this__6535.stack);
+id next_stack__6537 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_tree_map_seq_push.value)((cljm_truthy(this__6535.ascending?)) ?t__6536.right:t__6536.left, ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(this__6535.stack), this__6535.ascending?);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((next-stack__6537 == nil)))) {
+return [cljm_DOT_core_SLASH_PersistentTreeMapSeq.value alloc];
 
 } else {
 return cljm.core.List.EMPTY;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentTreeMapSeq.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__6550 = this;
-return cljm_DOT_core_SLASH_equiv_sequential(coll, other);
+cljm_DOT_core_SLASH_PersistentTreeMapSeq.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
+var this__6538 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_equiv_sequential.value)(coll.value, other.value);
 };
-cljm_DOT_core_SLASH_PersistentTreeMapSeq.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
-var this__6551 = this;
-return [cljm_DOT_core_SLASH_PersistentTreeMapSeq alloc];
+cljm_DOT_core_SLASH_PersistentTreeMapSeq.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
+var this__6539 = this;
+return [cljm_DOT_core_SLASH_PersistentTreeMapSeq.value alloc];
 };
-cljm_DOT_core_SLASH_PersistentTreeMapSeq.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
-var this__6552 = this;
-return this__6552_DOT_meta;
+cljm_DOT_core_SLASH_PersistentTreeMapSeq.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
+var this__6540 = this;
+return this__6540.meta;
 };
-cljm_DOT_core_SLASH_PersistentTreeMapSeq;
-cljm_DOT_core_SLASH_create_tree_map_seq = ^id(id tree, id ascending_QMARK_, id cnt) {
-return [cljm_DOT_core_SLASH_PersistentTreeMapSeq alloc];
-};
-cljm_DOT_core_SLASH_balance_left = ^id(id key, id val, id ins, id right) {
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, ins))) {
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, ins.left))) {
-return [cljm_DOT_core_SLASH_RedNode alloc];
+cljm_DOT_core_SLASH_PersistentTreeMapSeq.value;
+cljm_DOT_core_SLASH_create_tree_map_seq = [[CLJMVar alloc] initWithValue:^id(id tree, id ascending_QMARK_, id cnt) {
+return [cljm_DOT_core_SLASH_PersistentTreeMapSeq.value alloc];
+}];
+cljm_DOT_core_SLASH_balance_left = [[CLJMVar alloc] initWithValue:^id(id key, id val, id ins, id right) {
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, ins.value))) {
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, ins.value.left))) {
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, ins.right))) {
-return [cljm_DOT_core_SLASH_RedNode alloc];
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, ins.value.right))) {
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return [cljm_DOT_core_SLASH_BlackNode alloc];
+return [cljm_DOT_core_SLASH_BlackNode.value alloc];
 
 } else {
 return nil;
@@ -11863,22 +11863,22 @@ return nil;
 }
 
 } else {
-return [cljm_DOT_core_SLASH_BlackNode alloc];
+return [cljm_DOT_core_SLASH_BlackNode.value alloc];
 
 }
-};
-cljm_DOT_core_SLASH_balance_right = ^id(id key, id val, id left, id ins) {
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, ins))) {
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, ins.right))) {
-return [cljm_DOT_core_SLASH_RedNode alloc];
+}];
+cljm_DOT_core_SLASH_balance_right = [[CLJMVar alloc] initWithValue:^id(id key, id val, id left, id ins) {
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, ins.value))) {
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, ins.value.right))) {
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, ins.left))) {
-return [cljm_DOT_core_SLASH_RedNode alloc];
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, ins.value.left))) {
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return [cljm_DOT_core_SLASH_BlackNode alloc];
+return [cljm_DOT_core_SLASH_BlackNode.value alloc];
 
 } else {
 return nil;
@@ -11890,33 +11890,33 @@ return nil;
 }
 
 } else {
-return [cljm_DOT_core_SLASH_BlackNode alloc];
+return [cljm_DOT_core_SLASH_BlackNode.value alloc];
 
 }
-};
-cljm_DOT_core_SLASH_balance_left_del = ^id(id key, id val, id del, id right) {
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, del))) {
-return [cljm_DOT_core_SLASH_RedNode alloc];
+}];
+cljm_DOT_core_SLASH_balance_left_del = [[CLJMVar alloc] initWithValue:^id(id key, id val, id del, id right) {
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, del.value))) {
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_BlackNode, right))) {
-return cljm_DOT_core_SLASH_balance_right(key, val, del, [right redden]);
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_BlackNode.value, right.value))) {
+return ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_balance_right.value)(key.value, val.value, del.value, [right.value redden]);
 
 } else {
-if(cljm_truthy({id and__3822__auto____6554 = cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, right);
-if(cljm_truthy(and__3822__auto____6554)) {
-return cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_BlackNode, right.left);
+if(cljm_truthy({id and__3822__auto____6542 = ((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, right.value);
+if(cljm_truthy(and__3822__auto____6542)) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_BlackNode.value, right.value.left);
 
 } else {
-return and__3822__auto____6554;
+return and__3822__auto____6542;
 
 }
 })) {
-return [cljm_DOT_core_SLASH_RedNode alloc];
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-throw [Error alloc];
+throw [Error.value alloc];
 
 } else {
 return nil;
@@ -11928,30 +11928,30 @@ return nil;
 }
 
 }
-};
-cljm_DOT_core_SLASH_balance_right_del = ^id(id key, id val, id left, id del) {
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, del))) {
-return [cljm_DOT_core_SLASH_RedNode alloc];
+}];
+cljm_DOT_core_SLASH_balance_right_del = [[CLJMVar alloc] initWithValue:^id(id key, id val, id left, id del) {
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, del.value))) {
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_BlackNode, left))) {
-return cljm_DOT_core_SLASH_balance_left(key, val, [left redden], del);
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_BlackNode.value, left.value))) {
+return ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_balance_left.value)(key.value, val.value, [left.value redden], del.value);
 
 } else {
-if(cljm_truthy({id and__3822__auto____6556 = cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, left);
-if(cljm_truthy(and__3822__auto____6556)) {
-return cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_BlackNode, left.right);
+if(cljm_truthy({id and__3822__auto____6544 = ((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, left.value);
+if(cljm_truthy(and__3822__auto____6544)) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_BlackNode.value, left.value.right);
 
 } else {
-return and__3822__auto____6556;
+return and__3822__auto____6544;
 
 }
 })) {
-return [cljm_DOT_core_SLASH_RedNode alloc];
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-throw [Error alloc];
+throw [Error.value alloc];
 
 } else {
 return nil;
@@ -11963,31 +11963,31 @@ return nil;
 }
 
 }
-};
-cljm_DOT_core_SLASH_tree_map_kv_reduce = ^id(id node, id f, id init) {
-id init__6560 = f(init, node.key, node.val);
-if(cljm_truthy(cljm_DOT_core_SLASH_reduced_QMARK_(init__6560))) {
-return cljm_DOT_core_SLASH_deref(init__6560);
+}];
+cljm_DOT_core_SLASH_tree_map_kv_reduce = [[CLJMVar alloc] initWithValue:^id(id node, id f, id init) {
+id init__6548 = ((id (^)(id , id , id )) f.value)(init.value, node.value.key, node.value.val);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_reduced_QMARK_.value)(init__6548))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(init__6548);
 
 } else {
-id init__6561 = (cljm_truthy(cljm_DOT_core_SLASH_not((node.left == nil)))) ?tree_map_kv_reduce(node.left, f, init__6560):init__6560;
-if(cljm_truthy(cljm_DOT_core_SLASH_reduced_QMARK_(init__6561))) {
-return cljm_DOT_core_SLASH_deref(init__6561);
+id init__6549 = (cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((node.value.left == nil)))) ?((id (^)(id , id , id )) tree_map_kv_reduce.value)(node.value.left, f.value, init__6548):init__6548;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_reduced_QMARK_.value)(init__6549))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(init__6549);
 
 } else {
-id init__6562 = (cljm_truthy(cljm_DOT_core_SLASH_not((node.right == nil)))) ?tree_map_kv_reduce(node.right, f, init__6561):init__6561;
-if(cljm_truthy(cljm_DOT_core_SLASH_reduced_QMARK_(init__6562))) {
-return cljm_DOT_core_SLASH_deref(init__6562);
+id init__6550 = (cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((node.value.right == nil)))) ?((id (^)(id , id , id )) tree_map_kv_reduce.value)(node.value.right, f.value, init__6549):init__6549;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_reduced_QMARK_.value)(init__6550))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(init__6550);
 
 } else {
-return init__6562;
+return init__6550;
 
 }
 
 }
 
 }
-};
+}];
 
 /**
 * @constructor
@@ -12001,192 +12001,192 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 32402207;
 })
-cljm_DOT_core_SLASH_BlackNode.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_BlackNode.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/BlackNode", nil);
+cljm_DOT_core_SLASH_BlackNode.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_BlackNode.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/BlackNode", nil);
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
-var this__6565 = this;
-id h__1314__auto____6566 = this__6565_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____6566 == nil)))) {
-return h__1314__auto____6566;
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+var this__6553 = this;
+id h__1302__auto____6554 = this__6553.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____6554 == nil)))) {
+return h__1302__auto____6554;
 
 } else {
-id h__1314__auto____6567 = cljm_DOT_core_SLASH_hash_coll(coll);
-this__6565_DOT___hash = h__1314__auto____6567;
-return h__1314__auto____6567;
+id h__1302__auto____6555 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_coll.value)(coll.value);
+this__6553.__hash = h__1302__auto____6555;
+return h__1302__auto____6555;
 
 }
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id node, id k) {
-var this__6568 = this;
-return cljm_DOT_core_SLASH__nth(node, k, nil);
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id node, id k) {
+var this__6556 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__nth.value)(node.value, k.value, nil);
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id node, id k, id not_found) {
-var this__6569 = this;
-return cljm_DOT_core_SLASH__nth(node, k, not_found);
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id node, id k, id not_found) {
+var this__6557 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__nth.value)(node.value, k.value, not_found.value);
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id node, id k, id v) {
-var this__6570 = this;
-return cljm_DOT_core_SLASH_assoc(@[ this__6570_DOT_key, this__6570_DOT_val ], k, v, nil);
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id node, id k, id v) {
+var this__6558 = this;
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(@[ this__6558.key, this__6558.val ], k.value, v.value, nil);
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.call = (function() {
-var G__6618 = null;
-var G__6618__2 = ^id(id this_sym6571, id k) {
-var this__6573 = this;
-id this_sym6571__6574 = this;
-id node__6575 = this_sym6571__6574;
-return cljm_DOT_core_SLASH__lookup(node__6575, k);
+cljm_DOT_core_SLASH_BlackNode.value.prototype.call = (function() {
+var G__6606 = null;
+var G__6606__2 = ^id(id this_sym6559, id k) {
+var this__6561 = this;
+id this_sym6559__6562 = this;
+id node__6563 = this-sym6559__6562;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__lookup.value)(node__6563, k.value);
 };
-var G__6618__3 = ^id(id this_sym6572, id k, id not_found) {
-var this__6573 = this;
-id this_sym6572__6576 = this;
-id node__6577 = this_sym6572__6576;
-return cljm_DOT_core_SLASH__lookup(node__6577, k, not_found);
+var G__6606__3 = ^id(id this_sym6560, id k, id not_found) {
+var this__6561 = this;
+id this_sym6560__6564 = this;
+id node__6565 = this-sym6560__6564;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(node__6565, k.value, not_found.value);
 };
-G__6618 = function(this_sym6572, k, not_found){
+G__6606 = function(this_sym6560, k, not_found){
 switch(arguments.length){
 case 2:
-return G__6618__2.call(this,this_sym6572, k);
+return G__6606__2.call(this,this_sym6560, k);
 case 3:
-return G__6618__3.call(this,this_sym6572, k, not_found);
+return G__6606__3.call(this,this_sym6560, k, not_found);
 }
 throw('Invalid arity: ' + arguments.length);
 };
-return G__6618;
+return G__6606;
 })()
 ;
-cljm_DOT_core_SLASH_BlackNode.prototype.apply = ^id(id this_sym6563, id args6564) {
+cljm_DOT_core_SLASH_BlackNode.value.prototype.apply = ^id(id this_sym6551, id args6552) {
+var this__6566 = this;
+return [this_sym6551.value.call applythis_sym6551.value, [@[this_sym6551.value] concatargs6552.value.slice()], nil];
+};
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id node, id o) {
+var this__6567 = this;
+return @[ this__6567.key, this__6567.val, o.value ];
+};
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$IMapEntry$_key$arity$1 = ^id(id node) {
+var this__6568 = this;
+return this__6568.key;
+};
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$IMapEntry$_val$arity$1 = ^id(id node) {
+var this__6569 = this;
+return this__6569.val;
+};
+cljm_DOT_core_SLASH_BlackNode.value.prototype.add_right = ^id(id ins) {
+var this__6570 = this;
+id node__6571 = this;
+return [ins.value balancenode__6571 right];
+};
+cljm_DOT_core_SLASH_BlackNode.value.prototype.redden = ^id() {
+var this__6572 = this;
+id node__6573 = this;
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
+};
+cljm_DOT_core_SLASH_BlackNode.value.prototype.remove_right = ^id(id del) {
+var this__6574 = this;
+id node__6575 = this;
+return ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_balance_right_del.value)(this__6574.key, this__6574.val, this__6574.left, del.value);
+};
+cljm_DOT_core_SLASH_BlackNode.value.prototype.replace = ^id(id key, id val, id left, id right) {
+var this__6576 = this;
+id node__6577 = this;
+return [cljm_DOT_core_SLASH_BlackNode.value alloc];
+};
+cljm_DOT_core_SLASH_BlackNode.value.prototype.kv_reduce = ^id(id f, id init) {
 var this__6578 = this;
-return [this_sym6563.call applythis_sym6563, [@[this_sym6563] concatargs6564.slice()], nil];
+id node__6579 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_tree_map_kv_reduce.value)(node__6579, f.value, init.value);
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id node, id o) {
-var this__6579 = this;
-return @[ this__6579_DOT_key, this__6579_DOT_val, o ];
-};
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$IMapEntry$_key$arity$1 = ^id(id node) {
+cljm_DOT_core_SLASH_BlackNode.value.prototype.remove_left = ^id(id del) {
 var this__6580 = this;
-return this__6580_DOT_key;
+id node__6581 = this;
+return ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_balance_left_del.value)(this__6580.key, this__6580.val, del.value, this__6580.right);
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$IMapEntry$_val$arity$1 = ^id(id node) {
-var this__6581 = this;
-return this__6581_DOT_val;
-};
-cljm_DOT_core_SLASH_BlackNode.prototype.add_right = ^id(id ins) {
+cljm_DOT_core_SLASH_BlackNode.value.prototype.add_left = ^id(id ins) {
 var this__6582 = this;
 id node__6583 = this;
-return [ins balancenode__6583 right];
+return [ins.value balancenode__6583 left];
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.redden = ^id() {
+cljm_DOT_core_SLASH_BlackNode.value.prototype.balance_left = ^id(id parent) {
 var this__6584 = this;
 id node__6585 = this;
-return [cljm_DOT_core_SLASH_RedNode alloc];
+return [cljm_DOT_core_SLASH_BlackNode.value alloc];
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.remove_right = ^id(id del) {
+cljm_DOT_core_SLASH_BlackNode.value.prototype.toString = (function() {
+var G__6607 = null;
+var G__6607__0 = ^id() {
 var this__6586 = this;
-id node__6587 = this;
-return cljm_DOT_core_SLASH_balance_right_del(this__6586_DOT_key, this__6586_DOT_val, this__6586_DOT_left, del);
+id this__6588 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__6588, nil);
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.replace = ^id(id key, id val, id left, id right) {
-var this__6588 = this;
-id node__6589 = this;
-return [cljm_DOT_core_SLASH_BlackNode alloc];
-};
-cljm_DOT_core_SLASH_BlackNode.prototype.kv_reduce = ^id(id f, id init) {
-var this__6590 = this;
-id node__6591 = this;
-return cljm_DOT_core_SLASH_tree_map_kv_reduce(node__6591, f, init);
-};
-cljm_DOT_core_SLASH_BlackNode.prototype.remove_left = ^id(id del) {
-var this__6592 = this;
-id node__6593 = this;
-return cljm_DOT_core_SLASH_balance_left_del(this__6592_DOT_key, this__6592_DOT_val, del, this__6592_DOT_right);
-};
-cljm_DOT_core_SLASH_BlackNode.prototype.add_left = ^id(id ins) {
-var this__6594 = this;
-id node__6595 = this;
-return [ins balancenode__6595 left];
-};
-cljm_DOT_core_SLASH_BlackNode.prototype.balance_left = ^id(id parent) {
-var this__6596 = this;
-id node__6597 = this;
-return [cljm_DOT_core_SLASH_BlackNode alloc];
-};
-cljm_DOT_core_SLASH_BlackNode.prototype.toString = (function() {
-var G__6619 = null;
-var G__6619__0 = ^id() {
-var this__6598 = this;
-id this__6600 = this;
-return cljm_DOT_core_SLASH_pr_str(this__6600, nil);
-};
-G__6619 = function(){
+G__6607 = function(){
 switch(arguments.length){
 case 0:
-return G__6619__0.call(this);
+return G__6607__0.call(this);
 }
 throw('Invalid arity: ' + arguments.length);
 };
-return G__6619;
+return G__6607;
 })()
 ;
-cljm_DOT_core_SLASH_BlackNode.prototype.balance_right = ^id(id parent) {
-var this__6601 = this;
-id node__6602 = this;
-return [cljm_DOT_core_SLASH_BlackNode alloc];
+cljm_DOT_core_SLASH_BlackNode.value.prototype.balance_right = ^id(id parent) {
+var this__6589 = this;
+id node__6590 = this;
+return [cljm_DOT_core_SLASH_BlackNode.value alloc];
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.blacken = ^id() {
-var this__6603 = this;
-id node__6604 = this;
-return node__6604;
+cljm_DOT_core_SLASH_BlackNode.value.prototype.blacken = ^id() {
+var this__6591 = this;
+id node__6592 = this;
+return node__6592;
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$IReduce$_reduce$arity$2 = ^id(id node, id f) {
-var this__6605 = this;
-return cljm_DOT_core_SLASH_ci_reduce(node, f);
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$IReduce$_reduce$arity$2 = ^id(id node, id f) {
+var this__6593 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_ci_reduce.value)(node.value, f.value);
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$IReduce$_reduce$arity$3 = ^id(id node, id f, id start) {
-var this__6606 = this;
-return cljm_DOT_core_SLASH_ci_reduce(node, f, start);
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$IReduce$_reduce$arity$3 = ^id(id node, id f, id start) {
+var this__6594 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_ci_reduce.value)(node.value, f.value, start.value);
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id node) {
-var this__6607 = this;
-return cljm_DOT_core_SLASH_list(this__6607_DOT_key, this__6607_DOT_val, nil);
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id node) {
+var this__6595 = this;
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_list.value)(this__6595.key, this__6595.val, nil);
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id node) {
-var this__6608 = this;
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id node) {
+var this__6596 = this;
 return @2;
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$IStack$_peek$arity$1 = ^id(id node) {
-var this__6609 = this;
-return this__6609_DOT_val;
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$IStack$_peek$arity$1 = ^id(id node) {
+var this__6597 = this;
+return this__6597.val;
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$IStack$_pop$arity$1 = ^id(id node) {
-var this__6610 = this;
-return @[ this__6610_DOT_key ];
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$IStack$_pop$arity$1 = ^id(id node) {
+var this__6598 = this;
+return @[ this__6598.key ];
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$IVector$_assoc_n$arity$3 = ^id(id node, id n, id v) {
-var this__6611 = this;
-return cljm_DOT_core_SLASH__assoc_n(@[ this__6611_DOT_key, this__6611_DOT_val ], n, v);
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$IVector$_assoc_n$arity$3 = ^id(id node, id n, id v) {
+var this__6599 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__assoc_n.value)(@[ this__6599.key, this__6599.val ], n.value, v.value);
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__6612 = this;
-return cljm_DOT_core_SLASH_equiv_sequential(coll, other);
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
+var this__6600 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_equiv_sequential.value)(coll.value, other.value);
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id node, id meta) {
-var this__6613 = this;
-return cljm_DOT_core_SLASH_with_meta(@[ this__6613_DOT_key, this__6613_DOT_val ], meta);
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id node, id meta) {
+var this__6601 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_with_meta.value)(@[ this__6601.key, this__6601.val ], meta.value);
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id node) {
-var this__6614 = this;
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id node) {
+var this__6602 = this;
 return nil;
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$IIndexed$_nth$arity$2 = ^id(id node, id n) {
-var this__6615 = this;
-if(cljm_truthy(([n isEqual:@0]))) {
-return this__6615_DOT_key;
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$IIndexed$_nth$arity$2 = ^id(id node, id n) {
+var this__6603 = this;
+if(cljm_truthy(([n.value isEqual:@0]))) {
+return this__6603.key;
 
 } else {
-if(cljm_truthy(([n isEqual:@1]))) {
-return this__6615_DOT_val;
+if(cljm_truthy(([n.value isEqual:@1]))) {
+return this__6603.val;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
@@ -12201,18 +12201,18 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$IIndexed$_nth$arity$3 = ^id(id node, id n, id not_found) {
-var this__6616 = this;
-if(cljm_truthy(([n isEqual:@0]))) {
-return this__6616_DOT_key;
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$IIndexed$_nth$arity$3 = ^id(id node, id n, id not_found) {
+var this__6604 = this;
+if(cljm_truthy(([n.value isEqual:@0]))) {
+return this__6604.key;
 
 } else {
-if(cljm_truthy(([n isEqual:@1]))) {
-return this__6616_DOT_val;
+if(cljm_truthy(([n.value isEqual:@1]))) {
+return this__6604.val;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return not_found;
+return not_found.value;
 
 } else {
 return nil;
@@ -12223,11 +12223,11 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id node) {
-var this__6617 = this;
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id node) {
+var this__6605 = this;
 return @[];
 };
-cljm_DOT_core_SLASH_BlackNode;
+cljm_DOT_core_SLASH_BlackNode.value;
 
 /**
 * @constructor
@@ -12241,125 +12241,125 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 32402207;
 })
-cljm_DOT_core_SLASH_RedNode.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_RedNode.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/RedNode", nil);
+cljm_DOT_core_SLASH_RedNode.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_RedNode.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/RedNode", nil);
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
-var this__6622 = this;
-id h__1314__auto____6623 = this__6622_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____6623 == nil)))) {
-return h__1314__auto____6623;
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+var this__6610 = this;
+id h__1302__auto____6611 = this__6610.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____6611 == nil)))) {
+return h__1302__auto____6611;
 
 } else {
-id h__1314__auto____6624 = cljm_DOT_core_SLASH_hash_coll(coll);
-this__6622_DOT___hash = h__1314__auto____6624;
-return h__1314__auto____6624;
+id h__1302__auto____6612 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_coll.value)(coll.value);
+this__6610.__hash = h__1302__auto____6612;
+return h__1302__auto____6612;
 
 }
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id node, id k) {
-var this__6625 = this;
-return cljm_DOT_core_SLASH__nth(node, k, nil);
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id node, id k) {
+var this__6613 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__nth.value)(node.value, k.value, nil);
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id node, id k, id not_found) {
-var this__6626 = this;
-return cljm_DOT_core_SLASH__nth(node, k, not_found);
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id node, id k, id not_found) {
+var this__6614 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__nth.value)(node.value, k.value, not_found.value);
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id node, id k, id v) {
-var this__6627 = this;
-return cljm_DOT_core_SLASH_assoc(@[ this__6627_DOT_key, this__6627_DOT_val ], k, v, nil);
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id node, id k, id v) {
+var this__6615 = this;
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(@[ this__6615.key, this__6615.val ], k.value, v.value, nil);
 };
-cljm_DOT_core_SLASH_RedNode.prototype.call = (function() {
-var G__6675 = null;
-var G__6675__2 = ^id(id this_sym6628, id k) {
-var this__6630 = this;
-id this_sym6628__6631 = this;
-id node__6632 = this_sym6628__6631;
-return cljm_DOT_core_SLASH__lookup(node__6632, k);
+cljm_DOT_core_SLASH_RedNode.value.prototype.call = (function() {
+var G__6663 = null;
+var G__6663__2 = ^id(id this_sym6616, id k) {
+var this__6618 = this;
+id this_sym6616__6619 = this;
+id node__6620 = this-sym6616__6619;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__lookup.value)(node__6620, k.value);
 };
-var G__6675__3 = ^id(id this_sym6629, id k, id not_found) {
-var this__6630 = this;
-id this_sym6629__6633 = this;
-id node__6634 = this_sym6629__6633;
-return cljm_DOT_core_SLASH__lookup(node__6634, k, not_found);
+var G__6663__3 = ^id(id this_sym6617, id k, id not_found) {
+var this__6618 = this;
+id this_sym6617__6621 = this;
+id node__6622 = this-sym6617__6621;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(node__6622, k.value, not_found.value);
 };
-G__6675 = function(this_sym6629, k, not_found){
+G__6663 = function(this_sym6617, k, not_found){
 switch(arguments.length){
 case 2:
-return G__6675__2.call(this,this_sym6629, k);
+return G__6663__2.call(this,this_sym6617, k);
 case 3:
-return G__6675__3.call(this,this_sym6629, k, not_found);
+return G__6663__3.call(this,this_sym6617, k, not_found);
 }
 throw('Invalid arity: ' + arguments.length);
 };
-return G__6675;
+return G__6663;
 })()
 ;
-cljm_DOT_core_SLASH_RedNode.prototype.apply = ^id(id this_sym6620, id args6621) {
+cljm_DOT_core_SLASH_RedNode.value.prototype.apply = ^id(id this_sym6608, id args6609) {
+var this__6623 = this;
+return [this_sym6608.value.call applythis_sym6608.value, [@[this_sym6608.value] concatargs6609.value.slice()], nil];
+};
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id node, id o) {
+var this__6624 = this;
+return @[ this__6624.key, this__6624.val, o.value ];
+};
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$IMapEntry$_key$arity$1 = ^id(id node) {
+var this__6625 = this;
+return this__6625.key;
+};
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$IMapEntry$_val$arity$1 = ^id(id node) {
+var this__6626 = this;
+return this__6626.val;
+};
+cljm_DOT_core_SLASH_RedNode.value.prototype.add_right = ^id(id ins) {
+var this__6627 = this;
+id node__6628 = this;
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
+};
+cljm_DOT_core_SLASH_RedNode.value.prototype.redden = ^id() {
+var this__6629 = this;
+id node__6630 = this;
+throw [Error.value alloc];
+};
+cljm_DOT_core_SLASH_RedNode.value.prototype.remove_right = ^id(id del) {
+var this__6631 = this;
+id node__6632 = this;
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
+};
+cljm_DOT_core_SLASH_RedNode.value.prototype.replace = ^id(id key, id val, id left, id right) {
+var this__6633 = this;
+id node__6634 = this;
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
+};
+cljm_DOT_core_SLASH_RedNode.value.prototype.kv_reduce = ^id(id f, id init) {
 var this__6635 = this;
-return [this_sym6620.call applythis_sym6620, [@[this_sym6620] concatargs6621.slice()], nil];
+id node__6636 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_tree_map_kv_reduce.value)(node__6636, f.value, init.value);
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id node, id o) {
-var this__6636 = this;
-return @[ this__6636_DOT_key, this__6636_DOT_val, o ];
-};
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$IMapEntry$_key$arity$1 = ^id(id node) {
+cljm_DOT_core_SLASH_RedNode.value.prototype.remove_left = ^id(id del) {
 var this__6637 = this;
-return this__6637_DOT_key;
+id node__6638 = this;
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$IMapEntry$_val$arity$1 = ^id(id node) {
-var this__6638 = this;
-return this__6638_DOT_val;
-};
-cljm_DOT_core_SLASH_RedNode.prototype.add_right = ^id(id ins) {
+cljm_DOT_core_SLASH_RedNode.value.prototype.add_left = ^id(id ins) {
 var this__6639 = this;
 id node__6640 = this;
-return [cljm_DOT_core_SLASH_RedNode alloc];
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
 };
-cljm_DOT_core_SLASH_RedNode.prototype.redden = ^id() {
+cljm_DOT_core_SLASH_RedNode.value.prototype.balance_left = ^id(id parent) {
 var this__6641 = this;
 id node__6642 = this;
-throw [Error alloc];
-};
-cljm_DOT_core_SLASH_RedNode.prototype.remove_right = ^id(id del) {
-var this__6643 = this;
-id node__6644 = this;
-return [cljm_DOT_core_SLASH_RedNode alloc];
-};
-cljm_DOT_core_SLASH_RedNode.prototype.replace = ^id(id key, id val, id left, id right) {
-var this__6645 = this;
-id node__6646 = this;
-return [cljm_DOT_core_SLASH_RedNode alloc];
-};
-cljm_DOT_core_SLASH_RedNode.prototype.kv_reduce = ^id(id f, id init) {
-var this__6647 = this;
-id node__6648 = this;
-return cljm_DOT_core_SLASH_tree_map_kv_reduce(node__6648, f, init);
-};
-cljm_DOT_core_SLASH_RedNode.prototype.remove_left = ^id(id del) {
-var this__6649 = this;
-id node__6650 = this;
-return [cljm_DOT_core_SLASH_RedNode alloc];
-};
-cljm_DOT_core_SLASH_RedNode.prototype.add_left = ^id(id ins) {
-var this__6651 = this;
-id node__6652 = this;
-return [cljm_DOT_core_SLASH_RedNode alloc];
-};
-cljm_DOT_core_SLASH_RedNode.prototype.balance_left = ^id(id parent) {
-var this__6653 = this;
-id node__6654 = this;
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, this__6653_DOT_left))) {
-return [cljm_DOT_core_SLASH_RedNode alloc];
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, this__6641.left))) {
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, this__6653_DOT_right))) {
-return [cljm_DOT_core_SLASH_RedNode alloc];
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, this__6641.right))) {
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return [cljm_DOT_core_SLASH_BlackNode alloc];
+return [cljm_DOT_core_SLASH_BlackNode.value alloc];
 
 } else {
 return nil;
@@ -12370,36 +12370,36 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_RedNode.prototype.toString = (function() {
-var G__6676 = null;
-var G__6676__0 = ^id() {
-var this__6655 = this;
-id this__6657 = this;
-return cljm_DOT_core_SLASH_pr_str(this__6657, nil);
+cljm_DOT_core_SLASH_RedNode.value.prototype.toString = (function() {
+var G__6664 = null;
+var G__6664__0 = ^id() {
+var this__6643 = this;
+id this__6645 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__6645, nil);
 };
-G__6676 = function(){
+G__6664 = function(){
 switch(arguments.length){
 case 0:
-return G__6676__0.call(this);
+return G__6664__0.call(this);
 }
 throw('Invalid arity: ' + arguments.length);
 };
-return G__6676;
+return G__6664;
 })()
 ;
-cljm_DOT_core_SLASH_RedNode.prototype.balance_right = ^id(id parent) {
-var this__6658 = this;
-id node__6659 = this;
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, this__6658_DOT_right))) {
-return [cljm_DOT_core_SLASH_RedNode alloc];
+cljm_DOT_core_SLASH_RedNode.value.prototype.balance_right = ^id(id parent) {
+var this__6646 = this;
+id node__6647 = this;
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, this__6646.right))) {
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, this__6658_DOT_left))) {
-return [cljm_DOT_core_SLASH_RedNode alloc];
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, this__6646.left))) {
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return [cljm_DOT_core_SLASH_BlackNode alloc];
+return [cljm_DOT_core_SLASH_BlackNode.value alloc];
 
 } else {
 return nil;
@@ -12410,59 +12410,59 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_RedNode.prototype.blacken = ^id() {
-var this__6660 = this;
-id node__6661 = this;
-return [cljm_DOT_core_SLASH_BlackNode alloc];
+cljm_DOT_core_SLASH_RedNode.value.prototype.blacken = ^id() {
+var this__6648 = this;
+id node__6649 = this;
+return [cljm_DOT_core_SLASH_BlackNode.value alloc];
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$IReduce$_reduce$arity$2 = ^id(id node, id f) {
-var this__6662 = this;
-return cljm_DOT_core_SLASH_ci_reduce(node, f);
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$IReduce$_reduce$arity$2 = ^id(id node, id f) {
+var this__6650 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_ci_reduce.value)(node.value, f.value);
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$IReduce$_reduce$arity$3 = ^id(id node, id f, id start) {
-var this__6663 = this;
-return cljm_DOT_core_SLASH_ci_reduce(node, f, start);
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$IReduce$_reduce$arity$3 = ^id(id node, id f, id start) {
+var this__6651 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_ci_reduce.value)(node.value, f.value, start.value);
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id node) {
-var this__6664 = this;
-return cljm_DOT_core_SLASH_list(this__6664_DOT_key, this__6664_DOT_val, nil);
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id node) {
+var this__6652 = this;
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_list.value)(this__6652.key, this__6652.val, nil);
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id node) {
-var this__6665 = this;
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id node) {
+var this__6653 = this;
 return @2;
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$IStack$_peek$arity$1 = ^id(id node) {
-var this__6666 = this;
-return this__6666_DOT_val;
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$IStack$_peek$arity$1 = ^id(id node) {
+var this__6654 = this;
+return this__6654.val;
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$IStack$_pop$arity$1 = ^id(id node) {
-var this__6667 = this;
-return @[ this__6667_DOT_key ];
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$IStack$_pop$arity$1 = ^id(id node) {
+var this__6655 = this;
+return @[ this__6655.key ];
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$IVector$_assoc_n$arity$3 = ^id(id node, id n, id v) {
-var this__6668 = this;
-return cljm_DOT_core_SLASH__assoc_n(@[ this__6668_DOT_key, this__6668_DOT_val ], n, v);
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$IVector$_assoc_n$arity$3 = ^id(id node, id n, id v) {
+var this__6656 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__assoc_n.value)(@[ this__6656.key, this__6656.val ], n.value, v.value);
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__6669 = this;
-return cljm_DOT_core_SLASH_equiv_sequential(coll, other);
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
+var this__6657 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_equiv_sequential.value)(coll.value, other.value);
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id node, id meta) {
-var this__6670 = this;
-return cljm_DOT_core_SLASH_with_meta(@[ this__6670_DOT_key, this__6670_DOT_val ], meta);
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id node, id meta) {
+var this__6658 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_with_meta.value)(@[ this__6658.key, this__6658.val ], meta.value);
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id node) {
-var this__6671 = this;
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id node) {
+var this__6659 = this;
 return nil;
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$IIndexed$_nth$arity$2 = ^id(id node, id n) {
-var this__6672 = this;
-if(cljm_truthy(([n isEqual:@0]))) {
-return this__6672_DOT_key;
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$IIndexed$_nth$arity$2 = ^id(id node, id n) {
+var this__6660 = this;
+if(cljm_truthy(([n.value isEqual:@0]))) {
+return this__6660.key;
 
 } else {
-if(cljm_truthy(([n isEqual:@1]))) {
-return this__6672_DOT_val;
+if(cljm_truthy(([n.value isEqual:@1]))) {
+return this__6660.val;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
@@ -12477,18 +12477,18 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$IIndexed$_nth$arity$3 = ^id(id node, id n, id not_found) {
-var this__6673 = this;
-if(cljm_truthy(([n isEqual:@0]))) {
-return this__6673_DOT_key;
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$IIndexed$_nth$arity$3 = ^id(id node, id n, id not_found) {
+var this__6661 = this;
+if(cljm_truthy(([n.value isEqual:@0]))) {
+return this__6661.key;
 
 } else {
-if(cljm_truthy(([n isEqual:@1]))) {
-return this__6673_DOT_val;
+if(cljm_truthy(([n.value isEqual:@1]))) {
+return this__6661.val;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return not_found;
+return not_found.value;
 
 } else {
 return nil;
@@ -12499,131 +12499,131 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id node) {
-var this__6674 = this;
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id node) {
+var this__6662 = this;
 return @[];
 };
-cljm_DOT_core_SLASH_RedNode;
-cljm_DOT_core_SLASH_tree_map_add = ^id(id comp, id tree, id k, id v, id found) {
-if(cljm_truthy((tree == nil))) {
-return [cljm_DOT_core_SLASH_RedNode alloc];
+cljm_DOT_core_SLASH_RedNode.value;
+cljm_DOT_core_SLASH_tree_map_add = [[CLJMVar alloc] initWithValue:^id(id comp, id tree, id k, id v, id found) {
+if(cljm_truthy((tree.value == nil))) {
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
 
 } else {
-id c__6680 = comp(k, tree.key);
-if(cljm_truthy(([c__6680 isEqual:@0]))) {
-(found[@0] = tree);
+id c__6668 = ((id (^)(id , id )) comp.value)(k.value, tree.value.key);
+if(cljm_truthy(([c__6668 isEqual:@0]))) {
+(found.value[@0] = tree.value);
 return nil;
+
+} else {
+if(cljm_truthy((c__6668 < @0))) {
+id ins__6669 = ((id (^)(id , id , id , id , id )) tree_map_add.value)(comp.value, tree.value.left, k.value, v.value, found.value);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((ins__6669 == nil)))) {
+return [tree.value addins__6669 left];
+
+} else {
+return nil;
+
+}
+
+} else {
+if(cljm_truthy(cljm_keyword(@":else"))) {
+id ins__6670 = ((id (^)(id , id , id , id , id )) tree_map_add.value)(comp.value, tree.value.right, k.value, v.value, found.value);
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((ins__6670 == nil)))) {
+return [tree.value addins__6670 right];
+
+} else {
+return nil;
+
+}
+
+} else {
+return nil;
+
+}
+
+}
+
+}
+
+}
+}];
+cljm_DOT_core_SLASH_tree_map_append = [[CLJMVar alloc] initWithValue:^id(id left, id right) {
+if(cljm_truthy((left.value == nil))) {
+return right.value;
+
+} else {
+if(cljm_truthy((right.value == nil))) {
+return left.value;
+
+} else {
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, left.value))) {
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, right.value))) {
+id app__6673 = ((id (^)(id , id )) tree_map_append.value)(left.value.right, right.value.left);
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, app__6673))) {
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
+
+} else {
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
+
+}
+
+} else {
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
+
+}
+
+} else {
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, right.value))) {
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
+
+} else {
+if(cljm_truthy(cljm_keyword(@":else"))) {
+id app__6674 = ((id (^)(id , id )) tree_map_append.value)(left.value.right, right.value.left);
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_RedNode.value, app__6674))) {
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
+
+} else {
+return ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_balance_left_del.value)(left.value.key, left.value.val, left.value.left, [cljm_DOT_core_SLASH_BlackNode.value alloc]);
+
+}
+
+} else {
+return nil;
+
+}
+
+}
+
+}
+
+}
+
+}
+}];
+cljm_DOT_core_SLASH_tree_map_remove = [[CLJMVar alloc] initWithValue:^id(id comp, id tree, id k, id found) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((tree.value == nil)))) {
+id c__6680 = ((id (^)(id , id )) comp.value)(k.value, tree.value.key);
+if(cljm_truthy(([c__6680 isEqual:@0]))) {
+(found.value[@0] = tree.value);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_tree_map_append.value)(tree.value.left, tree.value.right);
 
 } else {
 if(cljm_truthy((c__6680 < @0))) {
-id ins__6681 = tree_map_add(comp, tree.left, k, v, found);
-if(cljm_truthy(cljm_DOT_core_SLASH_not((ins__6681 == nil)))) {
-return [tree addins__6681 left];
+id del__6681 = ((id (^)(id , id , id , id )) tree_map_remove.value)(comp.value, tree.value.left, k.value, found.value);
+if(cljm_truthy({id or__3824__auto____6682 = ((id (^)(id )) cljm_DOT_core_SLASH_not.value)((del__6681 == nil));
+if(cljm_truthy(or__3824__auto____6682)) {
+return or__3824__auto____6682;
 
 } else {
-return nil;
-
-}
-
-} else {
-if(cljm_truthy(cljm_keyword(@":else"))) {
-id ins__6682 = tree_map_add(comp, tree.right, k, v, found);
-if(cljm_truthy(cljm_DOT_core_SLASH_not((ins__6682 == nil)))) {
-return [tree addins__6682 right];
-
-} else {
-return nil;
-
-}
-
-} else {
-return nil;
-
-}
-
-}
-
-}
-
-}
-};
-cljm_DOT_core_SLASH_tree_map_append = ^id(id left, id right) {
-if(cljm_truthy((left == nil))) {
-return right;
-
-} else {
-if(cljm_truthy((right == nil))) {
-return left;
-
-} else {
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, left))) {
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, right))) {
-id app__6685 = tree_map_append(left.right, right.left);
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, app__6685))) {
-return [cljm_DOT_core_SLASH_RedNode alloc];
-
-} else {
-return [cljm_DOT_core_SLASH_RedNode alloc];
-
-}
-
-} else {
-return [cljm_DOT_core_SLASH_RedNode alloc];
-
-}
-
-} else {
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, right))) {
-return [cljm_DOT_core_SLASH_RedNode alloc];
-
-} else {
-if(cljm_truthy(cljm_keyword(@":else"))) {
-id app__6686 = tree_map_append(left.right, right.left);
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_RedNode, app__6686))) {
-return [cljm_DOT_core_SLASH_RedNode alloc];
-
-} else {
-return cljm_DOT_core_SLASH_balance_left_del(left.key, left.val, left.left, [cljm_DOT_core_SLASH_BlackNode alloc]);
-
-}
-
-} else {
-return nil;
-
-}
-
-}
-
-}
-
-}
-
-}
-};
-cljm_DOT_core_SLASH_tree_map_remove = ^id(id comp, id tree, id k, id found) {
-if(cljm_truthy(cljm_DOT_core_SLASH_not((tree == nil)))) {
-id c__6692 = comp(k, tree.key);
-if(cljm_truthy(([c__6692 isEqual:@0]))) {
-(found[@0] = tree);
-return cljm_DOT_core_SLASH_tree_map_append(tree.left, tree.right);
-
-} else {
-if(cljm_truthy((c__6692 < @0))) {
-id del__6693 = tree_map_remove(comp, tree.left, k, found);
-if(cljm_truthy({id or__3824__auto____6694 = cljm_DOT_core_SLASH_not((del__6693 == nil));
-if(cljm_truthy(or__3824__auto____6694)) {
-return or__3824__auto____6694;
-
-} else {
-return cljm_DOT_core_SLASH_not(((found[@0]) == nil));
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((found.value[@0]) == nil));
 
 }
 })) {
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_BlackNode, tree.left))) {
-return cljm_DOT_core_SLASH_balance_left_del(tree.key, tree.val, del__6693, tree.right);
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_BlackNode.value, tree.value.left))) {
+return ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_balance_left_del.value)(tree.value.key, tree.value.val, del__6681, tree.value.right);
 
 } else {
-return [cljm_DOT_core_SLASH_RedNode alloc];
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
 
 }
 
@@ -12634,26 +12634,21 @@ return nil;
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-id del__6695 = tree_map_remove(comp, tree.right, k, found);
-if(cljm_truthy({id or__3824__auto____6696 = cljm_DOT_core_SLASH_not((del__6695 == nil));
-if(cljm_truthy(or__3824__auto____6696)) {
-return or__3824__auto____6696;
+id del__6683 = ((id (^)(id , id , id , id )) tree_map_remove.value)(comp.value, tree.value.right, k.value, found.value);
+if(cljm_truthy({id or__3824__auto____6684 = ((id (^)(id )) cljm_DOT_core_SLASH_not.value)((del__6683 == nil));
+if(cljm_truthy(or__3824__auto____6684)) {
+return or__3824__auto____6684;
 
 } else {
-return cljm_DOT_core_SLASH_not(((found[@0]) == nil));
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((found.value[@0]) == nil));
 
 }
 })) {
-if(cljm_truthy(cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_BlackNode, tree.right))) {
-return cljm_DOT_core_SLASH_balance_right_del(tree.key, tree.val, tree.left, del__6695);
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_BlackNode.value, tree.value.right))) {
+return ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_balance_right_del.value)(tree.value.key, tree.value.val, tree.value.left, del__6683);
 
 } else {
-return [cljm_DOT_core_SLASH_RedNode alloc];
-
-}
-
-} else {
-return nil;
+return [cljm_DOT_core_SLASH_RedNode.value alloc];
 
 }
 
@@ -12662,6 +12657,11 @@ return nil;
 
 }
 
+} else {
+return nil;
+
+}
+
 }
 
 }
@@ -12670,20 +12670,20 @@ return nil;
 return nil;
 
 }
-};
-cljm_DOT_core_SLASH_tree_map_replace = ^id(id comp, id tree, id k, id v) {
-id tk__6699 = tree.key;
-id c__6700 = comp(k, tk__6699);
-if(cljm_truthy(([c__6700 isEqual:@0]))) {
-return [tree replacetk__6699, v, tree.left, tree.right, nil];
+}];
+cljm_DOT_core_SLASH_tree_map_replace = [[CLJMVar alloc] initWithValue:^id(id comp, id tree, id k, id v) {
+id tk__6687 = tree.value.key;
+id c__6688 = ((id (^)(id , id )) comp.value)(k.value, tk__6687);
+if(cljm_truthy(([c__6688 isEqual:@0]))) {
+return [tree.value replacetk__6687, v.value, tree.value.left, tree.value.right, nil];
 
 } else {
-if(cljm_truthy((c__6700 < @0))) {
-return [tree replacetk__6699, tree.val, tree_map_replace(comp, tree.left, k, v), tree.right, nil];
+if(cljm_truthy((c__6688 < @0))) {
+return [tree.value replacetk__6687, tree.value.val, ((id (^)(id , id , id , id )) tree_map_replace.value)(comp.value, tree.value.left, k.value, v.value), tree.value.right, nil];
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return [tree replacetk__6699, tree.val, tree.left, tree_map_replace(comp, tree.right, k, v), nil];
+return [tree.value replacetk__6687, tree.value.val, tree.value.left, ((id (^)(id , id , id , id )) tree_map_replace.value)(comp.value, tree.value.right, k.value, v.value), nil];
 
 } else {
 return nil;
@@ -12693,7 +12693,7 @@ return nil;
 }
 
 }
-};
+}];
 
 /**
 * @constructor
@@ -12707,323 +12707,323 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 418776847;
 })
-cljm_DOT_core_SLASH_PersistentTreeMap.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_PersistentTreeMap.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/PersistentTreeMap", nil);
+cljm_DOT_core_SLASH_PersistentTreeMap.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_PersistentTreeMap.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/PersistentTreeMap", nil);
 };
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
-var this__6703 = this;
-id h__1314__auto____6704 = this__6703_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____6704 == nil)))) {
-return h__1314__auto____6704;
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+var this__6691 = this;
+id h__1302__auto____6692 = this__6691.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____6692 == nil)))) {
+return h__1302__auto____6692;
 
 } else {
-id h__1314__auto____6705 = cljm_DOT_core_SLASH_hash_imap(coll);
-this__6703_DOT___hash = h__1314__auto____6705;
-return h__1314__auto____6705;
+id h__1302__auto____6693 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_imap.value)(coll.value);
+this__6691.__hash = h__1302__auto____6693;
+return h__1302__auto____6693;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
-var this__6706 = this;
-return cljm_DOT_core_SLASH__lookup(coll, k, nil);
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id k) {
+var this__6694 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll.value, k.value, nil);
 };
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
-var this__6707 = this;
-id n__6708 = [coll entryk at];
-if(cljm_truthy(cljm_DOT_core_SLASH_not((n__6708 == nil)))) {
-return n__6708.val;
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id k, id not_found) {
+var this__6695 = this;
+id n__6696 = [coll.value entryk.value at];
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((n__6696 == nil)))) {
+return n__6696.val;
 
 } else {
-return not_found;
+return not_found.value;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id coll, id k, id v) {
-var this__6709 = this;
-id found__6710 = @[nil];
-id t__6711 = cljm_DOT_core_SLASH_tree_map_add(this__6709_DOT_comp, this__6709_DOT_tree, k, v, found__6710);
-if(cljm_truthy((t__6711 == nil))) {
-id found_node__6712 = cljm_DOT_core_SLASH_nth(found__6710, @0);
-if(cljm_truthy(cljm_DOT_core_SLASH__EQ_(v, found_node__6712.val, nil))) {
-return coll;
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$IAssociative$_assoc$arity$3 = ^id(id coll, id k, id v) {
+var this__6697 = this;
+id found__6698 = @[nil];
+id t__6699 = ((id (^)(id , id , id , id , id )) cljm_DOT_core_SLASH_tree_map_add.value)(this__6697.comp, this__6697.tree, k.value, v.value, found__6698);
+if(cljm_truthy((t__6699 == nil))) {
+id found_node__6700 = ((id (^)(id , id )) cljm_DOT_core_SLASH_nth.value)(found__6698, @0);
+if(cljm_truthy(((id (^)(id , id , ...)) cljm_DOT_core_SLASH__EQ_.value)(v.value, found-node__6700.val, nil))) {
+return coll.value;
 
 } else {
-return [cljm_DOT_core_SLASH_PersistentTreeMap alloc];
+return [cljm_DOT_core_SLASH_PersistentTreeMap.value alloc];
 
 }
 
 } else {
-return [cljm_DOT_core_SLASH_PersistentTreeMap alloc];
+return [cljm_DOT_core_SLASH_PersistentTreeMap.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$IAssociative$_contains_key_QMARK_$arity$2 = ^id(id coll, id k) {
-var this__6713 = this;
-return cljm_DOT_core_SLASH_not(([coll entryk at] == nil));
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$IAssociative$_contains_key_QMARK_$arity$2 = ^id(id coll, id k) {
+var this__6701 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(([coll.value entryk.value at] == nil));
 };
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.call = (function() {
-var G__6747 = null;
-var G__6747__2 = ^id(id this_sym6714, id k) {
-var this__6716 = this;
-id this_sym6714__6717 = this;
-id coll__6718 = this_sym6714__6717;
-return cljm_DOT_core_SLASH__lookup(coll__6718, k);
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.call = (function() {
+var G__6735 = null;
+var G__6735__2 = ^id(id this_sym6702, id k) {
+var this__6704 = this;
+id this_sym6702__6705 = this;
+id coll__6706 = this-sym6702__6705;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__6706, k.value);
 };
-var G__6747__3 = ^id(id this_sym6715, id k, id not_found) {
-var this__6716 = this;
-id this_sym6715__6719 = this;
-id coll__6720 = this_sym6715__6719;
-return cljm_DOT_core_SLASH__lookup(coll__6720, k, not_found);
+var G__6735__3 = ^id(id this_sym6703, id k, id not_found) {
+var this__6704 = this;
+id this_sym6703__6707 = this;
+id coll__6708 = this-sym6703__6707;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__6708, k.value, not_found.value);
 };
-G__6747 = function(this_sym6715, k, not_found){
+G__6735 = function(this_sym6703, k, not_found){
 switch(arguments.length){
 case 2:
-return G__6747__2.call(this,this_sym6715, k);
+return G__6735__2.call(this,this_sym6703, k);
 case 3:
-return G__6747__3.call(this,this_sym6715, k, not_found);
+return G__6735__3.call(this,this_sym6703, k, not_found);
 }
 throw('Invalid arity: ' + arguments.length);
 };
-return G__6747;
+return G__6735;
 })()
 ;
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.apply = ^id(id this_sym6701, id args6702) {
-var this__6721 = this;
-return [this_sym6701.call applythis_sym6701, [@[this_sym6701] concatargs6702.slice()], nil];
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.apply = ^id(id this_sym6689, id args6690) {
+var this__6709 = this;
+return [this_sym6689.value.call applythis_sym6689.value, [@[this_sym6689.value] concatargs6690.value.slice()], nil];
 };
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$IKVReduce$_kv_reduce$arity$3 = ^id(id coll, id f, id init) {
-var this__6722 = this;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((this__6722_DOT_tree == nil)))) {
-return cljm_DOT_core_SLASH_tree_map_kv_reduce(this__6722_DOT_tree, f, init);
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$IKVReduce$_kv_reduce$arity$3 = ^id(id coll, id f, id init) {
+var this__6710 = this;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((this__6710.tree == nil)))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_tree_map_kv_reduce.value)(this__6710.tree, f.value, init.value);
 
 } else {
-return init;
+return init.value;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id entry) {
-var this__6723 = this;
-if(cljm_truthy(cljm_DOT_core_SLASH_vector_QMARK_(entry))) {
-return cljm_DOT_core_SLASH__assoc(coll, cljm_DOT_core_SLASH__nth(entry, @0), cljm_DOT_core_SLASH__nth(entry, @1));
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id entry) {
+var this__6711 = this;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_vector_QMARK_.value)(entry.value))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__assoc.value)(coll.value, ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(entry.value, @0), ((id (^)(id , id )) cljm_DOT_core_SLASH__nth.value)(entry.value, @1));
 
 } else {
-return cljm_DOT_core_SLASH_reduce(cljm_DOT_core_SLASH__conj, coll, entry);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(cljm_DOT_core_SLASH__conj.value, coll.value, entry.value);
 
 }
 };
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$IReversible$_rseq$arity$1 = ^id(id coll) {
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$IReversible$_rseq$arity$1 = ^id(id coll) {
+var this__6712 = this;
+if(cljm_truthy((this__6712.cnt > @0))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_create_tree_map_seq.value)(this__6712.tree, @NO, this__6712.cnt);
+
+} else {
+return nil;
+
+}
+};
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.toString = ^id() {
+var this__6713 = this;
+id this__6714 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__6714, nil);
+};
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.entry_at = ^id(id k) {
+var this__6715 = this;
+id coll__6716 = this;
+id t__6717 = this__6715.tree;
+while(YES) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((t__6717 == nil)))) {
+id c__6718 = ((id (^)(id , id )) this__6715_DOT_comp.value)(k.value, t__6717.key);
+if(cljm_truthy(([c__6718 isEqual:@0]))) {
+return t__6717;
+
+} else {
+if(cljm_truthy((c__6718 < @0))) {
+{
+var G__6736 = t__6717.left;
+t__6717 = G__6736;
+continue;
+}
+
+} else {
+if(cljm_truthy(cljm_keyword(@":else"))) {
+{
+var G__6737 = t__6717.right;
+t__6717 = G__6737;
+continue;
+}
+
+} else {
+return nil;
+
+}
+
+}
+
+}
+
+} else {
+return nil;
+
+}
+break;
+}
+};
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$ISorted$_sorted_seq$arity$2 = ^id(id coll, id ascending_QMARK_) {
+var this__6719 = this;
+if(cljm_truthy((this__6719.cnt > @0))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_create_tree_map_seq.value)(this__6719.tree, ascending_QMARK_.value, this__6719.cnt);
+
+} else {
+return nil;
+
+}
+};
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$ISorted$_sorted_seq_from$arity$3 = ^id(id coll, id k, id ascending_QMARK_) {
+var this__6720 = this;
+if(cljm_truthy((this__6720.cnt > @0))) {
+id stack__6721 = nil;
+id t__6722 = this__6720.tree;
+while(YES) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((t__6722 == nil)))) {
+id c__6723 = ((id (^)(id , id )) this__6720_DOT_comp.value)(k.value, t__6722.key);
+if(cljm_truthy(([c__6723 isEqual:@0]))) {
+return [cljm_DOT_core_SLASH_PersistentTreeMapSeq.value alloc];
+
+} else {
+if(cljm_truthy(ascending_QMARK_.value)) {
+if(cljm_truthy((c__6723 < @0))) {
+{
+var G__6738 = ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(stack__6721, t__6722, nil);
+var G__6739 = t__6722.left;
+stack__6721 = G__6738;
+t__6722 = G__6739;
+continue;
+}
+
+} else {
+{
+var G__6740 = stack__6721;
+var G__6741 = t__6722.right;
+stack__6721 = G__6740;
+t__6722 = G__6741;
+continue;
+}
+
+}
+
+} else {
+if(cljm_truthy(cljm_keyword(@":else"))) {
+if(cljm_truthy((c__6723 > @0))) {
+{
+var G__6742 = ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(stack__6721, t__6722, nil);
+var G__6743 = t__6722.right;
+stack__6721 = G__6742;
+t__6722 = G__6743;
+continue;
+}
+
+} else {
+{
+var G__6744 = stack__6721;
+var G__6745 = t__6722.left;
+stack__6721 = G__6744;
+t__6722 = G__6745;
+continue;
+}
+
+}
+
+} else {
+return nil;
+
+}
+
+}
+
+}
+
+} else {
+if(cljm_truthy((stack__6721 == nil))) {
+return [cljm_DOT_core_SLASH_PersistentTreeMapSeq.value alloc];
+
+} else {
+return nil;
+
+}
+
+}
+break;
+}
+
+} else {
+return nil;
+
+}
+};
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$ISorted$_entry_key$arity$2 = ^id(id coll, id entry) {
 var this__6724 = this;
-if(cljm_truthy((this__6724_DOT_cnt > @0))) {
-return cljm_DOT_core_SLASH_create_tree_map_seq(this__6724_DOT_tree, @NO, this__6724_DOT_cnt);
-
-} else {
-return nil;
-
-}
+return ((id (^)(id )) cljm_DOT_core_SLASH_key.value)(entry.value);
 };
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.toString = ^id() {
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$ISorted$_comparator$arity$1 = ^id(id coll) {
 var this__6725 = this;
-id this__6726 = this;
-return cljm_DOT_core_SLASH_pr_str(this__6726, nil);
+return this__6725.comp;
 };
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.entry_at = ^id(id k) {
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
+var this__6726 = this;
+if(cljm_truthy((this__6726.cnt > @0))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_create_tree_map_seq.value)(this__6726.tree, @YES, this__6726.cnt);
+
+} else {
+return nil;
+
+}
+};
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
 var this__6727 = this;
-id coll__6728 = this;
-id t__6729 = this__6727_DOT_tree;
-while(YES) {
-if(cljm_truthy(cljm_DOT_core_SLASH_not((t__6729 == nil)))) {
-id c__6730 = this__6727_DOT_comp(k, t__6729.key);
-if(cljm_truthy(([c__6730 isEqual:@0]))) {
-return t__6729;
-
-} else {
-if(cljm_truthy((c__6730 < @0))) {
-{
-var G__6748 = t__6729.left;
-t__6729 = G__6748;
-continue;
-}
-
-} else {
-if(cljm_truthy(cljm_keyword(@":else"))) {
-{
-var G__6749 = t__6729.right;
-t__6729 = G__6749;
-continue;
-}
-
-} else {
-return nil;
-
-}
-
-}
-
-}
-
-} else {
-return nil;
-
-}
-break;
-}
+return this__6727.cnt;
 };
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$ISorted$_sorted_seq$arity$2 = ^id(id coll, id ascending_QMARK_) {
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
+var this__6728 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_equiv_map.value)(coll.value, other.value);
+};
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
+var this__6729 = this;
+return [cljm_DOT_core_SLASH_PersistentTreeMap.value alloc];
+};
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
+var this__6730 = this;
+return this__6730.meta;
+};
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
 var this__6731 = this;
-if(cljm_truthy((this__6731_DOT_cnt > @0))) {
-return cljm_DOT_core_SLASH_create_tree_map_seq(this__6731_DOT_tree, ascending_QMARK_, this__6731_DOT_cnt);
-
-} else {
-return nil;
-
-}
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_with_meta.value)(cljs_DOT_core_DOT_PersistentTreeMap_SLASH_EMPTY.value, this__6731.meta);
 };
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$ISorted$_sorted_seq_from$arity$3 = ^id(id coll, id k, id ascending_QMARK_) {
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$IMap$_dissoc$arity$2 = ^id(id coll, id k) {
 var this__6732 = this;
-if(cljm_truthy((this__6732_DOT_cnt > @0))) {
-id stack__6733 = nil;
-id t__6734 = this__6732_DOT_tree;
-while(YES) {
-if(cljm_truthy(cljm_DOT_core_SLASH_not((t__6734 == nil)))) {
-id c__6735 = this__6732_DOT_comp(k, t__6734.key);
-if(cljm_truthy(([c__6735 isEqual:@0]))) {
-return [cljm_DOT_core_SLASH_PersistentTreeMapSeq alloc];
+id found__6733 = @[nil];
+id t__6734 = ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_tree_map_remove.value)(this__6732.comp, this__6732.tree, k.value, found__6733);
+if(cljm_truthy((t__6734 == nil))) {
+if(cljm_truthy((((id (^)(id , id )) cljm_DOT_core_SLASH_nth.value)(found__6733, @0) == nil))) {
+return coll.value;
 
 } else {
-if(cljm_truthy(ascending_QMARK_)) {
-if(cljm_truthy((c__6735 < @0))) {
-{
-var G__6750 = cljm_DOT_core_SLASH_conj(stack__6733, t__6734, nil);
-var G__6751 = t__6734.left;
-stack__6733 = G__6750;
-t__6734 = G__6751;
-continue;
-}
-
-} else {
-{
-var G__6752 = stack__6733;
-var G__6753 = t__6734.right;
-stack__6733 = G__6752;
-t__6734 = G__6753;
-continue;
-}
+return [cljm_DOT_core_SLASH_PersistentTreeMap.value alloc];
 
 }
 
 } else {
-if(cljm_truthy(cljm_keyword(@":else"))) {
-if(cljm_truthy((c__6735 > @0))) {
-{
-var G__6754 = cljm_DOT_core_SLASH_conj(stack__6733, t__6734, nil);
-var G__6755 = t__6734.right;
-stack__6733 = G__6754;
-t__6734 = G__6755;
-continue;
-}
-
-} else {
-{
-var G__6756 = stack__6733;
-var G__6757 = t__6734.left;
-stack__6733 = G__6756;
-t__6734 = G__6757;
-continue;
-}
-
-}
-
-} else {
-return nil;
-
-}
-
-}
-
-}
-
-} else {
-if(cljm_truthy((stack__6733 == nil))) {
-return [cljm_DOT_core_SLASH_PersistentTreeMapSeq alloc];
-
-} else {
-return nil;
-
-}
-
-}
-break;
-}
-
-} else {
-return nil;
+return [cljm_DOT_core_SLASH_PersistentTreeMap.value alloc];
 
 }
 };
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$ISorted$_entry_key$arity$2 = ^id(id coll, id entry) {
-var this__6736 = this;
-return cljm_DOT_core_SLASH_key(entry);
-};
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$ISorted$_comparator$arity$1 = ^id(id coll) {
-var this__6737 = this;
-return this__6737_DOT_comp;
-};
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
-var this__6738 = this;
-if(cljm_truthy((this__6738_DOT_cnt > @0))) {
-return cljm_DOT_core_SLASH_create_tree_map_seq(this__6738_DOT_tree, @YES, this__6738_DOT_cnt);
-
-} else {
-return nil;
-
-}
-};
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
-var this__6739 = this;
-return this__6739_DOT_cnt;
-};
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__6740 = this;
-return cljm_DOT_core_SLASH_equiv_map(coll, other);
-};
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
-var this__6741 = this;
-return [cljm_DOT_core_SLASH_PersistentTreeMap alloc];
-};
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
-var this__6742 = this;
-return this__6742_DOT_meta;
-};
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
-var this__6743 = this;
-return cljm_DOT_core_SLASH_with_meta(cljs_DOT_core_DOT_PersistentTreeMap_SLASH_EMPTY, this__6743_DOT_meta);
-};
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$IMap$_dissoc$arity$2 = ^id(id coll, id k) {
-var this__6744 = this;
-id found__6745 = @[nil];
-id t__6746 = cljm_DOT_core_SLASH_tree_map_remove(this__6744_DOT_comp, this__6744_DOT_tree, k, found__6745);
-if(cljm_truthy((t__6746 == nil))) {
-if(cljm_truthy((cljm_DOT_core_SLASH_nth(found__6745, @0) == nil))) {
-return coll;
-
-} else {
-return [cljm_DOT_core_SLASH_PersistentTreeMap alloc];
-
-}
-
-} else {
-return [cljm_DOT_core_SLASH_PersistentTreeMap alloc];
-
-}
-};
-cljm_DOT_core_SLASH_PersistentTreeMap;
-cljs_DOT_core_DOT_PersistentTreeMap_SLASH_EMPTY = [cljm_DOT_core_SLASH_PersistentTreeMap alloc];
+cljm_DOT_core_SLASH_PersistentTreeMap.value;
+cljs_DOT_core_DOT_PersistentTreeMap_SLASH_EMPTY.value = [cljm_DOT_core_SLASH_PersistentTreeMap.value alloc];
 /**
 * keyval => key val
 * Returns a new hash map with supplied mappings.
 */
-cljm_DOT_core_SLASH_hash_map = ^id(id cljm__varargs, ...) {
+cljm_DOT_core_SLASH_hash_map = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, ...) {
 NSMutableArray *keyvals = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -13031,30 +13031,30 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [keyvals addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id in__6760 = cljm_DOT_core_SLASH_seq(keyvals);
-id out__6761 = cljm_DOT_core_SLASH_transient(cljs_DOT_core_DOT_PersistentHashMap_SLASH_EMPTY);
+id in__6748 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(keyvals.value);
+id out__6749 = ((id (^)(id )) cljm_DOT_core_SLASH_transient.value)(cljs_DOT_core_DOT_PersistentHashMap_SLASH_EMPTY.value);
 while(YES) {
-if(cljm_truthy(in__6760)) {
+if(cljm_truthy(in__6748)) {
 {
-var G__6762 = cljm_DOT_core_SLASH_nnext(in__6760);
-var G__6763 = cljm_DOT_core_SLASH_assoc_BANG_(out__6761, cljm_DOT_core_SLASH_first(in__6760), cljm_DOT_core_SLASH_second(in__6760));
-in__6760 = G__6762;
-out__6761 = G__6763;
+var G__6750 = ((id (^)(id )) cljm_DOT_core_SLASH_nnext.value)(in__6748);
+var G__6751 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_assoc_BANG_.value)(out__6749, ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(in__6748), ((id (^)(id )) cljm_DOT_core_SLASH_second.value)(in__6748));
+in__6748 = G__6750;
+out__6749 = G__6751;
 continue;
 }
 
 } else {
-return cljm_DOT_core_SLASH_persistent_BANG_(out__6761);
+return ((id (^)(id )) cljm_DOT_core_SLASH_persistent_BANG_.value)(out__6749);
 
 }
 break;
 }
-};
+}];
 /**
 * keyval => key val
 * Returns a new array map with supplied mappings.
 */
-cljm_DOT_core_SLASH_array_map = ^id(id cljm__varargs, ...) {
+cljm_DOT_core_SLASH_array_map = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, ...) {
 NSMutableArray *keyvals = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -13062,13 +13062,13 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [keyvals addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return [cljm_DOT_core_SLASH_PersistentArrayMap alloc];
-};
+return [cljm_DOT_core_SLASH_PersistentArrayMap.value alloc];
+}];
 /**
 * keyval => key val
 * Returns a new object map with supplied mappings.
 */
-cljm_DOT_core_SLASH_obj_map = ^id(id cljm__varargs, ...) {
+cljm_DOT_core_SLASH_obj_map = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, ...) {
 NSMutableArray *keyvals = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -13076,31 +13076,31 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [keyvals addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id ks__6767 = @[];
-id obj__6768 = @{};
-id kvs__6769 = cljm_DOT_core_SLASH_seq(keyvals);
+id ks__6755 = @[];
+id obj__6756 = @{};
+id kvs__6757 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(keyvals.value);
 while(YES) {
-if(cljm_truthy(kvs__6769)) {
-[ks__6767 pushcljm_DOT_core_SLASH_first(kvs__6769)];
-(obj__6768[cljm_DOT_core_SLASH_first(kvs__6769)] = cljm_DOT_core_SLASH_second(kvs__6769));
+if(cljm_truthy(kvs__6757)) {
+[ks__6755 push((id (^)(id )) cljm_DOT_core_SLASH_first.value)(kvs__6757)];
+(obj__6756[((id (^)(id )) cljm_DOT_core_SLASH_first.value)(kvs__6757)] = ((id (^)(id )) cljm_DOT_core_SLASH_second.value)(kvs__6757));
 {
-var G__6770 = cljm_DOT_core_SLASH_nnext(kvs__6769);
-kvs__6769 = G__6770;
+var G__6758 = ((id (^)(id )) cljm_DOT_core_SLASH_nnext.value)(kvs__6757);
+kvs__6757 = G__6758;
 continue;
 }
 
 } else {
-return cljs_DOT_core_DOT_ObjMap_SLASH_fromObject(ks__6767, obj__6768);
+return ((id (^)(id , id )) cljs_DOT_core_DOT_ObjMap_SLASH_fromObject.value)(ks__6755, obj__6756);
 
 }
 break;
 }
-};
+}];
 /**
 * keyval => key val
 * Returns a new sorted map with supplied mappings.
 */
-cljm_DOT_core_SLASH_sorted_map = ^id(id cljm__varargs, ...) {
+cljm_DOT_core_SLASH_sorted_map = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, ...) {
 NSMutableArray *keyvals = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -13108,30 +13108,30 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [keyvals addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id in__6773 = cljm_DOT_core_SLASH_seq(keyvals);
-id out__6774 = cljs_DOT_core_DOT_PersistentTreeMap_SLASH_EMPTY;
+id in__6761 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(keyvals.value);
+id out__6762 = cljs_DOT_core_DOT_PersistentTreeMap_SLASH_EMPTY.value;
 while(YES) {
-if(cljm_truthy(in__6773)) {
+if(cljm_truthy(in__6761)) {
 {
-var G__6775 = cljm_DOT_core_SLASH_nnext(in__6773);
-var G__6776 = cljm_DOT_core_SLASH_assoc(out__6774, cljm_DOT_core_SLASH_first(in__6773), cljm_DOT_core_SLASH_second(in__6773), nil);
-in__6773 = G__6775;
-out__6774 = G__6776;
+var G__6763 = ((id (^)(id )) cljm_DOT_core_SLASH_nnext.value)(in__6761);
+var G__6764 = ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(out__6762, ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(in__6761), ((id (^)(id )) cljm_DOT_core_SLASH_second.value)(in__6761), nil);
+in__6761 = G__6763;
+out__6762 = G__6764;
 continue;
 }
 
 } else {
-return out__6774;
+return out__6762;
 
 }
 break;
 }
-};
+}];
 /**
 * keyval => key val
 * Returns a new sorted map with supplied mappings, using the supplied comparator.
 */
-cljm_DOT_core_SLASH_sorted_map_by = ^id(id cljm__varargs, id comparator, ...) {
+cljm_DOT_core_SLASH_sorted_map_by = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, id comparator, ...) {
 NSMutableArray *keyvals = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -13139,55 +13139,55 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [keyvals addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id in__6779 = cljm_DOT_core_SLASH_seq(keyvals);
-id out__6780 = [cljs_SLASH_core_DOT_PersistentTreeMap alloc];
+id in__6767 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(keyvals.value);
+id out__6768 = [cljs_SLASH_core_DOT_PersistentTreeMap.value alloc];
 while(YES) {
-if(cljm_truthy(in__6779)) {
+if(cljm_truthy(in__6767)) {
 {
-var G__6781 = cljm_DOT_core_SLASH_nnext(in__6779);
-var G__6782 = cljm_DOT_core_SLASH_assoc(out__6780, cljm_DOT_core_SLASH_first(in__6779), cljm_DOT_core_SLASH_second(in__6779), nil);
-in__6779 = G__6781;
-out__6780 = G__6782;
+var G__6769 = ((id (^)(id )) cljm_DOT_core_SLASH_nnext.value)(in__6767);
+var G__6770 = ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(out__6768, ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(in__6767), ((id (^)(id )) cljm_DOT_core_SLASH_second.value)(in__6767), nil);
+in__6767 = G__6769;
+out__6768 = G__6770;
 continue;
 }
 
 } else {
-return out__6780;
+return out__6768;
 
 }
 break;
 }
-};
+}];
 /**
 * Returns a sequence of the map's keys.
 */
-cljm_DOT_core_SLASH_keys = ^id(id hash_map) {
-return cljm_DOT_core_SLASH_seq(cljm_DOT_core_SLASH_map(cljm_DOT_core_SLASH_first, hash_map, nil));
-};
+cljm_DOT_core_SLASH_keys = [[CLJMVar alloc] initWithValue:^id(id hash_map) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(((id (^)(id , id , ...)) cljm_DOT_core_SLASH_map.value)(cljm_DOT_core_SLASH_first.value, hash_map.value, nil));
+}];
 /**
 * Returns the key of the map entry.
 */
-cljm_DOT_core_SLASH_key = ^id(id map_entry) {
-return cljm_DOT_core_SLASH__key(map_entry);
-};
+cljm_DOT_core_SLASH_key = [[CLJMVar alloc] initWithValue:^id(id map_entry) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__key.value)(map_entry.value);
+}];
 /**
 * Returns a sequence of the map's values.
 */
-cljm_DOT_core_SLASH_vals = ^id(id hash_map) {
-return cljm_DOT_core_SLASH_seq(cljm_DOT_core_SLASH_map(cljm_DOT_core_SLASH_second, hash_map, nil));
-};
+cljm_DOT_core_SLASH_vals = [[CLJMVar alloc] initWithValue:^id(id hash_map) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(((id (^)(id , id , ...)) cljm_DOT_core_SLASH_map.value)(cljm_DOT_core_SLASH_second.value, hash_map.value, nil));
+}];
 /**
 * Returns the value in the map entry.
 */
-cljm_DOT_core_SLASH_val = ^id(id map_entry) {
-return cljm_DOT_core_SLASH__val(map_entry);
-};
+cljm_DOT_core_SLASH_val = [[CLJMVar alloc] initWithValue:^id(id map_entry) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__val.value)(map_entry.value);
+}];
 /**
 * Returns a map that consists of the rest of the maps conj-ed onto
 * the first.  If a key occurs in more than one map, the mapping from
 * the latter (left-to-right) will be the mapping in the result.
 */
-cljm_DOT_core_SLASH_merge = ^id(id cljm__varargs, ...) {
+cljm_DOT_core_SLASH_merge = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, ...) {
 NSMutableArray *maps = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -13195,31 +13195,31 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [maps addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-if(cljm_truthy(cljm_DOT_core_SLASH_some(cljm_DOT_core_SLASH_identity, maps))) {
-return cljm_DOT_core_SLASH_reduce(^id(id p1__6783_SHARP_, id p2__6784_SHARP_) {
-return cljm_DOT_core_SLASH_conj({id or__3824__auto____6786 = p1__6783_SHARP_;
-if(cljm_truthy(or__3824__auto____6786)) {
-return or__3824__auto____6786;
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_some.value)(cljm_DOT_core_SLASH_identity.value, maps.value))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id p1__6771_SHARP_, id p2__6772_SHARP_) {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)({id or__3824__auto____6774 = p1__6771_SHARP_.value;
+if(cljm_truthy(or__3824__auto____6774)) {
+return or__3824__auto____6774;
 
 } else {
 return @{};
 
 }
-}, p2__6784_SHARP_, nil);
-}, maps);
+}, p2__6772_SHARP_.value, nil);
+}, maps.value);
 
 } else {
 return nil;
 
 }
-};
+}];
 /**
 * Returns a map that consists of the rest of the maps conj-ed onto
 * the first.  If a key occurs in more than one map, the mapping(s)
 * from the latter (left-to-right) will be combined with the mapping in
 * the result by calling (f val-in-result val-in-latter).
 */
-cljm_DOT_core_SLASH_merge_with = ^id(id cljm__varargs, id f, ...) {
+cljm_DOT_core_SLASH_merge_with = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, id f, ...) {
 NSMutableArray *maps = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -13227,61 +13227,61 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [maps addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-if(cljm_truthy(cljm_DOT_core_SLASH_some(cljm_DOT_core_SLASH_identity, maps))) {
-id merge_entry__6794 = ^id(id m, id e) {
-id k__6792 = cljm_DOT_core_SLASH_first(e);
-id v__6793 = cljm_DOT_core_SLASH_second(e);
-if(cljm_truthy(cljm_DOT_core_SLASH_contains_QMARK_(m, k__6792))) {
-return cljm_DOT_core_SLASH_assoc(m, k__6792, f(cljm_DOT_core_SLASH__lookup(m, k__6792, nil), v__6793), nil);
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_some.value)(cljm_DOT_core_SLASH_identity.value, maps.value))) {
+id merge_entry__6782 = ^id(id m, id e) {
+id k__6780 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(e.value);
+id v__6781 = ((id (^)(id )) cljm_DOT_core_SLASH_second.value)(e.value);
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_contains_QMARK_.value)(m.value, k__6780))) {
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(m.value, k__6780, ((id (^)(id , id )) f.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(m.value, k__6780, nil), v__6781), nil);
 
 } else {
-return cljm_DOT_core_SLASH_assoc(m, k__6792, v__6793, nil);
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(m.value, k__6780, v__6781, nil);
 
 }
 };
-id merge2__6796 = ^id(id m1, id m2) {
-return cljm_DOT_core_SLASH_reduce(merge_entry__6794, {id or__3824__auto____6795 = m1;
-if(cljm_truthy(or__3824__auto____6795)) {
-return or__3824__auto____6795;
+id merge2__6784 = ^id(id m1, id m2) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(merge-entry__6782, {id or__3824__auto____6783 = m1.value;
+if(cljm_truthy(or__3824__auto____6783)) {
+return or__3824__auto____6783;
 
 } else {
 return @{};
 
 }
-}, cljm_DOT_core_SLASH_seq(m2));
+}, ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(m2.value));
 };
-return cljm_DOT_core_SLASH_reduce(merge2__6796, maps);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_reduce.value)(merge2__6784, maps.value);
 
 } else {
 return nil;
 
 }
-};
+}];
 /**
 * Returns a map containing only those entries in map whose key is in keys
 */
-cljm_DOT_core_SLASH_select_keys = ^id(id map, id keyseq) {
-id ret__6801 = @{};
-id keys__6802 = cljm_DOT_core_SLASH_seq(keyseq);
+cljm_DOT_core_SLASH_select_keys = [[CLJMVar alloc] initWithValue:^id(id map, id keyseq) {
+id ret__6789 = @{};
+id keys__6790 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(keyseq.value);
 while(YES) {
-if(cljm_truthy(keys__6802)) {
-id key__6803 = cljm_DOT_core_SLASH_first(keys__6802);
-id entry__6804 = cljm_DOT_core_SLASH__lookup(map, key__6803, cljm_keyword(@":cljm.core/not-found"));
+if(cljm_truthy(keys__6790)) {
+id key__6791 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(keys__6790);
+id entry__6792 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(map.value, key__6791, cljm_keyword(@":cljm.core/not-found"));
 {
-var G__6805 = (cljm_truthy(cljm_DOT_core_SLASH_not_EQ_(entry__6804, cljm_keyword(@":cljm.core/not-found"), nil))) ?cljm_DOT_core_SLASH_assoc(ret__6801, key__6803, entry__6804, nil):ret__6801;
-var G__6806 = cljm_DOT_core_SLASH_next(keys__6802);
-ret__6801 = G__6805;
-keys__6802 = G__6806;
+var G__6793 = (cljm_truthy(((id (^)(id , id , ...)) cljm_DOT_core_SLASH_not_EQ_.value)(entry__6792, cljm_keyword(@":cljm.core/not-found"), nil))) ?((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(ret__6789, key__6791, entry__6792, nil):ret__6789;
+var G__6794 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(keys__6790);
+ret__6789 = G__6793;
+keys__6790 = G__6794;
 continue;
 }
 
 } else {
-return ret__6801;
+return ret__6789;
 
 }
 break;
 }
-};
+}];
 
 /**
 * @constructor
@@ -13293,142 +13293,142 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 1;
 this.cljm$lang$protocol_mask$partition0$ = 15077647;
 })
-cljm_DOT_core_SLASH_PersistentHashSet.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_PersistentHashSet.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/PersistentHashSet", nil);
+cljm_DOT_core_SLASH_PersistentHashSet.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_PersistentHashSet.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/PersistentHashSet", nil);
 };
-cljm_DOT_core_SLASH_PersistentHashSet.prototype.cljm$core$IEditableCollection$_as_transient$arity$1 = ^id(id coll) {
-var this__6810 = this;
-return [cljm_DOT_core_SLASH_TransientHashSet alloc];
+cljm_DOT_core_SLASH_PersistentHashSet.value.prototype.cljm$core$IEditableCollection$_as_transient$arity$1 = ^id(id coll) {
+var this__6798 = this;
+return [cljm_DOT_core_SLASH_TransientHashSet.value alloc];
 };
-cljm_DOT_core_SLASH_PersistentHashSet.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
-var this__6811 = this;
-id h__1314__auto____6812 = this__6811_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____6812 == nil)))) {
-return h__1314__auto____6812;
+cljm_DOT_core_SLASH_PersistentHashSet.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+var this__6799 = this;
+id h__1302__auto____6800 = this__6799.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____6800 == nil)))) {
+return h__1302__auto____6800;
 
 } else {
-id h__1314__auto____6813 = cljm_DOT_core_SLASH_hash_iset(coll);
-this__6811_DOT___hash = h__1314__auto____6813;
-return h__1314__auto____6813;
+id h__1302__auto____6801 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_iset.value)(coll.value);
+this__6799.__hash = h__1302__auto____6801;
+return h__1302__auto____6801;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentHashSet.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id v) {
-var this__6814 = this;
-return cljm_DOT_core_SLASH__lookup(coll, v, nil);
+cljm_DOT_core_SLASH_PersistentHashSet.value.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id v) {
+var this__6802 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll.value, v.value, nil);
 };
-cljm_DOT_core_SLASH_PersistentHashSet.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id v, id not_found) {
-var this__6815 = this;
-if(cljm_truthy(cljm_DOT_core_SLASH__contains_key_QMARK_(this__6815_DOT_hash_map, v))) {
-return v;
+cljm_DOT_core_SLASH_PersistentHashSet.value.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id v, id not_found) {
+var this__6803 = this;
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH__contains_key_QMARK_.value)(this__6803.hash-map, v.value))) {
+return v.value;
 
 } else {
-return not_found;
+return not_found.value;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentHashSet.prototype.call = (function() {
-var G__6836 = null;
-var G__6836__2 = ^id(id this_sym6816, id k) {
-var this__6818 = this;
-id this_sym6816__6819 = this;
-id coll__6820 = this_sym6816__6819;
-return cljm_DOT_core_SLASH__lookup(coll__6820, k);
+cljm_DOT_core_SLASH_PersistentHashSet.value.prototype.call = (function() {
+var G__6824 = null;
+var G__6824__2 = ^id(id this_sym6804, id k) {
+var this__6806 = this;
+id this_sym6804__6807 = this;
+id coll__6808 = this-sym6804__6807;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__6808, k.value);
 };
-var G__6836__3 = ^id(id this_sym6817, id k, id not_found) {
-var this__6818 = this;
-id this_sym6817__6821 = this;
-id coll__6822 = this_sym6817__6821;
-return cljm_DOT_core_SLASH__lookup(coll__6822, k, not_found);
+var G__6824__3 = ^id(id this_sym6805, id k, id not_found) {
+var this__6806 = this;
+id this_sym6805__6809 = this;
+id coll__6810 = this-sym6805__6809;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__6810, k.value, not_found.value);
 };
-G__6836 = function(this_sym6817, k, not_found){
+G__6824 = function(this_sym6805, k, not_found){
 switch(arguments.length){
 case 2:
-return G__6836__2.call(this,this_sym6817, k);
+return G__6824__2.call(this,this_sym6805, k);
 case 3:
-return G__6836__3.call(this,this_sym6817, k, not_found);
+return G__6824__3.call(this,this_sym6805, k, not_found);
 }
 throw('Invalid arity: ' + arguments.length);
 };
-return G__6836;
+return G__6824;
 })()
 ;
-cljm_DOT_core_SLASH_PersistentHashSet.prototype.apply = ^id(id this_sym6808, id args6809) {
+cljm_DOT_core_SLASH_PersistentHashSet.value.prototype.apply = ^id(id this_sym6796, id args6797) {
+var this__6811 = this;
+return [this_sym6796.value.call applythis_sym6796.value, [@[this_sym6796.value] concatargs6797.value.slice()], nil];
+};
+cljm_DOT_core_SLASH_PersistentHashSet.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
+var this__6812 = this;
+return [cljm_DOT_core_SLASH_PersistentHashSet.value alloc];
+};
+cljm_DOT_core_SLASH_PersistentHashSet.value.prototype.toString = ^id() {
+var this__6813 = this;
+id this__6814 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__6814, nil);
+};
+cljm_DOT_core_SLASH_PersistentHashSet.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
+var this__6815 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH_keys.value)(this__6815.hash-map);
+};
+cljm_DOT_core_SLASH_PersistentHashSet.value.prototype.cljm$core$ISet$_disjoin$arity$2 = ^id(id coll, id v) {
+var this__6816 = this;
+return [cljm_DOT_core_SLASH_PersistentHashSet.value alloc];
+};
+cljm_DOT_core_SLASH_PersistentHashSet.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
+var this__6817 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH_count.value)(((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value));
+};
+cljm_DOT_core_SLASH_PersistentHashSet.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
+var this__6818 = this;
+id and__3822__auto____6819 = ((id (^)(id )) cljm_DOT_core_SLASH_set_QMARK_.value)(other.value);
+if(cljm_truthy(and__3822__auto____6819)) {
+id and__3822__auto____6820 = ([((id (^)(id )) cljm_DOT_core_SLASH_count.value)(coll.value) isEqual:((id (^)(id )) cljm_DOT_core_SLASH_count.value)(other.value)]);
+if(cljm_truthy(and__3822__auto____6820)) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_every_QMARK_.value)(^id(id p1__6795_SHARP_) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_contains_QMARK_.value)(coll.value, p1__6795_SHARP_.value);
+}, other.value);
+
+} else {
+return and__3822__auto____6820;
+
+}
+
+} else {
+return and__3822__auto____6819;
+
+}
+};
+cljm_DOT_core_SLASH_PersistentHashSet.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
+var this__6821 = this;
+return [cljm_DOT_core_SLASH_PersistentHashSet.value alloc];
+};
+cljm_DOT_core_SLASH_PersistentHashSet.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
+var this__6822 = this;
+return this__6822.meta;
+};
+cljm_DOT_core_SLASH_PersistentHashSet.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
 var this__6823 = this;
-return [this_sym6808.call applythis_sym6808, [@[this_sym6808] concatargs6809.slice()], nil];
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_with_meta.value)(cljs_DOT_core_DOT_PersistentHashSet_SLASH_EMPTY.value, this__6823.meta);
 };
-cljm_DOT_core_SLASH_PersistentHashSet.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
-var this__6824 = this;
-return [cljm_DOT_core_SLASH_PersistentHashSet alloc];
-};
-cljm_DOT_core_SLASH_PersistentHashSet.prototype.toString = ^id() {
-var this__6825 = this;
-id this__6826 = this;
-return cljm_DOT_core_SLASH_pr_str(this__6826, nil);
-};
-cljm_DOT_core_SLASH_PersistentHashSet.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
-var this__6827 = this;
-return cljm_DOT_core_SLASH_keys(this__6827_DOT_hash_map);
-};
-cljm_DOT_core_SLASH_PersistentHashSet.prototype.cljm$core$ISet$_disjoin$arity$2 = ^id(id coll, id v) {
-var this__6828 = this;
-return [cljm_DOT_core_SLASH_PersistentHashSet alloc];
-};
-cljm_DOT_core_SLASH_PersistentHashSet.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
-var this__6829 = this;
-return cljm_DOT_core_SLASH_count(cljm_DOT_core_SLASH_seq(coll));
-};
-cljm_DOT_core_SLASH_PersistentHashSet.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__6830 = this;
-id and__3822__auto____6831 = cljm_DOT_core_SLASH_set_QMARK_(other);
-if(cljm_truthy(and__3822__auto____6831)) {
-id and__3822__auto____6832 = ([cljm_DOT_core_SLASH_count(coll) isEqual:cljm_DOT_core_SLASH_count(other)]);
-if(cljm_truthy(and__3822__auto____6832)) {
-return cljm_DOT_core_SLASH_every_QMARK_(^id(id p1__6807_SHARP_) {
-return cljm_DOT_core_SLASH_contains_QMARK_(coll, p1__6807_SHARP_);
-}, other);
-
-} else {
-return and__3822__auto____6832;
-
-}
-
-} else {
-return and__3822__auto____6831;
-
-}
-};
-cljm_DOT_core_SLASH_PersistentHashSet.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
-var this__6833 = this;
-return [cljm_DOT_core_SLASH_PersistentHashSet alloc];
-};
-cljm_DOT_core_SLASH_PersistentHashSet.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
-var this__6834 = this;
-return this__6834_DOT_meta;
-};
-cljm_DOT_core_SLASH_PersistentHashSet.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
-var this__6835 = this;
-return cljm_DOT_core_SLASH_with_meta(cljs_DOT_core_DOT_PersistentHashSet_SLASH_EMPTY, this__6835_DOT_meta);
-};
-cljm_DOT_core_SLASH_PersistentHashSet;
-cljs_DOT_core_DOT_PersistentHashSet_SLASH_EMPTY = [cljm_DOT_core_SLASH_PersistentHashSet alloc];
-cljs_DOT_core_DOT_PersistentHashSet_SLASH_fromArray = ^id(id items) {
-id len__6837 = cljm_DOT_core_SLASH_count(items);
-id i__6838 = @0;
-id out__6839 = cljm_DOT_core_SLASH_transient(cljs_DOT_core_DOT_PersistentHashSet_SLASH_EMPTY);
+cljm_DOT_core_SLASH_PersistentHashSet.value;
+cljs_DOT_core_DOT_PersistentHashSet_SLASH_EMPTY.value = [cljm_DOT_core_SLASH_PersistentHashSet.value alloc];
+cljs_DOT_core_DOT_PersistentHashSet_SLASH_fromArray.value = ^id(id items) {
+id len__6825 = ((id (^)(id )) cljm_DOT_core_SLASH_count.value)(items.value);
+id i__6826 = @0;
+id out__6827 = ((id (^)(id )) cljm_DOT_core_SLASH_transient.value)(cljs_DOT_core_DOT_PersistentHashSet_SLASH_EMPTY.value);
 while(YES) {
-if(cljm_truthy((i__6838 < len__6837))) {
+if(cljm_truthy((i__6826 < len__6825))) {
 {
-var G__6840 = (i__6838 + @1);
-var G__6841 = cljm_DOT_core_SLASH_conj_BANG_(out__6839, (items[i__6838]));
-i__6838 = G__6840;
-out__6839 = G__6841;
+var G__6828 = (i__6826 + @1);
+var G__6829 = ((id (^)(id , id )) cljm_DOT_core_SLASH_conj_BANG_.value)(out__6827, (items.value[i__6826]));
+i__6826 = G__6828;
+out__6827 = G__6829;
 continue;
 }
 
 } else {
-return cljm_DOT_core_SLASH_persistent_BANG_(out__6839);
+return ((id (^)(id )) cljm_DOT_core_SLASH_persistent_BANG_.value)(out__6827);
 
 }
 break;
@@ -13443,85 +13443,85 @@ this.transient_map = transient_map;
 this.cljm$lang$protocol_mask$partition0$ = 259;
 this.cljm$lang$protocol_mask$partition1$ = 34;
 })
-cljm_DOT_core_SLASH_TransientHashSet.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_TransientHashSet.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/TransientHashSet", nil);
+cljm_DOT_core_SLASH_TransientHashSet.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_TransientHashSet.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/TransientHashSet", nil);
 };
-cljm_DOT_core_SLASH_TransientHashSet.prototype.call = (function() {
-var G__6859 = null;
-var G__6859__2 = ^id(id this_sym6845, id k) {
-var this__6847 = this;
-id this_sym6845__6848 = this;
-id tcoll__6849 = this_sym6845__6848;
-if(cljm_truthy(([cljm_DOT_core_SLASH__lookup(this__6847_DOT_transient_map, k, cljm_DOT_core_SLASH_lookup_sentinel) isEqual:cljm_DOT_core_SLASH_lookup_sentinel]))) {
+cljm_DOT_core_SLASH_TransientHashSet.value.prototype.call = (function() {
+var G__6847 = null;
+var G__6847__2 = ^id(id this_sym6833, id k) {
+var this__6835 = this;
+id this_sym6833__6836 = this;
+id tcoll__6837 = this-sym6833__6836;
+if(cljm_truthy(([((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(this__6835.transient-map, k.value, cljm_DOT_core_SLASH_lookup_sentinel.value) isEqual:cljm_DOT_core_SLASH_lookup_sentinel.value]))) {
 return nil;
 
 } else {
-return k;
+return k.value;
 
 }
 };
-var G__6859__3 = ^id(id this_sym6846, id k, id not_found) {
-var this__6847 = this;
-id this_sym6846__6850 = this;
-id tcoll__6851 = this_sym6846__6850;
-if(cljm_truthy(([cljm_DOT_core_SLASH__lookup(this__6847_DOT_transient_map, k, cljm_DOT_core_SLASH_lookup_sentinel) isEqual:cljm_DOT_core_SLASH_lookup_sentinel]))) {
-return not_found;
+var G__6847__3 = ^id(id this_sym6834, id k, id not_found) {
+var this__6835 = this;
+id this_sym6834__6838 = this;
+id tcoll__6839 = this-sym6834__6838;
+if(cljm_truthy(([((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(this__6835.transient-map, k.value, cljm_DOT_core_SLASH_lookup_sentinel.value) isEqual:cljm_DOT_core_SLASH_lookup_sentinel.value]))) {
+return not_found.value;
 
 } else {
-return k;
+return k.value;
 
 }
 };
-G__6859 = function(this_sym6846, k, not_found){
+G__6847 = function(this_sym6834, k, not_found){
 switch(arguments.length){
 case 2:
-return G__6859__2.call(this,this_sym6846, k);
+return G__6847__2.call(this,this_sym6834, k);
 case 3:
-return G__6859__3.call(this,this_sym6846, k, not_found);
+return G__6847__3.call(this,this_sym6834, k, not_found);
 }
 throw('Invalid arity: ' + arguments.length);
 };
-return G__6859;
+return G__6847;
 })()
 ;
-cljm_DOT_core_SLASH_TransientHashSet.prototype.apply = ^id(id this_sym6843, id args6844) {
-var this__6852 = this;
-return [this_sym6843.call applythis_sym6843, [@[this_sym6843] concatargs6844.slice()], nil];
+cljm_DOT_core_SLASH_TransientHashSet.value.prototype.apply = ^id(id this_sym6831, id args6832) {
+var this__6840 = this;
+return [this_sym6831.value.call applythis_sym6831.value, [@[this_sym6831.value] concatargs6832.value.slice()], nil];
 };
-cljm_DOT_core_SLASH_TransientHashSet.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id tcoll, id v) {
-var this__6853 = this;
-return cljm_DOT_core_SLASH__lookup(tcoll, v, nil);
+cljm_DOT_core_SLASH_TransientHashSet.value.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id tcoll, id v) {
+var this__6841 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(tcoll.value, v.value, nil);
 };
-cljm_DOT_core_SLASH_TransientHashSet.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id tcoll, id v, id not_found) {
-var this__6854 = this;
-if(cljm_truthy(([cljm_DOT_core_SLASH__lookup(this__6854_DOT_transient_map, v, cljm_DOT_core_SLASH_lookup_sentinel) isEqual:cljm_DOT_core_SLASH_lookup_sentinel]))) {
-return not_found;
+cljm_DOT_core_SLASH_TransientHashSet.value.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id tcoll, id v, id not_found) {
+var this__6842 = this;
+if(cljm_truthy(([((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(this__6842.transient-map, v.value, cljm_DOT_core_SLASH_lookup_sentinel.value) isEqual:cljm_DOT_core_SLASH_lookup_sentinel.value]))) {
+return not_found.value;
 
 } else {
-return v;
+return v.value;
 
 }
 };
-cljm_DOT_core_SLASH_TransientHashSet.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id tcoll) {
-var this__6855 = this;
-return cljm_DOT_core_SLASH_count(this__6855_DOT_transient_map);
+cljm_DOT_core_SLASH_TransientHashSet.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id tcoll) {
+var this__6843 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH_count.value)(this__6843.transient-map);
 };
-cljm_DOT_core_SLASH_TransientHashSet.prototype.cljm$core$ITransientSet$_disjoin_BANG_$arity$2 = ^id(id tcoll, id v) {
-var this__6856 = this;
-this__6856_DOT_transient_map = cljm_DOT_core_SLASH_dissoc_BANG_(this__6856_DOT_transient_map, v);
-return tcoll;
+cljm_DOT_core_SLASH_TransientHashSet.value.prototype.cljm$core$ITransientSet$_disjoin_BANG_$arity$2 = ^id(id tcoll, id v) {
+var this__6844 = this;
+this__6844.transient-map = ((id (^)(id , id )) cljm_DOT_core_SLASH_dissoc_BANG_.value)(this__6844.transient-map, v.value);
+return tcoll.value;
 };
-cljm_DOT_core_SLASH_TransientHashSet.prototype.cljm$core$ITransientCollection$_conj_BANG_$arity$2 = ^id(id tcoll, id o) {
-var this__6857 = this;
-this__6857_DOT_transient_map = cljm_DOT_core_SLASH_assoc_BANG_(this__6857_DOT_transient_map, o, nil);
-return tcoll;
+cljm_DOT_core_SLASH_TransientHashSet.value.prototype.cljm$core$ITransientCollection$_conj_BANG_$arity$2 = ^id(id tcoll, id o) {
+var this__6845 = this;
+this__6845.transient-map = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_assoc_BANG_.value)(this__6845.transient-map, o.value, nil);
+return tcoll.value;
 };
-cljm_DOT_core_SLASH_TransientHashSet.prototype.cljm$core$ITransientCollection$_persistent_BANG_$arity$1 = ^id(id tcoll) {
-var this__6858 = this;
-return [cljm_DOT_core_SLASH_PersistentHashSet alloc];
+cljm_DOT_core_SLASH_TransientHashSet.value.prototype.cljm$core$ITransientCollection$_persistent_BANG_$arity$1 = ^id(id tcoll) {
+var this__6846 = this;
+return [cljm_DOT_core_SLASH_PersistentHashSet.value alloc];
 };
-cljm_DOT_core_SLASH_TransientHashSet;
+cljm_DOT_core_SLASH_TransientHashSet.value;
 
 /**
 * @constructor
@@ -13533,146 +13533,146 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 417730831;
 })
-cljm_DOT_core_SLASH_PersistentTreeSet.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_PersistentTreeSet.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/PersistentTreeSet", nil);
+cljm_DOT_core_SLASH_PersistentTreeSet.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_PersistentTreeSet.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/PersistentTreeSet", nil);
 };
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
-var this__6862 = this;
-id h__1314__auto____6863 = this__6862_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____6863 == nil)))) {
-return h__1314__auto____6863;
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id coll) {
+var this__6850 = this;
+id h__1302__auto____6851 = this__6850.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____6851 == nil)))) {
+return h__1302__auto____6851;
 
 } else {
-id h__1314__auto____6864 = cljm_DOT_core_SLASH_hash_iset(coll);
-this__6862_DOT___hash = h__1314__auto____6864;
-return h__1314__auto____6864;
+id h__1302__auto____6852 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_iset.value)(coll.value);
+this__6850.__hash = h__1302__auto____6852;
+return h__1302__auto____6852;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id v) {
-var this__6865 = this;
-return cljm_DOT_core_SLASH__lookup(coll, v, nil);
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$ILookup$_lookup$arity$2 = ^id(id coll, id v) {
+var this__6853 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll.value, v.value, nil);
 };
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id v, id not_found) {
-var this__6866 = this;
-if(cljm_truthy(cljm_DOT_core_SLASH__contains_key_QMARK_(this__6866_DOT_tree_map, v))) {
-return v;
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$ILookup$_lookup$arity$3 = ^id(id coll, id v, id not_found) {
+var this__6854 = this;
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH__contains_key_QMARK_.value)(this__6854.tree-map, v.value))) {
+return v.value;
 
 } else {
-return not_found;
+return not_found.value;
 
 }
 };
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.call = (function() {
-var G__6892 = null;
-var G__6892__2 = ^id(id this_sym6867, id k) {
-var this__6869 = this;
-id this_sym6867__6870 = this;
-id coll__6871 = this_sym6867__6870;
-return cljm_DOT_core_SLASH__lookup(coll__6871, k);
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.call = (function() {
+var G__6880 = null;
+var G__6880__2 = ^id(id this_sym6855, id k) {
+var this__6857 = this;
+id this_sym6855__6858 = this;
+id coll__6859 = this-sym6855__6858;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__6859, k.value);
 };
-var G__6892__3 = ^id(id this_sym6868, id k, id not_found) {
-var this__6869 = this;
-id this_sym6868__6872 = this;
-id coll__6873 = this_sym6868__6872;
-return cljm_DOT_core_SLASH__lookup(coll__6873, k, not_found);
+var G__6880__3 = ^id(id this_sym6856, id k, id not_found) {
+var this__6857 = this;
+id this_sym6856__6860 = this;
+id coll__6861 = this-sym6856__6860;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(coll__6861, k.value, not_found.value);
 };
-G__6892 = function(this_sym6868, k, not_found){
+G__6880 = function(this_sym6856, k, not_found){
 switch(arguments.length){
 case 2:
-return G__6892__2.call(this,this_sym6868, k);
+return G__6880__2.call(this,this_sym6856, k);
 case 3:
-return G__6892__3.call(this,this_sym6868, k, not_found);
+return G__6880__3.call(this,this_sym6856, k, not_found);
 }
 throw('Invalid arity: ' + arguments.length);
 };
-return G__6892;
+return G__6880;
 })()
 ;
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.apply = ^id(id this_sym6860, id args6861) {
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.apply = ^id(id this_sym6848, id args6849) {
+var this__6862 = this;
+return [this_sym6848.value.call applythis_sym6848.value, [@[this_sym6848.value] concatargs6849.value.slice()], nil];
+};
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
+var this__6863 = this;
+return [cljm_DOT_core_SLASH_PersistentTreeSet.value alloc];
+};
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$IReversible$_rseq$arity$1 = ^id(id coll) {
+var this__6864 = this;
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_map.value)(cljm_DOT_core_SLASH_key.value, ((id (^)(id )) cljm_DOT_core_SLASH_rseq.value)(this__6864.tree-map), nil);
+};
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.toString = ^id() {
+var this__6865 = this;
+id this__6866 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__6866, nil);
+};
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$ISorted$_sorted_seq$arity$2 = ^id(id coll, id ascending_QMARK_) {
+var this__6867 = this;
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_map.value)(cljm_DOT_core_SLASH_key.value, ((id (^)(id , id )) cljm_DOT_core_SLASH__sorted_seq.value)(this__6867.tree-map, ascending_QMARK_.value), nil);
+};
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$ISorted$_sorted_seq_from$arity$3 = ^id(id coll, id k, id ascending_QMARK_) {
+var this__6868 = this;
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_map.value)(cljm_DOT_core_SLASH_key.value, ((id (^)(id , id , id )) cljm_DOT_core_SLASH__sorted_seq_from.value)(this__6868.tree-map, k.value, ascending_QMARK_.value), nil);
+};
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$ISorted$_entry_key$arity$2 = ^id(id coll, id entry) {
+var this__6869 = this;
+return entry.value;
+};
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$ISorted$_comparator$arity$1 = ^id(id coll) {
+var this__6870 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH__comparator.value)(this__6870.tree-map);
+};
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
+var this__6871 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH_keys.value)(this__6871.tree-map);
+};
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$ISet$_disjoin$arity$2 = ^id(id coll, id v) {
+var this__6872 = this;
+return [cljm_DOT_core_SLASH_PersistentTreeSet.value alloc];
+};
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
+var this__6873 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH_count.value)(this__6873.tree-map);
+};
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
 var this__6874 = this;
-return [this_sym6860.call applythis_sym6860, [@[this_sym6860] concatargs6861.slice()], nil];
+id and__3822__auto____6875 = ((id (^)(id )) cljm_DOT_core_SLASH_set_QMARK_.value)(other.value);
+if(cljm_truthy(and__3822__auto____6875)) {
+id and__3822__auto____6876 = ([((id (^)(id )) cljm_DOT_core_SLASH_count.value)(coll.value) isEqual:((id (^)(id )) cljm_DOT_core_SLASH_count.value)(other.value)]);
+if(cljm_truthy(and__3822__auto____6876)) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_every_QMARK_.value)(^id(id p1__6830_SHARP_) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_contains_QMARK_.value)(coll.value, p1__6830_SHARP_.value);
+}, other.value);
+
+} else {
+return and__3822__auto____6876;
+
+}
+
+} else {
+return and__3822__auto____6875;
+
+}
 };
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id coll, id o) {
-var this__6875 = this;
-return [cljm_DOT_core_SLASH_PersistentTreeSet alloc];
-};
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$IReversible$_rseq$arity$1 = ^id(id coll) {
-var this__6876 = this;
-return cljm_DOT_core_SLASH_map(cljm_DOT_core_SLASH_key, cljm_DOT_core_SLASH_rseq(this__6876_DOT_tree_map), nil);
-};
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.toString = ^id() {
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
 var this__6877 = this;
-id this__6878 = this;
-return cljm_DOT_core_SLASH_pr_str(this__6878, nil);
+return [cljm_DOT_core_SLASH_PersistentTreeSet.value alloc];
 };
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$ISorted$_sorted_seq$arity$2 = ^id(id coll, id ascending_QMARK_) {
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
+var this__6878 = this;
+return this__6878.meta;
+};
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
 var this__6879 = this;
-return cljm_DOT_core_SLASH_map(cljm_DOT_core_SLASH_key, cljm_DOT_core_SLASH__sorted_seq(this__6879_DOT_tree_map, ascending_QMARK_), nil);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_with_meta.value)(cljs_DOT_core_DOT_PersistentTreeSet_SLASH_EMPTY.value, this__6879.meta);
 };
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$ISorted$_sorted_seq_from$arity$3 = ^id(id coll, id k, id ascending_QMARK_) {
-var this__6880 = this;
-return cljm_DOT_core_SLASH_map(cljm_DOT_core_SLASH_key, cljm_DOT_core_SLASH__sorted_seq_from(this__6880_DOT_tree_map, k, ascending_QMARK_), nil);
-};
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$ISorted$_entry_key$arity$2 = ^id(id coll, id entry) {
-var this__6881 = this;
-return entry;
-};
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$ISorted$_comparator$arity$1 = ^id(id coll) {
-var this__6882 = this;
-return cljm_DOT_core_SLASH__comparator(this__6882_DOT_tree_map);
-};
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id coll) {
-var this__6883 = this;
-return cljm_DOT_core_SLASH_keys(this__6883_DOT_tree_map);
-};
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$ISet$_disjoin$arity$2 = ^id(id coll, id v) {
-var this__6884 = this;
-return [cljm_DOT_core_SLASH_PersistentTreeSet alloc];
-};
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id coll) {
-var this__6885 = this;
-return cljm_DOT_core_SLASH_count(this__6885_DOT_tree_map);
-};
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id coll, id other) {
-var this__6886 = this;
-id and__3822__auto____6887 = cljm_DOT_core_SLASH_set_QMARK_(other);
-if(cljm_truthy(and__3822__auto____6887)) {
-id and__3822__auto____6888 = ([cljm_DOT_core_SLASH_count(coll) isEqual:cljm_DOT_core_SLASH_count(other)]);
-if(cljm_truthy(and__3822__auto____6888)) {
-return cljm_DOT_core_SLASH_every_QMARK_(^id(id p1__6842_SHARP_) {
-return cljm_DOT_core_SLASH_contains_QMARK_(coll, p1__6842_SHARP_);
-}, other);
-
-} else {
-return and__3822__auto____6888;
-
-}
-
-} else {
-return and__3822__auto____6887;
-
-}
-};
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id coll, id meta) {
-var this__6889 = this;
-return [cljm_DOT_core_SLASH_PersistentTreeSet alloc];
-};
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id coll) {
-var this__6890 = this;
-return this__6890_DOT_meta;
-};
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id coll) {
-var this__6891 = this;
-return cljm_DOT_core_SLASH_with_meta(cljs_DOT_core_DOT_PersistentTreeSet_SLASH_EMPTY, this__6891_DOT_meta);
-};
-cljm_DOT_core_SLASH_PersistentTreeSet;
-cljs_DOT_core_DOT_PersistentTreeSet_SLASH_EMPTY = [cljm_DOT_core_SLASH_PersistentTreeSet alloc];
-cljm_DOT_core_SLASH_hash_set = (function() {
+cljm_DOT_core_SLASH_PersistentTreeSet.value;
+cljs_DOT_core_DOT_PersistentTreeSet_SLASH_EMPTY.value = [cljm_DOT_core_SLASH_PersistentTreeSet.value alloc];
+cljm_DOT_core_SLASH_hash_set = [[CLJMVar alloc] initWithValue:(function() {
 var hash_set = null;
 var hash_set__0 = ^id() {
-return cljs_DOT_core_DOT_PersistentHashSet_SLASH_EMPTY;
+return cljs_DOT_core_DOT_PersistentHashSet_SLASH_EMPTY.value;
 };
 var hash_set__1 = ^id(id cljm__varargs, ...) {
 NSMutableArray *keys = [NSMutableArray array];
@@ -13682,20 +13682,20 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [keys addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id in__6895 = cljm_DOT_core_SLASH_seq(keys);
-id out__6896 = cljm_DOT_core_SLASH_transient(cljs_DOT_core_DOT_PersistentHashSet_SLASH_EMPTY);
+id in__6883 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(keys.value);
+id out__6884 = ((id (^)(id )) cljm_DOT_core_SLASH_transient.value)(cljs_DOT_core_DOT_PersistentHashSet_SLASH_EMPTY.value);
 while(YES) {
-if(cljm_truthy(cljm_DOT_core_SLASH_seq(in__6895))) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(in__6883))) {
 {
-var G__6897 = cljm_DOT_core_SLASH_next(in__6895);
-var G__6898 = cljm_DOT_core_SLASH_conj_BANG_(out__6896, cljm_DOT_core_SLASH_first(in__6895));
-in__6895 = G__6897;
-out__6896 = G__6898;
+var G__6885 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(in__6883);
+var G__6886 = ((id (^)(id , id )) cljm_DOT_core_SLASH_conj_BANG_.value)(out__6884, ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(in__6883));
+in__6883 = G__6885;
+out__6884 = G__6886;
 continue;
 }
 
 } else {
-return cljm_DOT_core_SLASH_persistent_BANG_(out__6896);
+return ((id (^)(id )) cljm_DOT_core_SLASH_persistent_BANG_.value)(out__6884);
 
 }
 break;
@@ -13717,17 +13717,17 @@ hash_set.cljm$lang$arity$0 = hash_set__0;
 hash_set.cljm$lang$arity$variadic = hash_set__1.cljm$lang$arity$variadic;
 return hash_set;
 })()
-;
+];
 /**
 * Returns a set of the distinct elements of coll.
 */
-cljm_DOT_core_SLASH_set = ^id(id coll) {
-return cljm_DOT_core_SLASH_apply(cljm_DOT_core_SLASH_hash_set, coll, nil);
-};
+cljm_DOT_core_SLASH_set = [[CLJMVar alloc] initWithValue:^id(id coll) {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_apply.value)(cljm_DOT_core_SLASH_hash_set.value, coll.value, nil);
+}];
 /**
 * Returns a new sorted set with supplied keys.
 */
-cljm_DOT_core_SLASH_sorted_set = ^id(id cljm__varargs, ...) {
+cljm_DOT_core_SLASH_sorted_set = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, ...) {
 NSMutableArray *keys = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -13735,12 +13735,12 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [keys addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_reduce(cljm_DOT_core_SLASH__conj, cljs_DOT_core_DOT_PersistentTreeSet_SLASH_EMPTY, keys);
-};
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(cljm_DOT_core_SLASH__conj.value, cljs_DOT_core_DOT_PersistentTreeSet_SLASH_EMPTY.value, keys.value);
+}];
 /**
 * Returns a new sorted set with supplied keys, using the supplied comparator.
 */
-cljm_DOT_core_SLASH_sorted_set_by = ^id(id cljm__varargs, id comparator, ...) {
+cljm_DOT_core_SLASH_sorted_set_by = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, id comparator, ...) {
 NSMutableArray *keys = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -13748,101 +13748,101 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [keys addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_reduce(cljm_DOT_core_SLASH__conj, [cljs_SLASH_core_DOT_PersistentTreeSet alloc], keys);
-};
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(cljm_DOT_core_SLASH__conj.value, [cljs_SLASH_core_DOT_PersistentTreeSet.value alloc], keys.value);
+}];
 /**
 * Given a map of replacement pairs and a vector/collection, returns a
 * vector/seq with any elements = a key in smap replaced with the
 * corresponding val in smap
 */
-cljm_DOT_core_SLASH_replace = ^id(id smap, id coll) {
-if(cljm_truthy(cljm_DOT_core_SLASH_vector_QMARK_(coll))) {
-id n__6905 = cljm_DOT_core_SLASH_count(coll);
-return cljm_DOT_core_SLASH_reduce(^id(id v, id i) {
-id temp__3971__auto____6906 = cljm_DOT_core_SLASH_find(smap, cljm_DOT_core_SLASH_nth(v, i));
-if(cljm_truthy(temp__3971__auto____6906)) {
-id e__6907 = temp__3971__auto____6906;
-return cljm_DOT_core_SLASH_assoc(v, i, cljm_DOT_core_SLASH_second(e__6907), nil);
+cljm_DOT_core_SLASH_replace = [[CLJMVar alloc] initWithValue:^id(id smap, id coll) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_vector_QMARK_.value)(coll.value))) {
+id n__6893 = ((id (^)(id )) cljm_DOT_core_SLASH_count.value)(coll.value);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id v, id i) {
+id temp__3971__auto____6894 = ((id (^)(id , id )) cljm_DOT_core_SLASH_find.value)(smap.value, ((id (^)(id , id )) cljm_DOT_core_SLASH_nth.value)(v.value, i.value));
+if(cljm_truthy(temp__3971__auto____6894)) {
+id e__6895 = temp__3971__auto____6894;
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(v.value, i.value, ((id (^)(id )) cljm_DOT_core_SLASH_second.value)(e__6895), nil);
 
 } else {
-return v;
+return v.value;
 
 }
-}, coll, cljm_DOT_core_SLASH_take(n__6905, cljm_DOT_core_SLASH_iterate(cljm_DOT_core_SLASH_inc, @0)));
+}, coll.value, ((id (^)(id , id )) cljm_DOT_core_SLASH_take.value)(n__6893, ((id (^)(id , id )) cljm_DOT_core_SLASH_iterate.value)(cljm_DOT_core_SLASH_inc.value, @0)));
 
 } else {
-return cljm_DOT_core_SLASH_map(^id(id p1__6899_SHARP_) {
-id temp__3971__auto____6908 = cljm_DOT_core_SLASH_find(smap, p1__6899_SHARP_);
-if(cljm_truthy(temp__3971__auto____6908)) {
-id e__6909 = temp__3971__auto____6908;
-return cljm_DOT_core_SLASH_second(e__6909);
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_map.value)(^id(id p1__6887_SHARP_) {
+id temp__3971__auto____6896 = ((id (^)(id , id )) cljm_DOT_core_SLASH_find.value)(smap.value, p1__6887_SHARP_.value);
+if(cljm_truthy(temp__3971__auto____6896)) {
+id e__6897 = temp__3971__auto____6896;
+return ((id (^)(id )) cljm_DOT_core_SLASH_second.value)(e__6897);
 
 } else {
-return p1__6899_SHARP_;
+return p1__6887_SHARP_.value;
 
 }
-}, coll, nil);
+}, coll.value, nil);
 
 }
-};
+}];
 /**
 * Returns a lazy sequence of the elements of coll with duplicates removed
 */
-cljm_DOT_core_SLASH_distinct = ^id(id coll) {
-id step__6939 = ^id(id xs, id seen) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+cljm_DOT_core_SLASH_distinct = [[CLJMVar alloc] initWithValue:^id(id coll) {
+id step__6927 = ^id(id xs, id seen) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
-return step__6939(coll, [NSSet set]);
-};
-cljm_DOT_core_SLASH_butlast = ^id(id s) {
-id ret__6942 = @[];
-id s__6943 = s;
+return ((id (^)(id , id )) step__6927.value)(coll.value, [NSSet set]);
+}];
+cljm_DOT_core_SLASH_butlast = [[CLJMVar alloc] initWithValue:^id(id s) {
+id ret__6930 = @[];
+id s__6931 = s.value;
 while(YES) {
-if(cljm_truthy(cljm_DOT_core_SLASH_next(s__6943))) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_next.value)(s__6931))) {
 {
-var G__6944 = cljm_DOT_core_SLASH_conj(ret__6942, cljm_DOT_core_SLASH_first(s__6943), nil);
-var G__6945 = cljm_DOT_core_SLASH_next(s__6943);
-ret__6942 = G__6944;
-s__6943 = G__6945;
+var G__6932 = ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(ret__6930, ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(s__6931), nil);
+var G__6933 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(s__6931);
+ret__6930 = G__6932;
+s__6931 = G__6933;
 continue;
 }
 
 } else {
-return cljm_DOT_core_SLASH_seq(ret__6942);
+return ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(ret__6930);
 
 }
 break;
 }
-};
+}];
 /**
 * Returns the name String of a string, symbol or keyword.
 */
-cljm_DOT_core_SLASH_name = ^id(id x) {
-if(cljm_truthy(cljm_DOT_core_SLASH_string_QMARK_(x))) {
-return x;
+cljm_DOT_core_SLASH_name = [[CLJMVar alloc] initWithValue:^id(id x) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_string_QMARK_.value)(x.value))) {
+return x.value;
 
 } else {
-if(cljm_truthy({id or__3824__auto____6948 = cljm_DOT_core_SLASH_keyword_QMARK_(x);
-if(cljm_truthy(or__3824__auto____6948)) {
-return or__3824__auto____6948;
+if(cljm_truthy({id or__3824__auto____6936 = ((id (^)(id )) cljm_DOT_core_SLASH_keyword_QMARK_.value)(x.value);
+if(cljm_truthy(or__3824__auto____6936)) {
+return or__3824__auto____6936;
 
 } else {
-return cljm_DOT_core_SLASH_symbol_QMARK_(x);
+return ((id (^)(id )) cljm_DOT_core_SLASH_symbol_QMARK_.value)(x.value);
 
 }
 })) {
-id i__6949 = [x lastIndexOf@"/"];
-if(cljm_truthy((i__6949 < @0))) {
-return cljm_DOT_core_SLASH_subs(x, @2);
+id i__6937 = [x.value lastIndexOf@"/"];
+if(cljm_truthy((i__6937 < @0))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_subs.value)(x.value, @2);
 
 } else {
-return cljm_DOT_core_SLASH_subs(x, (i__6949 + @1));
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_subs.value)(x.value, (i__6937 + @1));
 
 }
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-throw [Error alloc];
+throw [Error.value alloc];
 
 } else {
 return nil;
@@ -13852,23 +13852,23 @@ return nil;
 }
 
 }
-};
+}];
 /**
 * Returns the namespace String of a symbol or keyword, or nil if not present.
 */
-cljm_DOT_core_SLASH_namespace = ^id(id x) {
-if(cljm_truthy({id or__3824__auto____6952 = cljm_DOT_core_SLASH_keyword_QMARK_(x);
-if(cljm_truthy(or__3824__auto____6952)) {
-return or__3824__auto____6952;
+cljm_DOT_core_SLASH_namespace = [[CLJMVar alloc] initWithValue:^id(id x) {
+if(cljm_truthy({id or__3824__auto____6940 = ((id (^)(id )) cljm_DOT_core_SLASH_keyword_QMARK_.value)(x.value);
+if(cljm_truthy(or__3824__auto____6940)) {
+return or__3824__auto____6940;
 
 } else {
-return cljm_DOT_core_SLASH_symbol_QMARK_(x);
+return ((id (^)(id )) cljm_DOT_core_SLASH_symbol_QMARK_.value)(x.value);
 
 }
 })) {
-id i__6953 = [x lastIndexOf@"/"];
-if(cljm_truthy((i__6953 > @-1))) {
-return cljm_DOT_core_SLASH_subs(x, @2, i__6953);
+id i__6941 = [x.value lastIndexOf@"/"];
+if(cljm_truthy((i__6941 > @-1))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_subs.value)(x.value, @2, i__6941);
 
 } else {
 return nil;
@@ -13876,58 +13876,58 @@ return nil;
 }
 
 } else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
-};
+}];
 /**
 * Returns a map with the keys mapped to the corresponding vals.
 */
-cljm_DOT_core_SLASH_zipmap = ^id(id keys, id vals) {
-id map__6960 = @{};
-id ks__6961 = cljm_DOT_core_SLASH_seq(keys);
-id vs__6962 = cljm_DOT_core_SLASH_seq(vals);
+cljm_DOT_core_SLASH_zipmap = [[CLJMVar alloc] initWithValue:^id(id keys, id vals) {
+id map__6948 = @{};
+id ks__6949 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(keys.value);
+id vs__6950 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(vals.value);
 while(YES) {
-if(cljm_truthy({id and__3822__auto____6963 = ks__6961;
-if(cljm_truthy(and__3822__auto____6963)) {
-return vs__6962;
+if(cljm_truthy({id and__3822__auto____6951 = ks__6949;
+if(cljm_truthy(and__3822__auto____6951)) {
+return vs__6950;
 
 } else {
-return and__3822__auto____6963;
+return and__3822__auto____6951;
 
 }
 })) {
 {
-var G__6964 = cljm_DOT_core_SLASH_assoc(map__6960, cljm_DOT_core_SLASH_first(ks__6961), cljm_DOT_core_SLASH_first(vs__6962), nil);
-var G__6965 = cljm_DOT_core_SLASH_next(ks__6961);
-var G__6966 = cljm_DOT_core_SLASH_next(vs__6962);
-map__6960 = G__6964;
-ks__6961 = G__6965;
-vs__6962 = G__6966;
+var G__6952 = ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(map__6948, ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(ks__6949), ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(vs__6950), nil);
+var G__6953 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(ks__6949);
+var G__6954 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(vs__6950);
+map__6948 = G__6952;
+ks__6949 = G__6953;
+vs__6950 = G__6954;
 continue;
 }
 
 } else {
-return map__6960;
+return map__6948;
 
 }
 break;
 }
-};
+}];
 /**
 * Returns the x for which (k x), a number, is greatest.
 */
-cljm_DOT_core_SLASH_max_key = (function() {
+cljm_DOT_core_SLASH_max_key = [[CLJMVar alloc] initWithValue:(function() {
 var max_key = null;
 var max_key__2 = ^id(id k, id x) {
-return x;
+return x.value;
 };
 var max_key__3 = ^id(id k, id x, id y) {
-if(cljm_truthy((k(x) > k(y)))) {
-return x;
+if(cljm_truthy((((id (^)(id )) k.value)(x.value) > ((id (^)(id )) k.value)(y.value)))) {
+return x.value;
 
 } else {
-return y;
+return y.value;
 
 }
 };
@@ -13939,9 +13939,9 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [more addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_reduce(^id(id p1__6954_SHARP_, id p2__6955_SHARP_) {
-return max_key(k, p1__6954_SHARP_, p2__6955_SHARP_, nil);
-}, max_key(k, x, y, nil), more);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id p1__6942_SHARP_, id p2__6943_SHARP_) {
+return ((id (^)(id , id , id , ...)) max_key.value)(k.value, p1__6942_SHARP_.value, p2__6943_SHARP_.value, nil);
+}, ((id (^)(id , id , id , ...)) max_key.value)(k.value, x.value, y.value, nil), more.value);
 };
 max_key = function(k, x, y, var_args){
 var more = var_args;
@@ -13962,21 +13962,21 @@ max_key.cljm$lang$arity$3 = max_key__3;
 max_key.cljm$lang$arity$variadic = max_key__4.cljm$lang$arity$variadic;
 return max_key;
 })()
-;
+];
 /**
 * Returns the x for which (k x), a number, is least.
 */
-cljm_DOT_core_SLASH_min_key = (function() {
+cljm_DOT_core_SLASH_min_key = [[CLJMVar alloc] initWithValue:(function() {
 var min_key = null;
 var min_key__2 = ^id(id k, id x) {
-return x;
+return x.value;
 };
 var min_key__3 = ^id(id k, id x, id y) {
-if(cljm_truthy((k(x) < k(y)))) {
-return x;
+if(cljm_truthy((((id (^)(id )) k.value)(x.value) < ((id (^)(id )) k.value)(y.value)))) {
+return x.value;
 
 } else {
-return y;
+return y.value;
 
 }
 };
@@ -13988,9 +13988,9 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [more addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_reduce(^id(id p1__6967_SHARP_, id p2__6968_SHARP_) {
-return min_key(k, p1__6967_SHARP_, p2__6968_SHARP_, nil);
-}, min_key(k, x, y, nil), more);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id p1__6955_SHARP_, id p2__6956_SHARP_) {
+return ((id (^)(id , id , id , ...)) min_key.value)(k.value, p1__6955_SHARP_.value, p2__6956_SHARP_.value, nil);
+}, ((id (^)(id , id , id , ...)) min_key.value)(k.value, x.value, y.value, nil), more.value);
 };
 min_key = function(k, x, y, var_args){
 var more = var_args;
@@ -14011,18 +14011,18 @@ min_key.cljm$lang$arity$3 = min_key__3;
 min_key.cljm$lang$arity$variadic = min_key__4.cljm$lang$arity$variadic;
 return min_key;
 })()
-;
+];
 /**
 * Returns a lazy sequence of lists like partition, but may include
 * partitions with fewer than n items at the end.
 */
-cljm_DOT_core_SLASH_partition_all = (function() {
+cljm_DOT_core_SLASH_partition_all = [[CLJMVar alloc] initWithValue:(function() {
 var partition_all = null;
 var partition_all__2 = ^id(id n, id coll) {
-return partition_all(n, n, coll);
+return ((id (^)(id , id , id )) partition_all.value)(n.value, n.value, coll.value);
 };
 var partition_all__3 = ^id(id n, id step, id coll) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
 partition_all = function(n, step, coll){
 switch(arguments.length){
@@ -14037,40 +14037,40 @@ partition_all.cljm$lang$arity$2 = partition_all__2;
 partition_all.cljm$lang$arity$3 = partition_all__3;
 return partition_all;
 })()
-;
+];
 /**
 * Returns a lazy sequence of successive items from coll while
 * (pred item) returns true. pred must be free of side-effects.
 */
-cljm_DOT_core_SLASH_take_while = ^id(id pred, id coll) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
-};
-cljm_DOT_core_SLASH_mk_bound_fn = ^id(id sc, id test, id key) {
+cljm_DOT_core_SLASH_take_while = [[CLJMVar alloc] initWithValue:^id(id pred, id coll) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
+}];
+cljm_DOT_core_SLASH_mk_bound_fn = [[CLJMVar alloc] initWithValue:^id(id sc, id test, id key) {
 return ^id(id e) {
-id comp__6978 = cljm_DOT_core_SLASH__comparator(sc);
-return test(comp__6978(cljm_DOT_core_SLASH__entry_key(sc, e), key), @0);
+id comp__6966 = ((id (^)(id )) cljm_DOT_core_SLASH__comparator.value)(sc.value);
+return ((id (^)(id , id )) test.value)(((id (^)(id , id )) comp__6966.value)(((id (^)(id , id )) cljm_DOT_core_SLASH__entry_key.value)(sc.value, e.value), key.value), @0);
 };
-};
+}];
 /**
 * sc must be a sorted collection, test(s) one of <, <=, > or
 * >=. Returns a seq of those entries with keys ek for
 * which (test (.. sc comparator (compare ek key)) 0) is true
 */
-cljm_DOT_core_SLASH_subseq = (function() {
+cljm_DOT_core_SLASH_subseq = [[CLJMVar alloc] initWithValue:(function() {
 var subseq = null;
 var subseq__3 = ^id(id sc, id test, id key) {
-id include__6990 = cljm_DOT_core_SLASH_mk_bound_fn(sc, test, key);
-if(cljm_truthy((test))) {
-id temp__3974__auto____6991 = cljm_DOT_core_SLASH__sorted_seq_from(sc, key, @YES);
-if(cljm_truthy(temp__3974__auto____6991)) {
-id vec__6992__6993 = temp__3974__auto____6991;
-id e__6994 = cljm_DOT_core_SLASH_nth(vec__6992__6993, @0, nil);
-id s__6995 = vec__6992__6993;
-if(cljm_truthy(include__6990(e__6994))) {
-return s__6995;
+id include__6978 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_mk_bound_fn.value)(sc.value, test.value, key.value);
+if(cljm_truthy(((id (^)(id )) .value)(test.value))) {
+id temp__3974__auto____6979 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH__sorted_seq_from.value)(sc.value, key.value, @YES);
+if(cljm_truthy(temp__3974__auto____6979)) {
+id vec__6980__6981 = temp__3974__auto____6979;
+id e__6982 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__6980__6981, @0, nil);
+id s__6983 = vec__6980__6981;
+if(cljm_truthy(((id (^)(id )) include__6978.value)(e__6982))) {
+return s__6983;
 
 } else {
-return cljm_DOT_core_SLASH_next(s__6995);
+return ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(s__6983);
 
 }
 
@@ -14080,17 +14080,17 @@ return nil;
 }
 
 } else {
-return cljm_DOT_core_SLASH_take_while(include__6990, cljm_DOT_core_SLASH__sorted_seq(sc, @YES));
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_take_while.value)(include__6978, ((id (^)(id , id )) cljm_DOT_core_SLASH__sorted_seq.value)(sc.value, @YES));
 
 }
 };
 var subseq__5 = ^id(id sc, id start_test, id start_key, id end_test, id end_key) {
-id temp__3974__auto____6996 = cljm_DOT_core_SLASH__sorted_seq_from(sc, start_key, @YES);
-if(cljm_truthy(temp__3974__auto____6996)) {
-id vec__6997__6998 = temp__3974__auto____6996;
-id e__6999 = cljm_DOT_core_SLASH_nth(vec__6997__6998, @0, nil);
-id s__7000 = vec__6997__6998;
-return cljm_DOT_core_SLASH_take_while(cljm_DOT_core_SLASH_mk_bound_fn(sc, end_test, end_key), (cljm_truthy((e__6999))) ?s__7000:cljm_DOT_core_SLASH_next(s__7000));
+id temp__3974__auto____6984 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH__sorted_seq_from.value)(sc.value, start_key.value, @YES);
+if(cljm_truthy(temp__3974__auto____6984)) {
+id vec__6985__6986 = temp__3974__auto____6984;
+id e__6987 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__6985__6986, @0, nil);
+id s__6988 = vec__6985__6986;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_take_while.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH_mk_bound_fn.value)(sc.value, end_test.value, end_key.value), (cljm_truthy(((id (^)(id )) .value)(e__6987))) ?s__6988:((id (^)(id )) cljm_DOT_core_SLASH_next.value)(s__6988));
 
 } else {
 return nil;
@@ -14110,27 +14110,27 @@ subseq.cljm$lang$arity$3 = subseq__3;
 subseq.cljm$lang$arity$5 = subseq__5;
 return subseq;
 })()
-;
+];
 /**
 * sc must be a sorted collection, test(s) one of <, <=, > or
 * >=. Returns a reverse seq of those entries with keys ek for
 * which (test (.. sc comparator (compare ek key)) 0) is true
 */
-cljm_DOT_core_SLASH_rsubseq = (function() {
+cljm_DOT_core_SLASH_rsubseq = [[CLJMVar alloc] initWithValue:(function() {
 var rsubseq = null;
 var rsubseq__3 = ^id(id sc, id test, id key) {
-id include__7012 = cljm_DOT_core_SLASH_mk_bound_fn(sc, test, key);
-if(cljm_truthy((test))) {
-id temp__3974__auto____7013 = cljm_DOT_core_SLASH__sorted_seq_from(sc, key, @NO);
-if(cljm_truthy(temp__3974__auto____7013)) {
-id vec__7014__7015 = temp__3974__auto____7013;
-id e__7016 = cljm_DOT_core_SLASH_nth(vec__7014__7015, @0, nil);
-id s__7017 = vec__7014__7015;
-if(cljm_truthy(include__7012(e__7016))) {
-return s__7017;
+id include__7000 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_mk_bound_fn.value)(sc.value, test.value, key.value);
+if(cljm_truthy(((id (^)(id )) .value)(test.value))) {
+id temp__3974__auto____7001 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH__sorted_seq_from.value)(sc.value, key.value, @NO);
+if(cljm_truthy(temp__3974__auto____7001)) {
+id vec__7002__7003 = temp__3974__auto____7001;
+id e__7004 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__7002__7003, @0, nil);
+id s__7005 = vec__7002__7003;
+if(cljm_truthy(((id (^)(id )) include__7000.value)(e__7004))) {
+return s__7005;
 
 } else {
-return cljm_DOT_core_SLASH_next(s__7017);
+return ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(s__7005);
 
 }
 
@@ -14140,17 +14140,17 @@ return nil;
 }
 
 } else {
-return cljm_DOT_core_SLASH_take_while(include__7012, cljm_DOT_core_SLASH__sorted_seq(sc, @NO));
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_take_while.value)(include__7000, ((id (^)(id , id )) cljm_DOT_core_SLASH__sorted_seq.value)(sc.value, @NO));
 
 }
 };
 var rsubseq__5 = ^id(id sc, id start_test, id start_key, id end_test, id end_key) {
-id temp__3974__auto____7018 = cljm_DOT_core_SLASH__sorted_seq_from(sc, end_key, @NO);
-if(cljm_truthy(temp__3974__auto____7018)) {
-id vec__7019__7020 = temp__3974__auto____7018;
-id e__7021 = cljm_DOT_core_SLASH_nth(vec__7019__7020, @0, nil);
-id s__7022 = vec__7019__7020;
-return cljm_DOT_core_SLASH_take_while(cljm_DOT_core_SLASH_mk_bound_fn(sc, start_test, start_key), (cljm_truthy((e__7021))) ?s__7022:cljm_DOT_core_SLASH_next(s__7022));
+id temp__3974__auto____7006 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH__sorted_seq_from.value)(sc.value, end_key.value, @NO);
+if(cljm_truthy(temp__3974__auto____7006)) {
+id vec__7007__7008 = temp__3974__auto____7006;
+id e__7009 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__7007__7008, @0, nil);
+id s__7010 = vec__7007__7008;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_take_while.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH_mk_bound_fn.value)(sc.value, start_test.value, start_key.value), (cljm_truthy(((id (^)(id )) .value)(e__7009))) ?s__7010:((id (^)(id )) cljm_DOT_core_SLASH_next.value)(s__7010));
 
 } else {
 return nil;
@@ -14170,7 +14170,7 @@ rsubseq.cljm$lang$arity$3 = rsubseq__3;
 rsubseq.cljm$lang$arity$5 = rsubseq__5;
 return rsubseq;
 })()
-;
+];
 
 /**
 * @constructor
@@ -14184,28 +14184,28 @@ this.__hash = __hash;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 32375006;
 })
-cljm_DOT_core_SLASH_Range.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_Range.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/Range", nil);
+cljm_DOT_core_SLASH_Range.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_Range.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/Range", nil);
 };
-cljm_DOT_core_SLASH_Range.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id rng) {
-var this__7023 = this;
-id h__1314__auto____7024 = this__7023_DOT___hash;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((h__1314__auto____7024 == nil)))) {
-return h__1314__auto____7024;
+cljm_DOT_core_SLASH_Range.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id rng) {
+var this__7011 = this;
+id h__1302__auto____7012 = this__7011.__hash;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((h__1302__auto____7012 == nil)))) {
+return h__1302__auto____7012;
 
 } else {
-id h__1314__auto____7025 = cljm_DOT_core_SLASH_hash_coll(rng);
-this__7023_DOT___hash = h__1314__auto____7025;
-return h__1314__auto____7025;
+id h__1302__auto____7013 = ((id (^)(id )) cljm_DOT_core_SLASH_hash_coll.value)(rng.value);
+this__7011.__hash = h__1302__auto____7013;
+return h__1302__auto____7013;
 
 }
 };
-cljm_DOT_core_SLASH_Range.prototype.cljm$core$INext$_next$arity$1 = ^id(id rng) {
-var this__7026 = this;
-if(cljm_truthy((this__7026_DOT_step > @0))) {
-if(cljm_truthy(((this__7026_DOT_start + this__7026_DOT_step) < this__7026_DOT_end))) {
-return [cljm_DOT_core_SLASH_Range alloc];
+cljm_DOT_core_SLASH_Range.value.prototype.cljm$core$INext$_next$arity$1 = ^id(id rng) {
+var this__7014 = this;
+if(cljm_truthy((this__7014.step > @0))) {
+if(cljm_truthy(((this__7014.start + this__7014.step) < this__7014.end))) {
+return [cljm_DOT_core_SLASH_Range.value alloc];
 
 } else {
 return nil;
@@ -14213,47 +14213,8 @@ return nil;
 }
 
 } else {
-if(cljm_truthy(((this__7026_DOT_start + this__7026_DOT_step) > this__7026_DOT_end))) {
-return [cljm_DOT_core_SLASH_Range alloc];
-
-} else {
-return nil;
-
-}
-
-}
-};
-cljm_DOT_core_SLASH_Range.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id rng, id o) {
-var this__7027 = this;
-return cljm_DOT_core_SLASH_cons(o, rng);
-};
-cljm_DOT_core_SLASH_Range.prototype.toString = ^id() {
-var this__7028 = this;
-id this__7029 = this;
-return cljm_DOT_core_SLASH_pr_str(this__7029, nil);
-};
-cljm_DOT_core_SLASH_Range.prototype.cljm$core$IReduce$_reduce$arity$2 = ^id(id rng, id f) {
-var this__7030 = this;
-return cljm_DOT_core_SLASH_ci_reduce(rng, f);
-};
-cljm_DOT_core_SLASH_Range.prototype.cljm$core$IReduce$_reduce$arity$3 = ^id(id rng, id f, id s) {
-var this__7031 = this;
-return cljm_DOT_core_SLASH_ci_reduce(rng, f, s);
-};
-cljm_DOT_core_SLASH_Range.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id rng) {
-var this__7032 = this;
-if(cljm_truthy((this__7032_DOT_step > @0))) {
-if(cljm_truthy((this__7032_DOT_start < this__7032_DOT_end))) {
-return rng;
-
-} else {
-return nil;
-
-}
-
-} else {
-if(cljm_truthy((this__7032_DOT_start > this__7032_DOT_end))) {
-return rng;
+if(cljm_truthy(((this__7014.start + this__7014.step) > this__7014.end))) {
+return [cljm_DOT_core_SLASH_Range.value alloc];
 
 } else {
 return nil;
@@ -14262,113 +14223,152 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_Range.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id rng) {
-var this__7033 = this;
-if(cljm_truthy(cljm_DOT_core_SLASH_not(cljm_DOT_core_SLASH__seq(rng)))) {
+cljm_DOT_core_SLASH_Range.value.prototype.cljm$core$ICollection$_conj$arity$2 = ^id(id rng, id o) {
+var this__7015 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(o.value, rng.value);
+};
+cljm_DOT_core_SLASH_Range.value.prototype.toString = ^id() {
+var this__7016 = this;
+id this__7017 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__7017, nil);
+};
+cljm_DOT_core_SLASH_Range.value.prototype.cljm$core$IReduce$_reduce$arity$2 = ^id(id rng, id f) {
+var this__7018 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_ci_reduce.value)(rng.value, f.value);
+};
+cljm_DOT_core_SLASH_Range.value.prototype.cljm$core$IReduce$_reduce$arity$3 = ^id(id rng, id f, id s) {
+var this__7019 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_ci_reduce.value)(rng.value, f.value, s.value);
+};
+cljm_DOT_core_SLASH_Range.value.prototype.cljm$core$ISeqable$_seq$arity$1 = ^id(id rng) {
+var this__7020 = this;
+if(cljm_truthy((this__7020.step > @0))) {
+if(cljm_truthy((this__7020.start < this__7020.end))) {
+return rng.value;
+
+} else {
+return nil;
+
+}
+
+} else {
+if(cljm_truthy((this__7020.start > this__7020.end))) {
+return rng.value;
+
+} else {
+return nil;
+
+}
+
+}
+};
+cljm_DOT_core_SLASH_Range.value.prototype.cljm$core$ICounted$_count$arity$1 = ^id(id rng) {
+var this__7021 = this;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)(((id (^)(id )) cljm_DOT_core_SLASH__seq.value)(rng.value)))) {
 return @0;
 
 } else {
-return js_SLASH_Math_DOT_ceil(((this__7033_DOT_end - this__7033_DOT_start) / this__7033_DOT_step));
+return ((id (^)(id )) js_SLASH_Math_DOT_ceil.value)(((this__7021.end - this__7021.start) / this__7021.step));
 
 }
 };
-cljm_DOT_core_SLASH_Range.prototype.cljm$core$ISeq$_first$arity$1 = ^id(id rng) {
-var this__7034 = this;
-return this__7034_DOT_start;
+cljm_DOT_core_SLASH_Range.value.prototype.cljm$core$ISeq$_first$arity$1 = ^id(id rng) {
+var this__7022 = this;
+return this__7022.start;
 };
-cljm_DOT_core_SLASH_Range.prototype.cljm$core$ISeq$_rest$arity$1 = ^id(id rng) {
-var this__7035 = this;
-if(cljm_truthy(cljm_DOT_core_SLASH_not((cljm_DOT_core_SLASH__seq(rng) == nil)))) {
-return [cljm_DOT_core_SLASH_Range alloc];
+cljm_DOT_core_SLASH_Range.value.prototype.cljm$core$ISeq$_rest$arity$1 = ^id(id rng) {
+var this__7023 = this;
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not.value)((((id (^)(id )) cljm_DOT_core_SLASH__seq.value)(rng.value) == nil)))) {
+return [cljm_DOT_core_SLASH_Range.value alloc];
 
 } else {
 return cljm.core.List.EMPTY;
 
 }
 };
-cljm_DOT_core_SLASH_Range.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id rng, id other) {
-var this__7036 = this;
-return cljm_DOT_core_SLASH_equiv_sequential(rng, other);
+cljm_DOT_core_SLASH_Range.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id rng, id other) {
+var this__7024 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_equiv_sequential.value)(rng.value, other.value);
 };
-cljm_DOT_core_SLASH_Range.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id rng, id meta) {
-var this__7037 = this;
-return [cljm_DOT_core_SLASH_Range alloc];
+cljm_DOT_core_SLASH_Range.value.prototype.cljm$core$IWithMeta$_with_meta$arity$2 = ^id(id rng, id meta) {
+var this__7025 = this;
+return [cljm_DOT_core_SLASH_Range.value alloc];
 };
-cljm_DOT_core_SLASH_Range.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id rng) {
-var this__7038 = this;
-return this__7038_DOT_meta;
+cljm_DOT_core_SLASH_Range.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id rng) {
+var this__7026 = this;
+return this__7026.meta;
 };
-cljm_DOT_core_SLASH_Range.prototype.cljm$core$IIndexed$_nth$arity$2 = ^id(id rng, id n) {
-var this__7039 = this;
-if(cljm_truthy((n < cljm_DOT_core_SLASH__count(rng)))) {
-return (this__7039_DOT_start + (n * this__7039_DOT_step));
+cljm_DOT_core_SLASH_Range.value.prototype.cljm$core$IIndexed$_nth$arity$2 = ^id(id rng, id n) {
+var this__7027 = this;
+if(cljm_truthy((n.value < ((id (^)(id )) cljm_DOT_core_SLASH__count.value)(rng.value)))) {
+return (this__7027.start + (n.value * this__7027.step));
 
 } else {
-if(cljm_truthy({id and__3822__auto____7040 = (this__7039_DOT_start > this__7039_DOT_end);
-if(cljm_truthy(and__3822__auto____7040)) {
-return ([this__7039_DOT_step isEqual:@0]);
+if(cljm_truthy({id and__3822__auto____7028 = (this__7027.start > this__7027.end);
+if(cljm_truthy(and__3822__auto____7028)) {
+return ([this__7027.step isEqual:@0]);
 
 } else {
-return and__3822__auto____7040;
+return and__3822__auto____7028;
 
 }
 })) {
-return this__7039_DOT_start;
+return this__7027.start;
 
 } else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
 
 }
 };
-cljm_DOT_core_SLASH_Range.prototype.cljm$core$IIndexed$_nth$arity$3 = ^id(id rng, id n, id not_found) {
-var this__7041 = this;
-if(cljm_truthy((n < cljm_DOT_core_SLASH__count(rng)))) {
-return (this__7041_DOT_start + (n * this__7041_DOT_step));
+cljm_DOT_core_SLASH_Range.value.prototype.cljm$core$IIndexed$_nth$arity$3 = ^id(id rng, id n, id not_found) {
+var this__7029 = this;
+if(cljm_truthy((n.value < ((id (^)(id )) cljm_DOT_core_SLASH__count.value)(rng.value)))) {
+return (this__7029.start + (n.value * this__7029.step));
 
 } else {
-if(cljm_truthy({id and__3822__auto____7042 = (this__7041_DOT_start > this__7041_DOT_end);
-if(cljm_truthy(and__3822__auto____7042)) {
-return ([this__7041_DOT_step isEqual:@0]);
+if(cljm_truthy({id and__3822__auto____7030 = (this__7029.start > this__7029.end);
+if(cljm_truthy(and__3822__auto____7030)) {
+return ([this__7029.step isEqual:@0]);
 
 } else {
-return and__3822__auto____7042;
+return and__3822__auto____7030;
 
 }
 })) {
-return this__7041_DOT_start;
+return this__7029.start;
 
 } else {
-return not_found;
+return not_found.value;
 
 }
 
 }
 };
-cljm_DOT_core_SLASH_Range.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id rng) {
-var this__7043 = this;
-return cljm_DOT_core_SLASH_with_meta(cljs_DOT_core_DOT_List_SLASH_EMPTY, this__7043_DOT_meta);
+cljm_DOT_core_SLASH_Range.value.prototype.cljm$core$IEmptyableCollection$_empty$arity$1 = ^id(id rng) {
+var this__7031 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_with_meta.value)(cljs_DOT_core_DOT_List_SLASH_EMPTY.value, this__7031.meta);
 };
-cljm_DOT_core_SLASH_Range;
+cljm_DOT_core_SLASH_Range.value;
 /**
 * Returns a lazy seq of nums from start (inclusive) to end
 * (exclusive), by step, where start defaults to 0, step to 1,
 * and end to infinity.
 */
-cljm_DOT_core_SLASH_range = (function() {
+cljm_DOT_core_SLASH_range = [[CLJMVar alloc] initWithValue:(function() {
 var range = null;
 var range__0 = ^id() {
-return range(@0, Number_DOT_MAX_VALUE, @1);
+return ((id (^)(id , id , id )) range.value)(@0, Number_DOT_MAX_VALUE.value, @1);
 };
 var range__1 = ^id(id end) {
-return range(@0, end, @1);
+return ((id (^)(id , id , id )) range.value)(@0, end.value, @1);
 };
 var range__2 = ^id(id start, id end) {
-return range(start, end, @1);
+return ((id (^)(id , id , id )) range.value)(start.value, end.value, @1);
 };
 var range__3 = ^id(id start, id end, id step) {
-return [cljm_DOT_core_SLASH_Range alloc];
+return [cljm_DOT_core_SLASH_Range.value alloc];
 };
 range = function(start, end, step){
 switch(arguments.length){
@@ -14389,46 +14389,46 @@ range.cljm$lang$arity$2 = range__2;
 range.cljm$lang$arity$3 = range__3;
 return range;
 })()
-;
+];
 /**
 * Returns a lazy seq of every nth item in coll.
 */
-cljm_DOT_core_SLASH_take_nth = ^id(id n, id coll) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
-};
+cljm_DOT_core_SLASH_take_nth = [[CLJMVar alloc] initWithValue:^id(id n, id coll) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
+}];
 /**
 * Returns a vector of [(take-while pred coll) (drop-while pred coll)]
 */
-cljm_DOT_core_SLASH_split_with = ^id(id pred, id coll) {
-return @[ cljm_DOT_core_SLASH_take_while(pred, coll), cljm_DOT_core_SLASH_drop_while(pred, coll) ];
-};
+cljm_DOT_core_SLASH_split_with = [[CLJMVar alloc] initWithValue:^id(id pred, id coll) {
+return @[ ((id (^)(id , id )) cljm_DOT_core_SLASH_take_while.value)(pred.value, coll.value), ((id (^)(id , id )) cljm_DOT_core_SLASH_drop_while.value)(pred.value, coll.value) ];
+}];
 /**
 * Applies f to each value in coll, splitting it each time f returns
 * a new value.  Returns a lazy seq of partitions.
 */
-cljm_DOT_core_SLASH_partition_by = ^id(id f, id coll) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
-};
+cljm_DOT_core_SLASH_partition_by = [[CLJMVar alloc] initWithValue:^id(id f, id coll) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
+}];
 /**
 * Returns a map from distinct items in coll to the number of times
 * they appear.
 */
-cljm_DOT_core_SLASH_frequencies = ^id(id coll) {
-return cljm_DOT_core_SLASH_persistent_BANG_(cljm_DOT_core_SLASH_reduce(^id(id counts, id x) {
-return cljm_DOT_core_SLASH_assoc_BANG_(counts, x, (cljm_DOT_core_SLASH__lookup(counts, x, @0) + @1));
-}, cljm_DOT_core_SLASH_transient(@{}), coll));
-};
+cljm_DOT_core_SLASH_frequencies = [[CLJMVar alloc] initWithValue:^id(id coll) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_persistent_BANG_.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id counts, id x) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_assoc_BANG_.value)(counts.value, x.value, (((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(counts.value, x.value, @0) + @1));
+}, ((id (^)(id )) cljm_DOT_core_SLASH_transient.value)(@{}), coll.value));
+}];
 /**
 * Returns a lazy seq of the intermediate values of the reduction (as
 * per reduce) of coll by f, starting with init.
 */
-cljm_DOT_core_SLASH_reductions = (function() {
+cljm_DOT_core_SLASH_reductions = [[CLJMVar alloc] initWithValue:(function() {
 var reductions = null;
 var reductions__2 = ^id(id f, id coll) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
 var reductions__3 = ^id(id f, id init, id coll) {
-return cljm_DOT_core_SLASH_cons(init, [cljm_DOT_core_SLASH_LazySeq alloc]);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(init.value, [cljm_DOT_core_SLASH_LazySeq.value alloc]);
 };
 reductions = function(f, init, coll){
 switch(arguments.length){
@@ -14443,7 +14443,7 @@ reductions.cljm$lang$arity$2 = reductions__2;
 reductions.cljm$lang$arity$3 = reductions__3;
 return reductions;
 })()
-;
+];
 /**
 * Takes a set of functions and returns a fn that is the juxtaposition
 * of those fns.  The returned fn takes a variable number of args, and
@@ -14451,24 +14451,24 @@ return reductions;
 * args (left-to-right).
 * ((juxt a b c) x) => [(a x) (b x) (c x)]
 */
-cljm_DOT_core_SLASH_juxt = (function() {
+cljm_DOT_core_SLASH_juxt = [[CLJMVar alloc] initWithValue:(function() {
 var juxt = null;
 var juxt__1 = ^id(id f) {
 return (function() {
-var G__7079 = null;
-var G__7079__0 = ^id() {
-return cljm_DOT_core_SLASH_vector(f(), nil);
+var G__7067 = null;
+var G__7067__0 = ^id() {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_vector.value)(((id (^)()) f.value)(), nil);
 };
-var G__7079__1 = ^id(id x) {
-return cljm_DOT_core_SLASH_vector(f(x), nil);
+var G__7067__1 = ^id(id x) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_vector.value)(((id (^)(id )) f.value)(x.value), nil);
 };
-var G__7079__2 = ^id(id x, id y) {
-return cljm_DOT_core_SLASH_vector(f(x, y), nil);
+var G__7067__2 = ^id(id x, id y) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_vector.value)(((id (^)(id , id )) f.value)(x.value, y.value), nil);
 };
-var G__7079__3 = ^id(id x, id y, id z) {
-return cljm_DOT_core_SLASH_vector(f(x, y, z), nil);
+var G__7067__3 = ^id(id x, id y, id z) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_vector.value)(((id (^)(id , id , id )) f.value)(x.value, y.value, z.value), nil);
 };
-var G__7079__4 = ^id(id cljm__varargs, id x, id y, id z, ...) {
+var G__7067__4 = ^id(id cljm__varargs, id x, id y, id z, ...) {
 NSMutableArray *args = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -14476,45 +14476,45 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_vector(cljm_DOT_core_SLASH_apply(f, x, y, z, args, nil), nil);
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_vector.value)(((id (^)(id , id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, x.value, y.value, z.value, args.value, nil), nil);
 };
-G__7079 = function(x, y, z, var_args){
+G__7067 = function(x, y, z, var_args){
 var args = var_args;
 switch(arguments.length){
 case 0:
-return G__7079__0.call(this);
+return G__7067__0.call(this);
 case 1:
-return G__7079__1.call(this,x);
+return G__7067__1.call(this,x);
 case 2:
-return G__7079__2.call(this,x, y);
+return G__7067__2.call(this,x, y);
 case 3:
-return G__7079__3.call(this,x, y, z);
+return G__7067__3.call(this,x, y, z);
 default:
-return G__7079__4.cljm$lang$arity$variadic(x, y, z, cljm.core.array_seq(arguments, 3));
+return G__7067__4.cljm$lang$arity$variadic(x, y, z, cljm.core.array_seq(arguments, 3));
 }
 throw('Invalid arity: ' + arguments.length);
 };
-G__7079.cljm$lang$maxFixedArity = 3;
-G__7079.cljm$lang$applyTo = G__7079__4.cljm$lang$applyTo;
-return G__7079;
+G__7067.cljm$lang$maxFixedArity = 3;
+G__7067.cljm$lang$applyTo = G__7067__4.cljm$lang$applyTo;
+return G__7067;
 })()
 };
 var juxt__2 = ^id(id f, id g) {
 return (function() {
-var G__7080 = null;
-var G__7080__0 = ^id() {
-return cljm_DOT_core_SLASH_vector(f(), g(), nil);
+var G__7068 = null;
+var G__7068__0 = ^id() {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_vector.value)(((id (^)()) f.value)(), ((id (^)()) g.value)(), nil);
 };
-var G__7080__1 = ^id(id x) {
-return cljm_DOT_core_SLASH_vector(f(x), g(x), nil);
+var G__7068__1 = ^id(id x) {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_vector.value)(((id (^)(id )) f.value)(x.value), ((id (^)(id )) g.value)(x.value), nil);
 };
-var G__7080__2 = ^id(id x, id y) {
-return cljm_DOT_core_SLASH_vector(f(x, y), g(x, y), nil);
+var G__7068__2 = ^id(id x, id y) {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_vector.value)(((id (^)(id , id )) f.value)(x.value, y.value), ((id (^)(id , id )) g.value)(x.value, y.value), nil);
 };
-var G__7080__3 = ^id(id x, id y, id z) {
-return cljm_DOT_core_SLASH_vector(f(x, y, z), g(x, y, z), nil);
+var G__7068__3 = ^id(id x, id y, id z) {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_vector.value)(((id (^)(id , id , id )) f.value)(x.value, y.value, z.value), ((id (^)(id , id , id )) g.value)(x.value, y.value, z.value), nil);
 };
-var G__7080__4 = ^id(id cljm__varargs, id x, id y, id z, ...) {
+var G__7068__4 = ^id(id cljm__varargs, id x, id y, id z, ...) {
 NSMutableArray *args = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -14522,45 +14522,45 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_vector(cljm_DOT_core_SLASH_apply(f, x, y, z, args, nil), cljm_DOT_core_SLASH_apply(g, x, y, z, args, nil), nil);
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_vector.value)(((id (^)(id , id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, x.value, y.value, z.value, args.value, nil), ((id (^)(id , id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(g.value, x.value, y.value, z.value, args.value, nil), nil);
 };
-G__7080 = function(x, y, z, var_args){
+G__7068 = function(x, y, z, var_args){
 var args = var_args;
 switch(arguments.length){
 case 0:
-return G__7080__0.call(this);
+return G__7068__0.call(this);
 case 1:
-return G__7080__1.call(this,x);
+return G__7068__1.call(this,x);
 case 2:
-return G__7080__2.call(this,x, y);
+return G__7068__2.call(this,x, y);
 case 3:
-return G__7080__3.call(this,x, y, z);
+return G__7068__3.call(this,x, y, z);
 default:
-return G__7080__4.cljm$lang$arity$variadic(x, y, z, cljm.core.array_seq(arguments, 3));
+return G__7068__4.cljm$lang$arity$variadic(x, y, z, cljm.core.array_seq(arguments, 3));
 }
 throw('Invalid arity: ' + arguments.length);
 };
-G__7080.cljm$lang$maxFixedArity = 3;
-G__7080.cljm$lang$applyTo = G__7080__4.cljm$lang$applyTo;
-return G__7080;
+G__7068.cljm$lang$maxFixedArity = 3;
+G__7068.cljm$lang$applyTo = G__7068__4.cljm$lang$applyTo;
+return G__7068;
 })()
 };
 var juxt__3 = ^id(id f, id g, id h) {
 return (function() {
-var G__7081 = null;
-var G__7081__0 = ^id() {
-return cljm_DOT_core_SLASH_vector(f(), g(), h(), nil);
+var G__7069 = null;
+var G__7069__0 = ^id() {
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_vector.value)(((id (^)()) f.value)(), ((id (^)()) g.value)(), ((id (^)()) h.value)(), nil);
 };
-var G__7081__1 = ^id(id x) {
-return cljm_DOT_core_SLASH_vector(f(x), g(x), h(x), nil);
+var G__7069__1 = ^id(id x) {
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_vector.value)(((id (^)(id )) f.value)(x.value), ((id (^)(id )) g.value)(x.value), ((id (^)(id )) h.value)(x.value), nil);
 };
-var G__7081__2 = ^id(id x, id y) {
-return cljm_DOT_core_SLASH_vector(f(x, y), g(x, y), h(x, y), nil);
+var G__7069__2 = ^id(id x, id y) {
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_vector.value)(((id (^)(id , id )) f.value)(x.value, y.value), ((id (^)(id , id )) g.value)(x.value, y.value), ((id (^)(id , id )) h.value)(x.value, y.value), nil);
 };
-var G__7081__3 = ^id(id x, id y, id z) {
-return cljm_DOT_core_SLASH_vector(f(x, y, z), g(x, y, z), h(x, y, z), nil);
+var G__7069__3 = ^id(id x, id y, id z) {
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_vector.value)(((id (^)(id , id , id )) f.value)(x.value, y.value, z.value), ((id (^)(id , id , id )) g.value)(x.value, y.value, z.value), ((id (^)(id , id , id )) h.value)(x.value, y.value, z.value), nil);
 };
-var G__7081__4 = ^id(id cljm__varargs, id x, id y, id z, ...) {
+var G__7069__4 = ^id(id cljm__varargs, id x, id y, id z, ...) {
 NSMutableArray *args = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -14568,27 +14568,27 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_vector(cljm_DOT_core_SLASH_apply(f, x, y, z, args, nil), cljm_DOT_core_SLASH_apply(g, x, y, z, args, nil), cljm_DOT_core_SLASH_apply(h, x, y, z, args, nil), nil);
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_vector.value)(((id (^)(id , id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, x.value, y.value, z.value, args.value, nil), ((id (^)(id , id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(g.value, x.value, y.value, z.value, args.value, nil), ((id (^)(id , id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(h.value, x.value, y.value, z.value, args.value, nil), nil);
 };
-G__7081 = function(x, y, z, var_args){
+G__7069 = function(x, y, z, var_args){
 var args = var_args;
 switch(arguments.length){
 case 0:
-return G__7081__0.call(this);
+return G__7069__0.call(this);
 case 1:
-return G__7081__1.call(this,x);
+return G__7069__1.call(this,x);
 case 2:
-return G__7081__2.call(this,x, y);
+return G__7069__2.call(this,x, y);
 case 3:
-return G__7081__3.call(this,x, y, z);
+return G__7069__3.call(this,x, y, z);
 default:
-return G__7081__4.cljm$lang$arity$variadic(x, y, z, cljm.core.array_seq(arguments, 3));
+return G__7069__4.cljm$lang$arity$variadic(x, y, z, cljm.core.array_seq(arguments, 3));
 }
 throw('Invalid arity: ' + arguments.length);
 };
-G__7081.cljm$lang$maxFixedArity = 3;
-G__7081.cljm$lang$applyTo = G__7081__4.cljm$lang$applyTo;
-return G__7081;
+G__7069.cljm$lang$maxFixedArity = 3;
+G__7069.cljm$lang$applyTo = G__7069__4.cljm$lang$applyTo;
+return G__7069;
 })()
 };
 var juxt__4 = ^id(id cljm__varargs, id f, id g, id h, ...) {
@@ -14599,30 +14599,30 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [fs addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id fs__7078 = cljm_DOT_core_SLASH_list_STAR_(f, g, h, fs, nil);
+id fs__7066 = ((id (^)(id , id , id , id , ...)) cljm_DOT_core_SLASH_list_STAR_.value)(f.value, g.value, h.value, fs.value, nil);
 return (function() {
-var G__7082 = null;
-var G__7082__0 = ^id() {
-return cljm_DOT_core_SLASH_reduce(^id(id p1__7059_SHARP_, id p2__7060_SHARP_) {
-return cljm_DOT_core_SLASH_conj(p1__7059_SHARP_, p2__7060_SHARP_(), nil);
-}, @[], fs__7078);
+var G__7070 = null;
+var G__7070__0 = ^id() {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id p1__7047_SHARP_, id p2__7048_SHARP_) {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(p1__7047_SHARP_.value, ((id (^)()) p2__7048_SHARP_.value)(), nil);
+}, @[], fs__7066);
 };
-var G__7082__1 = ^id(id x) {
-return cljm_DOT_core_SLASH_reduce(^id(id p1__7061_SHARP_, id p2__7062_SHARP_) {
-return cljm_DOT_core_SLASH_conj(p1__7061_SHARP_, p2__7062_SHARP_(x), nil);
-}, @[], fs__7078);
+var G__7070__1 = ^id(id x) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id p1__7049_SHARP_, id p2__7050_SHARP_) {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(p1__7049_SHARP_.value, ((id (^)(id )) p2__7050_SHARP_.value)(x.value), nil);
+}, @[], fs__7066);
 };
-var G__7082__2 = ^id(id x, id y) {
-return cljm_DOT_core_SLASH_reduce(^id(id p1__7063_SHARP_, id p2__7064_SHARP_) {
-return cljm_DOT_core_SLASH_conj(p1__7063_SHARP_, p2__7064_SHARP_(x, y), nil);
-}, @[], fs__7078);
+var G__7070__2 = ^id(id x, id y) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id p1__7051_SHARP_, id p2__7052_SHARP_) {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(p1__7051_SHARP_.value, ((id (^)(id , id )) p2__7052_SHARP_.value)(x.value, y.value), nil);
+}, @[], fs__7066);
 };
-var G__7082__3 = ^id(id x, id y, id z) {
-return cljm_DOT_core_SLASH_reduce(^id(id p1__7065_SHARP_, id p2__7066_SHARP_) {
-return cljm_DOT_core_SLASH_conj(p1__7065_SHARP_, p2__7066_SHARP_(x, y, z), nil);
-}, @[], fs__7078);
+var G__7070__3 = ^id(id x, id y, id z) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id p1__7053_SHARP_, id p2__7054_SHARP_) {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(p1__7053_SHARP_.value, ((id (^)(id , id , id )) p2__7054_SHARP_.value)(x.value, y.value, z.value), nil);
+}, @[], fs__7066);
 };
-var G__7082__4 = ^id(id cljm__varargs, id x, id y, id z, ...) {
+var G__7070__4 = ^id(id cljm__varargs, id x, id y, id z, ...) {
 NSMutableArray *args = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -14630,29 +14630,29 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_reduce(^id(id p1__7067_SHARP_, id p2__7068_SHARP_) {
-return cljm_DOT_core_SLASH_conj(p1__7067_SHARP_, cljm_DOT_core_SLASH_apply(p2__7068_SHARP_, x, y, z, args, nil), nil);
-}, @[], fs__7078);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id p1__7055_SHARP_, id p2__7056_SHARP_) {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(p1__7055_SHARP_.value, ((id (^)(id , id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(p2__7056_SHARP_.value, x.value, y.value, z.value, args.value, nil), nil);
+}, @[], fs__7066);
 };
-G__7082 = function(x, y, z, var_args){
+G__7070 = function(x, y, z, var_args){
 var args = var_args;
 switch(arguments.length){
 case 0:
-return G__7082__0.call(this);
+return G__7070__0.call(this);
 case 1:
-return G__7082__1.call(this,x);
+return G__7070__1.call(this,x);
 case 2:
-return G__7082__2.call(this,x, y);
+return G__7070__2.call(this,x, y);
 case 3:
-return G__7082__3.call(this,x, y, z);
+return G__7070__3.call(this,x, y, z);
 default:
-return G__7082__4.cljm$lang$arity$variadic(x, y, z, cljm.core.array_seq(arguments, 3));
+return G__7070__4.cljm$lang$arity$variadic(x, y, z, cljm.core.array_seq(arguments, 3));
 }
 throw('Invalid arity: ' + arguments.length);
 };
-G__7082.cljm$lang$maxFixedArity = 3;
-G__7082.cljm$lang$applyTo = G__7082__4.cljm$lang$applyTo;
-return G__7082;
+G__7070.cljm$lang$maxFixedArity = 3;
+G__7070.cljm$lang$applyTo = G__7070__4.cljm$lang$applyTo;
+return G__7070;
 })()
 };
 juxt = function(f, g, h, var_args){
@@ -14677,7 +14677,7 @@ juxt.cljm$lang$arity$3 = juxt__3;
 juxt.cljm$lang$arity$variadic = juxt__4.cljm$lang$arity$variadic;
 return juxt;
 })()
-;
+];
 /**
 * When lazy sequences are produced via functions that have side
 * effects, any effects other than those needed to produce the first
@@ -14685,14 +14685,14 @@ return juxt;
 * be used to force any effects. Walks through the successive nexts of
 * the seq, does not retain the head and returns nil.
 */
-cljm_DOT_core_SLASH_dorun = (function() {
+cljm_DOT_core_SLASH_dorun = [[CLJMVar alloc] initWithValue:(function() {
 var dorun = null;
 var dorun__1 = ^id(id coll) {
 while(YES) {
-if(cljm_truthy(cljm_DOT_core_SLASH_seq(coll))) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value))) {
 {
-var G__7085 = cljm_DOT_core_SLASH_next(coll);
-coll = G__7085;
+var G__7073 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(coll.value);
+coll = G__7073;
 continue;
 }
 
@@ -14705,20 +14705,20 @@ break;
 };
 var dorun__2 = ^id(id n, id coll) {
 while(YES) {
-if(cljm_truthy({id and__3822__auto____7084 = cljm_DOT_core_SLASH_seq(coll);
-if(cljm_truthy(and__3822__auto____7084)) {
-return (n > @0);
+if(cljm_truthy({id and__3822__auto____7072 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value);
+if(cljm_truthy(and__3822__auto____7072)) {
+return (n.value > @0);
 
 } else {
-return and__3822__auto____7084;
+return and__3822__auto____7072;
 
 }
 })) {
 {
-var G__7086 = (n - @1);
-var G__7087 = cljm_DOT_core_SLASH_next(coll);
-n = G__7086;
-coll = G__7087;
+var G__7074 = (n.value - @1);
+var G__7075 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(coll.value);
+n = G__7074;
+coll = G__7075;
 continue;
 }
 
@@ -14742,7 +14742,7 @@ dorun.cljm$lang$arity$1 = dorun__1;
 dorun.cljm$lang$arity$2 = dorun__2;
 return dorun;
 })()
-;
+];
 /**
 * When lazy sequences are produced via functions that have side
 * effects, any effects other than those needed to produce the first
@@ -14751,15 +14751,15 @@ return dorun;
 * the seq, retains the head and returns it, thus causing the entire
 * seq to reside in memory at one time.
 */
-cljm_DOT_core_SLASH_doall = (function() {
+cljm_DOT_core_SLASH_doall = [[CLJMVar alloc] initWithValue:(function() {
 var doall = null;
 var doall__1 = ^id(id coll) {
-cljm_DOT_core_SLASH_dorun(coll);
-return coll;
+((id (^)(id )) cljm_DOT_core_SLASH_dorun.value)(coll.value);
+return coll.value;
 };
 var doall__2 = ^id(id n, id coll) {
-cljm_DOT_core_SLASH_dorun(n, coll);
-return coll;
+((id (^)(id , id )) cljm_DOT_core_SLASH_dorun.value)(n.value, coll.value);
+return coll.value;
 };
 doall = function(n, coll){
 switch(arguments.length){
@@ -14774,21 +14774,21 @@ doall.cljm$lang$arity$1 = doall__1;
 doall.cljm$lang$arity$2 = doall__2;
 return doall;
 })()
-;
-cljm_DOT_core_SLASH_regexp_QMARK_ = ^id(id o) {
+];
+cljm_DOT_core_SLASH_regexp_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id o) {
 return o instanceof RegExp;
-};
+}];
 /**
 * Returns the result of (re-find re s) if re fully matches s.
 */
-cljm_DOT_core_SLASH_re_matches = ^id(id re, id s) {
-id matches__7089 = [re execs];
-if(cljm_truthy(cljm_DOT_core_SLASH__EQ_(cljm_DOT_core_SLASH_first(matches__7089), s, nil))) {
-if(cljm_truthy(([cljm_DOT_core_SLASH_count(matches__7089) isEqual:@1]))) {
-return cljm_DOT_core_SLASH_first(matches__7089);
+cljm_DOT_core_SLASH_re_matches = [[CLJMVar alloc] initWithValue:^id(id re, id s) {
+id matches__7077 = [re.value execs.value];
+if(cljm_truthy(((id (^)(id , id , ...)) cljm_DOT_core_SLASH__EQ_.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(matches__7077), s.value, nil))) {
+if(cljm_truthy(([((id (^)(id )) cljm_DOT_core_SLASH_count.value)(matches__7077) isEqual:@1]))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(matches__7077);
 
 } else {
-return cljm_DOT_core_SLASH_vec(matches__7089);
+return ((id (^)(id )) cljm_DOT_core_SLASH_vec.value)(matches__7077);
 
 }
 
@@ -14796,95 +14796,95 @@ return cljm_DOT_core_SLASH_vec(matches__7089);
 return nil;
 
 }
-};
+}];
 /**
 * Returns the first regex match, if any, of s to re, using
 * re.exec(s). Returns a vector, containing first the matching
 * substring, then any capturing groups if the regular expression contains
 * capturing groups.
 */
-cljm_DOT_core_SLASH_re_find = ^id(id re, id s) {
-id matches__7091 = [re execs];
-if(cljm_truthy((matches__7091 == nil))) {
+cljm_DOT_core_SLASH_re_find = [[CLJMVar alloc] initWithValue:^id(id re, id s) {
+id matches__7079 = [re.value execs.value];
+if(cljm_truthy((matches__7079 == nil))) {
 return nil;
 
 } else {
-if(cljm_truthy(([cljm_DOT_core_SLASH_count(matches__7091) isEqual:@1]))) {
-return cljm_DOT_core_SLASH_first(matches__7091);
+if(cljm_truthy(([((id (^)(id )) cljm_DOT_core_SLASH_count.value)(matches__7079) isEqual:@1]))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(matches__7079);
 
 } else {
-return cljm_DOT_core_SLASH_vec(matches__7091);
+return ((id (^)(id )) cljm_DOT_core_SLASH_vec.value)(matches__7079);
 
 }
 
 }
-};
+}];
 /**
 * Returns a lazy sequence of successive matches of re in s.
 */
-cljm_DOT_core_SLASH_re_seq = ^id(id re, id s) {
-id match_data__7096 = cljm_DOT_core_SLASH_re_find(re, s);
-id match_idx__7097 = [s searchre];
-id match_str__7098 = (cljm_truthy(cljm_DOT_core_SLASH_coll_QMARK_(match_data__7096))) ?cljm_DOT_core_SLASH_first(match_data__7096):match_data__7096;
-id post_match__7099 = cljm_DOT_core_SLASH_subs(s, (match_idx__7097 + cljm_DOT_core_SLASH_count(match_str__7098)));
-if(cljm_truthy(match_data__7096)) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+cljm_DOT_core_SLASH_re_seq = [[CLJMVar alloc] initWithValue:^id(id re, id s) {
+id match_data__7084 = ((id (^)(id , id )) cljm_DOT_core_SLASH_re_find.value)(re.value, s.value);
+id match_idx__7085 = [s.value searchre.value];
+id match_str__7086 = (cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_coll_QMARK_.value)(match-data__7084))) ?((id (^)(id )) cljm_DOT_core_SLASH_first.value)(match-data__7084):match-data__7084;
+id post_match__7087 = ((id (^)(id , id )) cljm_DOT_core_SLASH_subs.value)(s.value, (match-idx__7085 + ((id (^)(id )) cljm_DOT_core_SLASH_count.value)(match-str__7086)));
+if(cljm_truthy(match-data__7084)) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 
 } else {
 return nil;
 
 }
-};
+}];
 /**
 * Returns an instance of RegExp which has compiled the provided string.
 */
-cljm_DOT_core_SLASH_re_pattern = ^id(id s) {
-id vec__7106__7107 = cljm_DOT_core_SLASH_re_find(/^(?:\(\?([idmsux]*)\))?(.*)/, s);
-id ___7108 = cljm_DOT_core_SLASH_nth(vec__7106__7107, @0, nil);
-id flags__7109 = cljm_DOT_core_SLASH_nth(vec__7106__7107, @1, nil);
-id pattern__7110 = cljm_DOT_core_SLASH_nth(vec__7106__7107, @2, nil);
-return [RegExp alloc];
-};
-cljm_DOT_core_SLASH_pr_sequential = ^id(id print_one, id begin, id sep, id end, id opts, id coll) {
-return cljm_DOT_core_SLASH_concat(@[ begin ], cljm_DOT_core_SLASH_flatten1(cljm_DOT_core_SLASH_interpose(@[ sep ], cljm_DOT_core_SLASH_map(^id(id p1__7100_SHARP_) {
-return print_one(p1__7100_SHARP_, opts);
-}, coll, nil))), @[ end ], nil);
-};
-cljm_DOT_core_SLASH_string_print = ^id(id x) {
-cljm_DOT_core_SLASH__STAR_print_fn_STAR_(x);
+cljm_DOT_core_SLASH_re_pattern = [[CLJMVar alloc] initWithValue:^id(id s) {
+id vec__7094__7095 = ((id (^)(id , id )) cljm_DOT_core_SLASH_re_find.value)(/^(?:\(\?([idmsux]*)\))?(.*)/, s.value);
+id ___7096 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__7094__7095, @0, nil);
+id flags__7097 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__7094__7095, @1, nil);
+id pattern__7098 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__7094__7095, @2, nil);
+return [RegExp.value alloc];
+}];
+cljm_DOT_core_SLASH_pr_sequential = [[CLJMVar alloc] initWithValue:^id(id print_one, id begin, id sep, id end, id opts, id coll) {
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_concat.value)(@[ begin.value ], ((id (^)(id )) cljm_DOT_core_SLASH_flatten1.value)(((id (^)(id , id )) cljm_DOT_core_SLASH_interpose.value)(@[ sep.value ], ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_map.value)(^id(id p1__7088_SHARP_) {
+return ((id (^)(id , id )) print_one.value)(p1__7088_SHARP_.value, opts.value);
+}, coll.value, nil))), @[ end.value ], nil);
+}];
+cljm_DOT_core_SLASH_string_print = [[CLJMVar alloc] initWithValue:^id(id x) {
+((id (^)(id )) cljm_DOT_core_SLASH__STAR_print_fn_STAR_.value)(x.value);
 return nil;
-};
-cljm_DOT_core_SLASH_flush = ^id() {
+}];
+cljm_DOT_core_SLASH_flush = [[CLJMVar alloc] initWithValue:^id() {
 return nil;
-};
-cljm_DOT_core_SLASH_pr_seq = ^id(id obj, id opts) {
-if(cljm_truthy((obj == nil))) {
-return cljm_DOT_core_SLASH_list(@"nil", nil);
+}];
+cljm_DOT_core_SLASH_pr_seq = [[CLJMVar alloc] initWithValue:^id(id obj, id opts) {
+if(cljm_truthy((obj.value == nil))) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"nil", nil);
 
 } else {
-if(cljm_truthy(((void *) 0) === obj))) {
-return cljm_DOT_core_SLASH_list(@"#<undefined>", nil);
+if(cljm_truthy(((void *) 0) === obj.value))) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"#<undefined>", nil);
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return cljm_DOT_core_SLASH_concat((cljm_truthy({id and__3822__auto____7120 = cljm_DOT_core_SLASH__lookup(opts, cljm_keyword(@":meta"), nil);
-if(cljm_truthy(and__3822__auto____7120)) {
-id and__3822__auto____7124 = {id G__7121__7122 = obj;
-if(cljm_truthy(G__7121__7122)) {
-if(cljm_truthy({id or__3824__auto____7123 = (G__7121__7122.cljm$lang$protocol_mask$partition0$ & @131072);
-if(cljm_truthy(or__3824__auto____7123)) {
-return or__3824__auto____7123;
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_concat.value)((cljm_truthy({id and__3822__auto____7108 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(opts.value, cljm_keyword(@":meta"), nil);
+if(cljm_truthy(and__3822__auto____7108)) {
+id and__3822__auto____7112 = {id G__7109__7110 = obj.value;
+if(cljm_truthy(G__7109__7110)) {
+if(cljm_truthy({id or__3824__auto____7111 = (G__7109__7110.cljm$lang$protocol_mask$partition0$ & @131072);
+if(cljm_truthy(or__3824__auto____7111)) {
+return or__3824__auto____7111;
 
 } else {
-return G__7121__7122.cljm$core$IMeta$;
+return G__7109__7110.cljm$core$IMeta$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__7121__7122.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IMeta, G__7121__7122);
+if(cljm_truthy((!G__7109__7110.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IMeta.value, G__7109__7110);
 
 } else {
 return @NO;
@@ -14894,46 +14894,46 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IMeta, G__7121__7122);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IMeta.value, G__7109__7110);
 
 }
 };
-if(cljm_truthy(and__3822__auto____7124)) {
-return cljm_DOT_core_SLASH_meta(obj);
+if(cljm_truthy(and__3822__auto____7112)) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_meta.value)(obj.value);
 
 } else {
-return and__3822__auto____7124;
+return and__3822__auto____7112;
 
 }
 
 } else {
-return and__3822__auto____7120;
+return and__3822__auto____7108;
 
 }
-})) ?cljm_DOT_core_SLASH_concat(@[ @"^" ], pr_seq(cljm_DOT_core_SLASH_meta(obj), opts), @[ @" " ], nil):nil, (cljm_truthy({id and__3822__auto____7125 = cljm_DOT_core_SLASH_not((obj == nil));
-if(cljm_truthy(and__3822__auto____7125)) {
-return obj.cljs$lang$type;
+})) ?((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_concat.value)(@[ @"^" ], ((id (^)(id , id )) pr_seq.value)(((id (^)(id )) cljm_DOT_core_SLASH_meta.value)(obj.value), opts.value), @[ @" " ], nil):nil, (cljm_truthy({id and__3822__auto____7113 = ((id (^)(id )) cljm_DOT_core_SLASH_not.value)((obj.value == nil));
+if(cljm_truthy(and__3822__auto____7113)) {
+return obj.value.cljs$lang$type;
 
 } else {
-return and__3822__auto____7125;
+return and__3822__auto____7113;
 
 }
-})) ?[obj cljsobj lang]:(cljm_truthy({id G__7126__7127 = obj;
-if(cljm_truthy(G__7126__7127)) {
-if(cljm_truthy({id or__3824__auto____7128 = (G__7126__7127.cljm$lang$protocol_mask$partition0$ & @536870912);
-if(cljm_truthy(or__3824__auto____7128)) {
-return or__3824__auto____7128;
+})) ?[obj.value cljsobj.value lang]:(cljm_truthy({id G__7114__7115 = obj.value;
+if(cljm_truthy(G__7114__7115)) {
+if(cljm_truthy({id or__3824__auto____7116 = (G__7114__7115.cljm$lang$protocol_mask$partition0$ & @536870912);
+if(cljm_truthy(or__3824__auto____7116)) {
+return or__3824__auto____7116;
 
 } else {
-return G__7126__7127.cljm$core$IPrintable$;
+return G__7114__7115.cljm$core$IPrintable$;
 
 }
 })) {
 return @YES;
 
 } else {
-if(cljm_truthy((!G__7126__7127.cljm$lang$protocol_mask$partition0$))) {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IPrintable, G__7126__7127);
+if(cljm_truthy((!G__7114__7115.cljm$lang$protocol_mask$partition0$))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IPrintable.value, G__7114__7115);
 
 } else {
 return @NO;
@@ -14943,10 +14943,10 @@ return @NO;
 }
 
 } else {
-return cljm_DOT_core_SLASH_type_satisfies_(cljm_DOT_core_SLASH_IPrintable, G__7126__7127);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_type_satisfies_.value)(cljm_DOT_core_SLASH_IPrintable.value, G__7114__7115);
 
 }
-})) ?cljm_DOT_core_SLASH__pr_seq(obj, opts):(cljm_truthy(cljm_DOT_core_SLASH_regexp_QMARK_(obj))) ?cljm_DOT_core_SLASH_list(@"#\"", obj.source, @"\"", nil):(cljm_truthy(cljm_keyword(@":else"))) ?cljm_DOT_core_SLASH_list(@"#<", [@[ obj ] componentsSeperatedByString:@""], @">", nil):nil, nil);
+})) ?((id (^)(id , id )) cljm_DOT_core_SLASH__pr_seq.value)(obj.value, opts.value):(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_regexp_QMARK_.value)(obj.value))) ?((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_list.value)(@"#\"", obj.value.source, @"\"", nil):(cljm_truthy(cljm_keyword(@":else"))) ?((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_list.value)(@"#<", [@[ obj.value ] componentsSeperatedByString:@""], @">", nil):nil, nil);
 
 } else {
 return nil;
@@ -14956,23 +14956,75 @@ return nil;
 }
 
 }
-};
-cljm_DOT_core_SLASH_pr_sb = ^id(id objs, id opts) {
-id sb__7148 = [gstring_SLASH_StringBuffer alloc];
-id G__7149__7150 = cljm_DOT_core_SLASH_seq(cljm_DOT_core_SLASH_pr_seq(cljm_DOT_core_SLASH_first(objs), opts));
-if(cljm_truthy(G__7149__7150)) {
-id string__7151 = cljm_DOT_core_SLASH_first(G__7149__7150);
-id G__7149__7152 = G__7149__7150;
+}];
+cljm_DOT_core_SLASH_pr_sb = [[CLJMVar alloc] initWithValue:^id(id objs, id opts) {
+id sb__7136 = [gstring_SLASH_StringBuffer.value alloc];
+id G__7137__7138 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(((id (^)(id , id )) cljm_DOT_core_SLASH_pr_seq.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(objs.value), opts.value));
+if(cljm_truthy(G__7137__7138)) {
+id string__7139 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(G__7137__7138);
+id G__7137__7140 = G__7137__7138;
 while(YES) {
-[sb__7148 appendstring__7151];
-id temp__3974__auto____7153 = cljm_DOT_core_SLASH_next(G__7149__7152);
+[sb__7136 appendstring__7139];
+id temp__3974__auto____7141 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(G__7137__7140);
+if(cljm_truthy(temp__3974__auto____7141)) {
+id G__7137__7142 = temp__3974__auto____7141;
+{
+var G__7155 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(G__7137__7142);
+var G__7156 = G__7137__7142;
+string__7139 = G__7155;
+G__7137__7140 = G__7156;
+continue;
+}
+
+} else {
+
+}
+break;
+}
+
+} else {
+
+}
+id G__7143__7144 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(((id (^)(id )) cljm_DOT_core_SLASH_next.value)(objs.value));
+if(cljm_truthy(G__7143__7144)) {
+id obj__7145 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(G__7143__7144);
+id G__7143__7146 = G__7143__7144;
+while(YES) {
+[sb__7136 append@" "];
+id G__7147__7148 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(((id (^)(id , id )) cljm_DOT_core_SLASH_pr_seq.value)(obj__7145, opts.value));
+if(cljm_truthy(G__7147__7148)) {
+id string__7149 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(G__7147__7148);
+id G__7147__7150 = G__7147__7148;
+while(YES) {
+[sb__7136 appendstring__7149];
+id temp__3974__auto____7151 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(G__7147__7150);
+if(cljm_truthy(temp__3974__auto____7151)) {
+id G__7147__7152 = temp__3974__auto____7151;
+{
+var G__7157 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(G__7147__7152);
+var G__7158 = G__7147__7152;
+string__7149 = G__7157;
+G__7147__7150 = G__7158;
+continue;
+}
+
+} else {
+
+}
+break;
+}
+
+} else {
+
+}
+id temp__3974__auto____7153 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(G__7143__7146);
 if(cljm_truthy(temp__3974__auto____7153)) {
-id G__7149__7154 = temp__3974__auto____7153;
+id G__7143__7154 = temp__3974__auto____7153;
 {
-var G__7167 = cljm_DOT_core_SLASH_first(G__7149__7154);
-var G__7168 = G__7149__7154;
-string__7151 = G__7167;
-G__7149__7152 = G__7168;
+var G__7159 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(G__7143__7154);
+var G__7160 = G__7143__7154;
+obj__7145 = G__7159;
+G__7143__7146 = G__7160;
 continue;
 }
 
@@ -14985,146 +15037,94 @@ break;
 } else {
 
 }
-id G__7155__7156 = cljm_DOT_core_SLASH_seq(cljm_DOT_core_SLASH_next(objs));
-if(cljm_truthy(G__7155__7156)) {
-id obj__7157 = cljm_DOT_core_SLASH_first(G__7155__7156);
-id G__7155__7158 = G__7155__7156;
-while(YES) {
-[sb__7148 append@" "];
-id G__7159__7160 = cljm_DOT_core_SLASH_seq(cljm_DOT_core_SLASH_pr_seq(obj__7157, opts));
-if(cljm_truthy(G__7159__7160)) {
-id string__7161 = cljm_DOT_core_SLASH_first(G__7159__7160);
-id G__7159__7162 = G__7159__7160;
-while(YES) {
-[sb__7148 appendstring__7161];
-id temp__3974__auto____7163 = cljm_DOT_core_SLASH_next(G__7159__7162);
-if(cljm_truthy(temp__3974__auto____7163)) {
-id G__7159__7164 = temp__3974__auto____7163;
-{
-var G__7169 = cljm_DOT_core_SLASH_first(G__7159__7164);
-var G__7170 = G__7159__7164;
-string__7161 = G__7169;
-G__7159__7162 = G__7170;
-continue;
-}
-
-} else {
-
-}
-break;
-}
-
-} else {
-
-}
-id temp__3974__auto____7165 = cljm_DOT_core_SLASH_next(G__7155__7158);
-if(cljm_truthy(temp__3974__auto____7165)) {
-id G__7155__7166 = temp__3974__auto____7165;
-{
-var G__7171 = cljm_DOT_core_SLASH_first(G__7155__7166);
-var G__7172 = G__7155__7166;
-obj__7157 = G__7171;
-G__7155__7158 = G__7172;
-continue;
-}
-
-} else {
-
-}
-break;
-}
-
-} else {
-
-}
-return sb__7148;
-};
+return sb__7136;
+}];
 /**
 * Prints a sequence of objects to a string, observing all the
 * options given in opts
 */
-cljm_DOT_core_SLASH_pr_str_with_opts = ^id(id objs, id opts) {
-return [@[ cljm_DOT_core_SLASH_pr_sb(objs, opts) ] componentsSeperatedByString:@""];
-};
+cljm_DOT_core_SLASH_pr_str_with_opts = [[CLJMVar alloc] initWithValue:^id(id objs, id opts) {
+return [@[ ((id (^)(id , id )) cljm_DOT_core_SLASH_pr_sb.value)(objs.value, opts.value) ] componentsSeperatedByString:@""];
+}];
 /**
 * Same as pr-str-with-opts followed by (newline)
 */
-cljm_DOT_core_SLASH_prn_str_with_opts = ^id(id objs, id opts) {
-id sb__7174 = cljm_DOT_core_SLASH_pr_sb(objs, opts);
-[sb__7174 append@"\n"];
-return [@[ sb__7174 ] componentsSeperatedByString:@""];
-};
+cljm_DOT_core_SLASH_prn_str_with_opts = [[CLJMVar alloc] initWithValue:^id(id objs, id opts) {
+id sb__7162 = ((id (^)(id , id )) cljm_DOT_core_SLASH_pr_sb.value)(objs.value, opts.value);
+[sb__7162 append@"\n"];
+return [@[ sb__7162 ] componentsSeperatedByString:@""];
+}];
 /**
 * Prints a sequence of objects using string-print, observing all
 * the options given in opts
 */
-cljm_DOT_core_SLASH_pr_with_opts = ^id(id objs, id opts) {
-id G__7193__7194 = cljm_DOT_core_SLASH_seq(cljm_DOT_core_SLASH_pr_seq(cljm_DOT_core_SLASH_first(objs), opts));
-if(cljm_truthy(G__7193__7194)) {
-id string__7195 = cljm_DOT_core_SLASH_first(G__7193__7194);
-id G__7193__7196 = G__7193__7194;
+cljm_DOT_core_SLASH_pr_with_opts = [[CLJMVar alloc] initWithValue:^id(id objs, id opts) {
+id G__7181__7182 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(((id (^)(id , id )) cljm_DOT_core_SLASH_pr_seq.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(objs.value), opts.value));
+if(cljm_truthy(G__7181__7182)) {
+id string__7183 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(G__7181__7182);
+id G__7181__7184 = G__7181__7182;
 while(YES) {
-cljm_DOT_core_SLASH_string_print(string__7195);
-id temp__3974__auto____7197 = cljm_DOT_core_SLASH_next(G__7193__7196);
+((id (^)(id )) cljm_DOT_core_SLASH_string_print.value)(string__7183);
+id temp__3974__auto____7185 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(G__7181__7184);
+if(cljm_truthy(temp__3974__auto____7185)) {
+id G__7181__7186 = temp__3974__auto____7185;
+{
+var G__7199 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(G__7181__7186);
+var G__7200 = G__7181__7186;
+string__7183 = G__7199;
+G__7181__7184 = G__7200;
+continue;
+}
+
+} else {
+
+}
+break;
+}
+
+} else {
+
+}
+id G__7187__7188 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(((id (^)(id )) cljm_DOT_core_SLASH_next.value)(objs.value));
+if(cljm_truthy(G__7187__7188)) {
+id obj__7189 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(G__7187__7188);
+id G__7187__7190 = G__7187__7188;
+while(YES) {
+((id (^)(id )) cljm_DOT_core_SLASH_string_print.value)(@" ");
+id G__7191__7192 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(((id (^)(id , id )) cljm_DOT_core_SLASH_pr_seq.value)(obj__7189, opts.value));
+if(cljm_truthy(G__7191__7192)) {
+id string__7193 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(G__7191__7192);
+id G__7191__7194 = G__7191__7192;
+while(YES) {
+((id (^)(id )) cljm_DOT_core_SLASH_string_print.value)(string__7193);
+id temp__3974__auto____7195 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(G__7191__7194);
+if(cljm_truthy(temp__3974__auto____7195)) {
+id G__7191__7196 = temp__3974__auto____7195;
+{
+var G__7201 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(G__7191__7196);
+var G__7202 = G__7191__7196;
+string__7193 = G__7201;
+G__7191__7194 = G__7202;
+continue;
+}
+
+} else {
+
+}
+break;
+}
+
+} else {
+
+}
+id temp__3974__auto____7197 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(G__7187__7190);
 if(cljm_truthy(temp__3974__auto____7197)) {
-id G__7193__7198 = temp__3974__auto____7197;
+id G__7187__7198 = temp__3974__auto____7197;
 {
-var G__7211 = cljm_DOT_core_SLASH_first(G__7193__7198);
-var G__7212 = G__7193__7198;
-string__7195 = G__7211;
-G__7193__7196 = G__7212;
-continue;
-}
-
-} else {
-
-}
-break;
-}
-
-} else {
-
-}
-id G__7199__7200 = cljm_DOT_core_SLASH_seq(cljm_DOT_core_SLASH_next(objs));
-if(cljm_truthy(G__7199__7200)) {
-id obj__7201 = cljm_DOT_core_SLASH_first(G__7199__7200);
-id G__7199__7202 = G__7199__7200;
-while(YES) {
-cljm_DOT_core_SLASH_string_print(@" ");
-id G__7203__7204 = cljm_DOT_core_SLASH_seq(cljm_DOT_core_SLASH_pr_seq(obj__7201, opts));
-if(cljm_truthy(G__7203__7204)) {
-id string__7205 = cljm_DOT_core_SLASH_first(G__7203__7204);
-id G__7203__7206 = G__7203__7204;
-while(YES) {
-cljm_DOT_core_SLASH_string_print(string__7205);
-id temp__3974__auto____7207 = cljm_DOT_core_SLASH_next(G__7203__7206);
-if(cljm_truthy(temp__3974__auto____7207)) {
-id G__7203__7208 = temp__3974__auto____7207;
-{
-var G__7213 = cljm_DOT_core_SLASH_first(G__7203__7208);
-var G__7214 = G__7203__7208;
-string__7205 = G__7213;
-G__7203__7206 = G__7214;
-continue;
-}
-
-} else {
-
-}
-break;
-}
-
-} else {
-
-}
-id temp__3974__auto____7209 = cljm_DOT_core_SLASH_next(G__7199__7202);
-if(cljm_truthy(temp__3974__auto____7209)) {
-id G__7199__7210 = temp__3974__auto____7209;
-{
-var G__7215 = cljm_DOT_core_SLASH_first(G__7199__7210);
-var G__7216 = G__7199__7210;
-obj__7201 = G__7215;
-G__7199__7202 = G__7216;
+var G__7203 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(G__7187__7198);
+var G__7204 = G__7187__7198;
+obj__7189 = G__7203;
+G__7187__7190 = G__7204;
 continue;
 }
 
@@ -15139,28 +15139,28 @@ break;
 return nil;
 
 }
-};
-cljm_DOT_core_SLASH_newline = ^id(id opts) {
-cljm_DOT_core_SLASH_string_print(@"\n");
-if(cljm_truthy(cljm_DOT_core_SLASH__lookup(opts, cljm_keyword(@":flush-on-newline"), nil))) {
-return cljm_DOT_core_SLASH_flush();
+}];
+cljm_DOT_core_SLASH_newline = [[CLJMVar alloc] initWithValue:^id(id opts) {
+((id (^)(id )) cljm_DOT_core_SLASH_string_print.value)(@"\n");
+if(cljm_truthy(((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(opts.value, cljm_keyword(@":flush-on-newline"), nil))) {
+return ((id (^)()) cljm_DOT_core_SLASH_flush.value)();
 
 } else {
 return nil;
 
 }
-};
-cljm_DOT_core_SLASH__STAR_flush_on_newline_STAR_ = @YES;
-cljm_DOT_core_SLASH__STAR_print_readably_STAR_ = @YES;
-cljm_DOT_core_SLASH__STAR_print_meta_STAR_ = @NO;
-cljm_DOT_core_SLASH__STAR_print_dup_STAR_ = @NO;
-cljm_DOT_core_SLASH_pr_opts = ^id() {
-return @{ cljm_keyword(@":flush-on-newline"): cljm_DOT_core_SLASH__STAR_flush_on_newline_STAR_, cljm_keyword(@":readably"): cljm_DOT_core_SLASH__STAR_print_readably_STAR_, cljm_keyword(@":meta"): cljm_DOT_core_SLASH__STAR_print_meta_STAR_, cljm_keyword(@":dup"): cljm_DOT_core_SLASH__STAR_print_dup_STAR_ };
-};
+}];
+cljm_DOT_core_SLASH__STAR_flush_on_newline_STAR_ = [[CLJMVar alloc] initWithValue:@YES];
+cljm_DOT_core_SLASH__STAR_print_readably_STAR_ = [[CLJMVar alloc] initWithValue:@YES];
+cljm_DOT_core_SLASH__STAR_print_meta_STAR_ = [[CLJMVar alloc] initWithValue:@NO];
+cljm_DOT_core_SLASH__STAR_print_dup_STAR_ = [[CLJMVar alloc] initWithValue:@NO];
+cljm_DOT_core_SLASH_pr_opts = [[CLJMVar alloc] initWithValue:^id() {
+return @{ cljm_keyword(@":flush-on-newline"): cljm_DOT_core_SLASH__STAR_flush_on_newline_STAR_.value, cljm_keyword(@":readably"): cljm_DOT_core_SLASH__STAR_print_readably_STAR_.value, cljm_keyword(@":meta"): cljm_DOT_core_SLASH__STAR_print_meta_STAR_.value, cljm_keyword(@":dup"): cljm_DOT_core_SLASH__STAR_print_dup_STAR_.value };
+}];
 /**
 * pr to a string, returning it. Fundamental entrypoint to IPrintable.
 */
-cljm_DOT_core_SLASH_pr_str = ^id(id cljm__varargs, ...) {
+cljm_DOT_core_SLASH_pr_str = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, ...) {
 NSMutableArray *objs = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -15168,12 +15168,12 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [objs addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_pr_str_with_opts(objs, cljm_DOT_core_SLASH_pr_opts());
-};
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_pr_str_with_opts.value)(objs.value, ((id (^)()) cljm_DOT_core_SLASH_pr_opts.value)());
+}];
 /**
 * Same as pr-str followed by (newline)
 */
-cljm_DOT_core_SLASH_prn_str = ^id(id cljm__varargs, ...) {
+cljm_DOT_core_SLASH_prn_str = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, ...) {
 NSMutableArray *objs = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -15181,15 +15181,15 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [objs addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_prn_str_with_opts(objs, cljm_DOT_core_SLASH_pr_opts());
-};
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_prn_str_with_opts.value)(objs.value, ((id (^)()) cljm_DOT_core_SLASH_pr_opts.value)());
+}];
 /**
 * Prints the object(s) using string-print.  Prints the
 * object(s), separated by spaces if there is more than one.
 * By default, pr and prn print in a way that objects can be
 * read by the reader
 */
-cljm_DOT_core_SLASH_pr = ^id(id cljm__varargs, ...) {
+cljm_DOT_core_SLASH_pr = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, ...) {
 NSMutableArray *objs = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -15197,13 +15197,13 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [objs addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_pr_with_opts(objs, cljm_DOT_core_SLASH_pr_opts());
-};
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_pr_with_opts.value)(objs.value, ((id (^)()) cljm_DOT_core_SLASH_pr_opts.value)());
+}];
 /**
 * Prints the object(s) using string-print.
 * print and println produce output for human consumption.
 */
-cljm_DOT_core_SLASH_print = ^id(id cljm__varargs, ...) {
+cljm_DOT_core_SLASH_print = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, ...) {
 NSMutableArray *objs = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -15211,12 +15211,12 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [objs addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_pr_with_opts(objs, cljm_DOT_core_SLASH_assoc(cljm_DOT_core_SLASH_pr_opts(), cljm_keyword(@":readably"), @NO, nil));
-};
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_pr_with_opts.value)(objs.value, ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(((id (^)()) cljm_DOT_core_SLASH_pr_opts.value)(), cljm_keyword(@":readably"), @NO, nil));
+}];
 /**
 * print to a string, returning it
 */
-cljm_DOT_core_SLASH_print_str = ^id(id cljm__varargs, ...) {
+cljm_DOT_core_SLASH_print_str = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, ...) {
 NSMutableArray *objs = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -15224,12 +15224,12 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [objs addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_pr_str_with_opts(objs, cljm_DOT_core_SLASH_assoc(cljm_DOT_core_SLASH_pr_opts(), cljm_keyword(@":readably"), @NO, nil));
-};
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_pr_str_with_opts.value)(objs.value, ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(((id (^)()) cljm_DOT_core_SLASH_pr_opts.value)(), cljm_keyword(@":readably"), @NO, nil));
+}];
 /**
 * Same as print followed by (newline)
 */
-cljm_DOT_core_SLASH_println = ^id(id cljm__varargs, ...) {
+cljm_DOT_core_SLASH_println = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, ...) {
 NSMutableArray *objs = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -15237,13 +15237,13 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [objs addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-cljm_DOT_core_SLASH_pr_with_opts(objs, cljm_DOT_core_SLASH_assoc(cljm_DOT_core_SLASH_pr_opts(), cljm_keyword(@":readably"), @NO, nil));
-return cljm_DOT_core_SLASH_newline(cljm_DOT_core_SLASH_pr_opts());
-};
+((id (^)(id , id )) cljm_DOT_core_SLASH_pr_with_opts.value)(objs.value, ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(((id (^)()) cljm_DOT_core_SLASH_pr_opts.value)(), cljm_keyword(@":readably"), @NO, nil));
+return ((id (^)(id )) cljm_DOT_core_SLASH_newline.value)(((id (^)()) cljm_DOT_core_SLASH_pr_opts.value)());
+}];
 /**
 * println to a string, returning it
 */
-cljm_DOT_core_SLASH_println_str = ^id(id cljm__varargs, ...) {
+cljm_DOT_core_SLASH_println_str = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, ...) {
 NSMutableArray *objs = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -15251,12 +15251,12 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [objs addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_prn_str_with_opts(objs, cljm_DOT_core_SLASH_assoc(cljm_DOT_core_SLASH_pr_opts(), cljm_keyword(@":readably"), @NO, nil));
-};
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_prn_str_with_opts.value)(objs.value, ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(((id (^)()) cljm_DOT_core_SLASH_pr_opts.value)(), cljm_keyword(@":readably"), @NO, nil));
+}];
 /**
 * Same as pr followed by (newline).
 */
-cljm_DOT_core_SLASH_prn = ^id(id cljm__varargs, ...) {
+cljm_DOT_core_SLASH_prn = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, ...) {
 NSMutableArray *objs = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -15264,13 +15264,13 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [objs addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-cljm_DOT_core_SLASH_pr_with_opts(objs, cljm_DOT_core_SLASH_pr_opts());
-return cljm_DOT_core_SLASH_newline(cljm_DOT_core_SLASH_pr_opts());
-};
+((id (^)(id , id )) cljm_DOT_core_SLASH_pr_with_opts.value)(objs.value, ((id (^)()) cljm_DOT_core_SLASH_pr_opts.value)());
+return ((id (^)(id )) cljm_DOT_core_SLASH_newline.value)(((id (^)()) cljm_DOT_core_SLASH_pr_opts.value)());
+}];
 /**
 * Prints formatted output, as per format
 */
-cljm_DOT_core_SLASH_printf = ^id(id cljm__varargs, id fmt, ...) {
+cljm_DOT_core_SLASH_printf = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, id fmt, ...) {
 NSMutableArray *args = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -15278,95 +15278,95 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_print(cljm_DOT_core_SLASH_apply(cljm_DOT_core_SLASH_format, fmt, args, nil), nil);
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_print.value)(((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(cljm_DOT_core_SLASH_format.value, fmt.value, args.value, nil), nil);
+}];
+cljm_DOT_core_SLASH_HashMap.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_HashMap.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+id pr_pair__7205 = ^id(id keyval) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"", @" ", @"", opts.value, keyval.value);
 };
-cljm_DOT_core_SLASH_HashMap.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_HashMap.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-id pr_pair__7217 = ^id(id keyval) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"", @" ", @"", opts, keyval);
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(pr-pair__7205, @"{", @", ", @"}", opts.value, coll.value);
 };
-return cljm_DOT_core_SLASH_pr_sequential(pr_pair__7217, @"{", @", ", @"}", opts, coll);
-};
-(cljm_DOT_core_SLASH_IPrintable[@"number"] = @YES);
-(cljm_DOT_core_SLASH__pr_seq[@"number"] = ^id(id n, id opts) {
-return cljm_DOT_core_SLASH_list([@[ n ] componentsSeperatedByString:@""], nil);
+(cljm_DOT_core_SLASH_IPrintable.value[@"number"] = @YES);
+(cljm_DOT_core_SLASH__pr_seq.value[@"number"] = ^id(id n, id opts) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)([@[ n.value ] componentsSeperatedByString:@""], nil);
 });
-cljm_DOT_core_SLASH_IndexedSeq.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_IndexedSeq.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"(", @" ", @")", opts, coll);
+cljm_DOT_core_SLASH_IndexedSeq.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_IndexedSeq.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"(", @" ", @")", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_Subvec.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"[", @" ", @"]", opts, coll);
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_Subvec.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"[", @" ", @"]", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_ChunkedCons.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_ChunkedCons.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"(", @" ", @")", opts, coll);
+cljm_DOT_core_SLASH_ChunkedCons.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_ChunkedCons.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"(", @" ", @")", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_PersistentTreeMap.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-id pr_pair__7218 = ^id(id keyval) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"", @" ", @"", opts, keyval);
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_PersistentTreeMap.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+id pr_pair__7206 = ^id(id keyval) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"", @" ", @"", opts.value, keyval.value);
 };
-return cljm_DOT_core_SLASH_pr_sequential(pr_pair__7218, @"{", @", ", @"}", opts, coll);
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(pr-pair__7206, @"{", @", ", @"}", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_PersistentArrayMap.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-id pr_pair__7219 = ^id(id keyval) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"", @" ", @"", opts, keyval);
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_PersistentArrayMap.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+id pr_pair__7207 = ^id(id keyval) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"", @" ", @"", opts.value, keyval.value);
 };
-return cljm_DOT_core_SLASH_pr_sequential(pr_pair__7219, @"{", @", ", @"}", opts, coll);
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(pr-pair__7207, @"{", @", ", @"}", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_PersistentQueue.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_PersistentQueue.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"#queue [", @" ", @"]", opts, cljm_DOT_core_SLASH_seq(coll));
+cljm_DOT_core_SLASH_PersistentQueue.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_PersistentQueue.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"#queue [", @" ", @"]", opts.value, ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(coll.value));
 };
-cljm_DOT_core_SLASH_LazySeq.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_LazySeq.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"(", @" ", @")", opts, coll);
+cljm_DOT_core_SLASH_LazySeq.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_LazySeq.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"(", @" ", @")", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_RSeq.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_RSeq.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"(", @" ", @")", opts, coll);
+cljm_DOT_core_SLASH_RSeq.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_RSeq.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"(", @" ", @")", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_PersistentTreeSet.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"#{", @" ", @"}", opts, coll);
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_PersistentTreeSet.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"#{", @" ", @"}", opts.value, coll.value);
 };
-(cljm_DOT_core_SLASH_IPrintable[@"boolean"] = @YES);
-(cljm_DOT_core_SLASH__pr_seq[@"boolean"] = ^id(id bool, id opts) {
-return cljm_DOT_core_SLASH_list([@[ bool ] componentsSeperatedByString:@""], nil);
+(cljm_DOT_core_SLASH_IPrintable.value[@"boolean"] = @YES);
+(cljm_DOT_core_SLASH__pr_seq.value[@"boolean"] = ^id(id bool, id opts) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)([@[ bool.value ] componentsSeperatedByString:@""], nil);
 });
-(cljm_DOT_core_SLASH_IPrintable[@"string"] = @YES);
-(cljm_DOT_core_SLASH__pr_seq[@"string"] = ^id(id obj, id opts) {
-if(cljm_truthy(cljm_DOT_core_SLASH_keyword_QMARK_(obj))) {
-return cljm_DOT_core_SLASH_list([@[ @":", {id temp__3974__auto____7220 = cljm_DOT_core_SLASH_namespace(obj);
-if(cljm_truthy(temp__3974__auto____7220)) {
-id nspc__7221 = temp__3974__auto____7220;
-return [@[ nspc__7221, @"/" ] componentsSeperatedByString:@""];
+(cljm_DOT_core_SLASH_IPrintable.value[@"string"] = @YES);
+(cljm_DOT_core_SLASH__pr_seq.value[@"string"] = ^id(id obj, id opts) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_keyword_QMARK_.value)(obj.value))) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)([@[ @":", {id temp__3974__auto____7208 = ((id (^)(id )) cljm_DOT_core_SLASH_namespace.value)(obj.value);
+if(cljm_truthy(temp__3974__auto____7208)) {
+id nspc__7209 = temp__3974__auto____7208;
+return [@[ nspc__7209, @"/" ] componentsSeperatedByString:@""];
 
 } else {
 return nil;
 
 }
-}, cljm_DOT_core_SLASH_name(obj) ] componentsSeperatedByString:@""], nil);
+}, ((id (^)(id )) cljm_DOT_core_SLASH_name.value)(obj.value) ] componentsSeperatedByString:@""], nil);
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_symbol_QMARK_(obj))) {
-return cljm_DOT_core_SLASH_list([@[ {id temp__3974__auto____7222 = cljm_DOT_core_SLASH_namespace(obj);
-if(cljm_truthy(temp__3974__auto____7222)) {
-id nspc__7223 = temp__3974__auto____7222;
-return [@[ nspc__7223, @"/" ] componentsSeperatedByString:@""];
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_symbol_QMARK_.value)(obj.value))) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)([@[ {id temp__3974__auto____7210 = ((id (^)(id )) cljm_DOT_core_SLASH_namespace.value)(obj.value);
+if(cljm_truthy(temp__3974__auto____7210)) {
+id nspc__7211 = temp__3974__auto____7210;
+return [@[ nspc__7211, @"/" ] componentsSeperatedByString:@""];
 
 } else {
 return nil;
 
 }
-}, cljm_DOT_core_SLASH_name(obj) ] componentsSeperatedByString:@""], nil);
+}, ((id (^)(id )) cljm_DOT_core_SLASH_name.value)(obj.value) ] componentsSeperatedByString:@""], nil);
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return cljm_DOT_core_SLASH_list((cljm_truthy((opts))) ?goog_SLASH_string_DOT_quote(obj):obj, nil);
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)((cljm_truthy(((id (^)(id )) .value)(opts.value))) ?((id (^)(id )) goog_SLASH_string_DOT_quote.value)(obj.value):obj.value, nil);
 
 } else {
 return nil;
@@ -15377,104 +15377,104 @@ return nil;
 
 }
 });
-cljm_DOT_core_SLASH_NodeSeq.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_NodeSeq.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"(", @" ", @")", opts, coll);
+cljm_DOT_core_SLASH_NodeSeq.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_NodeSeq.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"(", @" ", @")", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_RedNode.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"[", @" ", @"]", opts, coll);
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_RedNode.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"[", @" ", @"]", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_ChunkedSeq.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_ChunkedSeq.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"(", @" ", @")", opts, coll);
+cljm_DOT_core_SLASH_ChunkedSeq.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_ChunkedSeq.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"(", @" ", @")", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_PersistentHashMap.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-id pr_pair__7224 = ^id(id keyval) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"", @" ", @"", opts, keyval);
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_PersistentHashMap.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+id pr_pair__7212 = ^id(id keyval) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"", @" ", @"", opts.value, keyval.value);
 };
-return cljm_DOT_core_SLASH_pr_sequential(pr_pair__7224, @"{", @", ", @"}", opts, coll);
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(pr-pair__7212, @"{", @", ", @"}", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_Vector.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"[", @" ", @"]", opts, coll);
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_Vector.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"[", @" ", @"]", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_PersistentHashSet.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_PersistentHashSet.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"#{", @" ", @"}", opts, coll);
+cljm_DOT_core_SLASH_PersistentHashSet.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_PersistentHashSet.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"#{", @" ", @"}", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"[", @" ", @"]", opts, coll);
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"[", @" ", @"]", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_List.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_List.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"(", @" ", @")", opts, coll);
+cljm_DOT_core_SLASH_List.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_List.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"(", @" ", @")", opts.value, coll.value);
 };
-(cljm_DOT_core_SLASH_IPrintable[@"array"] = @YES);
-(cljm_DOT_core_SLASH__pr_seq[@"array"] = ^id(id a, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"#<Array [", @", ", @"]>", opts, a);
+(cljm_DOT_core_SLASH_IPrintable.value[@"array"] = @YES);
+(cljm_DOT_core_SLASH__pr_seq.value[@"array"] = ^id(id a, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"#<Array [", @", ", @"]>", opts.value, a.value);
 });
-(cljm_DOT_core_SLASH_IPrintable[@"function"] = @YES);
-(cljm_DOT_core_SLASH__pr_seq[@"function"] = ^id(id this$) {
-return cljm_DOT_core_SLASH_list(@"#<", [@[ this$ ] componentsSeperatedByString:@""], @">", nil);
+(cljm_DOT_core_SLASH_IPrintable.value[@"function"] = @YES);
+(cljm_DOT_core_SLASH__pr_seq.value[@"function"] = ^id(id this$) {
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_list.value)(@"#<", [@[ this$.value ] componentsSeperatedByString:@""], @">", nil);
 });
-cljm_DOT_core_SLASH_EmptyList.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_EmptyList.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_list(@"()", nil);
+cljm_DOT_core_SLASH_EmptyList.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_EmptyList.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"()", nil);
 };
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_BlackNode.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"[", @" ", @"]", opts, coll);
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_BlackNode.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"[", @" ", @"]", opts.value, coll.value);
 };
-Date.prototype.cljm$core$IPrintable$ = @YES;
-Date.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id d, id _) {
-id normalize__7226 = ^id(id n, id len) {
-id ns__7225 = [@[ n ] componentsSeperatedByString:@""];
+Date.value.prototype.cljm$core$IPrintable$ = @YES;
+Date.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id d, id _) {
+id normalize__7214 = ^id(id n, id len) {
+id ns__7213 = [@[ n.value ] componentsSeperatedByString:@""];
 while(YES) {
-if(cljm_truthy((cljm_DOT_core_SLASH_count(ns__7225) < len))) {
+if(cljm_truthy((((id (^)(id )) cljm_DOT_core_SLASH_count.value)(ns__7213) < len.value))) {
 {
-var G__7228 = [@[ @"0", ns__7225 ] componentsSeperatedByString:@""];
-ns__7225 = G__7228;
+var G__7216 = [@[ @"0", ns__7213 ] componentsSeperatedByString:@""];
+ns__7213 = G__7216;
 continue;
 }
 
 } else {
-return ns__7225;
+return ns__7213;
 
 }
 break;
 }
 };
-return cljm_DOT_core_SLASH_list([@[ @"#inst \"", [d getUTCFullYear], @"-", normalize__7226(([d getUTCMonth] + @1), @2), @"-", normalize__7226([d getUTCDate], @2), @"T", normalize__7226([d getUTCHours], @2), @":", normalize__7226([d getUTCMinutes], @2), @":", normalize__7226([d getUTCSeconds], @2), @".", normalize__7226([d getUTCMilliseconds], @3), @"-", @"00:00\"" ] componentsSeperatedByString:@""], nil);
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)([@[ @"#inst \"", [d.value getUTCFullYear], @"-", ((id (^)(id , id )) normalize__7214.value)(([d.value getUTCMonth] + @1), @2), @"-", ((id (^)(id , id )) normalize__7214.value)([d.value getUTCDate], @2), @"T", ((id (^)(id , id )) normalize__7214.value)([d.value getUTCHours], @2), @":", ((id (^)(id , id )) normalize__7214.value)([d.value getUTCMinutes], @2), @":", ((id (^)(id , id )) normalize__7214.value)([d.value getUTCSeconds], @2), @".", ((id (^)(id , id )) normalize__7214.value)([d.value getUTCMilliseconds], @3), @"-", @"00:00\"" ] componentsSeperatedByString:@""], nil);
 };
-cljm_DOT_core_SLASH_Cons.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_Cons.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"(", @" ", @")", opts, coll);
+cljm_DOT_core_SLASH_Cons.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_Cons.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"(", @" ", @")", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_Range.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_Range.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"(", @" ", @")", opts, coll);
+cljm_DOT_core_SLASH_Range.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_Range.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"(", @" ", @")", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_ArrayNodeSeq.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_ArrayNodeSeq.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"(", @" ", @")", opts, coll);
+cljm_DOT_core_SLASH_ArrayNodeSeq.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_ArrayNodeSeq.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"(", @" ", @")", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_ObjMap.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_ObjMap.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-id pr_pair__7227 = ^id(id keyval) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"", @" ", @"", opts, keyval);
+cljm_DOT_core_SLASH_ObjMap.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_ObjMap.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+id pr_pair__7215 = ^id(id keyval) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"", @" ", @"", opts.value, keyval.value);
 };
-return cljm_DOT_core_SLASH_pr_sequential(pr_pair__7227, @"{", @", ", @"}", opts, coll);
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(pr-pair__7215, @"{", @", ", @"}", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_PersistentTreeMapSeq.prototype.cljm$core$IPrintable$ = @YES;
-cljm_DOT_core_SLASH_PersistentTreeMapSeq.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
-return cljm_DOT_core_SLASH_pr_sequential(cljm_DOT_core_SLASH_pr_seq, @"(", @" ", @")", opts, coll);
+cljm_DOT_core_SLASH_PersistentTreeMapSeq.value.prototype.cljm$core$IPrintable$ = @YES;
+cljm_DOT_core_SLASH_PersistentTreeMapSeq.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id coll, id opts) {
+return ((id (^)(id , id , id , id , id , id )) cljm_DOT_core_SLASH_pr_sequential.value)(cljm_DOT_core_SLASH_pr_seq.value, @"(", @" ", @")", opts.value, coll.value);
 };
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IComparable$ = @YES;
-cljm_DOT_core_SLASH_PersistentVector.prototype.cljm$core$IComparable$_compare$arity$2 = ^id(id x, id y) {
-return cljm_DOT_core_SLASH_compare_indexed(x, y);
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IComparable$ = @YES;
+cljm_DOT_core_SLASH_PersistentVector.value.prototype.cljm$core$IComparable$_compare$arity$2 = ^id(id x, id y) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_compare_indexed.value)(x.value, y.value);
 };
 
 /**
@@ -15488,39 +15488,39 @@ this.watches = watches;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 2690809856;
 })
-cljm_DOT_core_SLASH_Atom.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_Atom.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/Atom", nil);
+cljm_DOT_core_SLASH_Atom.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_Atom.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/Atom", nil);
 };
-cljm_DOT_core_SLASH_Atom.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id this$) {
-var this__7229 = this;
-return goog_SLASH_getUid(this$);
+cljm_DOT_core_SLASH_Atom.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id this$) {
+var this__7217 = this;
+return ((id (^)(id )) goog_SLASH_getUid.value)(this$.value);
 };
-cljm_DOT_core_SLASH_Atom.prototype.cljm$core$IWatchable$_notify_watches$arity$3 = ^id(id this$, id oldval, id newval) {
-var this__7230 = this;
-id G__7231__7232 = cljm_DOT_core_SLASH_seq(this__7230_DOT_watches);
-if(cljm_truthy(G__7231__7232)) {
-id G__7234__7236 = cljm_DOT_core_SLASH_first(G__7231__7232);
-id vec__7235__7237 = G__7234__7236;
-id key__7238 = cljm_DOT_core_SLASH_nth(vec__7235__7237, @0, nil);
-id f__7239 = cljm_DOT_core_SLASH_nth(vec__7235__7237, @1, nil);
-id G__7231__7240 = G__7231__7232;
-id G__7234__7241 = G__7234__7236;
-id G__7231__7242 = G__7231__7240;
+cljm_DOT_core_SLASH_Atom.value.prototype.cljm$core$IWatchable$_notify_watches$arity$3 = ^id(id this$, id oldval, id newval) {
+var this__7218 = this;
+id G__7219__7220 = ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(this__7218.watches);
+if(cljm_truthy(G__7219__7220)) {
+id G__7222__7224 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(G__7219__7220);
+id vec__7223__7225 = G__7222__7224;
+id key__7226 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__7223__7225, @0, nil);
+id f__7227 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__7223__7225, @1, nil);
+id G__7219__7228 = G__7219__7220;
+id G__7222__7229 = G__7222__7224;
+id G__7219__7230 = G__7219__7228;
 while(YES) {
-id vec__7243__7244 = G__7234__7241;
-id key__7245 = cljm_DOT_core_SLASH_nth(vec__7243__7244, @0, nil);
-id f__7246 = cljm_DOT_core_SLASH_nth(vec__7243__7244, @1, nil);
-id G__7231__7247 = G__7231__7242;
-f__7246(key__7245, this$, oldval, newval);
-id temp__3974__auto____7248 = cljm_DOT_core_SLASH_next(G__7231__7247);
-if(cljm_truthy(temp__3974__auto____7248)) {
-id G__7231__7249 = temp__3974__auto____7248;
+id vec__7231__7232 = G__7222__7229;
+id key__7233 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__7231__7232, @0, nil);
+id f__7234 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__7231__7232, @1, nil);
+id G__7219__7235 = G__7219__7230;
+((id (^)(id , id , id , id )) f__7234.value)(key__7233, this$.value, oldval.value, newval.value);
+id temp__3974__auto____7236 = ((id (^)(id )) cljm_DOT_core_SLASH_next.value)(G__7219__7235);
+if(cljm_truthy(temp__3974__auto____7236)) {
+id G__7219__7237 = temp__3974__auto____7236;
 {
-var G__7256 = cljm_DOT_core_SLASH_first(G__7231__7249);
-var G__7257 = G__7231__7249;
-G__7234__7241 = G__7256;
-G__7231__7242 = G__7257;
+var G__7244 = ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(G__7219__7237);
+var G__7245 = G__7219__7237;
+G__7222__7229 = G__7244;
+G__7219__7230 = G__7245;
 continue;
 }
 
@@ -15536,31 +15536,31 @@ return nil;
 
 }
 };
-cljm_DOT_core_SLASH_Atom.prototype.cljm$core$IWatchable$_add_watch$arity$3 = ^id(id this$, id key, id f) {
-var this__7250 = this;
-return this$.watches = cljm_DOT_core_SLASH_assoc(this__7250_DOT_watches, key, f, nil);
+cljm_DOT_core_SLASH_Atom.value.prototype.cljm$core$IWatchable$_add_watch$arity$3 = ^id(id this$, id key, id f) {
+var this__7238 = this;
+return this$.value.watches = ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(this__7238.watches, key.value, f.value, nil);
 };
-cljm_DOT_core_SLASH_Atom.prototype.cljm$core$IWatchable$_remove_watch$arity$2 = ^id(id this$, id key) {
-var this__7251 = this;
-return this$.watches = cljm_DOT_core_SLASH_dissoc(this__7251_DOT_watches, key, nil);
+cljm_DOT_core_SLASH_Atom.value.prototype.cljm$core$IWatchable$_remove_watch$arity$2 = ^id(id this$, id key) {
+var this__7239 = this;
+return this$.value.watches = ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_dissoc.value)(this__7239.watches, key.value, nil);
 };
-cljm_DOT_core_SLASH_Atom.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id a, id opts) {
-var this__7252 = this;
-return cljm_DOT_core_SLASH_concat(@[ @"#<Atom: " ], cljm_DOT_core_SLASH__pr_seq(this__7252_DOT_state, opts), @">", nil);
+cljm_DOT_core_SLASH_Atom.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id a, id opts) {
+var this__7240 = this;
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_concat.value)(@[ @"#<Atom: " ], ((id (^)(id , id )) cljm_DOT_core_SLASH__pr_seq.value)(this__7240.state, opts.value), @">", nil);
 };
-cljm_DOT_core_SLASH_Atom.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id _) {
-var this__7253 = this;
-return this__7253_DOT_meta;
+cljm_DOT_core_SLASH_Atom.value.prototype.cljm$core$IMeta$_meta$arity$1 = ^id(id _) {
+var this__7241 = this;
+return this__7241.meta;
 };
-cljm_DOT_core_SLASH_Atom.prototype.cljm$core$IDeref$_deref$arity$1 = ^id(id _) {
-var this__7254 = this;
-return this__7254_DOT_state;
+cljm_DOT_core_SLASH_Atom.value.prototype.cljm$core$IDeref$_deref$arity$1 = ^id(id _) {
+var this__7242 = this;
+return this__7242.state;
 };
-cljm_DOT_core_SLASH_Atom.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id o, id other) {
-var this__7255 = this;
-return ([o isEqual:other]);
+cljm_DOT_core_SLASH_Atom.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id o, id other) {
+var this__7243 = this;
+return ([o.value isEqual:other.value]);
 };
-cljm_DOT_core_SLASH_Atom;
+cljm_DOT_core_SLASH_Atom.value;
 /**
 * Creates and returns an Atom with an initial value of x and zero or
 * more options (in any order):
@@ -15576,27 +15576,27 @@ cljm_DOT_core_SLASH_Atom;
 * return false or throw an Error.  If either of these error conditions
 * occur, then the value of the atom will not change.
 */
-cljm_DOT_core_SLASH_atom = (function() {
+cljm_DOT_core_SLASH_atom = [[CLJMVar alloc] initWithValue:(function() {
 var atom = null;
 var atom__1 = ^id(id x) {
-return [cljm_DOT_core_SLASH_Atom alloc];
+return [cljm_DOT_core_SLASH_Atom.value alloc];
 };
 var atom__2 = ^id(id cljm__varargs, id x, ...) {
-NSMutableArray *p__7258 = [NSMutableArray array];
+NSMutableArray *p__7246 = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
 for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__currentObject = va_arg(cljm__args, id)) {
-[p__7258 addObject:cljm__currentObject];
+[p__7246 addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id map__7264__7265 = p__7258;
-id map__7264__7266 = (cljm_truthy(cljm_DOT_core_SLASH_seq_QMARK_(map__7264__7265))) ?cljm_DOT_core_SLASH_apply(cljm_DOT_core_SLASH_hash_map, map__7264__7265, nil):map__7264__7265;
-id validator__7267 = cljm_DOT_core_SLASH__lookup(map__7264__7266, cljm_keyword(@":validator"), nil);
-id meta__7268 = cljm_DOT_core_SLASH__lookup(map__7264__7266, cljm_keyword(@":meta"), nil);
-return [cljm_DOT_core_SLASH_Atom alloc];
+id map__7252__7253 = p__7246.value;
+id map__7252__7254 = (cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq_QMARK_.value)(map__7252__7253))) ?((id (^)(id , id , ...)) cljm_DOT_core_SLASH_apply.value)(cljm_DOT_core_SLASH_hash_map.value, map__7252__7253, nil):map__7252__7253;
+id validator__7255 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(map__7252__7254, cljm_keyword(@":validator"), nil);
+id meta__7256 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(map__7252__7254, cljm_keyword(@":meta"), nil);
+return [cljm_DOT_core_SLASH_Atom.value alloc];
 };
 atom = function(x, var_args){
-var p__7258 = var_args;
+var p__7246 = var_args;
 switch(arguments.length){
 case 1:
 return atom__1.call(this,x);
@@ -15611,49 +15611,49 @@ atom.cljm$lang$arity$1 = atom__1;
 atom.cljm$lang$arity$variadic = atom__2.cljm$lang$arity$variadic;
 return atom;
 })()
-;
+];
 /**
 * Sets the value of atom to newval without regard for the
 * current value. Returns newval.
 */
-cljm_DOT_core_SLASH_reset_BANG_ = ^id(id a, id new_value) {
-id temp__3974__auto____7272 = a.validator;
-if(cljm_truthy(temp__3974__auto____7272)) {
-id validate__7273 = temp__3974__auto____7272;
-if(cljm_truthy(validate__7273(new_value))) {
+cljm_DOT_core_SLASH_reset_BANG_ = [[CLJMVar alloc] initWithValue:^id(id a, id new_value) {
+id temp__3974__auto____7260 = a.value.validator;
+if(cljm_truthy(temp__3974__auto____7260)) {
+id validate__7261 = temp__3974__auto____7260;
+if(cljm_truthy(((id (^)(id )) validate__7261.value)(new_value.value))) {
 
 } else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
 
 } else {
 
 }
-id old_value__7274 = a.state;
-a.state = new_value;
-cljm_DOT_core_SLASH__notify_watches(a, old_value__7274, new_value);
-return new_value;
-};
+id old_value__7262 = a.value.state;
+a.value.state = new_value.value;
+((id (^)(id , id , id )) cljm_DOT_core_SLASH__notify_watches.value)(a.value, old-value__7262, new_value.value);
+return new_value.value;
+}];
 /**
 * Atomically swaps the value of atom to be:
 * (apply f current-value-of-atom args). Note that f may be called
 * multiple times, and thus should be free of side effects.  Returns
 * the value that was swapped in.
 */
-cljm_DOT_core_SLASH_swap_BANG_ = (function() {
+cljm_DOT_core_SLASH_swap_BANG_ = [[CLJMVar alloc] initWithValue:(function() {
 var swap_BANG_ = null;
 var swap_BANG___2 = ^id(id a, id f) {
-return cljm_DOT_core_SLASH_reset_BANG_(a, f(a.state));
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_reset_BANG_.value)(a.value, ((id (^)(id )) f.value)(a.value.state));
 };
 var swap_BANG___3 = ^id(id a, id f, id x) {
-return cljm_DOT_core_SLASH_reset_BANG_(a, f(a.state, x));
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_reset_BANG_.value)(a.value, ((id (^)(id , id )) f.value)(a.value.state, x.value));
 };
 var swap_BANG___4 = ^id(id a, id f, id x, id y) {
-return cljm_DOT_core_SLASH_reset_BANG_(a, f(a.state, x, y));
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_reset_BANG_.value)(a.value, ((id (^)(id , id , id )) f.value)(a.value.state, x.value, y.value));
 };
 var swap_BANG___5 = ^id(id a, id f, id x, id y, id z) {
-return cljm_DOT_core_SLASH_reset_BANG_(a, f(a.state, x, y, z));
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_reset_BANG_.value)(a.value, ((id (^)(id , id , id , id )) f.value)(a.value.state, x.value, y.value, z.value));
 };
 var swap_BANG___6 = ^id(id cljm__varargs, id a, id f, id x, id y, id z, ...) {
 NSMutableArray *more = [NSMutableArray array];
@@ -15663,7 +15663,7 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [more addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return cljm_DOT_core_SLASH_reset_BANG_(a, cljm_DOT_core_SLASH_apply(f, a.state, x, y, z, more, nil));
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_reset_BANG_.value)(a.value, ((id (^)(id , id , id , id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, a.value.state, x.value, y.value, z.value, more.value, nil));
 };
 swap_BANG_ = function(a, f, x, y, z, var_args){
 var more = var_args;
@@ -15690,25 +15690,25 @@ swap_BANG_.cljm$lang$arity$5 = swap_BANG___5;
 swap_BANG_.cljm$lang$arity$variadic = swap_BANG___6.cljm$lang$arity$variadic;
 return swap_BANG_;
 })()
-;
+];
 /**
 * Atomically sets the value of atom to newval if and only if the
 * current value of the atom is identical to oldval. Returns true if
 * set happened, else false.
 */
-cljm_DOT_core_SLASH_compare_and_set_BANG_ = ^id(id a, id oldval, id newval) {
-if(cljm_truthy(cljm_DOT_core_SLASH__EQ_(a.state, oldval, nil))) {
-cljm_DOT_core_SLASH_reset_BANG_(a, newval);
+cljm_DOT_core_SLASH_compare_and_set_BANG_ = [[CLJMVar alloc] initWithValue:^id(id a, id oldval, id newval) {
+if(cljm_truthy(((id (^)(id , id , ...)) cljm_DOT_core_SLASH__EQ_.value)(a.value.state, oldval.value, nil))) {
+((id (^)(id , id )) cljm_DOT_core_SLASH_reset_BANG_.value)(a.value, newval.value);
 return @YES;
 
 } else {
 return @NO;
 
 }
-};
-cljm_DOT_core_SLASH_deref = ^id(id o) {
-return cljm_DOT_core_SLASH__deref(o);
-};
+}];
+cljm_DOT_core_SLASH_deref = [[CLJMVar alloc] initWithValue:^id(id o) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__deref.value)(o.value);
+}];
 /**
 * Sets the validator-fn for an atom. validator-fn must be nil or a
 * side-effect-free fn of one argument, which will be passed the intended
@@ -15717,15 +15717,15 @@ return cljm_DOT_core_SLASH__deref(o);
 * is not acceptable to the new validator, an Error will be thrown and the
 * validator will not be changed.
 */
-cljm_DOT_core_SLASH_set_validator_BANG_ = ^id(id iref, id val) {
-return iref.validator = val;
-};
+cljm_DOT_core_SLASH_set_validator_BANG_ = [[CLJMVar alloc] initWithValue:^id(id iref, id val) {
+return iref.value.validator = val.value;
+}];
 /**
 * Gets the validator-fn for a var/ref/agent/atom.
 */
-cljm_DOT_core_SLASH_get_validator = ^id(id iref) {
-return iref.validator;
-};
+cljm_DOT_core_SLASH_get_validator = [[CLJMVar alloc] initWithValue:^id(id iref) {
+return iref.value.validator;
+}];
 /**
 * Atomically sets the metadata for a namespace/var/ref/agent/atom to be:
 * 
@@ -15733,7 +15733,7 @@ return iref.validator;
 * 
 * f must be free of side-effects
 */
-cljm_DOT_core_SLASH_alter_meta_BANG_ = ^id(id cljm__varargs, id iref, id f, ...) {
+cljm_DOT_core_SLASH_alter_meta_BANG_ = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, id iref, id f, ...) {
 NSMutableArray *args = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -15741,14 +15741,14 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return iref.meta = cljm_DOT_core_SLASH_apply(f, iref.meta, args, nil);
-};
+return iref.value.meta = ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, iref.value.meta, args.value, nil);
+}];
 /**
 * Atomically resets the metadata for an atom
 */
-cljm_DOT_core_SLASH_reset_meta_BANG_ = ^id(id iref, id m) {
-return iref.meta = m;
-};
+cljm_DOT_core_SLASH_reset_meta_BANG_ = [[CLJMVar alloc] initWithValue:^id(id iref, id m) {
+return iref.value.meta = m.value;
+}];
 /**
 * Alpha - subject to change.
 * 
@@ -15771,36 +15771,36 @@ return iref.meta = m;
 * (deref a)
 * ;=> 1
 */
-cljm_DOT_core_SLASH_add_watch = ^id(id iref, id key, id f) {
-return cljm_DOT_core_SLASH__add_watch(iref, key, f);
-};
+cljm_DOT_core_SLASH_add_watch = [[CLJMVar alloc] initWithValue:^id(id iref, id key, id f) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__add_watch.value)(iref.value, key.value, f.value);
+}];
 /**
 * Alpha - subject to change.
 * 
 * Removes a watch (set by add-watch) from a reference
 */
-cljm_DOT_core_SLASH_remove_watch = ^id(id iref, id key) {
-return cljm_DOT_core_SLASH__remove_watch(iref, key);
-};
-cljm_DOT_core_SLASH_gensym_counter = nil;
+cljm_DOT_core_SLASH_remove_watch = [[CLJMVar alloc] initWithValue:^id(id iref, id key) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__remove_watch.value)(iref.value, key.value);
+}];
+cljm_DOT_core_SLASH_gensym_counter = [[CLJMVar alloc] initWithValue:nil];
 /**
 * Returns a new symbol with a unique name. If a prefix string is
 * supplied, the name is prefix# where # is some unique number. If
 * prefix is not supplied, the prefix is 'G__'.
 */
-cljm_DOT_core_SLASH_gensym = (function() {
+cljm_DOT_core_SLASH_gensym = [[CLJMVar alloc] initWithValue:(function() {
 var gensym = null;
 var gensym__0 = ^id() {
-return gensym(@"G__");
+return ((id (^)(id )) gensym.value)(@"G__");
 };
 var gensym__1 = ^id(id prefix_string) {
-if(cljm_truthy((cljm_DOT_core_SLASH_gensym_counter == nil))) {
-cljm_DOT_core_SLASH_gensym_counter = cljm_DOT_core_SLASH_atom(@0, nil);
+if(cljm_truthy((cljm_DOT_core_SLASH_gensym_counter.value == nil))) {
+cljm_DOT_core_SLASH_gensym_counter.value = ((id (^)(id , ...)) cljm_DOT_core_SLASH_atom.value)(@0, nil);
 
 } else {
 
 }
-return cljm_DOT_core_SLASH_symbol([@[ prefix_string, cljm_DOT_core_SLASH_swap_BANG_(cljm_DOT_core_SLASH_gensym_counter, cljm_DOT_core_SLASH_inc, nil) ] componentsSeperatedByString:@""]);
+return ((id (^)(id )) cljm_DOT_core_SLASH_symbol.value)([@[ prefix_string.value, ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_swap_BANG_.value)(cljm_DOT_core_SLASH_gensym_counter.value, cljm_DOT_core_SLASH_inc.value, nil) ] componentsSeperatedByString:@""]);
 };
 gensym = function(prefix_string){
 switch(arguments.length){
@@ -15815,9 +15815,9 @@ gensym.cljm$lang$arity$0 = gensym__0;
 gensym.cljm$lang$arity$1 = gensym__1;
 return gensym;
 })()
-;
-cljm_DOT_core_SLASH_fixture1 = @1;
-cljm_DOT_core_SLASH_fixture2 = @2;
+];
+cljm_DOT_core_SLASH_fixture1 = [[CLJMVar alloc] initWithValue:@1];
+cljm_DOT_core_SLASH_fixture2 = [[CLJMVar alloc] initWithValue:@2];
 
 /**
 * @constructor
@@ -15828,62 +15828,62 @@ this.f = f;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 1073774592;
 })
-cljm_DOT_core_SLASH_Delay.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_Delay.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/Delay", nil);
+cljm_DOT_core_SLASH_Delay.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_Delay.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/Delay", nil);
 };
-cljm_DOT_core_SLASH_Delay.prototype.cljm$core$IPending$_realized_QMARK_$arity$1 = ^id(id d) {
-var this__7275 = this;
-return (cljm_DOT_core_SLASH_deref(this__7275_DOT_state));
+cljm_DOT_core_SLASH_Delay.value.prototype.cljm$core$IPending$_realized_QMARK_$arity$1 = ^id(id d) {
+var this__7263 = this;
+return ((id (^)(id )) .value)(((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(this__7263.state));
 };
-cljm_DOT_core_SLASH_Delay.prototype.cljm$core$IDeref$_deref$arity$1 = ^id(id _) {
-var this__7276 = this;
-return (cljm_DOT_core_SLASH_swap_BANG_(this__7276_DOT_state, ^id(id p__7277) {
-id map__7278__7279 = p__7277;
-id map__7278__7280 = (cljm_truthy(cljm_DOT_core_SLASH_seq_QMARK_(map__7278__7279))) ?cljm_DOT_core_SLASH_apply(cljm_DOT_core_SLASH_hash_map, map__7278__7279, nil):map__7278__7279;
-id curr_state__7281 = map__7278__7280;
-id done__7282 = cljm_DOT_core_SLASH__lookup(map__7278__7280, cljm_keyword(@":done"), nil);
-if(cljm_truthy(done__7282)) {
-return curr_state__7281;
+cljm_DOT_core_SLASH_Delay.value.prototype.cljm$core$IDeref$_deref$arity$1 = ^id(id _) {
+var this__7264 = this;
+return ((id (^)(id )) .value)(((id (^)(id , id , ...)) cljm_DOT_core_SLASH_swap_BANG_.value)(this__7264.state, ^id(id p__7265) {
+id map__7266__7267 = p__7265.value;
+id map__7266__7268 = (cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq_QMARK_.value)(map__7266__7267))) ?((id (^)(id , id , ...)) cljm_DOT_core_SLASH_apply.value)(cljm_DOT_core_SLASH_hash_map.value, map__7266__7267, nil):map__7266__7267;
+id curr_state__7269 = map__7266__7268;
+id done__7270 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(map__7266__7268, cljm_keyword(@":done"), nil);
+if(cljm_truthy(done__7270)) {
+return curr-state__7269;
 
 } else {
-return @{ cljm_keyword(@":done"): @YES, cljm_keyword(@":value"): this__7276_DOT_f() };
+return @{ cljm_keyword(@":done"): @YES, cljm_keyword(@":value"): ((id (^)()) this__7264_DOT_f.value)() };
 
 }
 }, nil));
 };
-cljm_DOT_core_SLASH_Delay;
+cljm_DOT_core_SLASH_Delay.value;
 /**
 * returns true if x is a Delay created with delay
 */
-cljm_DOT_core_SLASH_delay_QMARK_ = ^id(id x) {
-return cljm_DOT_core_SLASH_instance_QMARK_(cljs_SLASH_core_DOT_Delay, x);
-};
+cljm_DOT_core_SLASH_delay_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id x) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljs_SLASH_core_DOT_Delay.value, x.value);
+}];
 /**
 * If x is a Delay, returns the (possibly cached) value of its expression, else returns x
 */
-cljm_DOT_core_SLASH_force = ^id(id x) {
-if(cljm_truthy(cljm_DOT_core_SLASH_delay_QMARK_(x))) {
-return cljm_DOT_core_SLASH_deref(x);
+cljm_DOT_core_SLASH_force = [[CLJMVar alloc] initWithValue:^id(id x) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_delay_QMARK_.value)(x.value))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(x.value);
 
 } else {
-return x;
+return x.value;
 
 }
-};
+}];
 /**
 * Returns true if a value has been produced for a promise, delay, future or lazy sequence.
 */
-cljm_DOT_core_SLASH_realized_QMARK_ = ^id(id d) {
-return cljm_DOT_core_SLASH__realized_QMARK_(d);
-};
+cljm_DOT_core_SLASH_realized_QMARK_ = [[CLJMVar alloc] initWithValue:^id(id d) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__realized_QMARK_.value)(d.value);
+}];
 /**
 * Recursively transforms JavaScript arrays into ClojureScript
 * vectors, and JavaScript objects into ClojureScript maps.  With
 * option ':keywordize-keys true' will convert object fields from
 * strings to keywords.
 */
-cljm_DOT_core_SLASH_js__GT_clj = ^id(id cljm__varargs, id x, ...) {
+cljm_DOT_core_SLASH_js__GT_clj = [[CLJMVar alloc] initWithValue:^id(id cljm__varargs, id x, ...) {
 NSMutableArray *options = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -15891,33 +15891,33 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [options addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id map__7303__7304 = options;
-id map__7303__7305 = (cljm_truthy(cljm_DOT_core_SLASH_seq_QMARK_(map__7303__7304))) ?cljm_DOT_core_SLASH_apply(cljm_DOT_core_SLASH_hash_map, map__7303__7304, nil):map__7303__7304;
-id keywordize_keys__7306 = cljm_DOT_core_SLASH__lookup(map__7303__7305, cljm_keyword(@":keywordize-keys"), nil);
-id keyfn__7307 = (cljm_truthy(keywordize_keys__7306)) ?cljm_DOT_core_SLASH_keyword:cljm_DOT_core_SLASH_str;
-id f__7322 = ^id(id x) {
-if(cljm_truthy(cljm_DOT_core_SLASH_seq_QMARK_(x))) {
-return cljm_DOT_core_SLASH_doall(cljm_DOT_core_SLASH_map(thisfn, x, nil));
+id map__7291__7292 = options.value;
+id map__7291__7293 = (cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq_QMARK_.value)(map__7291__7292))) ?((id (^)(id , id , ...)) cljm_DOT_core_SLASH_apply.value)(cljm_DOT_core_SLASH_hash_map.value, map__7291__7292, nil):map__7291__7292;
+id keywordize_keys__7294 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(map__7291__7293, cljm_keyword(@":keywordize-keys"), nil);
+id keyfn__7295 = (cljm_truthy(keywordize-keys__7294)) ?cljm_DOT_core_SLASH_keyword.value:cljm_DOT_core_SLASH_str.value;
+id f__7310 = ^id(id x) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_seq_QMARK_.value)(x.value))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_doall.value)(((id (^)(id , id , ...)) cljm_DOT_core_SLASH_map.value)(thisfn.value, x.value, nil));
 
 } else {
-if(cljm_truthy(cljm_DOT_core_SLASH_coll_QMARK_(x))) {
-return cljm_DOT_core_SLASH_into(cljm_DOT_core_SLASH_empty(x), cljm_DOT_core_SLASH_map(thisfn, x, nil));
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_coll_QMARK_.value)(x.value))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_into.value)(((id (^)(id )) cljm_DOT_core_SLASH_empty.value)(x.value), ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_map.value)(thisfn.value, x.value, nil));
 
 } else {
-if(cljm_truthy(goog_SLASH_isArray(x))) {
-return cljm_DOT_core_SLASH_vec(cljm_DOT_core_SLASH_map(thisfn, x, nil));
+if(cljm_truthy(((id (^)(id )) goog_SLASH_isArray.value)(x.value))) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_vec.value)(((id (^)(id , id , ...)) cljm_DOT_core_SLASH_map.value)(thisfn.value, x.value, nil));
 
 } else {
-if(cljm_truthy(([cljm_DOT_core_SLASH_type(x) isEqual:Object]))) {
-return cljm_DOT_core_SLASH_into(@{}, {id iter__1584__auto____7321 = ^id(id s__7316) {
-return [cljm_DOT_core_SLASH_LazySeq alloc];
+if(cljm_truthy(([((id (^)(id )) cljm_DOT_core_SLASH_type.value)(x.value) isEqual:Object.value]))) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_into.value)(@{}, {id iter__1572__auto____7309 = ^id(id s__7304) {
+return [cljm_DOT_core_SLASH_LazySeq.value alloc];
 };
-return iter__1584__auto____7321(cljm_DOT_core_SLASH_js_keys(x));
+return ((id (^)(id )) iter__1572__auto____7309.value)(((id (^)(id )) cljm_DOT_core_SLASH_js_keys.value)(x.value));
 });
 
 } else {
 if(cljm_truthy(cljm_keyword(@":else"))) {
-return x;
+return x.value;
 
 } else {
 return nil;
@@ -15932,16 +15932,16 @@ return nil;
 
 }
 };
-return f__7322(x);
-};
+return ((id (^)(id )) f__7310.value)(x.value);
+}];
 /**
 * Returns a memoized version of a referentially transparent function. The
 * memoized version of the function keeps a cache of the mapping from arguments
 * to results and, when calls with the same arguments are repeated often, has
 * higher performance at the expense of higher memory use.
 */
-cljm_DOT_core_SLASH_memoize = ^id(id f) {
-id mem__7327 = cljm_DOT_core_SLASH_atom(@{}, nil);
+cljm_DOT_core_SLASH_memoize = [[CLJMVar alloc] initWithValue:^id(id f) {
+id mem__7315 = ((id (^)(id , ...)) cljm_DOT_core_SLASH_atom.value)(@{}, nil);
 return ^id(id cljm__varargs, ...) {
 NSMutableArray *args = [NSMutableArray array];
 va_list cljm__args;
@@ -15950,19 +15950,19 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id temp__3971__auto____7328 = cljm_DOT_core_SLASH__lookup(cljm_DOT_core_SLASH_deref(mem__7327), args, nil);
-if(cljm_truthy(temp__3971__auto____7328)) {
-id v__7329 = temp__3971__auto____7328;
-return v__7329;
+id temp__3971__auto____7316 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(mem__7315), args.value, nil);
+if(cljm_truthy(temp__3971__auto____7316)) {
+id v__7317 = temp__3971__auto____7316;
+return v__7317;
 
 } else {
-id ret__7330 = cljm_DOT_core_SLASH_apply(f, args, nil);
-cljm_DOT_core_SLASH_swap_BANG_(mem__7327, cljm_DOT_core_SLASH_assoc, args, ret__7330, nil);
-return ret__7330;
+id ret__7318 = ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, args.value, nil);
+((id (^)(id , id , id , id , ...)) cljm_DOT_core_SLASH_swap_BANG_.value)(mem__7315, cljm_DOT_core_SLASH_assoc.value, args.value, ret__7318, nil);
+return ret__7318;
 
 }
 };
-};
+}];
 /**
 * trampoline can be used to convert algorithms requiring mutual
 * recursion without stack consumption. Calls f with supplied args, if
@@ -15972,20 +15972,20 @@ return ret__7330;
 * final value, you must wrap it in some data structure and unpack it
 * after trampoline returns.
 */
-cljm_DOT_core_SLASH_trampoline = (function() {
+cljm_DOT_core_SLASH_trampoline = [[CLJMVar alloc] initWithValue:(function() {
 var trampoline = null;
 var trampoline__1 = ^id(id f) {
 while(YES) {
-id ret__7332 = f();
-if(cljm_truthy(cljm_DOT_core_SLASH_fn_QMARK_(ret__7332))) {
+id ret__7320 = ((id (^)()) f.value)();
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_fn_QMARK_.value)(ret__7320))) {
 {
-var G__7333 = ret__7332;
-f = G__7333;
+var G__7321 = ret__7320;
+f = G__7321;
 continue;
 }
 
 } else {
-return ret__7332;
+return ret__7320;
 
 }
 break;
@@ -15999,8 +15999,8 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-return trampoline(^id() {
-return cljm_DOT_core_SLASH_apply(f, args, nil);
+return ((id (^)(id , ...)) trampoline.value)(^id() {
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_apply.value)(f.value, args.value, nil);
 }, nil);
 };
 trampoline = function(f, var_args){
@@ -16019,18 +16019,18 @@ trampoline.cljm$lang$arity$1 = trampoline__1;
 trampoline.cljm$lang$arity$variadic = trampoline__2.cljm$lang$arity$variadic;
 return trampoline;
 })()
-;
+];
 /**
 * Returns a random floating point number between 0 (inclusive) and
 * n (default 1) (exclusive).
 */
-cljm_DOT_core_SLASH_rand = (function() {
+cljm_DOT_core_SLASH_rand = [[CLJMVar alloc] initWithValue:(function() {
 var rand = null;
 var rand__0 = ^id() {
-return rand(@1);
+return ((id (^)(id )) rand.value)(@1);
 };
 var rand__1 = ^id(id n) {
-return (Math_SLASH_random() * n);
+return (((id (^)()) Math_SLASH_random.value)() * n.value);
 };
 rand = function(n){
 switch(arguments.length){
@@ -16045,39 +16045,39 @@ rand.cljm$lang$arity$0 = rand__0;
 rand.cljm$lang$arity$1 = rand__1;
 return rand;
 })()
-;
+];
 /**
 * Returns a random integer between 0 (inclusive) and n (exclusive).
 */
-cljm_DOT_core_SLASH_rand_int = ^id(id n) {
-return Math_SLASH_floor((Math_SLASH_random() * n));
-};
+cljm_DOT_core_SLASH_rand_int = [[CLJMVar alloc] initWithValue:^id(id n) {
+return ((id (^)(id )) Math_SLASH_floor.value)((((id (^)()) Math_SLASH_random.value)() * n.value));
+}];
 /**
 * Return a random element of the (sequential) collection. Will have
 * the same performance characteristics as nth for the given
 * collection.
 */
-cljm_DOT_core_SLASH_rand_nth = ^id(id coll) {
-return cljm_DOT_core_SLASH_nth(coll, cljm_DOT_core_SLASH_rand_int(cljm_DOT_core_SLASH_count(coll)));
-};
+cljm_DOT_core_SLASH_rand_nth = [[CLJMVar alloc] initWithValue:^id(id coll) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_nth.value)(coll.value, ((id (^)(id )) cljm_DOT_core_SLASH_rand_int.value)(((id (^)(id )) cljm_DOT_core_SLASH_count.value)(coll.value)));
+}];
 /**
 * Returns a map of the elements of coll keyed by the result of
 * f on each element. The value at each key will be a vector of the
 * corresponding elements, in the order they appeared in coll.
 */
-cljm_DOT_core_SLASH_group_by = ^id(id f, id coll) {
-return cljm_DOT_core_SLASH_reduce(^id(id ret, id x) {
-id k__7335 = f(x);
-return cljm_DOT_core_SLASH_assoc(ret, k__7335, cljm_DOT_core_SLASH_conj(cljm_DOT_core_SLASH__lookup(ret, k__7335, @[]), x, nil), nil);
-}, @{}, coll);
-};
+cljm_DOT_core_SLASH_group_by = [[CLJMVar alloc] initWithValue:^id(id f, id coll) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id ret, id x) {
+id k__7323 = ((id (^)(id )) f.value)(x.value);
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(ret.value, k__7323, ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(ret.value, k__7323, @[]), x.value, nil), nil);
+}, @{}, coll.value);
+}];
 /**
 * Creates a hierarchy object for use with derive, isa? etc.
 */
-cljm_DOT_core_SLASH_make_hierarchy = ^id() {
+cljm_DOT_core_SLASH_make_hierarchy = [[CLJMVar alloc] initWithValue:^id() {
 return @{ cljm_keyword(@":parents"): @{}, cljm_keyword(@":descendants"): @{}, cljm_keyword(@":ancestors"): @{} };
-};
-cljm_DOT_core_SLASH_global_hierarchy = cljm_DOT_core_SLASH_atom(cljm_DOT_core_SLASH_make_hierarchy(), nil);
+}];
+cljm_DOT_core_SLASH_global_hierarchy = [[CLJMVar alloc] initWithValue:((id (^)(id , ...)) cljm_DOT_core_SLASH_atom.value)(((id (^)()) cljm_DOT_core_SLASH_make_hierarchy.value)(), nil)];
 /**
 * Returns true if (= child parent), or child is directly or indirectly derived from
 * parent, either via a JavaScript type inheritance relationship or a
@@ -16085,48 +16085,48 @@ cljm_DOT_core_SLASH_global_hierarchy = cljm_DOT_core_SLASH_atom(cljm_DOT_core_SL
 * from make-hierarchy, if not supplied defaults to the global
 * hierarchy
 */
-cljm_DOT_core_SLASH_isa_QMARK_ = (function() {
+cljm_DOT_core_SLASH_isa_QMARK_ = [[CLJMVar alloc] initWithValue:(function() {
 var isa_QMARK_ = null;
 var isa_QMARK___2 = ^id(id child, id parent) {
-return isa_QMARK_(cljm_DOT_core_SLASH_deref(cljm_DOT_core_SLASH_global_hierarchy), child, parent);
+return ((id (^)(id , id , id )) isa_QMARK_.value)(((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(cljm_DOT_core_SLASH_global_hierarchy.value), child.value, parent.value);
 };
 var isa_QMARK___3 = ^id(id h, id child, id parent) {
-id or__3824__auto____7344 = cljm_DOT_core_SLASH__EQ_(child, parent, nil);
-if(cljm_truthy(or__3824__auto____7344)) {
-return or__3824__auto____7344;
+id or__3824__auto____7332 = ((id (^)(id , id , ...)) cljm_DOT_core_SLASH__EQ_.value)(child.value, parent.value, nil);
+if(cljm_truthy(or__3824__auto____7332)) {
+return or__3824__auto____7332;
 
 } else {
-id or__3824__auto____7345 = cljm_DOT_core_SLASH_contains_QMARK_((child), parent);
-if(cljm_truthy(or__3824__auto____7345)) {
-return or__3824__auto____7345;
+id or__3824__auto____7333 = ((id (^)(id , id )) cljm_DOT_core_SLASH_contains_QMARK_.value)(((id (^)(id )) .value)(child.value), parent.value);
+if(cljm_truthy(or__3824__auto____7333)) {
+return or__3824__auto____7333;
 
 } else {
-id and__3822__auto____7346 = cljm_DOT_core_SLASH_vector_QMARK_(parent);
-if(cljm_truthy(and__3822__auto____7346)) {
-id and__3822__auto____7347 = cljm_DOT_core_SLASH_vector_QMARK_(child);
-if(cljm_truthy(and__3822__auto____7347)) {
-id and__3822__auto____7348 = ([cljm_DOT_core_SLASH_count(parent) isEqual:cljm_DOT_core_SLASH_count(child)]);
-if(cljm_truthy(and__3822__auto____7348)) {
-id ret__7349 = @YES;
-id i__7350 = @0;
+id and__3822__auto____7334 = ((id (^)(id )) cljm_DOT_core_SLASH_vector_QMARK_.value)(parent.value);
+if(cljm_truthy(and__3822__auto____7334)) {
+id and__3822__auto____7335 = ((id (^)(id )) cljm_DOT_core_SLASH_vector_QMARK_.value)(child.value);
+if(cljm_truthy(and__3822__auto____7335)) {
+id and__3822__auto____7336 = ([((id (^)(id )) cljm_DOT_core_SLASH_count.value)(parent.value) isEqual:((id (^)(id )) cljm_DOT_core_SLASH_count.value)(child.value)]);
+if(cljm_truthy(and__3822__auto____7336)) {
+id ret__7337 = @YES;
+id i__7338 = @0;
 while(YES) {
-if(cljm_truthy({id or__3824__auto____7351 = cljm_DOT_core_SLASH_not(ret__7349);
-if(cljm_truthy(or__3824__auto____7351)) {
-return or__3824__auto____7351;
+if(cljm_truthy({id or__3824__auto____7339 = ((id (^)(id )) cljm_DOT_core_SLASH_not.value)(ret__7337);
+if(cljm_truthy(or__3824__auto____7339)) {
+return or__3824__auto____7339;
 
 } else {
-return ([i__7350 isEqual:cljm_DOT_core_SLASH_count(parent)]);
+return ([i__7338 isEqual:((id (^)(id )) cljm_DOT_core_SLASH_count.value)(parent.value)]);
 
 }
 })) {
-return ret__7349;
+return ret__7337;
 
 } else {
 {
-var G__7352 = isa_QMARK_(h, child(i__7350), parent(i__7350));
-var G__7353 = (i__7350 + @1);
-ret__7349 = G__7352;
-i__7350 = G__7353;
+var G__7340 = ((id (^)(id , id , id )) isa_QMARK_.value)(h.value, ((id (^)(id )) child.value)(i__7338), ((id (^)(id )) parent.value)(i__7338));
+var G__7341 = (i__7338 + @1);
+ret__7337 = G__7340;
+i__7338 = G__7341;
 continue;
 }
 
@@ -16135,17 +16135,17 @@ break;
 }
 
 } else {
-return and__3822__auto____7348;
+return and__3822__auto____7336;
 
 }
 
 } else {
-return and__3822__auto____7347;
+return and__3822__auto____7335;
 
 }
 
 } else {
-return and__3822__auto____7346;
+return and__3822__auto____7334;
 
 }
 
@@ -16166,20 +16166,20 @@ isa_QMARK_.cljm$lang$arity$2 = isa_QMARK___2;
 isa_QMARK_.cljm$lang$arity$3 = isa_QMARK___3;
 return isa_QMARK_;
 })()
-;
+];
 /**
 * Returns the immediate parents of tag, either via a JavaScript type
 * inheritance relationship or a relationship established via derive. h
 * must be a hierarchy obtained from make-hierarchy, if not supplied
 * defaults to the global hierarchy
 */
-cljm_DOT_core_SLASH_parents = (function() {
+cljm_DOT_core_SLASH_parents = [[CLJMVar alloc] initWithValue:(function() {
 var parents = null;
 var parents__1 = ^id(id tag) {
-return parents(cljm_DOT_core_SLASH_deref(cljm_DOT_core_SLASH_global_hierarchy), tag);
+return ((id (^)(id , id )) parents.value)(((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(cljm_DOT_core_SLASH_global_hierarchy.value), tag.value);
 };
 var parents__2 = ^id(id h, id tag) {
-return cljm_DOT_core_SLASH_not_empty(cljm_DOT_core_SLASH__lookup((h), tag, nil));
+return ((id (^)(id )) cljm_DOT_core_SLASH_not_empty.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(((id (^)(id )) .value)(h.value), tag.value, nil));
 };
 parents = function(h, tag){
 switch(arguments.length){
@@ -16194,20 +16194,20 @@ parents.cljm$lang$arity$1 = parents__1;
 parents.cljm$lang$arity$2 = parents__2;
 return parents;
 })()
-;
+];
 /**
 * Returns the immediate and indirect parents of tag, either via a JavaScript type
 * inheritance relationship or a relationship established via derive. h
 * must be a hierarchy obtained from make-hierarchy, if not supplied
 * defaults to the global hierarchy
 */
-cljm_DOT_core_SLASH_ancestors = (function() {
+cljm_DOT_core_SLASH_ancestors = [[CLJMVar alloc] initWithValue:(function() {
 var ancestors = null;
 var ancestors__1 = ^id(id tag) {
-return ancestors(cljm_DOT_core_SLASH_deref(cljm_DOT_core_SLASH_global_hierarchy), tag);
+return ((id (^)(id , id )) ancestors.value)(((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(cljm_DOT_core_SLASH_global_hierarchy.value), tag.value);
 };
 var ancestors__2 = ^id(id h, id tag) {
-return cljm_DOT_core_SLASH_not_empty(cljm_DOT_core_SLASH__lookup((h), tag, nil));
+return ((id (^)(id )) cljm_DOT_core_SLASH_not_empty.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(((id (^)(id )) .value)(h.value), tag.value, nil));
 };
 ancestors = function(h, tag){
 switch(arguments.length){
@@ -16222,7 +16222,7 @@ ancestors.cljm$lang$arity$1 = ancestors__1;
 ancestors.cljm$lang$arity$2 = ancestors__2;
 return ancestors;
 })()
-;
+];
 /**
 * Returns the immediate and indirect children of tag, through a
 * relationship established via derive. h must be a hierarchy obtained
@@ -16230,13 +16230,13 @@ return ancestors;
 * hierarchy. Note: does not work on JavaScript type inheritance
 * relationships.
 */
-cljm_DOT_core_SLASH_descendants = (function() {
+cljm_DOT_core_SLASH_descendants = [[CLJMVar alloc] initWithValue:(function() {
 var descendants = null;
 var descendants__1 = ^id(id tag) {
-return descendants(cljm_DOT_core_SLASH_deref(cljm_DOT_core_SLASH_global_hierarchy), tag);
+return ((id (^)(id , id )) descendants.value)(((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(cljm_DOT_core_SLASH_global_hierarchy.value), tag.value);
 };
 var descendants__2 = ^id(id h, id tag) {
-return cljm_DOT_core_SLASH_not_empty(cljm_DOT_core_SLASH__lookup((h), tag, nil));
+return ((id (^)(id )) cljm_DOT_core_SLASH_not_empty.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(((id (^)(id )) .value)(h.value), tag.value, nil));
 };
 descendants = function(h, tag){
 switch(arguments.length){
@@ -16251,7 +16251,7 @@ descendants.cljm$lang$arity$1 = descendants__1;
 descendants.cljm$lang$arity$2 = descendants__2;
 return descendants;
 })()
-;
+];
 /**
 * Establishes a parent/child relationship between parent and
 * tag. Parent must be a namespace-qualified symbol or keyword and
@@ -16259,52 +16259,52 @@ return descendants;
 * class. h must be a hierarchy obtained from make-hierarchy, if not
 * supplied defaults to, and modifies, the global hierarchy.
 */
-cljm_DOT_core_SLASH_derive = (function() {
+cljm_DOT_core_SLASH_derive = [[CLJMVar alloc] initWithValue:(function() {
 var derive = null;
 var derive__2 = ^id(id tag, id parent) {
-if(cljm_truthy(cljm_DOT_core_SLASH_namespace(parent))) {
+if(cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_namespace.value)(parent.value))) {
 
 } else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
-cljm_DOT_core_SLASH_swap_BANG_(cljm_DOT_core_SLASH_global_hierarchy, derive, tag, parent, nil);
+((id (^)(id , id , id , id , ...)) cljm_DOT_core_SLASH_swap_BANG_.value)(cljm_DOT_core_SLASH_global_hierarchy.value, derive.value, tag.value, parent.value, nil);
 return nil;
 };
 var derive__3 = ^id(id h, id tag, id parent) {
-if(cljm_truthy(cljm_DOT_core_SLASH_not_EQ_(tag, parent, nil))) {
+if(cljm_truthy(((id (^)(id , id , ...)) cljm_DOT_core_SLASH_not_EQ_.value)(tag.value, parent.value, nil))) {
 
 } else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
-id tp__7362 = (h);
-id td__7363 = (h);
-id ta__7364 = (h);
-id tf__7365 = ^id(id m, id source, id sources, id target, id targets) {
-return cljm_DOT_core_SLASH_reduce(^id(id ret, id k) {
-return cljm_DOT_core_SLASH_assoc(ret, k, cljm_DOT_core_SLASH_reduce(cljm_DOT_core_SLASH_conj, cljm_DOT_core_SLASH__lookup(targets, k, [NSSet set]), cljm_DOT_core_SLASH_cons(target, targets(target))), nil);
-}, m, cljm_DOT_core_SLASH_cons(source, sources(source)));
+id tp__7350 = ((id (^)(id )) .value)(h.value);
+id td__7351 = ((id (^)(id )) .value)(h.value);
+id ta__7352 = ((id (^)(id )) .value)(h.value);
+id tf__7353 = ^id(id m, id source, id sources, id target, id targets) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id ret, id k) {
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(ret.value, k.value, ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(cljm_DOT_core_SLASH_conj.value, ((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(targets.value, k.value, [NSSet set]), ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(target.value, ((id (^)(id )) targets.value)(target.value))), nil);
+}, m.value, ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(source.value, ((id (^)(id )) sources.value)(source.value)));
 };
-id or__3824__auto____7366 = (cljm_truthy(cljm_DOT_core_SLASH_contains_QMARK_(tp__7362(tag), parent))) ?nil:{if(cljm_truthy(cljm_DOT_core_SLASH_contains_QMARK_(ta__7364(tag), parent))) {
-throw [Error alloc];
+id or__3824__auto____7354 = (cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_contains_QMARK_.value)(((id (^)(id )) tp__7350.value)(tag.value), parent.value))) ?nil:{if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_contains_QMARK_.value)(((id (^)(id )) ta__7352.value)(tag.value), parent.value))) {
+throw [Error.value alloc];
 
 } else {
 
 }
-if(cljm_truthy(cljm_DOT_core_SLASH_contains_QMARK_(ta__7364(parent), tag))) {
-throw [Error alloc];
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_contains_QMARK_.value)(((id (^)(id )) ta__7352.value)(parent.value), tag.value))) {
+throw [Error.value alloc];
 
 } else {
 
 }
-return @{ cljm_keyword(@":parents"): cljm_DOT_core_SLASH_assoc((h), tag, cljm_DOT_core_SLASH_conj(cljm_DOT_core_SLASH__lookup(tp__7362, tag, [NSSet set]), parent, nil), nil), cljm_keyword(@":ancestors"): tf__7365((h), tag, td__7363, parent, ta__7364), cljm_keyword(@":descendants"): tf__7365((h), parent, ta__7364, tag, td__7363) };
+return @{ cljm_keyword(@":parents"): ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(((id (^)(id )) .value)(h.value), tag.value, ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(tp__7350, tag.value, [NSSet set]), parent.value, nil), nil), cljm_keyword(@":ancestors"): ((id (^)(id , id , id , id , id )) tf__7353.value)(((id (^)(id )) .value)(h.value), tag.value, td__7351, parent.value, ta__7352), cljm_keyword(@":descendants"): ((id (^)(id , id , id , id , id )) tf__7353.value)(((id (^)(id )) .value)(h.value), parent.value, ta__7352, tag.value, td__7351) };
 };
-if(cljm_truthy(or__3824__auto____7366)) {
-return or__3824__auto____7366;
+if(cljm_truthy(or__3824__auto____7354)) {
+return or__3824__auto____7354;
 
 } else {
-return h;
+return h.value;
 
 }
 };
@@ -16321,32 +16321,32 @@ derive.cljm$lang$arity$2 = derive__2;
 derive.cljm$lang$arity$3 = derive__3;
 return derive;
 })()
-;
+];
 /**
 * Removes a parent/child relationship between parent and
 * tag. h must be a hierarchy obtained from make-hierarchy, if not
 * supplied defaults to, and modifies, the global hierarchy.
 */
-cljm_DOT_core_SLASH_underive = (function() {
+cljm_DOT_core_SLASH_underive = [[CLJMVar alloc] initWithValue:(function() {
 var underive = null;
 var underive__2 = ^id(id tag, id parent) {
-cljm_DOT_core_SLASH_swap_BANG_(cljm_DOT_core_SLASH_global_hierarchy, underive, tag, parent, nil);
+((id (^)(id , id , id , id , ...)) cljm_DOT_core_SLASH_swap_BANG_.value)(cljm_DOT_core_SLASH_global_hierarchy.value, underive.value, tag.value, parent.value, nil);
 return nil;
 };
 var underive__3 = ^id(id h, id tag, id parent) {
-id parentMap__7371 = (h);
-id childsParents__7372 = (cljm_truthy(parentMap__7371(tag))) ?cljm_DOT_core_SLASH_disj(parentMap__7371(tag), parent, nil):[NSSet set];
-id newParents__7373 = (cljm_truthy(cljm_DOT_core_SLASH_not_empty(childsParents__7372))) ?cljm_DOT_core_SLASH_assoc(parentMap__7371, tag, childsParents__7372, nil):cljm_DOT_core_SLASH_dissoc(parentMap__7371, tag, nil);
-id deriv_seq__7374 = cljm_DOT_core_SLASH_flatten(cljm_DOT_core_SLASH_map(^id(id p1__7354_SHARP_) {
-return cljm_DOT_core_SLASH_cons(cljm_DOT_core_SLASH_first(p1__7354_SHARP_), cljm_DOT_core_SLASH_interpose(cljm_DOT_core_SLASH_first(p1__7354_SHARP_), cljm_DOT_core_SLASH_second(p1__7354_SHARP_)));
-}, cljm_DOT_core_SLASH_seq(newParents__7373), nil));
-if(cljm_truthy(cljm_DOT_core_SLASH_contains_QMARK_(parentMap__7371(tag), parent))) {
-return cljm_DOT_core_SLASH_reduce(^id(id p1__7355_SHARP_, id p2__7356_SHARP_) {
-return cljm_DOT_core_SLASH_apply(cljm_DOT_core_SLASH_derive, p1__7355_SHARP_, p2__7356_SHARP_, nil);
-}, cljm_DOT_core_SLASH_make_hierarchy(), cljm_DOT_core_SLASH_partition(@2, deriv_seq__7374));
+id parentMap__7359 = ((id (^)(id )) .value)(h.value);
+id childsParents__7360 = (cljm_truthy(((id (^)(id )) parentMap__7359.value)(tag.value))) ?((id (^)(id , id , ...)) cljm_DOT_core_SLASH_disj.value)(((id (^)(id )) parentMap__7359.value)(tag.value), parent.value, nil):[NSSet set];
+id newParents__7361 = (cljm_truthy(((id (^)(id )) cljm_DOT_core_SLASH_not_empty.value)(childsParents__7360))) ?((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(parentMap__7359, tag.value, childsParents__7360, nil):((id (^)(id , id , ...)) cljm_DOT_core_SLASH_dissoc.value)(parentMap__7359, tag.value, nil);
+id deriv_seq__7362 = ((id (^)(id )) cljm_DOT_core_SLASH_flatten.value)(((id (^)(id , id , ...)) cljm_DOT_core_SLASH_map.value)(^id(id p1__7342_SHARP_) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_cons.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(p1__7342_SHARP_.value), ((id (^)(id , id )) cljm_DOT_core_SLASH_interpose.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(p1__7342_SHARP_.value), ((id (^)(id )) cljm_DOT_core_SLASH_second.value)(p1__7342_SHARP_.value)));
+}, ((id (^)(id )) cljm_DOT_core_SLASH_seq.value)(newParents__7361), nil));
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_contains_QMARK_.value)(((id (^)(id )) parentMap__7359.value)(tag.value), parent.value))) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id p1__7343_SHARP_, id p2__7344_SHARP_) {
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_apply.value)(cljm_DOT_core_SLASH_derive.value, p1__7343_SHARP_.value, p2__7344_SHARP_.value, nil);
+}, ((id (^)()) cljm_DOT_core_SLASH_make_hierarchy.value)(), ((id (^)(id , id )) cljm_DOT_core_SLASH_partition.value)(@2, deriv-seq__7362));
 
 } else {
-return h;
+return h.value;
 
 }
 };
@@ -16363,41 +16363,41 @@ underive.cljm$lang$arity$2 = underive__2;
 underive.cljm$lang$arity$3 = underive__3;
 return underive;
 })()
-;
-cljm_DOT_core_SLASH_reset_cache = ^id(id method_cache, id method_table, id cached_hierarchy, id hierarchy) {
-cljm_DOT_core_SLASH_swap_BANG_(method_cache, ^id(id _) {
-return cljm_DOT_core_SLASH_deref(method_table);
+];
+cljm_DOT_core_SLASH_reset_cache = [[CLJMVar alloc] initWithValue:^id(id method_cache, id method_table, id cached_hierarchy, id hierarchy) {
+((id (^)(id , id , ...)) cljm_DOT_core_SLASH_swap_BANG_.value)(method_cache.value, ^id(id _) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(method_table.value);
 }, nil);
-return cljm_DOT_core_SLASH_swap_BANG_(cached_hierarchy, ^id(id _) {
-return cljm_DOT_core_SLASH_deref(hierarchy);
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_swap_BANG_.value)(cached_hierarchy.value, ^id(id _) {
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(hierarchy.value);
 }, nil);
-};
-cljm_DOT_core_SLASH_prefers_STAR_ = ^id(id x, id y, id prefer_table) {
-id xprefs__7382 = (x);
-id or__3824__auto____7384 = (cljm_truthy({id and__3822__auto____7383 = xprefs__7382;
-if(cljm_truthy(and__3822__auto____7383)) {
-return xprefs__7382(y);
+}];
+cljm_DOT_core_SLASH_prefers_STAR_ = [[CLJMVar alloc] initWithValue:^id(id x, id y, id prefer_table) {
+id xprefs__7370 = ((id (^)(id )) .value)(x.value);
+id or__3824__auto____7372 = (cljm_truthy({id and__3822__auto____7371 = xprefs__7370;
+if(cljm_truthy(and__3822__auto____7371)) {
+return ((id (^)(id )) xprefs__7370.value)(y.value);
 
 } else {
-return and__3822__auto____7383;
+return and__3822__auto____7371;
 
 }
 })) ?@YES:nil;
-if(cljm_truthy(or__3824__auto____7384)) {
-return or__3824__auto____7384;
+if(cljm_truthy(or__3824__auto____7372)) {
+return or__3824__auto____7372;
 
 } else {
-id or__3824__auto____7386 = {id ps__7385 = cljm_DOT_core_SLASH_parents(y);
+id or__3824__auto____7374 = {id ps__7373 = ((id (^)(id )) cljm_DOT_core_SLASH_parents.value)(y.value);
 while(YES) {
-if(cljm_truthy((cljm_DOT_core_SLASH_count(ps__7385) > @0))) {
-if(cljm_truthy(prefers_STAR_(x, cljm_DOT_core_SLASH_first(ps__7385), prefer_table))) {
+if(cljm_truthy((((id (^)(id )) cljm_DOT_core_SLASH_count.value)(ps__7373) > @0))) {
+if(cljm_truthy(((id (^)(id , id , id )) prefers_STAR_.value)(x.value, ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(ps__7373), prefer_table.value))) {
 
 } else {
 
 }
 {
-var G__7389 = cljm_DOT_core_SLASH_rest(ps__7385);
-ps__7385 = G__7389;
+var G__7377 = ((id (^)(id )) cljm_DOT_core_SLASH_rest.value)(ps__7373);
+ps__7373 = G__7377;
 continue;
 }
 
@@ -16408,21 +16408,21 @@ return nil;
 break;
 }
 };
-if(cljm_truthy(or__3824__auto____7386)) {
-return or__3824__auto____7386;
+if(cljm_truthy(or__3824__auto____7374)) {
+return or__3824__auto____7374;
 
 } else {
-id or__3824__auto____7388 = {id ps__7387 = cljm_DOT_core_SLASH_parents(x);
+id or__3824__auto____7376 = {id ps__7375 = ((id (^)(id )) cljm_DOT_core_SLASH_parents.value)(x.value);
 while(YES) {
-if(cljm_truthy((cljm_DOT_core_SLASH_count(ps__7387) > @0))) {
-if(cljm_truthy(prefers_STAR_(cljm_DOT_core_SLASH_first(ps__7387), y, prefer_table))) {
+if(cljm_truthy((((id (^)(id )) cljm_DOT_core_SLASH_count.value)(ps__7375) > @0))) {
+if(cljm_truthy(((id (^)(id , id , id )) prefers_STAR_.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(ps__7375), y.value, prefer_table.value))) {
 
 } else {
 
 }
 {
-var G__7390 = cljm_DOT_core_SLASH_rest(ps__7387);
-ps__7387 = G__7390;
+var G__7378 = ((id (^)(id )) cljm_DOT_core_SLASH_rest.value)(ps__7375);
+ps__7375 = G__7378;
 continue;
 }
 
@@ -16433,8 +16433,8 @@ return nil;
 break;
 }
 };
-if(cljm_truthy(or__3824__auto____7388)) {
-return or__3824__auto____7388;
+if(cljm_truthy(or__3824__auto____7376)) {
+return or__3824__auto____7376;
 
 } else {
 return @NO;
@@ -16444,54 +16444,54 @@ return @NO;
 }
 
 }
-};
-cljm_DOT_core_SLASH_dominates = ^id(id x, id y, id prefer_table) {
-id or__3824__auto____7392 = cljm_DOT_core_SLASH_prefers_STAR_(x, y, prefer_table);
-if(cljm_truthy(or__3824__auto____7392)) {
-return or__3824__auto____7392;
+}];
+cljm_DOT_core_SLASH_dominates = [[CLJMVar alloc] initWithValue:^id(id x, id y, id prefer_table) {
+id or__3824__auto____7380 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_prefers_STAR_.value)(x.value, y.value, prefer_table.value);
+if(cljm_truthy(or__3824__auto____7380)) {
+return or__3824__auto____7380;
 
 } else {
-return cljm_DOT_core_SLASH_isa_QMARK_(x, y);
+return ((id (^)(id , id )) cljm_DOT_core_SLASH_isa_QMARK_.value)(x.value, y.value);
 
 }
-};
-cljm_DOT_core_SLASH_find_and_cache_best_method = ^id(id name, id dispatch_val, id hierarchy, id method_table, id prefer_table, id method_cache, id cached_hierarchy) {
-id best_entry__7410 = cljm_DOT_core_SLASH_reduce(^id(id be, id p__7402) {
-id vec__7403__7404 = p__7402;
-id k__7405 = cljm_DOT_core_SLASH_nth(vec__7403__7404, @0, nil);
-id ___7406 = cljm_DOT_core_SLASH_nth(vec__7403__7404, @1, nil);
-id e__7407 = vec__7403__7404;
-if(cljm_truthy(cljm_DOT_core_SLASH_isa_QMARK_(dispatch_val, k__7405))) {
-id be2__7409 = (cljm_truthy({id or__3824__auto____7408 = (be == nil);
-if(cljm_truthy(or__3824__auto____7408)) {
-return or__3824__auto____7408;
+}];
+cljm_DOT_core_SLASH_find_and_cache_best_method = [[CLJMVar alloc] initWithValue:^id(id name, id dispatch_val, id hierarchy, id method_table, id prefer_table, id method_cache, id cached_hierarchy) {
+id best_entry__7398 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_reduce.value)(^id(id be, id p__7390) {
+id vec__7391__7392 = p__7390.value;
+id k__7393 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__7391__7392, @0, nil);
+id ___7394 = ((id (^)(id , id , id )) cljm_DOT_core_SLASH_nth.value)(vec__7391__7392, @1, nil);
+id e__7395 = vec__7391__7392;
+if(cljm_truthy(((id (^)(id , id )) cljm_DOT_core_SLASH_isa_QMARK_.value)(dispatch_val.value, k__7393))) {
+id be2__7397 = (cljm_truthy({id or__3824__auto____7396 = (be.value == nil);
+if(cljm_truthy(or__3824__auto____7396)) {
+return or__3824__auto____7396;
 
 } else {
-return cljm_DOT_core_SLASH_dominates(k__7405, cljm_DOT_core_SLASH_first(be), prefer_table);
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_dominates.value)(k__7393, ((id (^)(id )) cljm_DOT_core_SLASH_first.value)(be.value), prefer_table.value);
 
 }
-})) ?e__7407:be;
-if(cljm_truthy(cljm_DOT_core_SLASH_dominates(cljm_DOT_core_SLASH_first(be2__7409), k__7405, prefer_table))) {
+})) ?e__7395:be.value;
+if(cljm_truthy(((id (^)(id , id , id )) cljm_DOT_core_SLASH_dominates.value)(((id (^)(id )) cljm_DOT_core_SLASH_first.value)(be2__7397), k__7393, prefer_table.value))) {
 
 } else {
-throw [Error alloc];
+throw [Error.value alloc];
 
 }
-return be2__7409;
+return be2__7397;
 
 } else {
-return be;
+return be.value;
 
 }
-}, nil, cljm_DOT_core_SLASH_deref(method_table));
-if(cljm_truthy(best_entry__7410)) {
-if(cljm_truthy(cljm_DOT_core_SLASH__EQ_(cljm_DOT_core_SLASH_deref(cached_hierarchy), cljm_DOT_core_SLASH_deref(hierarchy), nil))) {
-cljm_DOT_core_SLASH_swap_BANG_(method_cache, cljm_DOT_core_SLASH_assoc, dispatch_val, cljm_DOT_core_SLASH_second(best_entry__7410), nil);
-return cljm_DOT_core_SLASH_second(best_entry__7410);
+}, nil, ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(method_table.value));
+if(cljm_truthy(best-entry__7398)) {
+if(cljm_truthy(((id (^)(id , id , ...)) cljm_DOT_core_SLASH__EQ_.value)(((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(cached_hierarchy.value), ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(hierarchy.value), nil))) {
+((id (^)(id , id , id , id , ...)) cljm_DOT_core_SLASH_swap_BANG_.value)(method_cache.value, cljm_DOT_core_SLASH_assoc.value, dispatch_val.value, ((id (^)(id )) cljm_DOT_core_SLASH_second.value)(best-entry__7398), nil);
+return ((id (^)(id )) cljm_DOT_core_SLASH_second.value)(best-entry__7398);
 
 } else {
-cljm_DOT_core_SLASH_reset_cache(method_cache, method_table, cached_hierarchy, hierarchy);
-return find_and_cache_best_method(name, dispatch_val, hierarchy, method_table, prefer_table, method_cache, cached_hierarchy);
+((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_reset_cache.value)(method_cache.value, method_table.value, cached_hierarchy.value, hierarchy.value);
+return ((id (^)(id , id , id , id , id , id , id )) find_and_cache_best_method.value)(name.value, dispatch_val.value, hierarchy.value, method_table.value, prefer_table.value, method_cache.value, cached_hierarchy.value);
 
 }
 
@@ -16499,163 +16499,163 @@ return find_and_cache_best_method(name, dispatch_val, hierarchy, method_table, p
 return nil;
 
 }
-};
-cljm_DOT_core_SLASH_IMultiFn = {};
-cljm_DOT_core_SLASH__reset = ^id(id mf) {
-if(cljm_truthy({id and__3822__auto____7415 = mf;
-if(cljm_truthy(and__3822__auto____7415)) {
-return mf.cljm$core$IMultiFn$_reset$arity$1;
+}];
+cljm_DOT_core_SLASH_IMultiFn = [[CLJMVar alloc] initWithValue:{}];
+cljm_DOT_core_SLASH__reset = [[CLJMVar alloc] initWithValue:^id(id mf) {
+if(cljm_truthy({id and__3822__auto____7403 = mf.value;
+if(cljm_truthy(and__3822__auto____7403)) {
+return mf.value.cljm$core$IMultiFn$_reset$arity$1;
 
 } else {
-return and__3822__auto____7415;
+return and__3822__auto____7403;
 
 }
 })) {
-return [mf cljmmf core];
+return [mf.value cljmmf.value core];
 
 } else {
-id x__1485__auto____7416 = (cljm_truthy((mf == nil))) ?nil:mf;
-return (mf);
+id x__1473__auto____7404 = (cljm_truthy((mf.value == nil))) ?nil:mf.value;
+return ((id (^)(id )) .value)(mf.value);
 
 }
-};
-cljm_DOT_core_SLASH__add_method = ^id(id mf, id dispatch_val, id method) {
-if(cljm_truthy({id and__3822__auto____7423 = mf;
-if(cljm_truthy(and__3822__auto____7423)) {
-return mf.cljm$core$IMultiFn$_add_method$arity$3;
+}];
+cljm_DOT_core_SLASH__add_method = [[CLJMVar alloc] initWithValue:^id(id mf, id dispatch_val, id method) {
+if(cljm_truthy({id and__3822__auto____7411 = mf.value;
+if(cljm_truthy(and__3822__auto____7411)) {
+return mf.value.cljm$core$IMultiFn$_add_method$arity$3;
 
 } else {
-return and__3822__auto____7423;
-
-}
-})) {
-return [mf cljmmf coredispatch_val IMultiFnmethod add];
-
-} else {
-id x__1485__auto____7424 = (cljm_truthy((mf == nil))) ?nil:mf;
-return (mf, dispatch_val, method);
-
-}
-};
-cljm_DOT_core_SLASH__remove_method = ^id(id mf, id dispatch_val) {
-if(cljm_truthy({id and__3822__auto____7431 = mf;
-if(cljm_truthy(and__3822__auto____7431)) {
-return mf.cljm$core$IMultiFn$_remove_method$arity$2;
-
-} else {
-return and__3822__auto____7431;
+return and__3822__auto____7411;
 
 }
 })) {
-return [mf cljmmf coredispatch_val IMultiFn];
+return [mf.value cljmmf.value coredispatch_val.value IMultiFnmethod.value add];
 
 } else {
-id x__1485__auto____7432 = (cljm_truthy((mf == nil))) ?nil:mf;
-return (mf, dispatch_val);
+id x__1473__auto____7412 = (cljm_truthy((mf.value == nil))) ?nil:mf.value;
+return ((id (^)(id , id , id )) .value)(mf.value, dispatch_val.value, method.value);
 
 }
-};
-cljm_DOT_core_SLASH__prefer_method = ^id(id mf, id dispatch_val, id dispatch_val_y) {
-if(cljm_truthy({id and__3822__auto____7439 = mf;
-if(cljm_truthy(and__3822__auto____7439)) {
-return mf.cljm$core$IMultiFn$_prefer_method$arity$3;
+}];
+cljm_DOT_core_SLASH__remove_method = [[CLJMVar alloc] initWithValue:^id(id mf, id dispatch_val) {
+if(cljm_truthy({id and__3822__auto____7419 = mf.value;
+if(cljm_truthy(and__3822__auto____7419)) {
+return mf.value.cljm$core$IMultiFn$_remove_method$arity$2;
 
 } else {
-return and__3822__auto____7439;
-
-}
-})) {
-return [mf cljmmf coredispatch_val IMultiFndispatch_val_y prefer];
-
-} else {
-id x__1485__auto____7440 = (cljm_truthy((mf == nil))) ?nil:mf;
-return (mf, dispatch_val, dispatch_val_y);
-
-}
-};
-cljm_DOT_core_SLASH__get_method = ^id(id mf, id dispatch_val) {
-if(cljm_truthy({id and__3822__auto____7447 = mf;
-if(cljm_truthy(and__3822__auto____7447)) {
-return mf.cljm$core$IMultiFn$_get_method$arity$2;
-
-} else {
-return and__3822__auto____7447;
+return and__3822__auto____7419;
 
 }
 })) {
-return [mf cljmmf coredispatch_val IMultiFn];
+return [mf.value cljmmf.value coredispatch_val.value IMultiFn];
 
 } else {
-id x__1485__auto____7448 = (cljm_truthy((mf == nil))) ?nil:mf;
-return (mf, dispatch_val);
+id x__1473__auto____7420 = (cljm_truthy((mf.value == nil))) ?nil:mf.value;
+return ((id (^)(id , id )) .value)(mf.value, dispatch_val.value);
 
 }
-};
-cljm_DOT_core_SLASH__methods = ^id(id mf) {
-if(cljm_truthy({id and__3822__auto____7455 = mf;
-if(cljm_truthy(and__3822__auto____7455)) {
-return mf.cljm$core$IMultiFn$_methods$arity$1;
+}];
+cljm_DOT_core_SLASH__prefer_method = [[CLJMVar alloc] initWithValue:^id(id mf, id dispatch_val, id dispatch_val_y) {
+if(cljm_truthy({id and__3822__auto____7427 = mf.value;
+if(cljm_truthy(and__3822__auto____7427)) {
+return mf.value.cljm$core$IMultiFn$_prefer_method$arity$3;
 
 } else {
-return and__3822__auto____7455;
-
-}
-})) {
-return [mf cljmmf core];
-
-} else {
-id x__1485__auto____7456 = (cljm_truthy((mf == nil))) ?nil:mf;
-return (mf);
-
-}
-};
-cljm_DOT_core_SLASH__prefers = ^id(id mf) {
-if(cljm_truthy({id and__3822__auto____7463 = mf;
-if(cljm_truthy(and__3822__auto____7463)) {
-return mf.cljm$core$IMultiFn$_prefers$arity$1;
-
-} else {
-return and__3822__auto____7463;
+return and__3822__auto____7427;
 
 }
 })) {
-return [mf cljmmf core];
+return [mf.value cljmmf.value coredispatch_val.value IMultiFndispatch_val_y.value prefer];
 
 } else {
-id x__1485__auto____7464 = (cljm_truthy((mf == nil))) ?nil:mf;
-return (mf);
+id x__1473__auto____7428 = (cljm_truthy((mf.value == nil))) ?nil:mf.value;
+return ((id (^)(id , id , id )) .value)(mf.value, dispatch_val.value, dispatch_val_y.value);
 
 }
-};
-cljm_DOT_core_SLASH__dispatch = ^id(id mf, id args) {
-if(cljm_truthy({id and__3822__auto____7471 = mf;
-if(cljm_truthy(and__3822__auto____7471)) {
-return mf.cljm$core$IMultiFn$_dispatch$arity$2;
+}];
+cljm_DOT_core_SLASH__get_method = [[CLJMVar alloc] initWithValue:^id(id mf, id dispatch_val) {
+if(cljm_truthy({id and__3822__auto____7435 = mf.value;
+if(cljm_truthy(and__3822__auto____7435)) {
+return mf.value.cljm$core$IMultiFn$_get_method$arity$2;
 
 } else {
-return and__3822__auto____7471;
+return and__3822__auto____7435;
 
 }
 })) {
-return [mf cljmmf coreargs IMultiFn];
+return [mf.value cljmmf.value coredispatch_val.value IMultiFn];
 
 } else {
-id x__1485__auto____7472 = (cljm_truthy((mf == nil))) ?nil:mf;
-return (mf, args);
+id x__1473__auto____7436 = (cljm_truthy((mf.value == nil))) ?nil:mf.value;
+return ((id (^)(id , id )) .value)(mf.value, dispatch_val.value);
 
 }
-};
-cljm_DOT_core_SLASH_do_dispatch = ^id(id mf, id dispatch_fn, id args) {
-id dispatch_val__7477 = cljm_DOT_core_SLASH_apply(dispatch_fn, args, nil);
-id target_fn__7478 = cljm_DOT_core_SLASH__get_method(mf, dispatch_val__7477);
-if(cljm_truthy(target_fn__7478)) {
+}];
+cljm_DOT_core_SLASH__methods = [[CLJMVar alloc] initWithValue:^id(id mf) {
+if(cljm_truthy({id and__3822__auto____7443 = mf.value;
+if(cljm_truthy(and__3822__auto____7443)) {
+return mf.value.cljm$core$IMultiFn$_methods$arity$1;
 
 } else {
-throw [Error alloc];
+return and__3822__auto____7443;
 
 }
-return cljm_DOT_core_SLASH_apply(target_fn__7478, args, nil);
-};
+})) {
+return [mf.value cljmmf.value core];
+
+} else {
+id x__1473__auto____7444 = (cljm_truthy((mf.value == nil))) ?nil:mf.value;
+return ((id (^)(id )) .value)(mf.value);
+
+}
+}];
+cljm_DOT_core_SLASH__prefers = [[CLJMVar alloc] initWithValue:^id(id mf) {
+if(cljm_truthy({id and__3822__auto____7451 = mf.value;
+if(cljm_truthy(and__3822__auto____7451)) {
+return mf.value.cljm$core$IMultiFn$_prefers$arity$1;
+
+} else {
+return and__3822__auto____7451;
+
+}
+})) {
+return [mf.value cljmmf.value core];
+
+} else {
+id x__1473__auto____7452 = (cljm_truthy((mf.value == nil))) ?nil:mf.value;
+return ((id (^)(id )) .value)(mf.value);
+
+}
+}];
+cljm_DOT_core_SLASH__dispatch = [[CLJMVar alloc] initWithValue:^id(id mf, id args) {
+if(cljm_truthy({id and__3822__auto____7459 = mf.value;
+if(cljm_truthy(and__3822__auto____7459)) {
+return mf.value.cljm$core$IMultiFn$_dispatch$arity$2;
+
+} else {
+return and__3822__auto____7459;
+
+}
+})) {
+return [mf.value cljmmf.value coreargs.value IMultiFn];
+
+} else {
+id x__1473__auto____7460 = (cljm_truthy((mf.value == nil))) ?nil:mf.value;
+return ((id (^)(id , id )) .value)(mf.value, args.value);
+
+}
+}];
+cljm_DOT_core_SLASH_do_dispatch = [[CLJMVar alloc] initWithValue:^id(id mf, id dispatch_fn, id args) {
+id dispatch_val__7465 = ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_apply.value)(dispatch_fn.value, args.value, nil);
+id target_fn__7466 = ((id (^)(id , id )) cljm_DOT_core_SLASH__get_method.value)(mf.value, dispatch-val__7465);
+if(cljm_truthy(target-fn__7466)) {
+
+} else {
+throw [Error.value alloc];
+
+}
+return ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_apply.value)(target-fn__7466, args.value, nil);
+}];
 
 /**
 * @constructor
@@ -16672,95 +16672,95 @@ this.cached_hierarchy = cached_hierarchy;
 this.cljm$lang$protocol_mask$partition0$ = 4194304;
 this.cljm$lang$protocol_mask$partition1$ = 64;
 })
-cljm_DOT_core_SLASH_MultiFn.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_MultiFn.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/MultiFn", nil);
+cljm_DOT_core_SLASH_MultiFn.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_MultiFn.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/MultiFn", nil);
 };
-cljm_DOT_core_SLASH_MultiFn.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id this$) {
-var this__7479 = this;
-return goog_SLASH_getUid(this$);
+cljm_DOT_core_SLASH_MultiFn.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id this$) {
+var this__7467 = this;
+return ((id (^)(id )) goog_SLASH_getUid.value)(this$.value);
 };
-cljm_DOT_core_SLASH_MultiFn.prototype.cljm$core$IMultiFn$_reset$arity$1 = ^id(id mf) {
-var this__7480 = this;
-cljm_DOT_core_SLASH_swap_BANG_(this__7480_DOT_method_table, ^id(id mf) {
+cljm_DOT_core_SLASH_MultiFn.value.prototype.cljm$core$IMultiFn$_reset$arity$1 = ^id(id mf) {
+var this__7468 = this;
+((id (^)(id , id , ...)) cljm_DOT_core_SLASH_swap_BANG_.value)(this__7468.method-table, ^id(id mf) {
 return @{};
 }, nil);
-cljm_DOT_core_SLASH_swap_BANG_(this__7480_DOT_method_cache, ^id(id mf) {
+((id (^)(id , id , ...)) cljm_DOT_core_SLASH_swap_BANG_.value)(this__7468.method-cache, ^id(id mf) {
 return @{};
 }, nil);
-cljm_DOT_core_SLASH_swap_BANG_(this__7480_DOT_prefer_table, ^id(id mf) {
+((id (^)(id , id , ...)) cljm_DOT_core_SLASH_swap_BANG_.value)(this__7468.prefer-table, ^id(id mf) {
 return @{};
 }, nil);
-cljm_DOT_core_SLASH_swap_BANG_(this__7480_DOT_cached_hierarchy, ^id(id mf) {
+((id (^)(id , id , ...)) cljm_DOT_core_SLASH_swap_BANG_.value)(this__7468.cached-hierarchy, ^id(id mf) {
 return nil;
 }, nil);
-return mf;
+return mf.value;
 };
-cljm_DOT_core_SLASH_MultiFn.prototype.cljm$core$IMultiFn$_add_method$arity$3 = ^id(id mf, id dispatch_val, id method) {
-var this__7481 = this;
-cljm_DOT_core_SLASH_swap_BANG_(this__7481_DOT_method_table, cljm_DOT_core_SLASH_assoc, dispatch_val, method, nil);
-cljm_DOT_core_SLASH_reset_cache(this__7481_DOT_method_cache, this__7481_DOT_method_table, this__7481_DOT_cached_hierarchy, this__7481_DOT_hierarchy);
-return mf;
+cljm_DOT_core_SLASH_MultiFn.value.prototype.cljm$core$IMultiFn$_add_method$arity$3 = ^id(id mf, id dispatch_val, id method) {
+var this__7469 = this;
+((id (^)(id , id , id , id , ...)) cljm_DOT_core_SLASH_swap_BANG_.value)(this__7469.method-table, cljm_DOT_core_SLASH_assoc.value, dispatch_val.value, method.value, nil);
+((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_reset_cache.value)(this__7469.method-cache, this__7469.method-table, this__7469.cached-hierarchy, this__7469.hierarchy);
+return mf.value;
 };
-cljm_DOT_core_SLASH_MultiFn.prototype.cljm$core$IMultiFn$_remove_method$arity$2 = ^id(id mf, id dispatch_val) {
-var this__7482 = this;
-cljm_DOT_core_SLASH_swap_BANG_(this__7482_DOT_method_table, cljm_DOT_core_SLASH_dissoc, dispatch_val, nil);
-cljm_DOT_core_SLASH_reset_cache(this__7482_DOT_method_cache, this__7482_DOT_method_table, this__7482_DOT_cached_hierarchy, this__7482_DOT_hierarchy);
-return mf;
+cljm_DOT_core_SLASH_MultiFn.value.prototype.cljm$core$IMultiFn$_remove_method$arity$2 = ^id(id mf, id dispatch_val) {
+var this__7470 = this;
+((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_swap_BANG_.value)(this__7470.method-table, cljm_DOT_core_SLASH_dissoc.value, dispatch_val.value, nil);
+((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_reset_cache.value)(this__7470.method-cache, this__7470.method-table, this__7470.cached-hierarchy, this__7470.hierarchy);
+return mf.value;
 };
-cljm_DOT_core_SLASH_MultiFn.prototype.cljm$core$IMultiFn$_get_method$arity$2 = ^id(id mf, id dispatch_val) {
-var this__7483 = this;
-if(cljm_truthy(cljm_DOT_core_SLASH__EQ_(cljm_DOT_core_SLASH_deref(this__7483_DOT_cached_hierarchy), cljm_DOT_core_SLASH_deref(this__7483_DOT_hierarchy), nil))) {
+cljm_DOT_core_SLASH_MultiFn.value.prototype.cljm$core$IMultiFn$_get_method$arity$2 = ^id(id mf, id dispatch_val) {
+var this__7471 = this;
+if(cljm_truthy(((id (^)(id , id , ...)) cljm_DOT_core_SLASH__EQ_.value)(((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(this__7471.cached-hierarchy), ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(this__7471.hierarchy), nil))) {
 
 } else {
-cljm_DOT_core_SLASH_reset_cache(this__7483_DOT_method_cache, this__7483_DOT_method_table, this__7483_DOT_cached_hierarchy, this__7483_DOT_hierarchy);
+((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_reset_cache.value)(this__7471.method-cache, this__7471.method-table, this__7471.cached-hierarchy, this__7471.hierarchy);
 
 }
-id temp__3971__auto____7484 = (dispatch_val);
-if(cljm_truthy(temp__3971__auto____7484)) {
-id target_fn__7485 = temp__3971__auto____7484;
-return target_fn__7485;
+id temp__3971__auto____7472 = ((id (^)(id )) .value)(dispatch_val.value);
+if(cljm_truthy(temp__3971__auto____7472)) {
+id target_fn__7473 = temp__3971__auto____7472;
+return target-fn__7473;
 
 } else {
-id temp__3971__auto____7486 = cljm_DOT_core_SLASH_find_and_cache_best_method(this__7483_DOT_name, dispatch_val, this__7483_DOT_hierarchy, this__7483_DOT_method_table, this__7483_DOT_prefer_table, this__7483_DOT_method_cache, this__7483_DOT_cached_hierarchy);
-if(cljm_truthy(temp__3971__auto____7486)) {
-id target_fn__7487 = temp__3971__auto____7486;
-return target_fn__7487;
+id temp__3971__auto____7474 = ((id (^)(id , id , id , id , id , id , id )) cljm_DOT_core_SLASH_find_and_cache_best_method.value)(this__7471.name, dispatch_val.value, this__7471.hierarchy, this__7471.method-table, this__7471.prefer-table, this__7471.method-cache, this__7471.cached-hierarchy);
+if(cljm_truthy(temp__3971__auto____7474)) {
+id target_fn__7475 = temp__3971__auto____7474;
+return target-fn__7475;
 
 } else {
-return (this__7483_DOT_default_dispatch_val);
+return ((id (^)(id )) .value)(this__7471.default-dispatch-val);
 
 }
 
 }
 };
-cljm_DOT_core_SLASH_MultiFn.prototype.cljm$core$IMultiFn$_prefer_method$arity$3 = ^id(id mf, id dispatch_val_x, id dispatch_val_y) {
-var this__7488 = this;
-if(cljm_truthy(cljm_DOT_core_SLASH_prefers_STAR_(dispatch_val_x, dispatch_val_y, this__7488_DOT_prefer_table))) {
-throw [Error alloc];
+cljm_DOT_core_SLASH_MultiFn.value.prototype.cljm$core$IMultiFn$_prefer_method$arity$3 = ^id(id mf, id dispatch_val_x, id dispatch_val_y) {
+var this__7476 = this;
+if(cljm_truthy(((id (^)(id , id , id )) cljm_DOT_core_SLASH_prefers_STAR_.value)(dispatch_val_x.value, dispatch_val_y.value, this__7476.prefer-table))) {
+throw [Error.value alloc];
 
 } else {
 
 }
-cljm_DOT_core_SLASH_swap_BANG_(this__7488_DOT_prefer_table, ^id(id old) {
-return cljm_DOT_core_SLASH_assoc(old, dispatch_val_x, cljm_DOT_core_SLASH_conj(cljm_DOT_core_SLASH__lookup(old, dispatch_val_x, [NSSet set]), dispatch_val_y, nil), nil);
+((id (^)(id , id , ...)) cljm_DOT_core_SLASH_swap_BANG_.value)(this__7476.prefer-table, ^id(id old) {
+return ((id (^)(id , id , id , ...)) cljm_DOT_core_SLASH_assoc.value)(old.value, dispatch_val_x.value, ((id (^)(id , id , ...)) cljm_DOT_core_SLASH_conj.value)(((id (^)(id , id , id )) cljm_DOT_core_SLASH__lookup.value)(old.value, dispatch_val_x.value, [NSSet set]), dispatch_val_y.value, nil), nil);
 }, nil);
-return cljm_DOT_core_SLASH_reset_cache(this__7488_DOT_method_cache, this__7488_DOT_method_table, this__7488_DOT_cached_hierarchy, this__7488_DOT_hierarchy);
+return ((id (^)(id , id , id , id )) cljm_DOT_core_SLASH_reset_cache.value)(this__7476.method-cache, this__7476.method-table, this__7476.cached-hierarchy, this__7476.hierarchy);
 };
-cljm_DOT_core_SLASH_MultiFn.prototype.cljm$core$IMultiFn$_methods$arity$1 = ^id(id mf) {
-var this__7489 = this;
-return cljm_DOT_core_SLASH_deref(this__7489_DOT_method_table);
+cljm_DOT_core_SLASH_MultiFn.value.prototype.cljm$core$IMultiFn$_methods$arity$1 = ^id(id mf) {
+var this__7477 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(this__7477.method-table);
 };
-cljm_DOT_core_SLASH_MultiFn.prototype.cljm$core$IMultiFn$_prefers$arity$1 = ^id(id mf) {
-var this__7490 = this;
-return cljm_DOT_core_SLASH_deref(this__7490_DOT_prefer_table);
+cljm_DOT_core_SLASH_MultiFn.value.prototype.cljm$core$IMultiFn$_prefers$arity$1 = ^id(id mf) {
+var this__7478 = this;
+return ((id (^)(id )) cljm_DOT_core_SLASH_deref.value)(this__7478.prefer-table);
 };
-cljm_DOT_core_SLASH_MultiFn.prototype.cljm$core$IMultiFn$_dispatch$arity$2 = ^id(id mf, id args) {
-var this__7491 = this;
-return cljm_DOT_core_SLASH_do_dispatch(mf, this__7491_DOT_dispatch_fn, args);
+cljm_DOT_core_SLASH_MultiFn.value.prototype.cljm$core$IMultiFn$_dispatch$arity$2 = ^id(id mf, id args) {
+var this__7479 = this;
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH_do_dispatch.value)(mf.value, this__7479.dispatch-fn, args.value);
 };
-cljm_DOT_core_SLASH_MultiFn;
-cljs_SLASH_core_DOT_MultiFn_DOT_prototype_DOT_call = ^id(id cljm__varargs, id _, ...) {
+cljm_DOT_core_SLASH_MultiFn.value;
+cljs_SLASH_core_DOT_MultiFn_DOT_prototype_DOT_call.value = ^id(id cljm__varargs, id _, ...) {
 NSMutableArray *args = [NSMutableArray array];
 va_list cljm__args;
 va_start(cljm__args, cljm__varargs);
@@ -16768,51 +16768,51 @@ for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__cu
 [args addObject:cljm__currentObject];
 }
 va_end(cljm__args);
-id self__7492 = this;
-return cljm_DOT_core_SLASH__dispatch(self__7492, args);
+id self__7480 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__dispatch.value)(self__7480, args.value);
 };
-cljs_SLASH_core_DOT_MultiFn_DOT_prototype_DOT_apply = ^id(id _, id args) {
-id self__7493 = this;
-return cljm_DOT_core_SLASH__dispatch(self__7493, args);
+cljs_SLASH_core_DOT_MultiFn_DOT_prototype_DOT_apply.value = ^id(id _, id args) {
+id self__7481 = this;
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__dispatch.value)(self__7481, args.value);
 };
 /**
 * Removes all of the methods of multimethod.
 */
-cljm_DOT_core_SLASH_remove_all_methods = ^id(id multifn) {
-return cljm_DOT_core_SLASH__reset(multifn);
-};
+cljm_DOT_core_SLASH_remove_all_methods = [[CLJMVar alloc] initWithValue:^id(id multifn) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__reset.value)(multifn.value);
+}];
 /**
 * Removes the method of multimethod associated with dispatch-value.
 */
-cljm_DOT_core_SLASH_remove_method = ^id(id multifn, id dispatch_val) {
-return cljm_DOT_core_SLASH__remove_method(multifn, dispatch_val);
-};
+cljm_DOT_core_SLASH_remove_method = [[CLJMVar alloc] initWithValue:^id(id multifn, id dispatch_val) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__remove_method.value)(multifn.value, dispatch_val.value);
+}];
 /**
 * Causes the multimethod to prefer matches of dispatch-val-x over dispatch-val-y
 * when there is a conflict
 */
-cljm_DOT_core_SLASH_prefer_method = ^id(id multifn, id dispatch_val_x, id dispatch_val_y) {
-return cljm_DOT_core_SLASH__prefer_method(multifn, dispatch_val_x, dispatch_val_y);
-};
+cljm_DOT_core_SLASH_prefer_method = [[CLJMVar alloc] initWithValue:^id(id multifn, id dispatch_val_x, id dispatch_val_y) {
+return ((id (^)(id , id , id )) cljm_DOT_core_SLASH__prefer_method.value)(multifn.value, dispatch_val_x.value, dispatch_val_y.value);
+}];
 /**
 * Given a multimethod, returns a map of dispatch values -> dispatch fns
 */
-cljm_DOT_core_SLASH_methods = ^id(id multifn) {
-return cljm_DOT_core_SLASH__methods(multifn);
-};
+cljm_DOT_core_SLASH_methods = [[CLJMVar alloc] initWithValue:^id(id multifn) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__methods.value)(multifn.value);
+}];
 /**
 * Given a multimethod and a dispatch value, returns the dispatch fn
 * that would apply to that value, or nil if none apply and no default
 */
-cljm_DOT_core_SLASH_get_method = ^id(id multifn, id dispatch_val) {
-return cljm_DOT_core_SLASH__get_method(multifn, dispatch_val);
-};
+cljm_DOT_core_SLASH_get_method = [[CLJMVar alloc] initWithValue:^id(id multifn, id dispatch_val) {
+return ((id (^)(id , id )) cljm_DOT_core_SLASH__get_method.value)(multifn.value, dispatch_val.value);
+}];
 /**
 * Given a multimethod, returns a map of preferred value -> set of other values
 */
-cljm_DOT_core_SLASH_prefers = ^id(id multifn) {
-return cljm_DOT_core_SLASH__prefers(multifn);
-};
+cljm_DOT_core_SLASH_prefers = [[CLJMVar alloc] initWithValue:^id(id multifn) {
+return ((id (^)(id )) cljm_DOT_core_SLASH__prefers.value)(multifn.value);
+}];
 
 /**
 * @constructor
@@ -16822,34 +16822,34 @@ this.uuid = uuid;
 this.cljm$lang$protocol_mask$partition1$ = 0;
 this.cljm$lang$protocol_mask$partition0$ = 543162368;
 })
-cljm_DOT_core_SLASH_UUID.cljm$lang$type = @YES;
-cljm_DOT_core_SLASH_UUID.cljm$lang$ctorPrSeq = ^id(id this__1431__auto__) {
-return cljm_DOT_core_SLASH_list(@"cljm.core/UUID", nil);
+cljm_DOT_core_SLASH_UUID.value.cljm$lang$type = @YES;
+cljm_DOT_core_SLASH_UUID.value.cljm$lang$ctorPrSeq = ^id(id this__1419__auto__) {
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)(@"cljm.core/UUID", nil);
 };
-cljm_DOT_core_SLASH_UUID.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id this$) {
-var this__7494 = this;
-return goog_DOT_string_SLASH_hashCode(cljm_DOT_core_SLASH_pr_str(this$, nil));
+cljm_DOT_core_SLASH_UUID.value.prototype.cljm$core$IHash$_hash$arity$1 = ^id(id this$) {
+var this__7482 = this;
+return ((id (^)(id )) goog_DOT_string_SLASH_hashCode.value)(((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this$.value, nil));
 };
-cljm_DOT_core_SLASH_UUID.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id _7496, id _) {
-var this__7495 = this;
-return cljm_DOT_core_SLASH_list([@[ @"#uuid \"", this__7495_DOT_uuid, @"\"" ] componentsSeperatedByString:@""], nil);
+cljm_DOT_core_SLASH_UUID.value.prototype.cljm$core$IPrintable$_pr_seq$arity$2 = ^id(id _7484, id _) {
+var this__7483 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_list.value)([@[ @"#uuid \"", this__7483.uuid, @"\"" ] componentsSeperatedByString:@""], nil);
 };
-cljm_DOT_core_SLASH_UUID.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id _, id other) {
-var this__7497 = this;
-id and__3822__auto____7498 = cljm_DOT_core_SLASH_instance_QMARK_(cljm_DOT_core_SLASH_UUID, other);
-if(cljm_truthy(and__3822__auto____7498)) {
-return ([this__7497_DOT_uuid isEqual:other.uuid]);
+cljm_DOT_core_SLASH_UUID.value.prototype.cljm$core$IEquiv$_equiv$arity$2 = ^id(id _, id other) {
+var this__7485 = this;
+id and__3822__auto____7486 = ((id (^)(id , id )) cljm_DOT_core_SLASH_instance_QMARK_.value)(cljm_DOT_core_SLASH_UUID.value, other.value);
+if(cljm_truthy(and__3822__auto____7486)) {
+return ([this__7485.uuid isEqual:other.value.uuid]);
 
 } else {
-return and__3822__auto____7498;
+return and__3822__auto____7486;
 
 }
 };
-cljm_DOT_core_SLASH_UUID.prototype.toString = ^id() {
-var this__7499 = this;
-id this__7500 = this;
-return cljm_DOT_core_SLASH_pr_str(this__7500, nil);
+cljm_DOT_core_SLASH_UUID.value.prototype.toString = ^id() {
+var this__7487 = this;
+id this__7488 = this;
+return ((id (^)(id , ...)) cljm_DOT_core_SLASH_pr_str.value)(this__7488, nil);
 };
-cljm_DOT_core_SLASH_UUID;
+cljm_DOT_core_SLASH_UUID.value;
 }
 }

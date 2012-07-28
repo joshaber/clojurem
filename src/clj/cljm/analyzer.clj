@@ -377,7 +377,8 @@
          body (next meth)
          locals (reduce (fn [m name]
                           (assoc m name {:name name
-                                         :tag (-> name meta :tag)}))
+                                         :tag (-> name meta :tag)}
+                                         :local true))
                         locals params)
          recur-frame {:names params :flag (atom nil)}
          block (binding [*recur-frames* (cons recur-frame *recur-frames*)]
@@ -403,6 +404,7 @@
                          (assoc m fld
                                 {:name (symbol (str gthis "." fld))
                                  :field true
+                                 :local true
                                  :mutable (-> fld meta :mutable)
                                  :tag (-> fld meta :tag)}))
                        locals fields)

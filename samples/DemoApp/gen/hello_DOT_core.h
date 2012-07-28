@@ -1,4 +1,4 @@
-id (^hello_DOT_core_SLASH_greet)(id n);
+@class CLJMVar;
 
-id (^hello_DOT_core_SLASH_sum)(id xs);
-
+CLJMVar *hello_DOT_core_SLASH_greet;
+CLJMVar *hello_DOT_core_SLASH_sum;

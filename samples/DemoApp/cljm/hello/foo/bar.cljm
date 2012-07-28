@@ -16,9 +16,9 @@
 	(if false "hi" "no"))
 
 (defn nslog
-	[& x]
+	[& shit-to-print]
 	(do
-		(objc* "NSLog(@\"%@\", ~{x});" x)
+		(objc* "NSLog(@\"%@\", ~{shit-to-print});" shit-to-print)
 		nil))
 
 (defn uppercase-the-bitches
@@ -30,6 +30,13 @@
 	(do
 		(NS/Array. "initWithObjects:" 1 2 3)
 		1))
+
+; (defn my-plus-or-something
+;   "Returns the sum of nums. (+) returns 0."
+;   ([] 0)
+;   ([x] x)
+;   ([x y] [x y])
+;   ([x y & more] [x y more]))
 
 (nslog "hi")
 (nslog woah-buddy)
