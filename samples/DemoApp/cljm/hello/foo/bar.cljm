@@ -5,6 +5,12 @@
 (def wat {:hi 1 :something 2})
 (def more #{1 3 4})
 
+(def ^:dynamic woah-buddy 1)
+
+(defn ^:dynamic chchchchanges
+	[x]
+	(nslog "things change man"))
+
 (defn- uppers
 	[x]
 	(if false "hi" "no"))
@@ -20,7 +26,11 @@
 	(.uppercaseString x))
 
 (defn the-things
-	[the-int-man]
-	1)
+	[^int the-thing-man]
+	(do
+		(NS/Array. "initWithObjects:" 1 2 3)
+		1))
 
 (nslog "hi")
+(nslog woah-buddy)
+(chchchchanges 1)

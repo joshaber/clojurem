@@ -288,6 +288,10 @@
      :children (vec (mapcat block-children
                             [try catch finally]))}))
 
+(defmacro ^:private debug-prn
+  [& args]
+  `(.println System/err (str ~@args)))
+
 (defmethod parse 'def
   [op env form name]
   (let [pfn (fn
@@ -296,6 +300,7 @@
               ([_ sym doc init] {:sym sym :doc doc :init init}))
         args (apply pfn form)
         sym (:sym args)
+        sym-meta (meta sym)
         tag (-> sym meta :tag)
         protocol (-> sym meta :protocol)
         dynamic (-> sym meta :dynamic)
@@ -357,6 +362,7 @@
              (when tag {:tag tag})
              (when dynamic {:dynamic true})
              (when private? {:private private?})
+             (when sym-meta sym-meta)
              (when init-expr {:children [init-expr]})))))
 
 (defn- analyze-fn-method [env locals meth gthis]
@@ -420,7 +426,6 @@
     ;;todo - validate unique arities, at most one variadic, variadic takes max required args
     {:env env :op :fn :form form :name name :methods methods :variadic variadic
      :recur-frames *recur-frames* :loop-lets *loop-lets*
-     :jsdoc [(when variadic "@param {...*} var_args")]
      :max-fixed-arity max-fixed-arity
      :protocol-impl protocol-impl
      :protocol-inline protocol-inline
@@ -947,8 +952,8 @@
         :else {:op :constant :env env :form form}))))
 
 (defn analyze-file
-  [f]
-  (let [res (if (= \/ (first f)) f (io/resource f))]
+  [^String f]
+  (let [res (if (re-find #"^file://" f) (java.net.URL. f) (io/resource f))]
     (assert res (str "Can't find " f " in classpath"))
     (binding [*cljm-ns* 'cljm.user
               *cljm-file* (.getPath ^java.net.URL res)

@@ -1,0 +1,472 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		887C20E215C18F5B006EC31D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887C20E115C18F5B006EC31D /* Cocoa.framework */; };
+		887C20EC15C18F5B006EC31D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 887C20EA15C18F5B006EC31D /* InfoPlist.strings */; };
+		887C20F815C18F5B006EC31D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887C20F715C18F5B006EC31D /* SenTestingKit.framework */; };
+		887C20F915C18F5B006EC31D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887C20E115C18F5B006EC31D /* Cocoa.framework */; };
+		887C20FC15C18F5B006EC31D /* CLJMRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887C20DE15C18F5B006EC31D /* CLJMRuntime.framework */; };
+		887C210215C18F5B006EC31D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 887C210015C18F5B006EC31D /* InfoPlist.strings */; };
+		887C210515C18F5B006EC31D /* CLJMRuntimeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C210415C18F5B006EC31D /* CLJMRuntimeTests.m */; };
+		887C212015C18FC9006EC31D /* CLJMRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 887C20EE15C18F5B006EC31D /* CLJMRuntime.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		887C22EA15C1E4AD006EC31D /* CLJMList.h in Headers */ = {isa = PBXBuildFile; fileRef = 887C22E815C1E4AD006EC31D /* CLJMList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		887C22EB15C1E4AD006EC31D /* CLJMList.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C22E915C1E4AD006EC31D /* CLJMList.m */; };
+		887C233D15C1E7B3006EC31D /* CLJMRT.h in Headers */ = {isa = PBXBuildFile; fileRef = 887C233B15C1E7B2006EC31D /* CLJMRT.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		887C233E15C1E7B3006EC31D /* CLJMRT.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C233C15C1E7B2006EC31D /* CLJMRT.m */; };
+		887C234115C1E837006EC31D /* CLJMVar.h in Headers */ = {isa = PBXBuildFile; fileRef = 887C233F15C1E837006EC31D /* CLJMVar.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		887C234215C1E837006EC31D /* CLJMVar.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C234015C1E837006EC31D /* CLJMVar.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		887C20FA15C18F5B006EC31D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 887C20D415C18F5B006EC31D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 887C20DD15C18F5B006EC31D;
+			remoteInfo = CLJMRuntime;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		887C20DE15C18F5B006EC31D /* CLJMRuntime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CLJMRuntime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		887C20E115C18F5B006EC31D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		887C20E415C18F5B006EC31D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		887C20E515C18F5B006EC31D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		887C20E615C18F5B006EC31D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		887C20E915C18F5B006EC31D /* CLJMRuntime-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CLJMRuntime-Info.plist"; sourceTree = "<group>"; };
+		887C20EB15C18F5B006EC31D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		887C20ED15C18F5B006EC31D /* CLJMRuntime-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CLJMRuntime-Prefix.pch"; sourceTree = "<group>"; };
+		887C20EE15C18F5B006EC31D /* CLJMRuntime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CLJMRuntime.h; sourceTree = "<group>"; };
+		887C20F615C18F5B006EC31D /* CLJMRuntimeTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CLJMRuntimeTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		887C20F715C18F5B006EC31D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		887C20FF15C18F5B006EC31D /* CLJMRuntimeTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CLJMRuntimeTests-Info.plist"; sourceTree = "<group>"; };
+		887C210115C18F5B006EC31D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		887C210315C18F5B006EC31D /* CLJMRuntimeTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CLJMRuntimeTests.h; sourceTree = "<group>"; };
+		887C210415C18F5B006EC31D /* CLJMRuntimeTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CLJMRuntimeTests.m; sourceTree = "<group>"; };
+		887C22E815C1E4AD006EC31D /* CLJMList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLJMList.h; sourceTree = "<group>"; };
+		887C22E915C1E4AD006EC31D /* CLJMList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLJMList.m; sourceTree = "<group>"; };
+		887C233B15C1E7B2006EC31D /* CLJMRT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLJMRT.h; sourceTree = "<group>"; };
+		887C233C15C1E7B2006EC31D /* CLJMRT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLJMRT.m; sourceTree = "<group>"; };
+		887C233F15C1E837006EC31D /* CLJMVar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLJMVar.h; sourceTree = "<group>"; };
+		887C234015C1E837006EC31D /* CLJMVar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLJMVar.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		887C20DA15C18F5B006EC31D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				887C20E215C18F5B006EC31D /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		887C20F215C18F5B006EC31D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				887C20F815C18F5B006EC31D /* SenTestingKit.framework in Frameworks */,
+				887C20F915C18F5B006EC31D /* Cocoa.framework in Frameworks */,
+				887C20FC15C18F5B006EC31D /* CLJMRuntime.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		887C20D215C18F5B006EC31D = {
+			isa = PBXGroup;
+			children = (
+				887C20E715C18F5B006EC31D /* CLJMRuntime */,
+				887C20E015C18F5B006EC31D /* Frameworks */,
+				887C20DF15C18F5B006EC31D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		887C20DF15C18F5B006EC31D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				887C20DE15C18F5B006EC31D /* CLJMRuntime.framework */,
+				887C20F615C18F5B006EC31D /* CLJMRuntimeTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		887C20E015C18F5B006EC31D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				887C20E115C18F5B006EC31D /* Cocoa.framework */,
+				887C20F715C18F5B006EC31D /* SenTestingKit.framework */,
+				887C20E315C18F5B006EC31D /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		887C20E315C18F5B006EC31D /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				887C20E415C18F5B006EC31D /* AppKit.framework */,
+				887C20E515C18F5B006EC31D /* CoreData.framework */,
+				887C20E615C18F5B006EC31D /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		887C20E715C18F5B006EC31D /* CLJMRuntime */ = {
+			isa = PBXGroup;
+			children = (
+				887C20EE15C18F5B006EC31D /* CLJMRuntime.h */,
+				887C233B15C1E7B2006EC31D /* CLJMRT.h */,
+				887C233C15C1E7B2006EC31D /* CLJMRT.m */,
+				887C22E815C1E4AD006EC31D /* CLJMList.h */,
+				887C22E915C1E4AD006EC31D /* CLJMList.m */,
+				887C233F15C1E837006EC31D /* CLJMVar.h */,
+				887C234015C1E837006EC31D /* CLJMVar.m */,
+				887C20E815C18F5B006EC31D /* Supporting Files */,
+				887C20FD15C18F5B006EC31D /* CLJMRuntimeTests */,
+			);
+			path = CLJMRuntime;
+			sourceTree = "<group>";
+		};
+		887C20E815C18F5B006EC31D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				887C20E915C18F5B006EC31D /* CLJMRuntime-Info.plist */,
+				887C20EA15C18F5B006EC31D /* InfoPlist.strings */,
+				887C20ED15C18F5B006EC31D /* CLJMRuntime-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		887C20FD15C18F5B006EC31D /* CLJMRuntimeTests */ = {
+			isa = PBXGroup;
+			children = (
+				887C210315C18F5B006EC31D /* CLJMRuntimeTests.h */,
+				887C210415C18F5B006EC31D /* CLJMRuntimeTests.m */,
+				887C20FE15C18F5B006EC31D /* Supporting Files */,
+			);
+			path = CLJMRuntimeTests;
+			sourceTree = SOURCE_ROOT;
+		};
+		887C20FE15C18F5B006EC31D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				887C20FF15C18F5B006EC31D /* CLJMRuntimeTests-Info.plist */,
+				887C210015C18F5B006EC31D /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		887C20DB15C18F5B006EC31D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				887C212015C18FC9006EC31D /* CLJMRuntime.h in Headers */,
+				887C22EA15C1E4AD006EC31D /* CLJMList.h in Headers */,
+				887C234115C1E837006EC31D /* CLJMVar.h in Headers */,
+				887C233D15C1E7B3006EC31D /* CLJMRT.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		887C20DD15C18F5B006EC31D /* CLJMRuntime */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 887C210815C18F5B006EC31D /* Build configuration list for PBXNativeTarget "CLJMRuntime" */;
+			buildPhases = (
+				887C20D915C18F5B006EC31D /* Sources */,
+				887C20DA15C18F5B006EC31D /* Frameworks */,
+				887C20DB15C18F5B006EC31D /* Headers */,
+				887C20DC15C18F5B006EC31D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CLJMRuntime;
+			productName = CLJMRuntime;
+			productReference = 887C20DE15C18F5B006EC31D /* CLJMRuntime.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		887C20F515C18F5B006EC31D /* CLJMRuntimeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 887C210B15C18F5B006EC31D /* Build configuration list for PBXNativeTarget "CLJMRuntimeTests" */;
+			buildPhases = (
+				887C20F115C18F5B006EC31D /* Sources */,
+				887C20F215C18F5B006EC31D /* Frameworks */,
+				887C20F315C18F5B006EC31D /* Resources */,
+				887C20F415C18F5B006EC31D /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				887C20FB15C18F5B006EC31D /* PBXTargetDependency */,
+			);
+			name = CLJMRuntimeTests;
+			productName = CLJMRuntimeTests;
+			productReference = 887C20F615C18F5B006EC31D /* CLJMRuntimeTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		887C20D415C18F5B006EC31D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = "Josh Abernathy";
+			};
+			buildConfigurationList = 887C20D715C18F5B006EC31D /* Build configuration list for PBXProject "CLJMRuntime" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 887C20D215C18F5B006EC31D;
+			productRefGroup = 887C20DF15C18F5B006EC31D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				887C20DD15C18F5B006EC31D /* CLJMRuntime */,
+				887C20F515C18F5B006EC31D /* CLJMRuntimeTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		887C20DC15C18F5B006EC31D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				887C20EC15C18F5B006EC31D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		887C20F315C18F5B006EC31D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				887C210215C18F5B006EC31D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		887C20F415C18F5B006EC31D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		887C20D915C18F5B006EC31D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				887C22EB15C1E4AD006EC31D /* CLJMList.m in Sources */,
+				887C233E15C1E7B3006EC31D /* CLJMRT.m in Sources */,
+				887C234215C1E837006EC31D /* CLJMVar.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		887C20F115C18F5B006EC31D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				887C210515C18F5B006EC31D /* CLJMRuntimeTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		887C20FB15C18F5B006EC31D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 887C20DD15C18F5B006EC31D /* CLJMRuntime */;
+			targetProxy = 887C20FA15C18F5B006EC31D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		887C20EA15C18F5B006EC31D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				887C20EB15C18F5B006EC31D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		887C210015C18F5B006EC31D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				887C210115C18F5B006EC31D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		887C210615C18F5B006EC31D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
+			};
+			name = Debug;
+		};
+		887C210715C18F5B006EC31D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
+			};
+			name = Release;
+		};
+		887C210915C18F5B006EC31D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CLJMRuntime/CLJMRuntime-Prefix.pch";
+				INFOPLIST_FILE = "CLJMRuntime/CLJMRuntime-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		887C210A15C18F5B006EC31D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CLJMRuntime/CLJMRuntime-Prefix.pch";
+				INFOPLIST_FILE = "CLJMRuntime/CLJMRuntime-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		887C210C15C18F5B006EC31D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CLJMRuntime/CLJMRuntime-Prefix.pch";
+				INFOPLIST_FILE = "CLJMRuntimeTests/CLJMRuntimeTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		887C210D15C18F5B006EC31D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "CLJMRuntime/CLJMRuntime-Prefix.pch";
+				INFOPLIST_FILE = "CLJMRuntimeTests/CLJMRuntimeTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		887C20D715C18F5B006EC31D /* Build configuration list for PBXProject "CLJMRuntime" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				887C210615C18F5B006EC31D /* Debug */,
+				887C210715C18F5B006EC31D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		887C210815C18F5B006EC31D /* Build configuration list for PBXNativeTarget "CLJMRuntime" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				887C210915C18F5B006EC31D /* Debug */,
+				887C210A15C18F5B006EC31D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		887C210B15C18F5B006EC31D /* Build configuration list for PBXNativeTarget "CLJMRuntimeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				887C210C15C18F5B006EC31D /* Debug */,
+				887C210D15C18F5B006EC31D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 887C20D415C18F5B006EC31D /* Project object */;
+}

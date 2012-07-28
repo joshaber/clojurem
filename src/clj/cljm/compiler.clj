@@ -19,6 +19,10 @@
 (declare munge)
 (declare init-func-name)
 
+(defmacro ^:private debug-prn
+  [& args]
+  `(.println System/err (str ~@args)))
+
 (def js-reserved
   #{"abstract" "boolean" "break" "byte" "case"
     "catch" "char" "class" "const" "continue"
@@ -108,6 +112,34 @@
                         [(inc line) 0])))
   nil)
 
+(defn sel-parts
+  "Splits a selector into its constituent parts, keeping any colons. Returns a sequence of strings."
+  [sel]
+  (map second (re-seq #"(:|[a-zA-Z0-9_]+\:?)" sel)))
+
+(defn- emit-comma-sep
+  [xs]
+  (doseq [x xs]
+    (emits ", ")
+    (emits x))
+  (emits ", nil"))
+
+(defn emit-method-parts
+  "Given remaining selector parts and arguments, returns a string representing the rest of an Objective-C message send. selparts and args should both be sequences of strings."
+  [selparts args]
+  (emits
+    (cond (empty? selparts) (emit-comma-sep args)
+          (empty? args) (emits " " (first selparts))
+          :else (emits " " (first selparts) (first args)))
+
+    ; If we had both a selector part and an argument this time,
+    (if (and 
+          (and (seq selparts) (seq args))
+          ; ... and we have at least one more of either
+          (or (next selparts) (next args)))
+          ; ... recur
+          (emit-method-parts (next selparts) (next args)))))
+
 (defmulti emit-constant class)
 (defmethod emit-constant nil [x] (emits "nil"))
 (defmethod emit-constant Long [x] (emits "@" x))
@@ -124,18 +156,18 @@
     (emits \/ (.replaceAll (re-matcher #"/" pattern) "\\\\/") \/ flags)))
 
 (defmethod emit-constant clojure.lang.Keyword [x]
-           (emits \" "\\uFDD0" \'
-                  (if (namespace x)
-                    (str (namespace x) "/") "")
-                  (name x)
-                  \"))
+  (emits "cljm_keyword(@\":")
+  (emits (if (namespace x)
+    (str (namespace x) "/") "")
+    (name x))
+  (emits "\")"))
 
 (defmethod emit-constant clojure.lang.Symbol [x]
-           (emits \" "\\uFDD1" \'
-                  (if (namespace x)
-                    (str (namespace x) "/") "")
-                  (name x)
-                  \"))
+  (emits "cljm_symbol(@\"'")
+  (emits (if (namespace x)
+    (str (namespace x) "/") "")
+    (name x))
+  (emits "\")"))
 
 (defn- emit-meta-constant [x & body]
   (if (meta x)
@@ -198,46 +230,27 @@
   (let [n (:name info)
         n (if (= (namespace n) "js")
             (name n)
-            n)]
-    (emit-wrap env (emits (munge n)))))
+            n)
+        dynamic (:dynamic info)]
+    (if-not dynamic
+      (emit-wrap env (emits (munge n)))
+      (emit-wrap env (emits "cljm_var_lookup(@\"" n "\").value")))))
 
 (defmethod emit :meta
   [{:keys [expr meta env]}]
   (emit-wrap env
     (emits "cljm.core.with_meta(" expr "," meta ")")))
 
-(def ^:private array-map-threshold 16)
-(def ^:private obj-map-threshold 32)
-
 (defmethod emit :map
-  [{:keys [env simple-keys? keys vals]}]
+  [{:keys [env keys vals]}]
   (emit-wrap env
-    (cond
-      (zero? (count keys))
-      (emits "cljm.core.ObjMap.EMPTY")
-
-      (and simple-keys? (<= (count keys) obj-map-threshold))
-      (emits "cljm.core.ObjMap.fromObject(["
-             (comma-sep keys) ; keys
-             "],{"
+    (if (zero? (count keys))
+      (emits "@{}")
+      (emits "@{ "
              (comma-sep (map (fn [k v]
-                               (with-out-str (emit k) (print ":") (emit v)))
-                             keys vals)) ; js obj
-             "})")
-
-      (<= (count keys) array-map-threshold)
-      (emits "cljm.core.PersistentArrayMap.fromArrays(["
-             (comma-sep keys)
-             "],["
-             (comma-sep vals)
-             "])")
-
-      :else
-      (emits "cljm.core.PersistentHashMap.fromArrays(["
-             (comma-sep keys)
-             "],["
-             (comma-sep vals)
-             "])"))))
+                               (with-out-str (emit k) (print ": ") (emit v)))
+                             keys vals))
+             " }"))))
 
 (defmethod emit :vector
   [{:keys [items env]}]
@@ -251,9 +264,9 @@
   [{:keys [items env]}]
   (emit-wrap env
     (if (empty? items)
-      (emits "cljm.core.PersistentHashSet.EMPTY")
-      (emits "cljm.core.PersistentHashSet.fromArray(["
-             (comma-sep items) "])"))))
+      (emits "[NSSet set]")
+      (emits "[NSSet setWithObjects:"
+             (comma-sep items) ", nil]"))))
 
 (defmethod emit :constant
   [{:keys [form env]}]
@@ -287,19 +300,14 @@
             (not (or (and (string? form) (= form ""))
                      (and (number? form) (zero? form)))))))))
 
-(defmacro ^:private debug-prn
-  [& args]
-  `(.println System/err (str ~@args)))
-
 (defmethod emit :if
-  [{:keys [test then else env unchecked]}]
-  (let [context (:context env)
-        checked (not (or unchecked (safe-test? test)))]
+  [{:keys [test then else env]}]
+  (let [context (:context env)]
         ; (debug-prn test)
     (if (= :expr context)
-      (emits "(" test ") ?" then ":" else)
+      (emits "(cljm_truthy(" test ")) ?" then ":" else)
       (do
-        (emitln "if(" test ") {")
+        (emitln "if(cljm_truthy(" test ")) {")
         (emitln then)
         (emitln "} else {")
         (emitln else)
@@ -330,10 +338,12 @@
 
 (defmethod emit-typed-decl :fn
   [init name]
-  (let [params (:params (first (:methods init)))]
+  (let [params (:params (first (:methods init)))
+        variadic? (:variadic init)]
     (emits "id (^" name ")(")
-    ; TODO: this doesn't consider a block with varargs
-    (emits (comma-sep (map #(str "id " %) params)))
+    ; TODO: this will be wrong for multimethods
+    (emits (comma-sep (map #(str "id " (munge %)) params)))
+    (when variadic? (emits ", ..."))
     (emits ")")))
 
 (defmethod emit-typed-decl :default
@@ -342,12 +352,14 @@
 
 (defmethod emit :def
   [a]
-  (let [{:keys [name init env doc]} a]
+  (let [{:keys [name init env doc dynamic]} a]
     (when init
-      (let [mname (munge name)]
-        (emit-comment doc (:jsdoc init))
-        (emits mname " = " init)
-        (when-not (= :expr (:context env)) (emitln ";"))))))
+      (emit-comment doc (:jsdoc init))
+      (if-not dynamic
+        (let [mname (munge name)]
+          (emits mname " = " init))
+        (emits "cljm_var_def(@\"" name "\", " init ")"))
+      (when-not (= :expr (:context env)) (emitln ";")))))
 
 (defn emit-apply-to
   [{:keys [name params env]}]
@@ -392,40 +404,23 @@
 (defn emit-variadic-fn-method
   [{:keys [gthis name variadic params statements ret env recurs max-fixed-arity] :as f}]
   (emit-wrap env
-             (let [name (or name (gensym))
-                   mname (munge name)
-                   params (map munge params)
-                   delegate-name (str mname "__delegate")]
-               (emitln "(function() { ")
-               (emitln "var " delegate-name " = function (" (comma-sep params) "){")
-               (when recurs (emitln "while(true){"))
-               (emit-block :return statements ret)
-               (when recurs
-                 (emitln "break;")
-                 (emitln "}"))
-               (emitln "};")
-
-               (emitln "var " mname " = function (" (comma-sep
-                                                      (if variadic
-                                                        (concat (butlast params) ['var_args])
-                                                        params)) "){")
-               (when gthis
-                 (emitln "var " gthis " = this;"))
-               (when variadic
-                 (emitln "var " (last params) " = null;")
-                 (emitln "if (goog.isDef(var_args)) {")
-                 (emitln "  " (last params) " = cljm.core.array_seq(Array.prototype.slice.call(arguments, " (dec (count params)) "),0);")
-                 (emitln "} "))
-               (emitln "return " delegate-name ".call(" (string/join ", " (cons "this" params)) ");")
-               (emitln "};")
-
-               (emitln mname ".cljm$lang$maxFixedArity = " max-fixed-arity ";")
-               (emits mname ".cljm$lang$applyTo = ")
-               (emit-apply-to (assoc f :name name))
-               (emitln ";")
-               (emitln mname ".cljm$lang$arity$variadic = " delegate-name ";")
-               (emitln "return " mname ";")
-               (emitln "})()"))))
+             (emitln "^id" "(" (comma-sep (map #(str "id " %) (conj (map munge (butlast params)) "cljm__varargs"))) ", ...) {")
+             (when gthis
+               (emitln "var " gthis " = this;"))
+             (let [restargs (munge (last params))]
+               (emitln "NSMutableArray *" restargs " = [NSMutableArray array];")
+               (emitln "va_list cljm__args;")
+               (emitln "va_start(cljm__args, cljm__varargs);")
+               (emitln "for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__currentObject = va_arg(cljm__args, id)) {")
+               (emitln "[" restargs " addObject:cljm__currentObject];")
+               (emitln "}")
+               (emitln "va_end(cljm__args);"))
+             (when recurs (emitln "while(YES) {"))
+             (emit-block :return statements ret)
+             (when recurs
+               (emitln "break;")
+               (emitln "}"))
+             (emits "}")))
 
 (defmethod emit :fn
   [{:keys [name env methods max-fixed-arity variadic recur-frames loop-lets]}]
@@ -578,6 +573,26 @@
 (defmethod emit :invoke
   [{:keys [f args env] :as expr}]
   (let [info (:info f)
+        variadic? (:variadic info)
+        dynamic? (:dynamic info)
+        name (:name info)
+        mname (munge name)]
+    (emit-wrap env
+      (if dynamic? 
+        (let [init {:op :fn, :variadic variadic?, :methods [{:params (repeat (count args) "")}]}]
+          (emit-typed-decl init mname)
+          (emits " = ")
+          (emits "(")
+          (emit-typed-decl init "")
+          (emits ")")
+          (emits " cljm_var_lookup(@\"" name "\").value;\n")))
+      (if variadic?
+        (emits mname "(" (comma-sep args) ", nil)")
+        (emits mname "(" (comma-sep args) ")")))))
+
+(comment (defmethod emit :invoke
+  [{:keys [f args env] :as expr}]
+  (let [info (:info f)
         fn? (and ana/*cljm-static-fns*
                  (not (:dynamic info))
                  (:fn-var info))
@@ -651,14 +666,17 @@
        (if (and ana/*cljm-static-fns* (= (:op f) :var))
          (let [fprop (str ".cljm$lang$arity$" (count args))]
            (emits "(" f fprop " ? " f fprop "(" (comma-sep args) ") : " f ".call(" (comma-sep (cons "null" args)) "))"))
-         (emits f "(" (comma-sep args) ")"))))))
+         (if variadic? 
+          (emits f "(" (comma-sep args) ", nil)")
+          (emits f "(" (comma-sep args) ")"))))))))
 
 (defmethod emit :new
   [{:keys [ctor args env]}]
   (emit-wrap env
-             (emits "(new " ctor "("
-                    (comma-sep args)
-                    "))")))
+            (let [method (first args)
+                  init-args (rest args)]
+             (emits "[" ctor " alloc]"))))
+             ; (emit-method-parts (sel-parts method) init-args))))
 
 (defmethod emit :set!
   [{:keys [target val env]}]
@@ -666,9 +684,10 @@
 
 (defmethod emit :ns
   [{:keys [name requires uses requires-macros env]}]
-  (emitln "#import \"" (munge name) ".h\"")
   (when-not (= name 'cljm.core)
-    (emitln "//#import \"cljm_DOT_core.h\""))
+    (emitln "#import <CLJMRuntime/CLJMRuntime.h>")
+    (emitln "#import \"cljm_DOT_core.h\""))
+  (emitln "#import \"" (munge name) ".h\"")
   (doseq [lib (into (vals requires) (distinct (vals uses)))]
     (emitln "#import \"" (munge lib) ".h\"")))
 
@@ -715,34 +734,6 @@
     (emitln "}")
     (emitln "})")))
 
-(defn sel-parts
-  "Splits a selector into its constituent parts, keeping any colons. Returns a sequence of strings."
-  [sel]
-  (map second (re-seq #"(:|[a-zA-Z0-9_]+\:?)" sel)))
-
-(defn- emit-comma-sep
-  [xs]
-  (doseq [x xs]
-    (emits ", ")
-    (emits x))
-  (emits ", nil"))
-
-(defn emit-method-parts
-  "Given remaining selector parts and arguments, returns a string representing the rest of an Objective-C message send. selparts and args should both be sequences of strings."
-  [selparts args]
-  (emits
-    (cond (empty? selparts) (emit-comma-sep args)
-          (empty? args) (emits " " (first selparts))
-          :else (emits " " (first selparts) (first args)))
-
-    ; If we had both a selector part and an argument this time,
-    (if (and 
-          (and (seq selparts) (seq args))
-          ; ... and we have at least one more of either
-          (or (next selparts) (next args)))
-          ; ... recur
-          (emit-method-parts (next selparts) (next args)))))
-
 (defmethod emit :dot
   [{:keys [target field method args env]}]
   (emit-wrap env
@@ -752,6 +743,14 @@
                 (emits "[" target)
                 (emit-method-parts (sel-parts (str method)) args)
                 (emits "]")))))
+
+(defmethod emit :objc
+  [{:keys [env code segs args]}]
+  (emit-wrap env
+             (if code
+               (emits code)
+               (emits (interleave (concat segs (repeat nil))
+                                  (concat args [nil]))))))
 
 (defmethod emit :js
   [{:keys [env code segs args]}]
@@ -810,14 +809,17 @@
                         ; TODO: It'd be nice to only init namespaces that are 
                         ; actually used.
                         (emits "__attribute__((constructor))\nvoid " (init-func-name found-ns) "(void) {\n")
+                        (emitln "@autoreleasepool {")
                         (recur (rest forms) found-ns (merge (:uses ast) (:requires ast)) externs))
                     (= (:op ast) :def)
+                      ; Don't add the block to the externs list if it's private
                       ; (if-let [externs (:private ast)] (conj externs ast) externs
                         (recur (rest forms) ns-name (merge (:uses ast) (:requires ast)) (conj externs ast))
                     :else
                       (recur (rest forms) ns-name deps externs))))
             (do
-              (emits "}")
+              (emitln "}")
+              (emitln "}")
               {:ns (or ns-name 'cljm.user)
                :provides [ns-name]
                :requires (if (= ns-name 'cljm.core) (set (vals deps)) (conj (set (vals deps)) 'cljm.core))
@@ -932,7 +934,7 @@
      (compile-root src-dir "out"))
   ([src-dir target-dir]
      (let [src-dir-file (io/file src-dir)]
-       (loop [cljm-files (cljm-files-in src-dir-file)
+       (loop [cljm-files (cons (java.io.File. "src/cljm/cljm/core.cljm") (cljm-files-in src-dir-file))
               output-files []]
          (if (seq cljm-files)
            (let [cljm-file (first cljm-files)

@@ -19,6 +19,8 @@
 		884EDFCA15BF287500174D10 /* DemoAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 884EDFC915BF287500174D10 /* DemoAppTests.m */; };
 		884EDFE215BF309D00174D10 /* hello_DOT_foo_DOT_bar.m in Sources */ = {isa = PBXBuildFile; fileRef = 884EDFD915BF2A5B00174D10 /* hello_DOT_foo_DOT_bar.m */; };
 		884EDFE515BF33B000174D10 /* hello_DOT_foo_DOT_main.m in Sources */ = {isa = PBXBuildFile; fileRef = 884EDFE415BF33B000174D10 /* hello_DOT_foo_DOT_main.m */; };
+		887C213415C19163006EC31D /* CLJMRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887C213015C1915A006EC31D /* CLJMRuntime.framework */; };
+		887C213815C19186006EC31D /* CLJMRuntime.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 887C213015C1915A006EC31D /* CLJMRuntime.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,7 +31,42 @@
 			remoteGlobalIDString = 884EDF9A15BF287500174D10;
 			remoteInfo = DemoApp;
 		};
+		887C212F15C1915A006EC31D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 887C212715C1915A006EC31D /* CLJMRuntime.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 887C20DE15C18F5B006EC31D;
+			remoteInfo = CLJMRuntime;
+		};
+		887C213115C1915A006EC31D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 887C212715C1915A006EC31D /* CLJMRuntime.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 887C20F615C18F5B006EC31D;
+			remoteInfo = CLJMRuntimeTests;
+		};
+		887C213515C19170006EC31D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 887C212715C1915A006EC31D /* CLJMRuntime.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 887C20DD15C18F5B006EC31D;
+			remoteInfo = CLJMRuntime;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		887C213715C19178006EC31D /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				887C213815C19186006EC31D /* CLJMRuntime.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		884EDF9B15BF287500174D10 /* DemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,6 +92,7 @@
 		884EDFD915BF2A5B00174D10 /* hello_DOT_foo_DOT_bar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = hello_DOT_foo_DOT_bar.m; sourceTree = "<group>"; };
 		884EDFE315BF33B000174D10 /* hello_DOT_foo_DOT_main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hello_DOT_foo_DOT_main.h; sourceTree = "<group>"; };
 		884EDFE415BF33B000174D10 /* hello_DOT_foo_DOT_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = hello_DOT_foo_DOT_main.m; sourceTree = "<group>"; };
+		887C212715C1915A006EC31D /* CLJMRuntime.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CLJMRuntime.xcodeproj; path = ../../runtime/CLJMRuntime/CLJMRuntime.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +100,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				887C213415C19163006EC31D /* CLJMRuntime.framework in Frameworks */,
 				884EDFA015BF287500174D10 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -100,6 +139,7 @@
 		884EDF9E15BF287500174D10 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				887C212715C1915A006EC31D /* CLJMRuntime.xcodeproj */,
 				884EDF9F15BF287500174D10 /* Cocoa.framework */,
 				884EDFBD15BF287500174D10 /* SenTestingKit.framework */,
 				884EDFA115BF287500174D10 /* Other Frameworks */,
@@ -195,6 +235,15 @@
 			path = foo;
 			sourceTree = "<group>";
 		};
+		887C212815C1915A006EC31D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				887C213015C1915A006EC31D /* CLJMRuntime.framework */,
+				887C213215C1915A006EC31D /* CLJMRuntimeTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -205,10 +254,12 @@
 				884EDF9715BF287500174D10 /* Sources */,
 				884EDF9815BF287500174D10 /* Frameworks */,
 				884EDF9915BF287500174D10 /* Resources */,
+				887C213715C19178006EC31D /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				887C213615C19170006EC31D /* PBXTargetDependency */,
 			);
 			name = DemoApp;
 			productName = DemoApp;
@@ -254,6 +305,12 @@
 			mainGroup = 884EDF9015BF287500174D10;
 			productRefGroup = 884EDF9C15BF287500174D10 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 887C212815C1915A006EC31D /* Products */;
+					ProjectRef = 887C212715C1915A006EC31D /* CLJMRuntime.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				884EDF9A15BF287500174D10 /* DemoApp */,
@@ -261,6 +318,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		887C213015C1915A006EC31D /* CLJMRuntime.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CLJMRuntime.framework;
+			remoteRef = 887C212F15C1915A006EC31D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		887C213215C1915A006EC31D /* CLJMRuntimeTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CLJMRuntimeTests.octest;
+			remoteRef = 887C213115C1915A006EC31D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		884EDF9915BF287500174D10 /* Resources */ = {
@@ -326,6 +400,11 @@
 			isa = PBXTargetDependency;
 			target = 884EDF9A15BF287500174D10 /* DemoApp */;
 			targetProxy = 884EDFC015BF287500174D10 /* PBXContainerItemProxy */;
+		};
+		887C213615C19170006EC31D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CLJMRuntime;
+			targetProxy = 887C213515C19170006EC31D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -489,6 +568,7 @@
 				884EDFCF15BF287500174D10 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		884EDFD015BF287500174D10 /* Build configuration list for PBXNativeTarget "DemoAppTests" */ = {
 			isa = XCConfigurationList;
@@ -497,6 +577,7 @@
 				884EDFD215BF287500174D10 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

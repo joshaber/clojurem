@@ -6,43 +6,24 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 
-(ns cljs.core
-  (:require [goog.string :as gstring]
-            [goog.string.StringBuffer :as gstringbuf]
-            [goog.string.format]
-            [goog.object :as gobject]
-            [goog.array :as garray]))
-
-(def *unchecked-if* false)
+(ns cljm.core)
 
 (def
   ^{:doc "Each runtime environment provides a diffenent way to print output.
   Whatever function *print-fn* is bound to will be passed any
   Strings which should be printed."}
   *print-fn*
-  (fn [_]
-    (throw (js/Error. "No *print-fn* fn set for evaluation environment"))))
+  (fn [s]
+    (objc* "NSLog(@\"~{}\");" s)
+    nil))
 
-(def
-  ^{:doc "bound in a repl thread to the most recent value printed"}
-  *1)
-
-(def
-  ^{:doc "bound in a repl thread to the second most recent value printed"}
-  *2)
-
-(def
-  ^{:doc "bound in a repl thread to the third most recent value printed"}
-  *3)
+(defn- error [cause]
+  (objc* "fprintf(stderr, \"%s\\n\", string_get_utf8 (~{}))" cause)
+  (objc* "exit(1)")
+  nil)
 
 (declare not nil? identical)
 
-(defn truth_
-  "Internal - do not use!"
-  [x]
-  (js* "(~{x} != null && ~{x} !== false)"))
-
-(set! *unchecked-if* true)
 (defn ^boolean type_satisfies_
   "Internal - do not use!"
   [p x]
@@ -64,26 +45,25 @@
   *main-cli-fn* nil)
 
 (defn missing-protocol [proto obj]
-  (js/Error
+  (error
    (.join (array "No protocol method " proto
                  " defined for type " (goog/typeOf obj) ": " obj) "")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; arrays ;;;;;;;;;;;;;;;;
 
 (defn aclone
-  "Returns a javascript array, cloned from the passed in array"
+  "Returns a array, cloned from the passed in array"
   [array-like]
-  (.slice array-like))
+  (.copy array-like))
 
 (defn array
-  "Creates a new javascript array.
-@param {...*} var_args" ;;array is a special case, don't emulate this doc string
+  "Creates a new array."
   [var-args]            ;; [& items]
-  (.call (.-slice (.-prototype js/Array)) (js* "arguments")))
+  (.call (.-slice (.-prototype js/Array)) (objc* "arguments")))
 
 (defn make-array
   ([size]
-     (js/Array. size))
+     (. (NS/Array.) "initWithCapacity:" size))
   ([type size]
      (make-array size)))
 
@@ -92,19 +72,19 @@
 (defn aget
   "Returns the value at the index."
   ([array i]
-     (cljs.core/aget array i))
+     (cljm.core/aget array i))
   ([array i & idxs]
      (apply aget (aget array i) idxs)))
 
 (defn aset
   "Sets the value at the index."
   [array i val]
-  (cljs.core/aset array i val))
+  (cljm.core/aset array i val))
 
 (defn alength
   "Returns the length of the array. Works on arrays of all types."
   [array]
-  (.-length array))
+  (."count" array))
 
 (declare reduce)
 
@@ -112,11 +92,11 @@
   ([aseq]
      (into-array nil aseq))
   ([type aseq]
-     (reduce (fn [a x] (.push a x) a) (array) aseq)))
+     (reduce (fn [a x] (."arrayByAddingObject:" a x) a) (array) aseq)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;; core protocols ;;;;;;;;;;;;;
 
-(defprotocol IFn
+(comment (defprotocol IFn
   (-invoke
     [this]
     [this a]
@@ -277,13 +257,13 @@
   (-chunked-rest [coll]))
 
 (defprotocol IChunkedNext
-  (-chunked-next [coll]))
+  (-chunked-next [coll])))
 
 ;;;;;;;;;;;;;;;;;;; fundamentals ;;;;;;;;;;;;;;;
 (defn ^boolean identical?
   "Tests if 2 arguments are the same object"
   [x y]
-  (cljs.core/identical? x y))
+  (cljm.core/identical? x y))
 
 (declare first next)
 
@@ -311,12 +291,12 @@
     (.-constructor x)))
 
 (defn ^boolean instance? [t o]
-  (js* "(~{o} instanceof ~{t})"))
+  (objc* "[~{o} isKindOfClass:[~{t} class]]"))
 
 ;;;;;;;;;;;;;;;;;;; protocols on primitives ;;;;;;;;
 (declare hash-map list equiv-sequential)
 
-(extend-type nil
+(comment (extend-type nil
   IEquiv
   (-equiv [_ o] (nil? o))
 
@@ -397,12 +377,12 @@
 (extend-type default
   IHash
   (-hash [o]
-    (goog.getUid o)))
+    (goog.getUid o))))
 
 ;;this is primitive because & emits call to array-seq
 (defn inc
   "Returns a number one greater than num."
-  [x] (cljs.core/+ x 1))
+  [x] (cljm.core/+ x 1))
 
 (declare reduced? deref)
 
@@ -472,7 +452,7 @@ reduces them without incurring seq initialization"
 
 (declare hash-coll cons pr-str counted? RSeq)
 
-(deftype IndexedSeq [a i]
+(comment (deftype IndexedSeq [a i]
   Object
   (toString [this]
     (pr-str this))
@@ -531,7 +511,7 @@ reduces them without incurring seq initialization"
     (let [c (-count coll)]
       (if (pos? c)
         (RSeq. coll (dec c) nil)
-        ()))))
+        ())))))
 
 (defn prim-seq
   ([prim]
@@ -546,7 +526,7 @@ reduces them without incurring seq initialization"
   ([array i]
      (prim-seq array i)))
 
-(extend-type array
+(comment (extend-type array
   ISeqable
   (-seq [array] (array-seq array 0))
 
@@ -609,7 +589,7 @@ reduces them without incurring seq initialization"
     (cons o coll))
 
   IHash
-  (-hash [coll] (hash-coll coll)))
+  (-hash [coll] (hash-coll coll))))
 
 (defn ^seq seq
   "Returns a seq on the collection. If the collection is
@@ -732,13 +712,13 @@ reduces them without incurring seq initialization"
 (defn- linear-traversal-nth
   ([coll n]
      (cond
-       (nil? coll)     (throw (js/Error. "Index out of bounds"))
+       (nil? coll)     (error "Index out of bounds")
        (zero? n)       (if (seq coll)
                          (first coll)
-                         (throw (js/Error. "Index out of bounds")))
+                         (error "Index out of bounds"))
        (indexed? coll) (-nth coll n)
        (seq coll)      (linear-traversal-nth (next coll) (dec n))
-       :else           (throw (js/Error. "Index out of bounds"))))
+       :else           (error "Index out of bounds")))
   ([coll n not-found]
      (cond
        (nil? coll)     not-found
@@ -757,13 +737,13 @@ reduces them without incurring seq initialization"
   ([coll n]
      (when-not (nil? coll)
        (if (satisfies? IIndexed coll)
-         (-nth coll (.floor js/Math n))
-         (linear-traversal-nth coll (.floor js/Math n)))))
+         (-nth coll n)
+         (linear-traversal-nth coll n))))
   ([coll n not-found]
      (if-not (nil? coll)
        (if (satisfies? IIndexed coll)
-         (-nth coll (.floor js/Math n) not-found)
-         (linear-traversal-nth coll (.floor js/Math n) not-found))
+         (-nth coll n not-found)
+         (linear-traversal-nth coll n not-found))
        not-found)))
 
 (defn get
@@ -835,31 +815,10 @@ reduces them without incurring seq initialization"
          (recur ret (first ks) (next ks))
          ret))))
 
-;; Simple caching of string hashcode
-(def string-hash-cache (js-obj))
-(def string-hash-cache-count 0)
-
-(defn add-to-string-hash-cache [k]
-  (let [h (goog.string/hashCode k)]
-    (aset string-hash-cache k h)
-    (set! string-hash-cache-count (inc string-hash-cache-count))
-    h))
-
-(defn check-string-hash-cache [k]
-  (when (> string-hash-cache-count 255)
-    (set! string-hash-cache (js-obj))
-    (set! string-hash-cache-count 0))
-  (let [h (aget string-hash-cache k)]
-    (if-not (nil? h)
-      h
-      (add-to-string-hash-cache k))))
-
 (defn hash
   ([o] (hash o true))
   ([o ^boolean check-cache]
-     (if (and ^boolean (goog/isString o) check-cache) 
-       (check-string-hash-cache o)
-       (-hash o))))
+     (."hash" o)))
 
 (defn ^boolean empty?
   "Returns true if coll has no items - same as (not (seq coll)).
@@ -914,51 +873,16 @@ reduces them without incurring seq initialization"
 (defn ^boolean chunked-seq?
   [x] (satisfies? IChunkedSeq x))
 
-;;;;;;;;;;;;;;;;;;;; js primitives ;;;;;;;;;;;;
-(defn js-obj
-  ([]
-     (js* "{}"))
-  ([& keyvals]
-     (apply gobject/create keyvals)))
-
-(defn js-keys [obj]
-  (let [keys (array)]
-    (goog.object/forEach obj (fn [val key obj] (.push keys key)))
-    keys))
-
-(defn js-delete [obj key]
-  (js* "delete ~{obj}[~{key}]"))
-
-(defn- array-copy
-  ([from i to j len]
-     (loop [i i j j len len]
-       (if (zero? len)
-         to
-         (do (aset to j (aget from i))
-             (recur (inc i) (inc j) (dec len)))))))
-
-(defn- array-copy-downward
-  ([from i to j len]
-     (loop [i (+ i (dec len)) j (+ j (dec len)) len len]
-       (if (zero? len)
-         to
-         (do (aset to j (aget from i))
-             (recur (dec i) (dec j) (dec len)))))))
-
-;;;;;;;;;;;;;;;; preds ;;;;;;;;;;;;;;;;;;
-
-(def ^:private lookup-sentinel (js-obj))
-
 (defn ^boolean false?
   "Returns true if x is the value false, false otherwise."
-  [x] (cljs.core/false? x))
+  [x] (cljm.core/false? x))
 
 (defn ^boolean true?
   "Returns true if x is the value true, false otherwise."
-  [x] (cljs.core/true? x))
+  [x] (cljm.core/true? x))
 
 (defn ^boolean undefined? [x]
-  (cljs.core/undefined? x))
+  (cljm.core/undefined? x))
 
 (defn ^boolean seq?
   "Return true if s satisfies ISeq"
@@ -976,23 +900,23 @@ reduces them without incurring seq initialization"
   (if x true false))
 
 (defn ^boolean string? [x]
-  (and ^boolean (goog/isString x)
-       (not (or (identical? (.charAt x 0) \uFDD0)
-                (identical? (.charAt x 0) \uFDD1)))))
+  (and ^boolean (objc* "[~{x} isKindOfClass:[NSString class]]" x)
+       (not (or (identical? (."characterAtIndex:" x 0) \uFDD0)
+                (identical? (."characterAtIndex:" x 0) \uFDD1)))))
 
 (defn ^boolean keyword? [x]
-  (and ^boolean (goog/isString x)
-       (identical? (.charAt x 0) \uFDD0)))
+  (and ^boolean (objc* "[~{x} isKindOfClass:[NSString class]]" x)
+       (identical? (."characterAtIndex:" x 0) \uFDD0)))
 
 (defn ^boolean symbol? [x]
-  (and ^boolean (goog/isString x)
-       (identical? (.charAt x 0) \uFDD1)))
+  (and ^boolean (objc* "[~{x} isKindOfClass:[NSString class]]" x)
+       (identical? (."characterAtIndex:" x 0) \uFDD1)))
 
 (defn ^boolean number? [n]
-  (goog/isNumber n))
+  (objc* "[~{n} isKindOfClass:[NSNumber class]]" n))
 
 (defn ^boolean fn? [f]
-  (goog/isFunction f))
+  (objc* "[~{f} isKindOfClass:[NSBlock class]]" f))
 
 (defn ^boolean ifn? [f]
   (or (fn? f) (satisfies? IFn f)))
@@ -1001,7 +925,7 @@ reduces them without incurring seq initialization"
   "Returns true if n is an integer.  Warning: returns true on underflow condition."
   [n]
   (and (number? n)
-       (coercive-= n (.toFixed n))))
+       (coercive-= n (."integerValue" n))))
 
 (defn ^boolean contains?
   "Returns true if key is present in the given collection, otherwise
@@ -1053,7 +977,7 @@ reduces them without incurring seq initialization"
    (identical? (type x) (type y)) (if (satisfies? IComparable x)
                                     (-compare x y)
                                     (garray/defaultCompare x y))
-   :else (throw (js/Error. "compare on non-nil objects of different types"))))
+   :else (error "compare on non-nil objects of different types")))
 
 (defn ^:private compare-indexed
   "Compare indexed collection."
@@ -1183,76 +1107,76 @@ reduces them without incurring seq initialization"
   "Returns the sum of nums. (+) returns 0."
   ([] 0)
   ([x] x)
-  ([x y] (cljs.core/+ x y))
-  ([x y & more] (reduce + (cljs.core/+ x y) more)))
+  ([x y] (cljm.core/+ x y))
+  ([x y & more] (reduce + (cljm.core/+ x y) more)))
 
 (defn -
   "If no ys are supplied, returns the negation of x, else subtracts
   the ys from x and returns the result."
-  ([x] (cljs.core/- x))
-  ([x y] (cljs.core/- x y))
-  ([x y & more] (reduce - (cljs.core/- x y) more)))
+  ([x] (cljm.core/- x))
+  ([x y] (cljm.core/- x y))
+  ([x y & more] (reduce - (cljm.core/- x y) more)))
 
 (defn *
   "Returns the product of nums. (*) returns 1."
   ([] 1)
   ([x] x)
-  ([x y] (cljs.core/* x y))
-  ([x y & more] (reduce * (cljs.core/* x y) more)))
+  ([x y] (cljm.core/* x y))
+  ([x y & more] (reduce * (cljm.core/* x y) more)))
 
 (defn /
   "If no denominators are supplied, returns 1/numerator,
   else returns numerator divided by all of the denominators."
   ([x] (/ 1 x))
-  ([x y] (js* "(~{x} / ~{y})")) ;; FIXME: waiting on cljs.core//
+  ([x y] (objc* "(~{x} / ~{y})")) ;; FIXME: waiting on cljs.core//
   ([x y & more] (reduce / (/ x y) more)))
 
 (defn ^boolean <
   "Returns non-nil if nums are in monotonically increasing order,
   otherwise false."
   ([x] true)
-  ([x y] (cljs.core/< x y))
+  ([x y] (cljm.core/< x y))
   ([x y & more]
-     (if (cljs.core/< x y)
+     (if (cljm.core/< x y)
        (if (next more)
          (recur y (first more) (next more))
-         (cljs.core/< y (first more)))
+         (cljm.core/< y (first more)))
        false)))
 
 (defn ^boolean <=
   "Returns non-nil if nums are in monotonically non-decreasing order,
   otherwise false."
   ([x] true)
-  ([x y] (cljs.core/<= x y))
+  ([x y] (cljm.core/<= x y))
   ([x y & more]
-   (if (cljs.core/<= x y)
+   (if (cljm.core/<= x y)
      (if (next more)
        (recur y (first more) (next more))
-       (cljs.core/<= y (first more)))
+       (cljm.core/<= y (first more)))
      false)))
 
 (defn ^boolean >
   "Returns non-nil if nums are in monotonically decreasing order,
   otherwise false."
   ([x] true)
-  ([x y] (cljs.core/> x y))
+  ([x y] (cljm.core/> x y))
   ([x y & more]
-   (if (cljs.core/> x y)
+   (if (cljm.core/> x y)
      (if (next more)
        (recur y (first more) (next more))
-       (cljs.core/> y (first more)))
+       (cljm.core/> y (first more)))
      false)))
 
 (defn ^boolean >=
   "Returns non-nil if nums are in monotonically non-increasing order,
   otherwise false."
   ([x] true)
-  ([x y] (cljs.core/>= x y))
+  ([x y] (cljm.core/>= x y))
   ([x y & more]
-   (if (cljs.core/>= x y)
+   (if (cljm.core/>= x y)
      (if (next more)
        (recur y (first more) (next more))
-       (cljs.core/>= y (first more)))
+       (cljm.core/>= y (first more)))
      false)))
 
 (defn dec
@@ -1262,16 +1186,16 @@ reduces them without incurring seq initialization"
 (defn max
   "Returns the greatest of the nums."
   ([x] x)
-  ([x y] (cljs.core/max x y))
+  ([x y] (cljm.core/max x y))
   ([x y & more]
-   (reduce max (cljs.core/max x y) more)))
+   (reduce max (cljm.core/max x y) more)))
 
 (defn min
   "Returns the least of the nums."
   ([x] x)
-  ([x y] (cljs.core/min x y))
+  ([x y] (cljm.core/min x y))
   ([x y & more]
-   (reduce min (cljs.core/min x y) more)))
+   (reduce min (cljm.core/min x y) more)))
 
 (defn- fix [q]
   (if (>= q 0)
@@ -1291,7 +1215,7 @@ reduces them without incurring seq initialization"
 (defn mod
   "Modulus of num and div. Truncates toward negative infinity."
   [n d]
-  (cljs.core/mod n d))
+  (cljm.core/mod n d))
 
 (defn quot
   "quot[ient] of dividing numerator by denominator."
@@ -1316,55 +1240,55 @@ reduces them without incurring seq initialization"
 
 (defn bit-xor
   "Bitwise exclusive or"
-  [x y] (cljs.core/bit-xor x y))
+  [x y] (cljm.core/bit-xor x y))
 
 (defn bit-and
   "Bitwise and"
-  [x y] (cljs.core/bit-and x y))
+  [x y] (cljm.core/bit-and x y))
 
 (defn bit-or
   "Bitwise or"
-  [x y] (cljs.core/bit-or x y))
+  [x y] (cljm.core/bit-or x y))
 
 (defn bit-and-not
   "Bitwise and"
-  [x y] (cljs.core/bit-and-not x y))
+  [x y] (cljm.core/bit-and-not x y))
 
 (defn bit-clear
   "Clear bit at index n"
   [x n]
-  (cljs.core/bit-clear x n))
+  (cljm.core/bit-clear x n))
 
 (defn bit-flip
   "Flip bit at index n"
   [x n]
-  (cljs.core/bit-flip x n))
+  (cljm.core/bit-flip x n))
 
 (defn bit-not
   "Bitwise complement"
-  [x] (cljs.core/bit-not x))
+  [x] (cljm.core/bit-not x))
 
 (defn bit-set
   "Set bit at index n"
   [x n]
-  (cljs.core/bit-set x n))
+  (cljm.core/bit-set x n))
 
 (defn bit-test
   "Test bit at index n"
   [x n]
-  (cljs.core/bit-test x n))
+  (cljm.core/bit-test x n))
 
 (defn bit-shift-left
   "Bitwise shift left"
-  [x n] (cljs.core/bit-shift-left x n))
+  [x n] (cljm.core/bit-shift-left x n))
 
 (defn bit-shift-right
   "Bitwise shift right"
-  [x n] (cljs.core/bit-shift-right x n))
+  [x n] (cljm.core/bit-shift-right x n))
 
 (defn bit-shift-right-zero-fill
   "Bitwise shift right with zero fill"
-  [x n] (cljs.core/bit-shift-right-zero-fill x n))
+  [x n] (cljm.core/bit-shift-right-zero-fill x n))
 
 (defn bit-count
   "Counts the number of bits set in n"
@@ -1388,14 +1312,14 @@ reduces them without incurring seq initialization"
 
 (defn ^boolean pos?
   "Returns true if num is greater than zero, else false"
-  [n] (cljs.core/pos? n))
+  [n] (cljm.core/pos? n))
 
 (defn ^boolean zero? [n]
-  (cljs.core/zero? n))
+  (cljm.core/zero? n))
 
 (defn ^boolean neg?
   "Returns true if num is less than zero, else false"
-  [x] (cljs.core/neg? x))
+  [x] (cljm.core/neg? x))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; protocols for host types ;;;;;;
 
@@ -1414,7 +1338,7 @@ reduces them without incurring seq initialization"
   ([] "")
   ([x] (cond
         (nil? x) ""
-        :else (. x (toString))))
+        :else (."description" x)))
   ([x & ys]
      ((fn [sb more]
         (if more
@@ -1431,7 +1355,7 @@ reduces them without incurring seq initialization"
         (symbol? x) (. x (substring 2 (.-length x)))
         (keyword? x) (str* ":" (. x (substring 2 (.-length x))))
         (nil? x) ""
-        :else (. x (toString))))
+        :else (."description" x)))
   ([x & ys]
      ((fn [sb more]
         (if more
@@ -1523,7 +1447,7 @@ reduces them without incurring seq initialization"
   obj)
 
 ;;;;;;;;;;;;;;;; cons ;;;;;;;;;;;;;;;;
-(deftype List [meta first rest count ^:mutable __hash]
+(comment (deftype List [meta first rest count ^:mutable __hash]
   IList
   
   Object
@@ -1614,9 +1538,9 @@ reduces them without incurring seq initialization"
   (-seq [coll] nil)
 
   ICounted
-  (-count [coll] 0))
+  (-count [coll] 0)))
 
-(set! cljs.core.List/EMPTY (EmptyList. nil))
+(set! cljm.core.List/EMPTY (EmptyList. nil))
 
 (defn ^boolean reversible? [coll]
   (satisfies? IReversible coll))
@@ -1640,7 +1564,7 @@ reduces them without incurring seq initialization"
      (conj (conj (conj (reduce conj () (reverse items))
                        z) y) x)))
 
-(deftype Cons [meta first rest ^:mutable __hash]
+(comment (deftype Cons [meta first rest ^:mutable __hash]
   IList
   
   Object
@@ -1675,7 +1599,7 @@ reduces them without incurring seq initialization"
   (-hash [coll] (caching-hash coll hash-coll __hash))
 
   ISeqable
-  (-seq [coll] coll))
+  (-seq [coll] coll)))
 
 (defn cons
   "Returns a new seq where x is the first element and seq is the rest."
@@ -1688,7 +1612,7 @@ reduces them without incurring seq initialization"
 (defn ^boolean list? [x]
   (satisfies? IList x))
 
-(extend-type string
+(comment (extend-type string
   IHash
   (-hash [o] (goog.string/hashCode o))
 
@@ -1886,7 +1810,7 @@ reduces them without incurring seq initialization"
 
   ICollection
   (-conj [this o]
-    (cons o this)))
+    (cons o this))))
 
 (defn chunk-cons [chunk rest]
   (if (zero? (-count chunk))
@@ -6071,7 +5995,7 @@ reduces them without incurring seq initialization"
 ;;;;;;;;;;;;;;;;;;;;;;;;; Regular Expressions ;;;;;;;;;;
 
 (defn regexp? [o]
-  (js* "~{o} instanceof RegExp"))
+  (objc* "~{o} instanceof RegExp"))
 
 (defn re-matches
   "Returns the result of (re-find re s) if re fully matches s."
