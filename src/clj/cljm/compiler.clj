@@ -243,7 +243,7 @@
             (emits "cljm_var_lookup(@\"" n "\")"))
           (emits ".value"))
         (do
-          (emits n))))))
+          (emits (munge n)))))))
 
 (defmethod emit :meta
   [{:keys [expr meta env]}]
