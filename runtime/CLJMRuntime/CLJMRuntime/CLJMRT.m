@@ -81,7 +81,7 @@ CLJMVar * cljm_var_def(NSString *name, id<NSCopying> value) {
 	if(value == nil) return nil;
 
 	CLJMVar *var = [[CLJMVar alloc] initWithValue:value];
-	cljm_rt_set(name, value, CLJMRuntimeDefsQueue, CLJMRuntimeDefs);
+	cljm_rt_set(name, var, CLJMRuntimeDefsQueue, CLJMRuntimeDefs);
 	
 	return var;
 }
