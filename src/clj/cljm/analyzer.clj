@@ -377,8 +377,8 @@
          body (next meth)
          locals (reduce (fn [m name]
                           (assoc m name {:name name
-                                         :tag (-> name meta :tag)}
-                                         :local true))
+                                         :local true
+                                         :tag (-> name meta :tag)}))
                         locals params)
          recur-frame {:names params :flag (atom nil)}
          block (binding [*recur-frames* (cons recur-frame *recur-frames*)]
