@@ -7,10 +7,6 @@
 
 (def ^:dynamic woah-buddy 1)
 
-(defn ^:dynamic chchchchanges
-	[x]
-	(nslog "things change man"))
-
 (defn- uppers
 	[x]
 	(if false "hi" "no"))
@@ -30,6 +26,10 @@
 	(do
 		(NS/Array. "initWithObjects:" 1 2 3)
 		1))
+
+(defn ^:dynamic chchchchanges
+	[x]
+	(nslog "things change man"))
 
 ; (defn my-plus-or-something
 ;   "Returns the sum of nums. (+) returns 0."

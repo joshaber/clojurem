@@ -232,9 +232,8 @@
             (name n)
             n)
         dynamic (:dynamic info)
-        local (:local info)]
-    (if (= n 'shit-to-print)
-      (debug-prn n ": " info))
+        local (:local info)
+        ns (:ns info)]
     (emit-wrap env 
       (if-not local
         (do 
@@ -558,7 +557,7 @@
         names (:names frame)]
     (emitln "{")
     (dotimes [i (count exprs)]
-      (emitln "var " (temps i) " = " (exprs i) ";"))
+      (emitln "id " (temps i) " = " (exprs i) ";"))
     (dotimes [i (count exprs)]
       (emitln (munge (names i)) " = " (temps i) ";"))
     (emitln "continue;")
