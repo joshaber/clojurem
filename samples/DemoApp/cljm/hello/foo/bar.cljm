@@ -24,7 +24,8 @@
 (defn the-things
 	[^int the-thing-man]
 	(do
-		(NS/Array. "initWithObjects:" 1 2 3)
+		(. (NS/Array.) initWithObjects:! 1 2 3)
+		(. (. (NS/MutableDictionary.) init) setObject:forKey:! 2 "two")
 		1))
 
 (defn ^:dynamic chchchchanges

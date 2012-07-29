@@ -33,7 +33,8 @@ hello_DOT_foo_DOT_bar_SLASH_uppercase_the_bitches = [[CLJMVar alloc] initWithVal
 return [x uppercaseString];
 }];
 hello_DOT_foo_DOT_bar_SLASH_the_things = [[CLJMVar alloc] initWithValue:^id(id the_thing_man) {
-[NSArray alloc];
+[[NSArray alloc] initWithObjects:@1, @2, @3, nil];
+[[[NSMutableDictionary alloc] init] setObject:@2 forKey:@"two"];
 return @1;
 }];
 cljm_var_def(@"hello.foo.bar/chchchchanges", ^id(id x) {
