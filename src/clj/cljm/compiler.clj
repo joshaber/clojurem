@@ -241,7 +241,8 @@
           (if-not dynamic
             (emits (munge n))
             (emits "cljm_var_lookup(@\"" n "\")"))
-          (emits ".value"))
+          (if-not (= ns 'ObjectiveCClass)
+            (emits ".value")))
         (do
           (emits (munge n)))))))
 
