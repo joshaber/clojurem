@@ -176,7 +176,7 @@
   (let [strs (->> (repeat (count xs) "~{}")
                   (interpose ", ")
                   (apply core/str))]
-   (concat (list 'objc* (core/str "[@[ " strs " ] componentsSeperatedByString:@\"\"]")) xs)))
+   (concat (list 'objc* (core/str "[@[ " strs " ] componentsJoinedByString:@\"\"]")) xs)))
 
 (defn bool-expr [e]
   (vary-meta e assoc :tag 'boolean))
