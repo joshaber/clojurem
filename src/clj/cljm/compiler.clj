@@ -343,15 +343,6 @@
             (print-comment-lines e)))
         (emitln "*/")))))
 
-(defn emit-block-decl 
-  ([name args] (emit-block-decl name args false))
-  ([name args variadic?]
-    (emits "id (^" name ")(")
-    ; TODO: this will be wrong for multimethods
-    (emits (comma-sep (map #(str "id " (munge %)) args)))
-    (when variadic? (emits ", ..."))
-    (emits ")")))
-
 (defmethod emit :def
   [a]
   (let [{:keys [name init env doc dynamic]} a]
@@ -393,9 +384,11 @@
 (defn emit-fn-method
   [{:keys [gthis name variadic params statements ret env recurs max-fixed-arity]}]
   (emit-wrap env
-             (emitln "^id" "(" (comma-sep (map #(str "id " %) (map munge params))) ") {")
-             (when gthis
-               (emitln "var " gthis " = this;"))
+             (emitln "^id(NSArray *cljm_args) {")
+             (emitln "NSUInteger cljm_arg_index = 0;")
+             (doseq [param params]
+                (emitln "id " (munge param) " = cljm_args[cljm_arg_index];")
+                (emitln "cljm_arg_index++;"))
              (when recurs (emitln "while(YES) {"))
              (emit-block :return statements ret)
              (when recurs
@@ -406,17 +399,16 @@
 (defn emit-variadic-fn-method
   [{:keys [gthis name variadic params statements ret env recurs max-fixed-arity] :as f}]
   (emit-wrap env
-             (emitln "^id" "(" (comma-sep (map #(str "id " %) (conj (map munge (butlast params)) "cljm__varargs"))) ", ...) {")
-             (when gthis
-               (emitln "var " gthis " = this;"))
-             (let [restargs (munge (last params))]
-               (emitln "NSMutableArray *" restargs " = [NSMutableArray array];")
-               (emitln "va_list cljm__args;")
-               (emitln "va_start(cljm__args, cljm__varargs);")
-               (emitln "for(id cljm__currentObject = cljm__varargs; cljm__currentObject != nil; cljm__currentObject = va_arg(cljm__args, id)) {")
-               (emitln "[" restargs " addObject:cljm__currentObject];")
-               (emitln "}")
-               (emitln "va_end(cljm__args);"))
+             (emitln "^id(NSArray *cljm_args) {")
+             (emitln "NSUInteger cljm_arg_index = 0;")
+             (doseq [param (butlast params)]
+                (emitln "id " (munge param) " = cljm_args[cljm_arg_index];")
+                (emitln "cljm_arg_index++;"))
+             (let [lastn (munge (last params))]
+                (emitln "NSMutableArray *" lastn " = [NSMutableArray array];")
+                (emitln "for(NSUInteger cljm_varargs_index = cljm_arg_index; cljm_varargs_index < cljm_args.count; cljm_varargs_index++) {")
+                (emitln "[" lastn " addObject:cljm_args[cljm_varargs_index]];"))
+             (emitln "}")
              (when recurs (emitln "while(YES) {"))
              (emit-block :return statements ret)
              (when recurs
@@ -584,15 +576,13 @@
         mname (munge name)]
     (emit-wrap env
       (emits "((")
-      (emit-block-decl "" (repeat (count args) "") variadic?)
+      (emits "id (^)(NSArray *)")
       (emits ") ")
       (if dynamic?
         (emits "cljm_var_lookup(@\"" name "\")")
         (emits mname))
       (emits ".value")
-      (emits ")(" (comma-sep args))
-      (if variadic?
-        (emits ", nil"))
+      (emits ")(@[" (comma-sep args) "]")
       (emits ")"))))
 
 (comment (defmethod emit :invoke
