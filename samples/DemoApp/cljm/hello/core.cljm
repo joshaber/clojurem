@@ -4,5 +4,9 @@
 (defn greet [n]
   (str "Hello " n " world!"))
 
+(defn really-greet
+	[n]
+	(bar/nslog n))
+
 (defn sum [xs]
-  (bar/sum xs))
+  (bar/uppers xs))
