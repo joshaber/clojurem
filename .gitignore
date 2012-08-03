@@ -4,3 +4,5 @@
 /lib
 /out
 .repl
+
+samples/DemoApp/gen
