@@ -24,7 +24,7 @@
 
 (declare not nil? identical)
 
-(defn ^boolean type_satisfies_
+(comment (defn ^boolean type_satisfies_
   "Internal - do not use!"
   [p x]
   (let [x (if (nil? x) nil x)]
@@ -32,7 +32,7 @@
      (aget p (goog.typeOf x)) true
      (aget p "_") true
      :else false)))
-(set! *unchecked-if* false)
+(set! *unchecked-if* false))
 
 (defn is_proto_
   [x]
