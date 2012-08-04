@@ -385,10 +385,8 @@
   [{:keys [gthis name variadic params statements ret env recurs max-fixed-arity]}]
   (emit-wrap env
              (emitln "^id(NSArray *cljm_args) {")
-             (emitln "NSUInteger cljm_arg_index = 0;")
-             (doseq [param params]
-                (emitln "id " (munge param) " = cljm_args[cljm_arg_index];")
-                (emitln "cljm_arg_index++;"))
+             (doseq [[i param] (map-indexed vector params)]
+                (emitln "id " (munge param) " = cljm_args[" i "];"))
              (when recurs (emitln "while(YES) {"))
              (emit-block :return statements ret)
              (when recurs
@@ -400,13 +398,11 @@
   [{:keys [gthis name variadic params statements ret env recurs max-fixed-arity] :as f}]
   (emit-wrap env
              (emitln "^id(NSArray *cljm_args) {")
-             (emitln "NSUInteger cljm_arg_index = 0;")
-             (doseq [param (butlast params)]
-                (emitln "id " (munge param) " = cljm_args[cljm_arg_index];")
-                (emitln "cljm_arg_index++;"))
+             (doseq [[i param] (map-indexed vector (butlast params))]
+                (emitln "id " (munge param) " = cljm_args[" i "];"))
              (let [lastn (munge (last params))]
                 (emitln "NSMutableArray *" lastn " = [NSMutableArray array];")
-                (emitln "for(NSUInteger cljm_varargs_index = cljm_arg_index; cljm_varargs_index < cljm_args.count; cljm_varargs_index++) {")
+                (emitln "for(NSUInteger cljm_varargs_index = " (- (count params) 1) "; cljm_varargs_index < cljm_args.count; cljm_varargs_index++) {")
                 (emitln "[" lastn " addObject:cljm_args[cljm_varargs_index]];"))
              (emitln "}")
              (when recurs (emitln "while(YES) {"))
