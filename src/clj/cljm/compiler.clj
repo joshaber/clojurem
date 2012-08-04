@@ -449,45 +449,47 @@
               ms (sort-by #(-> % second :params count) (seq mmap))]
           (when (= :return (:context env))
             (emits "return "))
-          (emitln "(function() {")
-          (emitln "var " mname " = null;")
+          (emitln "^id(NSArray *cljm_args) {")
+          ; (emitln "var " mname " = null;")
           (doseq [[n meth] ms]
-            (emits "var " n " = ")
+            (emits "id (^" n ")(NSArray *) = ")
             (if (:variadic meth)
               (emit-variadic-fn-method meth)
               (emit-fn-method meth))
             (emitln ";"))
-            (emitln mname " = function(" (comma-sep (if variadic
-                                                      (concat (butlast maxparams) ['var_args])
-                                                      maxparams)) "){")
-          (when variadic
-            (emitln "var " (last maxparams) " = var_args;"))
-          (emitln "switch(arguments.length){")
+            ; (emitln mname " = function(" (comma-sep (if variadic
+            ;                                           (concat (butlast maxparams) ['var_args])
+            ;                                           maxparams)) "){")
+          ; (when variadic
+          ;   (emitln "var " (last maxparams) " = var_args;"))
+          (emitln "switch(cljm_args.count) {")
           (doseq [[n meth] ms]
             (if (:variadic meth)
               (do (emitln "default:")
-                  (emitln "return " n ".cljm$lang$arity$variadic("
-                          (comma-sep (butlast maxparams))
-                          (when (> (count maxparams) 1) ", ")
-                          "cljm.core.array_seq(arguments, " max-fixed-arity "));"))
+                (emitln "return " n "(cljm_args);"))
+                  ; (emitln "return " n ".cljm$lang$arity$variadic("
+                  ;         (comma-sep (butlast maxparams))
+                  ;         (when (> (count maxparams) 1) ", ")
+                  ;         "cljm.core.array_seq(arguments, " max-fixed-arity "));"))
               (let [pcnt (count (:params meth))]
                 (emitln "case " pcnt ":")
-                (emitln "return " n ".call(this" (if (zero? pcnt) nil
-                                                     (list "," (comma-sep (take pcnt maxparams)))) ");"))))
+                (emitln "return " n "(cljm_args);"))))
+                ; (emitln "return " n ".call(this" (if (zero? pcnt) nil
+                ;                                      (list "," (comma-sep (take pcnt maxparams)))) ");"))))
           (emitln "}")
-          (emitln "throw('Invalid arity: ' + arguments.length);")
-          (emitln "};")
-          (when variadic
-            (emitln mname ".cljm$lang$maxFixedArity = " max-fixed-arity ";")
-            (emitln mname ".cljm$lang$applyTo = " (some #(let [[n m] %] (when (:variadic m) n)) ms) ".cljm$lang$applyTo;"))
-          (when has-name?
-            (doseq [[n meth] ms]
-              (let [c (count (:params meth))]
-                (if (:variadic meth)
-                  (emitln mname ".cljm$lang$arity$variadic = " n ".cljm$lang$arity$variadic;")
-                  (emitln mname ".cljm$lang$arity$" c " = " n ";")))))
-          (emitln "return " mname ";")
-          (emitln "})()")))
+          ; (emitln "throw('Invalid arity: ' + arguments.length);")
+          ; (emitln "};")
+          ; (when variadic
+          ;   (emitln mname ".cljm$lang$maxFixedArity = " max-fixed-arity ";")
+          ;   (emitln mname ".cljm$lang$applyTo = " (some #(let [[n m] %] (when (:variadic m) n)) ms) ".cljm$lang$applyTo;"))
+          ; (when has-name?
+          ;   (doseq [[n meth] ms]
+          ;     (let [c (count (:params meth))]
+          ;       (if (:variadic meth)
+          ;         (emitln mname ".cljm$lang$arity$variadic = " n ".cljm$lang$arity$variadic;")
+          ;         (emitln mname ".cljm$lang$arity$" c " = " n ";")))))
+          ; (emitln "return " mname ";")
+          (emitln "}")))
       (when loop-locals
         (emitln ";})(" (comma-sep loop-locals) "))")))))
 
