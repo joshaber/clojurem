@@ -63,7 +63,7 @@
 
 (defn make-array
   ([size]
-     (. (NS/Array.) "initWithCapacity:" size))
+     (. (NS/MutableArray.) "initWithCapacity:" size))
   ([type size]
      (make-array size)))
 
