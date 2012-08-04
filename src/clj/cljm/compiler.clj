@@ -679,8 +679,9 @@
 
 (defmethod emit :ns
   [{:keys [name requires uses requires-macros env]}]
+  (emitln "#import <Foundation/Foundation.h>")
+  (emitln "#import <CLJMRuntime/CLJMRuntime.h>")
   (when-not (= name 'cljm.core)
-    (emitln "#import <CLJMRuntime/CLJMRuntime.h>")
     (emitln "#import \"cljm_DOT_core.h\""))
   (emitln "#import \"" (munge name) ".h\"")
   (doseq [lib (into (vals requires) (distinct (vals uses)))]
