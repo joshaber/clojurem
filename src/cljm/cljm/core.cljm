@@ -92,7 +92,7 @@
   ([aseq]
      (into-array nil aseq))
   ([type aseq]
-     (reduce (fn [a x] (."arrayByAddingObject:" a x) a) (array) aseq)))
+     (reduce (fn [a x] (. a arrayByAddingObject:! x) a) (array) aseq)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;; core protocols ;;;;;;;;;;;;;
 
