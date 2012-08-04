@@ -576,10 +576,11 @@
       (emits "((")
       (emits "id (^)(NSArray *)")
       (emits ") ")
+      (emits "[")
       (if dynamic?
         (emits "cljm_var_lookup(@\"" name "\")")
         (emits mname))
-      (emits ".value")
+      (emits " value]")
       (emits ")(@[" (comma-sep args) "]")
       (emits ")"))))
 
