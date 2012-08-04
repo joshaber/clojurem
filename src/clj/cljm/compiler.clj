@@ -446,35 +446,35 @@
           (when (= :return (:context env))
             (emits "return "))
           (emitln "^id(NSArray *cljm_args) {")
-          ; (emitln "var " mname " = null;")
+          (emitln "__block CLJMVar *" mname " = nil;")
           (doseq [[n meth] ms]
             (emits "id (^" n ")(NSArray *) = ")
             (if (:variadic meth)
               (emit-variadic-fn-method meth)
               (emit-fn-method meth))
             (emitln ";"))
-            ; (emitln mname " = function(" (comma-sep (if variadic
-            ;                                           (concat (butlast maxparams) ['var_args])
-            ;                                           maxparams)) "){")
+            (emitln mname " = [[CLJMVar alloc] initWithValue:^(NSArray *cljm_args) {")
           ; (when variadic
           ;   (emitln "var " (last maxparams) " = var_args;"))
           (emitln "switch(cljm_args.count) {")
           (doseq [[n meth] ms]
             (if (:variadic meth)
               (do (emitln "default:")
-                (emitln "return " n "(cljm_args);"))
+                (emitln "return " n "(cljm_args);")
+                (emitln "break;"))
                   ; (emitln "return " n ".cljm$lang$arity$variadic("
                   ;         (comma-sep (butlast maxparams))
                   ;         (when (> (count maxparams) 1) ", ")
                   ;         "cljm.core.array_seq(arguments, " max-fixed-arity "));"))
               (let [pcnt (count (:params meth))]
                 (emitln "case " pcnt ":")
-                (emitln "return " n "(cljm_args);"))))
+                (emitln "return " n "(cljm_args);")
+                (emitln "break;"))))
                 ; (emitln "return " n ".call(this" (if (zero? pcnt) nil
                 ;                                      (list "," (comma-sep (take pcnt maxparams)))) ");"))))
           (emitln "}")
           ; (emitln "throw('Invalid arity: ' + arguments.length);")
-          ; (emitln "};")
+          (emitln "}];")
           ; (when variadic
           ;   (emitln mname ".cljm$lang$maxFixedArity = " max-fixed-arity ";")
           ;   (emitln mname ".cljm$lang$applyTo = " (some #(let [[n m] %] (when (:variadic m) n)) ms) ".cljm$lang$applyTo;"))
@@ -484,7 +484,7 @@
           ;       (if (:variadic meth)
           ;         (emitln mname ".cljm$lang$arity$variadic = " n ".cljm$lang$arity$variadic;")
           ;         (emitln mname ".cljm$lang$arity$" c " = " n ";")))))
-          ; (emitln "return " mname ";")
+          (emitln "return ((id (^)(NSArray *)) [" mname " value])(cljm_args);")
           (emitln "}")))
       (when loop-locals
         (emitln ";})(" (comma-sep loop-locals) "))")))))
