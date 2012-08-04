@@ -21,6 +21,7 @@
 		887C213415C19163006EC31D /* CLJMRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 887C213015C1915A006EC31D /* CLJMRuntime.framework */; };
 		887C213815C19186006EC31D /* CLJMRuntime.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 887C213015C1915A006EC31D /* CLJMRuntime.framework */; };
 		88C377DB15CB8D0000B05155 /* hello_DOT_core.m in Sources */ = {isa = PBXBuildFile; fileRef = 88C377DA15CB8D0000B05155 /* hello_DOT_core.m */; };
+		88DCFCE915CDC60A003C7F81 /* cljm_DOT_core.m in Sources */ = {isa = PBXBuildFile; fileRef = 88DCFCE815CDC60A003C7F81 /* cljm_DOT_core.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,8 @@
 		887C212715C1915A006EC31D /* CLJMRuntime.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CLJMRuntime.xcodeproj; path = ../../runtime/CLJMRuntime/CLJMRuntime.xcodeproj; sourceTree = "<group>"; };
 		88C377D915CB8D0000B05155 /* hello_DOT_core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hello_DOT_core.h; sourceTree = "<group>"; };
 		88C377DA15CB8D0000B05155 /* hello_DOT_core.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = hello_DOT_core.m; sourceTree = "<group>"; };
+		88DCFCE715CDC60A003C7F81 /* cljm_DOT_core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cljm_DOT_core.h; sourceTree = "<group>"; };
+		88DCFCE815CDC60A003C7F81 /* cljm_DOT_core.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cljm_DOT_core.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +206,8 @@
 		884EDFD515BF2A5B00174D10 /* gen */ = {
 			isa = PBXGroup;
 			children = (
+				88DCFCE715CDC60A003C7F81 /* cljm_DOT_core.h */,
+				88DCFCE815CDC60A003C7F81 /* cljm_DOT_core.m */,
 				88C377D915CB8D0000B05155 /* hello_DOT_core.h */,
 				88C377DA15CB8D0000B05155 /* hello_DOT_core.m */,
 				884EDFD815BF2A5B00174D10 /* hello_DOT_foo_DOT_bar.h */,
@@ -382,6 +387,7 @@
 				884EDFB315BF287500174D10 /* DAPAppDelegate.m in Sources */,
 				884EDFE215BF309D00174D10 /* hello_DOT_foo_DOT_bar.m in Sources */,
 				88C377DB15CB8D0000B05155 /* hello_DOT_core.m in Sources */,
+				88DCFCE915CDC60A003C7F81 /* cljm_DOT_core.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
