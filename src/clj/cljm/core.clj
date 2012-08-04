@@ -186,27 +186,27 @@
 
 ;; internal - do not use.
 (defmacro coercive-not [x]
-  (bool-expr (list 'objc* "(!~{})" x)))
+  (bool-expr (list 'objc* "@(!~{})" x)))
 
 ;; internal - do not use.
 (defmacro coercive-not= [x y]
-  (bool-expr (list 'objc* "(~{} != ~{})" x y)))
+  (bool-expr (list 'objc* "@(~{} != ~{})" x y)))
 
 ;; internal - do not use.
 (defmacro coercive-= [x y]
-  (bool-expr (list 'objc* "(~{} == ~{})" x y)))
+  (bool-expr (list 'objc* "@(~{} == ~{})" x y)))
 
 (defmacro true? [x]
-  (bool-expr (list 'objc* "~{} === YES" x)))
+  (bool-expr (list 'objc* "@([~{} boolValue] == YES)" x)))
 
 (defmacro false? [x]
-  (bool-expr (list 'objc* "~{} === NO" x)))
+  (bool-expr (list 'objc* "@([~{} boolValue] == NO)" x)))
 
 (defmacro undefined? [x]
-  (bool-expr (list 'objc* "((void *) 0) === ~{})" x)))
+  (bool-expr (list 'objc* "@((void *) 0) == ~{})" x)))
 
 (defmacro identical? [a b]
-  (bool-expr (list 'objc* "([~{} isEqual:~{}])" a b)))
+  (bool-expr (list 'objc* "@([~{} isEqual:~{}])" a b)))
 
 (defmacro aget
   ([a i]
@@ -221,48 +221,48 @@
 (defmacro +
   ([] 0)
   ([x] x)
-  ([x y] (list 'objc* "(~{} + ~{})" x y))
+  ([x y] (list 'objc* "@([~{} doubleValue] + [~{} doubleValue])" x y))
   ([x y & more] `(+ (+ ~x ~y) ~@more)))
 
 (defmacro -
-  ([x] (list 'objc* "(- ~{})" x))
-  ([x y] (list 'objc* "(~{} - ~{})" x y))
+  ([x] (list 'objc* "@(-[~{} doubleValue])" x))
+  ([x y] (list 'objc* "@([~{} doubleValue] - [~{} doubleValue])" x y))
   ([x y & more] `(- (- ~x ~y) ~@more)))
 
 (defmacro *
   ([] 1)
   ([x] x)
-  ([x y] (list 'objc* "(~{} * ~{})" x y))
+  ([x y] (list 'objc* "@([~{} doubleValue] * [~{} doubleValue])" x y))
   ([x y & more] `(* (* ~x ~y) ~@more)))
 
 (defmacro /
   ([x] `(/ 1 ~x))
-  ([x y] (list 'objc* "(~{} / ~{})" x y))
+  ([x y] (list 'objc* "@([~{} doubleValue] / [~{} doubleValue])" x y))
   ([x y & more] `(/ (/ ~x ~y) ~@more)))
 
 (defmacro <
   ([x] true)
-  ([x y] (bool-expr (list 'objc* "(~{} < ~{})" x y)))
+  ([x y] (bool-expr (list 'objc* "@([~{} doubleValue] < [~{} doubleValue])" x y)))
   ([x y & more] `(and (< ~x ~y) (< ~y ~@more))))
 
 (defmacro <=
   ([x] true)
-  ([x y] (bool-expr (list 'objc* "(~{} <= ~{})" x y)))
+  ([x y] (bool-expr (list 'objc* "@([~{} doubleValue] <= [~{} doubleValue])" x y)))
   ([x y & more] `(and (<= ~x ~y) (<= ~y ~@more))))
 
 (defmacro >
   ([x] true)
-  ([x y] (bool-expr (list 'objc* "(~{} > ~{})" x y)))
+  ([x y] (bool-expr (list 'objc* "@([~{} doubleValue] > [~{} doubleValue])" x y)))
   ([x y & more] `(and (> ~x ~y) (> ~y ~@more))))
 
 (defmacro >=
   ([x] true)
-  ([x y] (bool-expr (list 'objc* "(~{} >= ~{})" x y)))
+  ([x y] (bool-expr (list 'objc* "@([~{} doubleValue] >= [~{} doubleValue])" x y)))
   ([x y & more] `(and (>= ~x ~y) (>= ~y ~@more))))
 
 (defmacro ==
   ([x] true)
-  ([x y] (bool-expr (list 'objc* "([~{} isEqual:~{}])" x y)))
+  ([x y] (bool-expr (list 'objc* "@([~{} isEqual:~{}])" x y)))
   ([x y & more] `(and (== ~x ~y) (== ~y ~@more))))
 
 (defmacro dec [x]
@@ -282,69 +282,69 @@
 
 (defmacro max
   ([x] x)
-  ([x y] (list 'objc* "((~{} > ~{}) ? ~{} : ~{})" x y x y))
+  ([x y] (list 'objc* "(([~{} doubleValue] > [~{} doubleValue]) ? ~{} : ~{})" x y x y))
   ([x y & more] `(max (max ~x ~y) ~@more)))
 
 (defmacro min
   ([x] x)
-  ([x y] (list 'objc* "((~{} < ~{}) ? ~{} : ~{})" x y x y))
+  ([x y] (list 'objc* "(([~{} doubleValue] < [~{} doubleValue]) ? ~{} : ~{})" x y x y))
   ([x y & more] `(min (min ~x ~y) ~@more)))
 
 (defmacro mod [num div]
-  (list 'objc* "(~{} % ~{})" num div))
+  (list 'objc* "@([~{} doubleValue] % [~{} doubleValue])" num div))
 
 (defmacro bit-not [x]
-  (list 'objc* "(~ ~{})" x))
+  (list 'objc* "@(~ [~{} integerValue])" x))
 
 (defmacro bit-and
-  ([x y] (list 'objc* "(~{} & ~{})" x y))
+  ([x y] (list 'objc* "@([~{} integerValue] & [~{} integerValue])" x y))
   ([x y & more] `(bit-and (bit-and ~x ~y) ~@more)))
 
 ;; internal do not use
 (defmacro unsafe-bit-and
-  ([x y] (bool-expr (list 'objc* "(~{} & ~{})" x y)))
+  ([x y] (bool-expr (list 'objc* "@([~{} integerValue] & [~{} integerValue])" x y)))
   ([x y & more] `(unsafe-bit-and (unsafe-bit-and ~x ~y) ~@more)))
 
 (defmacro bit-or
-  ([x y] (list 'objc* "(~{} | ~{})" x y))
+  ([x y] (list 'objc* "@([~{} integerValue] | [~{} integerValue])" x y))
   ([x y & more] `(bit-or (bit-or ~x ~y) ~@more)))
 
 (defmacro bit-xor
-  ([x y] (list 'objc* "(~{} ^ ~{})" x y))
+  ([x y] (list 'objc* "@([~{} integerValue] ^ [~{} integerValue])" x y))
   ([x y & more] `(bit-xor (bit-xor ~x ~y) ~@more)))
 
 (defmacro bit-and-not
-  ([x y] (list 'objc* "(~{} & ~~{})" x y))
+  ([x y] (list 'objc* "@([~{} integerValue] & ~[~{} integerValue])" x y))
   ([x y & more] `(bit-and-not (bit-and-not ~x ~y) ~@more)))
 
 (defmacro bit-clear [x n]
-  (list 'objc* "(~{} & ~(1 << ~{}))" x n))
+  (list 'objc* "@([~{} integerValue] & ~(1 << [~{} integerValue]))" x n))
 
 (defmacro bit-flip [x n]
-  (list 'objc* "(~{} ^ (1 << ~{}))" x n))
+  (list 'objc* "@([~{} integerValue] ^ (1 << [~{} integerValue]))" x n))
 
 (defmacro bit-test [x n]
-  (list 'objc* "((~{} & (1 << ~{})) != 0)" x n))
+  (list 'objc* "@(([~{} integerValue] & (1 << [~{} integerValue])) != 0)" x n))
 
 (defmacro bit-shift-left [x n]
-  (list 'objc* "(~{} << ~{})" x n))
+  (list 'objc* "@([~{} integerValue] << [~{} integerValue])" x n))
 
 (defmacro bit-shift-right [x n]
-  (list 'objc* "(~{} >> ~{})" x n))
+  (list 'objc* "@([~{} integerValue] >> [~{} integerValue])" x n))
 
 (defmacro bit-shift-right-zero-fill [x n]
-  (list 'objc* "(~{} >>> ~{})" x n))
+  (list 'objc* "@([~{} integerValue] >>> [~{} integerValue])" x n))
 
 (defmacro bit-set [x n]
-  (list 'objc* "(~{} | (1 << ~{}))" x n))
+  (list 'objc* "@([~{} integerValue] | (1 << [~{} integerValue]))" x n))
 
 ;; internal
 (defmacro mask [hash shift]
-  (list 'objc* "((~{} >>> ~{}) & 0x01f)" hash shift))
+  (list 'objc* "@(([~{} integerValue] >>> [~{} integerValue]) & 0x01f)" hash shift))
 
 ;; internal
 (defmacro bitpos [hash shift]
-  (list 'objc* "(1 << ~{})" `(mask ~hash ~shift)))
+  (list 'objc* "@(1 << [~{} integerValue])" `(mask ~hash ~shift)))
 
 ;; internal
 (defmacro caching-hash [coll hash-fn hash-key]
@@ -985,7 +985,7 @@
      rest)))
 
 (defmacro alength [a]
-  (list 'objc* "[~{} count]" a))
+  (list 'objc* "@([~{} count])" a))
 
 (defmacro aclone [a]
   (list 'objc* "~{}.slice()" a))
