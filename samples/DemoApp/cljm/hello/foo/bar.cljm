@@ -32,12 +32,12 @@
 	[x]
 	(nslog "things change man"))
 
-; (defn my-plus-or-something
-;   "Returns the sum of nums. (+) returns 0."
-;   ([] 0)
-;   ([x] x)
-;   ([x y] [x y])
-;   ([x y & more] [x y more]))
+(defn my-plus-or-something
+  "Returns the sum of nums. (+) returns 0."
+  ([] 0)
+  ([x] x)
+  ([x y] (my-plus-or-something x))
+  ([x y & more] (my-plus-or-something x)))
 
 (nslog "hi")
 (nslog woah-buddy)
