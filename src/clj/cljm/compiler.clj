@@ -314,7 +314,7 @@
   (let [context (:context env)]
         ; (debug-prn test)
     (if (= :expr context)
-      (emits "(cljm_truthy(" test ")) ?" then ":" else)
+      (emits "@(cljm_truthy(" test ")) ? " then " : " else)
       (do
         (emitln "if(cljm_truthy(" test ")) {")
         (emitln then)
