@@ -291,7 +291,7 @@
     (.class x)))
 
 (defn ^boolean instance? [t o]
-  (objc* "[~{o} isKindOfClass:[~{t} class]]"))
+  (objc* "@([~{o} isKindOfClass:[~{t} class]])"))
 
 ;;;;;;;;;;;;;;;;;;; protocols on primitives ;;;;;;;;
 (declare hash-map list equiv-sequential)
