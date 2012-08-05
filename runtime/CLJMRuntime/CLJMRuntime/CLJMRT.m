@@ -102,6 +102,8 @@ CLJMVar * cljm_var_bind(NSString *name, id<NSCopying> value) {
 	if(value == nil) return nil;
 	
 	NSMutableDictionary *topBindings = cljm_rt_get_top_bindings();
+	if(topBindings == nil) return nil;
+	
 	CLJMVar *var = [[CLJMVar alloc] initWithValue:value];
 	[topBindings setObject:var forKey:name];
 	
