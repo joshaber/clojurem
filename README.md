@@ -6,7 +6,7 @@ ClojureM is a compiler for [Clojure](http://clojure.org) that targets Objective-
 
 1. Run `./script/bootstrap` to pull in Clojure.
 1. Run `bin/cljmc samples/DemoApp/cljm {:out samples/DemoApp/gen}` to compile the ClojureM in the demo app.
-1. See the [DemoApp](https://github.com/joshaber/clojurem/examples/DemoApp).
+1. See the [DemoApp](https://github.com/joshaber/clojurem/tree/master/examples/DemoApp).
 
 ## License
 
