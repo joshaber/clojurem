@@ -402,7 +402,7 @@
                 (emitln "id " (munge param) " = cljm_args[" i "];"))
              (let [lastn (munge (last params))]
                 (emitln "NSMutableArray *" lastn " = [NSMutableArray array];")
-                (emitln "for(NSUInteger cljm_varargs_index = " (- (count params) 1) "; cljm_varargs_index < cljm_args.count; cljm_varargs_index++) {")
+                (emitln "for(NSUInteger cljm_varargs_index = " (dec (count params)) "; cljm_varargs_index < cljm_args.count; cljm_varargs_index++) {")
                 (emitln "[" lastn " addObject:cljm_args[cljm_varargs_index]];"))
              (emitln "}")
              (when recurs (emitln "while(YES) {"))
