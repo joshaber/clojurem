@@ -571,18 +571,24 @@
         variadic? (:variadic info)
         dynamic? (:dynamic info)
         name (:name info)
-        mname (munge name)]
+        mname (munge name)
+        keyword? (and (= (-> f :op) :constant)
+                      (keyword? (-> f :form)))]
     (emit-wrap env
-      (emits "((")
-      (emits "id (^)(NSArray *)")
-      (emits ") ")
-      (emits "[")
-      (if dynamic?
-        (emits "cljm_var_lookup(@\"" name "\")")
-        (emits mname))
-      (emits " value]")
-      (emits ")(@[" (comma-sep args) "]")
-      (emits ")"))))
+      (if keyword?
+        ;; is this generally right?
+        (emits "[" (first args) " objectForKey:" f "]")
+        (do
+          (emits "((")
+          (emits "id (^)(NSArray *)")
+          (emits ") ")
+          (emits "[")
+          (if dynamic?
+            (emits "cljm_var_lookup(@\"" name "\")")
+            (emits mname))
+          (emits " value]")
+          (emits ")(@[" (comma-sep args) "]")
+          (emits ")"))))))
 
 (comment (defmethod emit :invoke
   [{:keys [f args env] :as expr}]
