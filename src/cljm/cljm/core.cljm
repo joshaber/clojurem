@@ -63,7 +63,8 @@
 
 (defn make-array
   ([size]
-     (. (NS/MutableArray.) "initWithCapacity:" size))
+     ;; honey badger don't care about size
+     (. (NS/Array.) init))
   ([type size]
      (make-array size)))
 
