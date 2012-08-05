@@ -5,6 +5,8 @@
 (def wat {:hi 1 :something 2})
 (def more #{1 3 4})
 
+(def people {:josh {:color :blue, :ice-cream :cookie-dough}, :michelle {:color :burnt-orange, :ice-cream :caramel}})
+
 (def ^:dynamic woah-buddy 1)
 
 (defn- uppers
@@ -38,6 +40,10 @@
   ([x] x)
   ([x y] (my-plus-or-something x))
   ([x y & more] (my-plus-or-something x)))
+
+(defn favorite-ice-cream
+	[p]
+	(:ice-cream p))
 
 (nslog "hi")
 (nslog woah-buddy)

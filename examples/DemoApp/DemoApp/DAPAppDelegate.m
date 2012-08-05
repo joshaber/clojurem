@@ -20,6 +20,10 @@
 	if(cljm_keyword(@":blah/stuff") == cljm_keyword(@":blah/stuff")) {
 		NSLog(@"YUUUP");
 	}
+	
+	NSDictionary *d = (NSDictionary *) hello_DOT_foo_DOT_bar_SLASH_people.value;
+	id iceCream = cljm_invoke(hello_DOT_foo_DOT_bar_SLASH_favorite_ice_cream, @[ [d objectForKey:cljm_keyword(@":josh")] ]);
+	NSLog(@"iceCream: %@", iceCream);
 }
 
 @end
