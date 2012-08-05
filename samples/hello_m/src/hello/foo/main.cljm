@@ -1,6 +1,0 @@
-(ns hello.foo.main 
-	(:require [hello.foo.bar :as bar]))
-
-(defn main
-	[x]
-	(bar/nslog "hi"))
