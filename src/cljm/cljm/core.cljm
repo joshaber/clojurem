@@ -97,7 +97,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;; core protocols ;;;;;;;;;;;;;
 
-(comment (defprotocol IFn
+(defprotocol IFn
   (-invoke
     [this]
     [this a]
@@ -258,7 +258,7 @@
   (-chunked-rest [coll]))
 
 (defprotocol IChunkedNext
-  (-chunked-next [coll])))
+  (-chunked-next [coll]))
 
 ;;;;;;;;;;;;;;;;;;; fundamentals ;;;;;;;;;;;;;;;
 (defn ^boolean identical?

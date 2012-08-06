@@ -206,7 +206,7 @@
 
 (declare analyze analyze-symbol analyze-seq)
 
-(def specials '#{if def fn* do let* loop* letfn* throw try* recur new set! ns deftype* defrecord* . objc* & quote})
+(def specials '#{if def fn* do let* loop* letfn* throw try* recur new set! ns defprotocol* deftype* defrecord* . objc* & quote})
 
 (def ^:dynamic *recur-frames* nil)
 (def ^:dynamic *loop-lets* nil)
@@ -679,6 +679,22 @@
                                                    requires-macros)))))
     {:env env :op :ns :form form :name name :uses uses :requires requires
      :uses-macros uses-macros :requires-macros requires-macros :excludes excludes}))
+
+(defmethod parse 'defprotocol*
+  [_ env [_ psym & methods :as form] _]
+  (let [p (munge (:name (resolve-var (dissoc env :locals) psym)))
+  ns-name (-> env :ns :name)]
+    ; (swap! protocols
+    ;        (fn [protocols]
+    ;          (update-in protocols [ns-name psym]
+    ;                     (fn [m]
+    ;                       {:name p
+    ;      :methods methods}))))
+    {:env env
+     :op :defprotocol*
+     :as form
+     :p p
+     :methods methods}))
 
 (defmethod parse 'deftype*
   [_ env [_ tsym fields pmasks :as form] _]

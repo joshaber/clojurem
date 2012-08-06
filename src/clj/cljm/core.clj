@@ -683,7 +683,7 @@
        ~(build-map-factory rsym r fields)
        ~r)))
 
-(defmacro defprotocol [psym & doc+methods]
+(comment (defmacro defprotocol [psym & doc+methods]
   (let [p (:name (cljm.analyzer/resolve-var (dissoc &env :locals) psym))
         psym (vary-meta psym assoc :protocol-symbol true)
         ns-name (-> &env :ns :name)
@@ -714,7 +714,28 @@
        (set! ~'*unchecked-if* true)
        (def ~psym (~'objc* "{}"))
        ~@(map method methods)
-       (set! ~'*unchecked-if* false))))
+       (set! ~'*unchecked-if* false)))))
+
+(defmacro defprotocol [psym & doc+methods]
+  (let [p (:name (cljm.analyzer/resolve-var (dissoc &env :locals) psym))
+        psym (vary-meta psym assoc :protocol-symbol true)
+        ns-name (-> &env :ns :name)
+        methods (if (core/string? (first doc+methods)) (next doc+methods) doc+methods)
+        expand-sig (fn [fname sig]
+                     `(~sig
+           ;; FIXME: check satisfies?
+           (. ~(first sig) (~fname ~@(rest sig)))))
+        method (fn [[fname & sigs]]
+                 (let [sigs (take-while vector? sigs)
+                       fname (vary-meta fname assoc :protocol p)]
+                   `(defn ~fname ~@(map (fn [sig]
+                                          (expand-sig fname
+                                                      sig))
+                                        sigs))))]
+    `(do
+       (~'defprotocol* ~psym ~@methods)
+       (def ~psym nil)
+       ~@(map method methods))))
 
 (defmacro satisfies?
   "Returns true if x satisfies the protocol"

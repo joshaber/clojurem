@@ -692,6 +692,14 @@
   (doseq [lib (into (vals requires) (distinct (vals uses)))]
     (emitln "#import \"" (munge lib) ".h\"")))
 
+(defmethod emit :defprotocol*
+  [{:keys [p index methods]}]
+  (emitln "@protocol " (munge p) " <NSObject>")
+  (doseq [method methods]
+    (emitln "- (id)" (munge method) ";"))
+  (emitln "@end")
+  (emitln))
+
 (defmethod emit :deftype*
   [{:keys [t fields pmasks]}]
   (let [fields (map munge fields)]
