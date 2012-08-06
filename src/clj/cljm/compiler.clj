@@ -344,15 +344,16 @@
         (emitln "*/")))))
 
 (defmethod emit :def
-  [a]
-  (let [{:keys [name init env doc dynamic]} a]
+  [{:keys [name init env doc dynamic] :as ast}]
     (when init
       (emit-comment doc (:jsdoc init))
       (if-not dynamic
         (let [mname (munge name)]
           (emits mname " = [[CLJMVar alloc] initWithValue:" init "]"))
         (emits "cljm_var_def(@\"" name "\", " init ")"))
-      (when-not (= :expr (:context env)) (emitln ";")))))
+      (when-not (= :expr (:context env)) (emitln ";")))
+    ;; TODO: don't extern private fn's
+    {:externs [ast]})
 
 (defn emit-apply-to
   [{:keys [name params env]}]
@@ -786,22 +787,17 @@
                externs []]
           (if (seq forms)
             (let [env (ana/empty-env)
-                  ast (ana/analyze env (first forms))]
-              (do (emit ast)
-                  (cond 
-                    (= (:op ast) :ns)
-                      (let [found-ns (:name ast)]
-                        ; TODO: It'd be nice to only init namespaces that are 
-                        ; actually used.
-                        (emits "__attribute__((constructor))\nvoid " (init-func-name found-ns) "(void) {\n")
-                        (emitln "@autoreleasepool {")
-                        (recur (rest forms) found-ns (merge (:uses ast) (:requires ast)) externs))
-                    (= (:op ast) :def)
-                      ; Don't add the block to the externs list if it's private
-                      ; (if-let [externs (:private ast)] (conj externs ast) externs
-                        (recur (rest forms) ns-name (merge (:uses ast) (:requires ast)) (conj externs ast))
-                    :else
-                      (recur (rest forms) ns-name deps externs))))
+                  ast (ana/analyze env (first forms))
+                  nexterns (:externs (emit ast))]
+              (if (= (:op ast) :ns)
+                (let [found-ns (:name ast)]
+                  ; TODO: It'd be nice to only init namespaces that are
+                  ; actually used.
+                  (emitln "__attribute__((constructor))")
+                  (emitln "void " (init-func-name found-ns) "(void) {\n")
+                  (emitln "@autoreleasepool {")
+                  (recur (rest forms) found-ns (merge (:uses ast) (:requires ast)) externs))
+                (recur (rest forms) ns-name deps (into externs nexterns))))
             (do
               (emitln "}")
               (emitln "}")
