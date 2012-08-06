@@ -9,3 +9,7 @@
 #import <CLJMRuntime/CLJMRT.h>
 #import <CLJMRuntime/CLJMList.h>
 #import <CLJMRuntime/CLJMVar.h>
+#import <CLJMRuntime/CLJMFunction.h>
+#import <CLJMRuntime/CLJMInvokable.h>
+#import <CLJMRuntime/NSDictionary+CLJMInvokable.h>
+#import <CLJMRuntime/NSArray+CLJMInvokable.h>

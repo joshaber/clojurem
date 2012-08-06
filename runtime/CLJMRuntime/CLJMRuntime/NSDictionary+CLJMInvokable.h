@@ -7,7 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CLJMInvokable.h"
 
-@interface NSDictionary (CLJMInvokable)
+
+@interface NSDictionary (CLJMInvokable) <CLJMInvokable>
+
+// Takes the first argument and looks up the object for that key. Asserts when
+// given any more or less than 1 argument.
+- (id)cljm_invoke:(NSArray *)arguments;
 
 @end

@@ -124,9 +124,3 @@ void cljm_pop_binding(void) {
 	NSMutableArray *bindingsStack = (__bridge NSMutableArray *) dispatch_queue_get_specific(dispatch_get_current_queue(), CLJMRuntimeBindingsKey);
 	[bindingsStack removeLastObject];
 }
-
-id cljm_invoke(CLJMVar *functionVar, NSArray *arguments) {
-	if(functionVar == nil) return nil;
-	
-	return ((id (^)(NSArray *)) functionVar.value)(arguments);
-}

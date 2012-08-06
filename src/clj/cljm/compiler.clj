@@ -384,7 +384,7 @@
 (defn emit-fn-method
   [{:keys [gthis name variadic params statements ret env recurs max-fixed-arity]}]
   (emit-wrap env
-             (emitln "^id(NSArray *cljm_args) {")
+             (emitln "[[CLJMFunction alloc] initWithBlock:^id(NSArray *cljm_args) {")
              (doseq [[i param] (map-indexed vector params)]
                 (emitln "id " (munge param) " = cljm_args[" i "];"))
              (when recurs (emitln "while(YES) {"))
@@ -392,12 +392,12 @@
              (when recurs
                (emitln "break;")
                (emitln "}"))
-             (emits "}")))
+             (emits "}]")))
 
 (defn emit-variadic-fn-method
   [{:keys [gthis name variadic params statements ret env recurs max-fixed-arity] :as f}]
   (emit-wrap env
-             (emitln "^id(NSArray *cljm_args) {")
+             (emitln "[[CLJMFunction alloc] initWithBlock:^id(NSArray *cljm_args) {")
              (doseq [[i param] (map-indexed vector (butlast params))]
                 (emitln "id " (munge param) " = cljm_args[" i "];"))
              (let [lastn (munge (last params))]
@@ -410,7 +410,7 @@
              (when recurs
                (emitln "break;")
                (emitln "}"))
-             (emits "}")))
+             (emits "}]")))
 
 (defmethod emit :fn
   [{:keys [name env methods max-fixed-arity variadic recur-frames loop-lets]}]
@@ -448,19 +448,19 @@
           (emitln "^id(NSArray *cljm_args) {")
           (emitln "__block CLJMVar *" mname " = nil;")
           (doseq [[n meth] ms]
-            (emits "id (^" n ")(NSArray *) = ")
+            (emits "CLJMFunction *" n " = ")
             (if (:variadic meth)
               (emit-variadic-fn-method meth)
               (emit-fn-method meth))
             (emitln ";"))
-            (emitln mname " = [[CLJMVar alloc] initWithValue:^(NSArray *cljm_args) {")
+            (emitln mname " = [[CLJMVar alloc] initWithValue:[[CLJMFunction alloc] initWithBlock:^id(NSArray *cljm_args) {")
           ; (when variadic
           ;   (emitln "var " (last maxparams) " = var_args;"))
           (emitln "switch(cljm_args.count) {")
           (doseq [[n meth] ms]
             (if (:variadic meth)
               (do (emitln "default:")
-                (emitln "return " n "(cljm_args);")
+                (emitln "return [" n " cljm_invoke:cljm_args];")
                 (emitln "break;"))
                   ; (emitln "return " n ".cljm$lang$arity$variadic("
                   ;         (comma-sep (butlast maxparams))
@@ -468,13 +468,13 @@
                   ;         "cljm.core.array_seq(arguments, " max-fixed-arity "));"))
               (let [pcnt (count (:params meth))]
                 (emitln "case " pcnt ":")
-                (emitln "return " n "(cljm_args);")
+                (emitln "return [" n " cljm_invoke:cljm_args];")
                 (emitln "break;"))))
                 ; (emitln "return " n ".call(this" (if (zero? pcnt) nil
                 ;                                      (list "," (comma-sep (take pcnt maxparams)))) ");"))))
           (emitln "}")
           ; (emitln "throw('Invalid arity: ' + arguments.length);")
-          (emitln "}];")
+          (emitln "}]];")
           ; (when variadic
           ;   (emitln mname ".cljm$lang$maxFixedArity = " max-fixed-arity ";")
           ;   (emitln mname ".cljm$lang$applyTo = " (some #(let [[n m] %] (when (:variadic m) n)) ms) ".cljm$lang$applyTo;"))
@@ -575,20 +575,17 @@
         keyword? (and (= (-> f :op) :constant)
                       (keyword? (-> f :form)))]
     (emit-wrap env
-      (if keyword?
-        ;; is this generally right?
-        (emits "[" (first args) " objectForKey:" f "]")
+      (emits "[(id<CLJMInvokable>) ")
+      (if-not keyword?
         (do
-          (emits "((")
-          (emits "id (^)(NSArray *)")
-          (emits ") ")
           (emits "[")
           (if dynamic?
             (emits "cljm_var_lookup(@\"" name "\")")
             (emits mname))
           (emits " value]")
-          (emits ")(@[" (comma-sep args) "]")
-          (emits ")"))))))
+          (emits " cljm_invoke:@[" (comma-sep args) "]"))
+        (emits (first args) " cljm_invoke:@[" f "]"))
+      (emits "]"))))
 
 (comment (defmethod emit :invoke
   [{:keys [f args env] :as expr}]
