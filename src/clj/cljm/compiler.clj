@@ -19,6 +19,8 @@
 (declare munge)
 (declare init-func-name)
 
+(def ^:dynamic *externs* nil)
+
 (defmacro ^:private debug-prn
   [& args]
   `(.println System/err (str ~@args)))
@@ -343,17 +345,21 @@
             (print-comment-lines e)))
         (emitln "*/")))))
 
+(defn add-extern!
+  [ast]
+  (swap! *externs* conj ast))
+
 (defmethod emit :def
   [{:keys [name init env doc dynamic] :as ast}]
+    ;; TODO: don't extern private fn's
+    (add-extern! ast)
     (when init
       (emit-comment doc (:jsdoc init))
       (if-not dynamic
         (let [mname (munge name)]
           (emits mname " = [[CLJMVar alloc] initWithValue:" init "]"))
         (emits "cljm_var_def(@\"" name "\", " init ")"))
-      (when-not (= :expr (:context env)) (emitln ";")))
-    ;; TODO: don't extern private fn's
-    {:externs [ast]})
+      (when-not (= :expr (:context env)) (emitln ";"))))
 
 (defn emit-apply-to
   [{:keys [name params env]}]
@@ -670,12 +676,8 @@
     (emitln "#import \"" (munge lib) ".h\"")))
 
 (defmethod emit :defprotocol*
-  [{:keys [p index methods]}]
-  (emitln "@protocol " (munge p) " <NSObject>")
-  (doseq [method methods]
-    (emitln "- (id)" (munge method) ";"))
-  (emitln "@end")
-  (emitln))
+  [ast]
+  (add-extern! ast))
 
 (defmethod emit :deftype*
   [{:keys [t fields pmasks]}]
@@ -783,12 +785,11 @@
                 *position* (atom [0 0])]
         (loop [forms (forms-seq src)
                ns-name nil
-               deps nil
-               externs []]
+               deps nil]
           (if (seq forms)
             (let [env (ana/empty-env)
-                  ast (ana/analyze env (first forms))
-                  nexterns (:externs (emit ast))]
+                  ast (ana/analyze env (first forms))]
+              (emit ast)
               (if (= (:op ast) :ns)
                 (let [found-ns (:name ast)]
                   ; TODO: It'd be nice to only init namespaces that are
@@ -796,16 +797,15 @@
                   (emitln "__attribute__((constructor))")
                   (emitln "void " (init-func-name found-ns) "(void) {\n")
                   (emitln "@autoreleasepool {")
-                  (recur (rest forms) found-ns (merge (:uses ast) (:requires ast)) externs))
-                (recur (rest forms) ns-name deps (into externs nexterns))))
+                  (recur (rest forms) found-ns (merge (:uses ast) (:requires ast))))
+                (recur (rest forms) ns-name deps)))
             (do
               (emitln "}")
               (emitln "}")
               {:ns (or ns-name 'cljm.user)
                :provides [ns-name]
                :requires (if (= ns-name 'cljm.core) (set (vals deps)) (conj (set (vals deps)) 'cljm.core))
-               :file dest
-               :externs externs})))))))
+               :file dest})))))))
 
 (defn requires-compilation?
   "Return true if the src file requires compilation."
@@ -814,6 +814,31 @@
   true)
   ; (or (not (.exists dest))
   ;     (> (.lastModified src) (.lastModified dest))))
+
+(defmulti emit-h :op)
+
+(defmethod emit-h :defprotocol*
+  [{:keys [p index methods]}]
+    (emitln "@protocol " (munge p) " <NSObject>")
+    (doseq [method methods]
+      (emitln "- (id)" (munge method) ";"))
+    (emitln "@end")
+    (emitln))
+
+(defmethod emit-h :def
+  [ast]
+  (let [mname (munge (:name ast))]
+    (emitln "CLJMVar *" mname ";")))
+
+(defn generate-header
+  [externs file]
+  (let [dest-file (io/file file)]
+    (with-open [out ^java.io.Writer (io/make-writer dest-file {})]
+      (binding [*out* out]
+        (emitln "@class CLJMVar;")
+        (emitln)
+        (doseq [ast externs]
+          (emit-h ast))))))
 
 (defn compile-file
   "Compiles src to a file of the same name, but with a .js extension,
@@ -832,30 +857,19 @@
      (let [dest (rename-to src ".m")]
        (compile-file src dest)))
   ([src dest]
+    (binding [*externs* (atom [])]
      (let [src-file (io/file src)
            dest-file (io/file dest)]
        (if (.exists src-file)
          (if (requires-compilation? src-file dest-file)
            (do (mkdirs dest-file)
-               (compile-file* src-file dest-file))
-           {:file dest-file})
-         (throw (java.io.FileNotFoundException. (str "The file " src " does not exist.")))))))
+               (assoc (compile-file* src-file dest-file) :externs @*externs*))
+           {:file dest-file, :externs []})
+         (throw (java.io.FileNotFoundException. (str "The file " src " does not exist."))))))))
 
 (defn init-func-name
   [ns]
   (munge (str ns "/cljm-ns-init")))
-
-(defn generate-header
-  [ns-info file]
-  (let [dest-file (io/file file)
-        {:keys [externs]} ns-info]
-    (with-open [out ^java.io.Writer (io/make-writer dest-file {})]
-      (binding [*out* out]
-        (emitln "@class CLJMVar;\n")
-        (doseq [extern externs]
-          (let [mname (munge (:name extern))
-                init (:init extern)]
-            (emitln "CLJMVar *" mname ";")))))))
 
 (comment
   ;; flex compile-file
@@ -920,9 +934,9 @@
          (if (seq cljm-files)
            (let [cljm-file (first cljm-files)
                  m-file ^java.io.File (to-target-file src-dir-file target-dir cljm-file ".m")
-                 ns-info (compile-file cljm-file m-file) 
+                 ns-info (compile-file cljm-file m-file)
                  h-file ^java.io.File (to-target-file src-dir-file target-dir cljm-file ".h")]
-             (generate-header ns-info h-file)
+             (generate-header (:externs ns-info) h-file)
              (move-and-rename m-file h-file (:ns ns-info) target-dir)
              (recur (rest cljm-files) (conj output-files (assoc ns-info :file-name (.getPath m-file)))))
            output-files)))))
