@@ -149,7 +149,7 @@
 (defmethod emit-constant Double [x] (emits "@" x))
 (defmethod emit-constant String [x]
   (emits "@" (wrap-in-double-quotes (escape-string x))))
-(defmethod emit-constant Boolean [x] (emits (if x "@YES" "@NO")))
+(defmethod emit-constant Boolean [x] (emits (if x "@(YES)" "@(NO)")))
 (defmethod emit-constant Character [x]
   (emits "@" (wrap-in-double-quotes (escape-char x))))
 
@@ -393,7 +393,7 @@
   (emit-wrap env
              (emitln "[[CLJMFunction alloc] initWithBlock:^id(NSArray *cljm_args) {")
              (doseq [[i param] (map-indexed vector params)]
-                (emitln "id " (munge param) " = cljm_args[" i "];"))
+                (emitln "id " (munge param) " = [cljm_args objectAtIndex:" i "];"))
              (when recurs (emitln "while(YES) {"))
              (emit-block :return statements ret)
              (when recurs
@@ -406,11 +406,11 @@
   (emit-wrap env
              (emitln "[[CLJMFunction alloc] initWithBlock:^id(NSArray *cljm_args) {")
              (doseq [[i param] (map-indexed vector (butlast params))]
-                (emitln "id " (munge param) " = cljm_args[" i "];"))
+                (emitln "id " (munge param) " = [cljm_args objectAtIndex:" i "];"))
              (let [lastn (munge (last params))]
                 (emitln "NSMutableArray *" lastn " = [NSMutableArray array];")
                 (emitln "for(NSUInteger cljm_varargs_index = " (dec (count params)) "; cljm_varargs_index < cljm_args.count; cljm_varargs_index++) {")
-                (emitln "[" lastn " addObject:cljm_args[cljm_varargs_index]];"))
+                (emitln "[" lastn " addObject:[cljm_args objectAtIndex:cljm_varargs_index]];"))
              (emitln "}")
              (when recurs (emitln "while(YES) {"))
              (emit-block :return statements ret)
