@@ -14,7 +14,4 @@ rm -rf clojure-1.4.0/
 echo "Cleaning up Clojure archive..."
 rm clojure-1.4.0.zip
 
-echo "Copying closure/compiler/compiler.jar to lib/compiler.jar"
-cp closure/compiler/compiler.jar lib
-
 echo "[Bootstrap Completed]"
