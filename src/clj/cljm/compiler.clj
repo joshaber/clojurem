@@ -350,17 +350,18 @@
   (swap! *externs* conj ast))
 
 (defmethod emit :def
-  [{:keys [name init env doc dynamic] :as ast}]
+  [{:keys [name init env doc dynamic protocol] :as ast}]
     ;; TODO: don't extern private fn's
-    (add-extern! ast)
-    (when init
-      (emit-comment doc (:jsdoc init))
-      (if-not dynamic
-        (let [mname (munge name)]
-          (emits mname " = [[CLJMVar alloc] initWithValue:" init "]"))
-        (emits "cljm_var_def(@\"" name "\", " init ")"))
-      (when-not (= :expr (:context env)) (emitln ";")))
-      (emitln))
+    (if-not protocol
+      (do (add-extern! ast)
+        (when init
+          (emit-comment doc (:jsdoc init))
+          (if-not dynamic
+            (let [mname (munge name)]
+              (emits mname " = [[CLJMVar alloc] initWithValue:" init "]"))
+            (emits "cljm_var_def(@\"" name "\", " init ")"))
+          (when-not (= :expr (:context env)) (emitln ";")))
+          (emitln))))
 
 (defn emit-apply-to
   [{:keys [name params env]}]
