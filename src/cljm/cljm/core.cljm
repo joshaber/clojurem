@@ -91,7 +91,7 @@
 
 (defn into-array
   ([aseq]
-     (into-array nil aseq))
+     (into-array (array) aseq))
   ([type aseq]
      (reduce (fn [a x] (. a arrayByAddingObject:! x) a) (array) aseq)))
 
