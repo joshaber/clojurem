@@ -1006,7 +1006,7 @@
      rest)))
 
 (defmacro alength [a]
-  (list 'objc* "@([~{} count])" a))
+  (list 'objc* "@([(NSArray *) ~{} count])" a))
 
 (defmacro aclone [a]
   (list 'objc* "~{}.slice()" a))
