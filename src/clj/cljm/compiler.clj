@@ -359,7 +359,8 @@
         (let [mname (munge name)]
           (emits mname " = [[CLJMVar alloc] initWithValue:" init "]"))
         (emits "cljm_var_def(@\"" name "\", " init ")"))
-      (when-not (= :expr (:context env)) (emitln ";"))))
+      (when-not (= :expr (:context env)) (emitln ";")))
+      (emitln))
 
 (defn emit-apply-to
   [{:keys [name params env]}]
