@@ -828,7 +828,7 @@
             args (drop 1 (nth method 1))]
         (emits "- (id)" mname)
         (doseq [arg args]
-          (emits ":(id)" (munge arg)) " ")
+          (emits ":(id)" (munge arg) " "))
         (emits ";")
         (emitln)))
     (emitln "@end")
