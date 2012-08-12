@@ -819,9 +819,17 @@
 
 (defmethod emit-h :defprotocol*
   [{:keys [p index methods]}]
+    ;; TODO: do we really want the protocol name to be fully qualified? Might 
+    ;; be nice for Obj-C integration if it wasn't...
     (emitln "@protocol " (munge p) " <NSObject>")
     (doseq [method methods]
-      (emitln "- (id)" (munge method) ";"))
+      (let [mname (munge (apply str (drop 1 (seq (str (first method))))))
+            args (drop 1 (nth method 1))]
+        (emits "- (id)" mname)
+        (doseq [arg args]
+          (emits ":(id)" (munge arg)) " ")
+        (emits ";")
+        (emitln)))
     (emitln "@end")
     (emitln))
 
