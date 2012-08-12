@@ -682,17 +682,21 @@
 
 (defmethod parse 'defprotocol*
   [_ env [_ psym & methods :as form] _]
-  (let [p (munge (:name (resolve-var (dissoc env :locals) psym)))
-  ns-name (-> env :ns :name)]
-    ; (swap! protocols
-    ;        (fn [protocols]
-    ;          (update-in protocols [ns-name psym]
-    ;                     (fn [m]
-    ;                       {:name p
-    ;      :methods methods}))))
+  (let [p (:name (resolve-var (dissoc env :locals) psym))]
+    (swap! namespaces update-in [(-> env :ns :name) :defs psym]
+           (fn [m]
+             (let [m (assoc (or m {})
+                       :name p
+                       :type true)]
+                       ;;:num-fields (count fields))]
+               (merge m
+                 {:protocols (-> psym meta :protocols)}     
+                 (when-let [line (:line env)]
+                   {:file *cljm-file*
+                    :line line})))))
     {:env env
      :op :defprotocol*
-     :as form
+     :form form
      :p p
      :methods methods}))
 
