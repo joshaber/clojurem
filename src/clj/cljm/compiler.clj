@@ -832,6 +832,7 @@
   [{:keys [p index methods]}]
     ;; TODO: do we really want the protocol name to be fully qualified? Might 
     ;; be nice for Obj-C integration if it wasn't...
+    (emitln)
     (emitln "@protocol " (munge p) " <NSObject>")
     (doseq [method methods]
       (let [mname (munge (apply str (drop 1 (seq (str (first method))))))
