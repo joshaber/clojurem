@@ -561,19 +561,28 @@
         name (:name info)
         mname (munge name)
         keyword? (and (= (-> f :op) :constant)
-                      (keyword? (-> f :form)))]
+                      (keyword? (-> f :form)))
+        protocol (:protocol info)]
     (emit-wrap env
-      (emits "[(id<CLJMInvokable>) ")
-      (if-not keyword?
-        (do
-          (emits "[")
-          (if dynamic?
-            (emits "cljm_var_lookup(@\"" name "\")")
-            (emits mname))
-          (emits " value]")
-          (emits " cljm_invoke:@[" (comma-sep args) "]"))
-        (emits (first args) " cljm_invoke:@[" f "]"))
-      (emits "]"))))
+      (if protocol
+        (let [pmname (munge (apply str (drop 1 (last (string/split (str name) #"/")))))] 
+          (debug-prn name " is " protocol)
+          (emits "[(id<" (munge protocol) ">) " (first args) " ")
+          (emits pmname)
+          (doseq [arg (rest args)]
+            (emits ":" arg " "))
+          (emits "]"))
+        (do (emits "[(id<CLJMInvokable>) ")
+          (if-not keyword?
+            (do
+              (emits "[")
+              (if dynamic?
+                (emits "cljm_var_lookup(@\"" name "\")")
+                (emits mname))
+              (emits " value]")
+              (emits " cljm_invoke:@[" (comma-sep args) "]"))
+            (emits (first args) " cljm_invoke:@[" f "]"))
+        (emits "]"))))))
 
 (comment (defmethod emit :invoke
   [{:keys [f args env] :as expr}]
