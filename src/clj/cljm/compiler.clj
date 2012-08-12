@@ -566,7 +566,6 @@
     (emit-wrap env
       (if protocol
         (let [pmname (munge (apply str (drop 1 (last (string/split (str name) #"/")))))] 
-          (debug-prn name " is " protocol)
           (emits "[(id<" (munge protocol) ">) " (first args) " ")
           (emits pmname)
           (doseq [arg (rest args)]
