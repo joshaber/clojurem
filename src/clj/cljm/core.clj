@@ -994,7 +994,7 @@
                     (interpose ",")
                     (apply core/str))]
    (concat
-    (list 'objc* (core/str "@[" xs-str "]"))
+    (list 'objc* (core/str "@[ " xs-str " ]"))
     rest)))
 
 (defmacro js-obj [& rest]
@@ -1003,7 +1003,7 @@
                      (interpose ",")
                      (apply core/str))]
     (concat
-     (list 'objc* (core/str "@{" kvs-str "}"))
+     (list 'objc* (core/str "@{ " kvs-str " }"))
      rest)))
 
 (defmacro alength [a]
