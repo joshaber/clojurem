@@ -553,6 +553,10 @@
 (defn protocol-prefix [psym]
   (str (-> (str psym) (.replace \. \$) (.replace \/ \$)) "$"))
 
+(defn protocol-munge
+  [x]
+  (str "cljm_proto_" (munge x)))
+
 (defmethod emit :invoke
   [{:keys [f args env] :as expr}]
   (let [info (:info f)
@@ -824,10 +828,6 @@
   true)
   ; (or (not (.exists dest))
   ;     (> (.lastModified src) (.lastModified dest))))
-
-(defn protocol-munge
-  [x]
-  (str "cljm_proto_" (munge x)))
 
 (defmulti emit-h :op)
 
