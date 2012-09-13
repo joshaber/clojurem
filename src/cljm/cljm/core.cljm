@@ -24,15 +24,13 @@
 
 (declare not nil? identical)
 
-(comment (defn ^boolean type_satisfies_
+(defn ^boolean type_satisfies_
   "Internal - do not use!"
   [p x]
   (let [x (if (nil? x) nil x)]
-    (cond
-     (aget p (goog.typeOf x)) true
-     (aget p "_") true
-     :else false)))
-(set! *unchecked-if* false))
+    (objc* "@([~{} conformsToProtocol:~{}])" x p)))
+
+(set! *unchecked-if* false)
 
 (defn is_proto_
   [x]
@@ -901,23 +899,23 @@ reduces them without incurring seq initialization"
   (if x true false))
 
 (defn ^boolean string? [x]
-  (and ^boolean (objc* "[~{x} isKindOfClass:[NSString class]]" x)
+  (and ^boolean (objc* "@([~{x} isKindOfClass:[NSString class]])" x)
        (not (or (identical? (."characterAtIndex:" x 0) \uFDD0)
                 (identical? (."characterAtIndex:" x 0) \uFDD1)))))
 
 (defn ^boolean keyword? [x]
-  (and ^boolean (objc* "[~{x} isKindOfClass:[NSString class]]" x)
+  (and ^boolean (objc* "@([~{x} isKindOfClass:[NSString class]])" x)
        (identical? (."characterAtIndex:" x 0) \uFDD0)))
 
 (defn ^boolean symbol? [x]
-  (and ^boolean (objc* "[~{x} isKindOfClass:[NSString class]]" x)
+  (and ^boolean (objc* "@([~{x} isKindOfClass:[NSString class]])" x)
        (identical? (."characterAtIndex:" x 0) \uFDD1)))
 
 (defn ^boolean number? [n]
-  (objc* "[~{n} isKindOfClass:[NSNumber class]]" n))
+  (objc* "@([~{n} isKindOfClass:[NSNumber class]])" n))
 
 (defn ^boolean fn? [f]
-  (objc* "[~{f} isKindOfClass:[NSBlock class]]" f))
+  (objc* "@([~{f} isKindOfClass:[NSBlock class]])" f))
 
 (defn ^boolean ifn? [f]
   (or (fn? f) (satisfies? IFn f)))

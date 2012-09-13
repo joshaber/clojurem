@@ -745,15 +745,16 @@
         xsym (bool-expr (gensym))
         [part bit] (fast-path-protocols p)
         msym (symbol (core/str "-cljm$lang$protocol_mask$partition" part "$"))]
-    `(let [~xsym ~x]
-       (if ~xsym
-         (if (or ~(if bit `(unsafe-bit-and (. ~xsym ~msym) ~bit))
-                 ~(bool-expr `(. ~xsym ~(symbol (core/str "-" prefix)))))
-           true
-           (if (coercive-not (. ~xsym ~msym))
-             (cljm.core/type_satisfies_ ~psym ~xsym)
-             false))
-         (cljm.core/type_satisfies_ ~psym ~xsym)))))
+    ; `(objc* "@([~{} conformsToProtocol:@protocol(~{})])" x (munge p))))
+    ; `(let [~xsym ~x]
+    ;    (if ~xsym
+    ;      (if (or ~(if bit `(unsafe-bit-and (. ~xsym ~msym) ~bit))
+    ;              ~(bool-expr `(. ~xsym ~(symbol (core/str "-" prefix)))))
+    ;        true
+    ;        (if (coercive-not (. ~xsym ~msym))
+    ;          (cljm.core/type_satisfies_ ~psym ~xsym)
+    ;          false))
+         `(cljm.core/type_satisfies_ ~psym ~x)))
 
 (defmacro lazy-seq [& body]
   `(new cljm.core/LazySeq nil false (fn [] ~@body) nil))
