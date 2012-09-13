@@ -32,9 +32,9 @@
 
 (set! *unchecked-if* false)
 
-(defn is_proto_
-  [x]
-  (identical? (.-prototype (.-constructor x)) x))
+; (defn is_proto_
+;   [x]
+;   (identical? (.-prototype (.-constructor x)) x))
 
 (def
   ^{:doc "When compiled for a command-line target, whatever
