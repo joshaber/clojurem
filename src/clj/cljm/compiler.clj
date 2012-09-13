@@ -180,7 +180,7 @@
     (emits body)))
 
 (defmethod emit-constant clojure.lang.PersistentList$EmptyList [x]
-  (emit-meta-constant x "cljm.core.List.EMPTY"))
+  (emit-meta-constant x "@[]"))
 
 (defmethod emit-constant clojure.lang.PersistentList [x]
   (emit-meta-constant x
