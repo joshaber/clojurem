@@ -36,3 +36,6 @@ extern void cljm_push_binding(void);
 // Pops the top binding table from the queue-local bindings stack. Raises an
 // exception if there are no bindings tables on the queue-local bindings stack.
 extern void cljm_pop_binding(void);
+
+// Invokes the function pointed to by the var with the given args.
+extern id cljm_invoke(CLJMVar *var, NSArray *args);
