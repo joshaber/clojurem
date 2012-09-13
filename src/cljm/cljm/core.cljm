@@ -14,11 +14,11 @@
   Strings which should be printed."}
   *print-fn*
   (fn [s]
-    (objc* "NSLog(@\"~{}\");" s)
+    (objc* "NSLog(@\"%@\", ~{})" s)
     nil))
 
 (defn- error [cause]
-  (objc* "fprintf(stderr, \"%s\\n\", string_get_utf8 (~{}))" cause)
+  (objc* "fprintf(stderr, \"%s\\n\", [~{} UTF8String])" cause)
   (objc* "exit(1)")
   nil)
 
