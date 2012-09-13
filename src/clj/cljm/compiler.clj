@@ -584,8 +584,8 @@
                 (emits "cljm_var_lookup(@\"" name "\")")
                 (emits mname))
               (emits " value]")
-              (emits " cljm_invoke:@[" (comma-sep args) "]"))
-            (emits (first args) " cljm_invoke:@[" f "]"))
+              (emits " cljm_invoke:@[ " (comma-sep args) " ]"))
+            (emits (first args) " cljm_invoke:@[ " f " ]"))
         (emits "]"))))))
 
 (comment (defmethod emit :invoke
