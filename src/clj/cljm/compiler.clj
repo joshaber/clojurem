@@ -565,7 +565,7 @@
         protocol (:protocol info)]
     (emit-wrap env
       (if protocol
-        (let [pmname (munge (apply str (drop 1 (last (string/split (str name) #"/")))))] 
+        (let [pmname (protocol-munge (apply str (drop 1 (last (string/split (str name) #"/")))))] 
           (emits "[(id<" (munge protocol) ">) " (first args) " ")
           (emits pmname)
           (doseq [arg (rest args)]
@@ -825,6 +825,10 @@
   ; (or (not (.exists dest))
   ;     (> (.lastModified src) (.lastModified dest))))
 
+(defn protocol-munge
+  [x]
+  (str "cljm_proto_" (munge x)))
+
 (defmulti emit-h :op)
 
 (defmethod emit-h :defprotocol*
@@ -834,7 +838,7 @@
     (emitln)
     (emitln "@protocol " (munge p) " <NSObject>")
     (doseq [method methods]
-      (let [mname (munge (apply str (drop 1 (seq (str (first method))))))
+      (let [mname (protocol-munge (apply str (drop 1 (seq (str (first method))))))
             args (drop 1 (nth method 1))
             has-comment (string? (last method))
             comment (if has-comment (last method) nil)]
