@@ -49,6 +49,12 @@
 	[x]
 	(.uppercaseString x))
 
+(deftype OtherAppDelegate [app-del-prop]
+	NS/ApplicationDelegate
+	(applicationDidFinishLaunching
+		[this]
+		(nslog "waaat")))
+
 (nslog "hi")
 (nslog woah-buddy)
 (chchchchanges 1)

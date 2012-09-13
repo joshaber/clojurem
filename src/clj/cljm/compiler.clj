@@ -695,18 +695,19 @@
   (add-extern! ast))
 
 (defmethod emit :deftype*
-  [{:keys [t fields pmasks]}]
-  (let [fields (map munge fields)]
-    (emitln "")
-    (emitln "/**")
-    (emitln "* @constructor")
-    (emitln "*/")
-    (emitln (munge t) " = (function (" (comma-sep fields) "){")
-    (doseq [fld fields]
-      (emitln "this." fld " = " fld ";"))
-    (doseq [[pno pmask] pmasks]
-      (emitln "this.cljm$lang$protocol_mask$partition" pno "$ = " pmask ";"))
-    (emitln "})")))
+  [{:keys [t fields pmasks] :as ast}]
+  (add-extern! ast))
+  ; (let [fields (map munge fields)]
+  ;   (emitln "")
+  ;   (emitln "/**")
+  ;   (emitln "* @constructor")
+  ;   (emitln "*/")
+  ;   (emitln (munge t) " = (function (" (comma-sep fields) "){")
+  ;   (doseq [fld fields]
+  ;     (emitln "this." fld " = " fld ";"))
+  ;   (doseq [[pno pmask] pmasks]
+  ;     (emitln "this.cljm$lang$protocol_mask$partition" pno "$ = " pmask ";"))
+  ;   (emitln "})")))
 
 (defmethod emit :defrecord*
   [{:keys [t fields pmasks]}]
@@ -857,6 +858,17 @@
   [ast]
   (let [mname (munge (:name ast))]
     (emitln "CLJMVar *" mname ";")))
+
+(defmethod emit-h :deftype*
+  [{:keys [t fields] :as ast}]
+  (emitln)
+  (debug-prn (keys (:env ast)))
+  (emitln "@interface " (munge t) " : NSObject")
+  (emitln)
+  (doseq [p fields]
+    (emitln "@property (nonatomic, strong) id " (munge p) ";"))
+  (emitln)
+  (emitln "@end"))
 
 (defn generate-header
   [externs file]
