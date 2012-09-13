@@ -471,6 +471,7 @@
                 (emitln "return [" n " cljm_invoke:cljm_args];")
                 (emitln "break;"))))
           (emitln "}")
+          (emitln "return nil;")
           (emitln "}]];")
           (emitln "return ((id (^)(NSArray *)) [" mname " value])(cljm_args);")
           (emitln "}")))
