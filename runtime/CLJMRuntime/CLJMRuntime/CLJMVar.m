@@ -8,9 +8,7 @@
 
 #import "CLJMVar.h"
 
-
 @implementation CLJMVar
-
 
 #pragma mark NSCopying
 
@@ -18,12 +16,11 @@
 	return self;
 }
 
-
 #pragma mark API
 
 - (id)initWithValue:(id<NSCopying>)value {
 	self = [super init];
-	if(self == nil) return nil;
+	if (self == nil) return nil;
 	
 	_value = [value copyWithZone:nil];
 	

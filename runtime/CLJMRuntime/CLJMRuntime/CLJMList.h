@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 @interface CLJMList : NSObject <NSCopying>
 
 @property (nonatomic, strong, readonly) id head;

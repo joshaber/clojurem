@@ -8,14 +8,13 @@
 
 #import "NSArray+CLJMInvokable.h"
 
-
 @implementation NSArray (CLJMInvokable)
 
 - (id)cljm_invoke:(NSArray *)arguments {
 	NSParameterAssert(arguments.count == 1);
 
-	NSUInteger index = [[arguments objectAtIndex:0] unsignedIntegerValue];
-	return [self objectAtIndex:index];
+	NSUInteger index = [arguments[0] unsignedIntegerValue];
+	return self[index];
 }
 
 @end

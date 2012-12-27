@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 @interface CLJMVar : NSObject <NSCopying>
 
 @property (nonatomic, readonly, copy) id<NSCopying> value;

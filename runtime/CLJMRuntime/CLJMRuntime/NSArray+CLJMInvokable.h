@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "CLJMInvokable.h"
 
-
 @interface NSArray (CLJMInvokable) <CLJMInvokable>
 
 // Takes the first argument as an unsigned integer and returns the object at

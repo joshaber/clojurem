@@ -8,9 +8,7 @@
 
 #import "CLJMFunction.h"
 
-
 @implementation CLJMFunction
-
 
 #pragma mark NSCopying
 
@@ -19,14 +17,13 @@
 	return self;
 }
 
-
 #pragma mark API
 
 - (instancetype)initWithBlock:(id (^)(NSArray *arguments))block {
 	NSParameterAssert(block != NULL);
 
 	self = [super init];
-	if(self == nil) return nil;
+	if (self == nil) return nil;
 
 	_block = block;
 

@@ -39,18 +39,20 @@ static void cljm_rt_teardown(void) {
 }
 
 BOOL cljm_truthy(id object) {
-	if(object == nil) return NO;
-	if([object isKindOfClass:[NSNumber class]]) return [object boolValue];
+	if (object == nil) return NO;
+	if ([object isKindOfClass:NSNumber.class]) return [object boolValue];
 	
 	return YES;
 }
 
 static id cljm_rt_lookup(NSString *key, dispatch_queue_t dispatchQueue, NSMutableDictionary *dictionary, id defaultValue) {
+	NSCAssert(key != nil, nil);
+
 	__block id value = defaultValue;
 	dispatch_sync(dispatchQueue, ^{
-		value = [dictionary objectForKey:key];
-		if(value == nil && defaultValue != nil) {
-			[dictionary setObject:defaultValue forKey:key];
+		value = dictionary[key];
+		if (value == nil && defaultValue != nil) {
+			dictionary[key] = defaultValue;
 			value = defaultValue;
 		}
 	});
@@ -59,8 +61,10 @@ static id cljm_rt_lookup(NSString *key, dispatch_queue_t dispatchQueue, NSMutabl
 }
 
 static void cljm_rt_set(NSString *key, id value, dispatch_queue_t dispatchQueue, NSMutableDictionary *dictionary) {
+	NSCAssert(key != nil, nil);
+
 	dispatch_sync(dispatchQueue, ^{
-		[dictionary setObject:value forKey:key];
+		dictionary[key] = value;
 	});
 }
 
@@ -74,7 +78,7 @@ id<NSCopying> cljm_symbol(NSString *literal) {
 
 CLJMVar * cljm_var_def(NSString *name, id<NSCopying> value) {
 	// Don't intern a nil value for a def.
-	if(value == nil) return nil;
+	if (value == nil) return nil;
 
 	CLJMVar *var = [[CLJMVar alloc] initWithValue:value];
 	cljm_rt_set(name, var, CLJMRuntimeDefsQueue, CLJMRuntimeDefs);
@@ -83,46 +87,48 @@ CLJMVar * cljm_var_def(NSString *name, id<NSCopying> value) {
 }
 
 NSMutableDictionary * cljm_rt_get_top_bindings(void) {
-	NSMutableArray *bindingsStack = (__bridge NSMutableArray *) dispatch_queue_get_specific(dispatch_get_current_queue(), CLJMRuntimeBindingsKey);
-	NSMutableDictionary *topBindings = [bindingsStack lastObject];
+	NSMutableArray *bindingsStack = (__bridge NSMutableArray *)dispatch_queue_get_specific(dispatch_get_current_queue(), CLJMRuntimeBindingsKey);
+	NSMutableDictionary *topBindings = bindingsStack.lastObject;
 	return topBindings;
 }
 
 CLJMVar * cljm_var_lookup(NSString *name) {
-	NSMutableArray *bindingsStack = (__bridge NSMutableArray *) dispatch_queue_get_specific(dispatch_get_current_queue(), CLJMRuntimeBindingsKey);
-	for(NSDictionary *bindings in [bindingsStack reverseObjectEnumerator]) {
-		id boundValue = [bindings objectForKey:name];
-		if(boundValue != nil) return boundValue;
+	NSMutableArray *bindingsStack = (__bridge NSMutableArray *)dispatch_queue_get_specific(dispatch_get_current_queue(), CLJMRuntimeBindingsKey);
+	for (NSDictionary *bindings in [bindingsStack reverseObjectEnumerator]) {
+		id boundValue = bindings[name];
+		if (boundValue != nil) return boundValue;
 	}
 	
 	return cljm_rt_lookup(name, CLJMRuntimeDefsQueue, CLJMRuntimeDefs, nil);
 }
 
 CLJMVar * cljm_var_bind(NSString *name, id<NSCopying> value) {
+	NSCAssert(name != nil, nil);
+
 	// Don't bind a nil value.
-	if(value == nil) return nil;
+	if (value == nil) return nil;
 	
 	NSMutableDictionary *topBindings = cljm_rt_get_top_bindings();
-	if(topBindings == nil) return nil;
+	if (topBindings == nil) return nil;
 	
 	CLJMVar *var = [[CLJMVar alloc] initWithValue:value];
-	[topBindings setObject:var forKey:name];
+	topBindings[name] = var;
 	
 	return var;
 }
 
 void cljm_push_binding(void) {
-	NSMutableArray *bindingsStack = (__bridge NSMutableArray *) dispatch_queue_get_specific(dispatch_get_current_queue(), CLJMRuntimeBindingsKey);
-	if(bindingsStack == nil) {
+	NSMutableArray *bindingsStack = (__bridge NSMutableArray *)dispatch_queue_get_specific(dispatch_get_current_queue(), CLJMRuntimeBindingsKey);
+	if (bindingsStack == nil) {
 		bindingsStack = [NSMutableArray array];
-		dispatch_queue_set_specific(dispatch_get_current_queue(), CLJMRuntimeBindingsKey, (__bridge void *) bindingsStack, NULL);
+		dispatch_queue_set_specific(dispatch_get_current_queue(), CLJMRuntimeBindingsKey, (__bridge void *)bindingsStack, NULL);
 	}
 	
 	[bindingsStack addObject:[NSMutableDictionary dictionary]];
 }
 
 void cljm_pop_binding(void) {
-	NSMutableArray *bindingsStack = (__bridge NSMutableArray *) dispatch_queue_get_specific(dispatch_get_current_queue(), CLJMRuntimeBindingsKey);
+	NSMutableArray *bindingsStack = (__bridge NSMutableArray *)dispatch_queue_get_specific(dispatch_get_current_queue(), CLJMRuntimeBindingsKey);
 	[bindingsStack removeLastObject];
 }
 

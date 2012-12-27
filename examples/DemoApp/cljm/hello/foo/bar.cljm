@@ -49,11 +49,17 @@
 	[x]
 	(.uppercaseString x))
 
-(deftype OtherAppDelegate [app-del-prop]
-	NS/ApplicationDelegate
-	(applicationDidFinishLaunching
-		[this]
-		(nslog "waaat")))
+; (extend-type DAP/ApplicationDelegate
+; 	NS/ApplicationDelegate
+; 	(applicationDidFinishLaunching:!
+; 		[this]
+; 		(nslog "aww yeah")))
+
+; (deftype OtherAppDelegate [app-del-prop]
+; 	NS/ApplicationDelegate
+; 	(applicationDidFinishLaunching:!
+; 		[this]
+; 		(nslog "waaat")))
 
 (nslog "hi")
 (nslog woah-buddy)

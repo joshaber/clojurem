@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 @protocol CLJMInvokable <NSObject>
 
 // Invoke the thing with the given arguments.

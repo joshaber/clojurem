@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "CLJMInvokable.h"
 
-
 @interface CLJMFunction : NSObject <CLJMInvokable, NSCopying>
 
 @property (nonatomic, readonly, copy) id (^block)(NSArray *arguments);

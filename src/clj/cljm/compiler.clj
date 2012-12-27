@@ -684,8 +684,8 @@
   [{:keys [name requires uses requires-macros env]}]
   (emitln "#import <Foundation/Foundation.h>")
   (emitln "#import <CLJMRuntime/CLJMRuntime.h>")
-  (when-not (= name 'cljm.core)
-    (emitln "#import \"cljm_DOT_core.h\""))
+  ; (when-not (= name 'cljm.core)
+    ; (emitln "#import \"cljm_DOT_core.h\""))
   (emitln "#import \"" (munge name) ".h\"")
   (doseq [lib (into (vals requires) (distinct (vals uses)))]
     (emitln "#import \"" (munge lib) ".h\"")))
@@ -696,7 +696,14 @@
 
 (defmethod emit :deftype*
   [{:keys [t fields pmasks] :as ast}]
-  (add-extern! ast))
+  (add-extern! ast)
+  (emitln)
+  (emitln "@implementation " (munge t))
+  (emitln)
+  ; (debug-prn (:form ast))
+  (emitln)
+  (emitln "@end")
+  (emitln))
   ; (let [fields (map munge fields)]
   ;   (emitln "")
   ;   (emitln "/**")
@@ -862,7 +869,7 @@
 (defmethod emit-h :deftype*
   [{:keys [t fields] :as ast}]
   (emitln)
-  (debug-prn (keys (:env ast)))
+  ; (debug-prn (keys (:env ast)))
   (emitln "@interface " (munge t) " : NSObject")
   (emitln)
   (doseq [p fields]

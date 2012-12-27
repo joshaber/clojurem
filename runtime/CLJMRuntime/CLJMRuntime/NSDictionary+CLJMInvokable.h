@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "CLJMInvokable.h"
 
-
 @interface NSDictionary (CLJMInvokable) <CLJMInvokable>
 
 // Takes the first argument and looks up the object for that key. Asserts when

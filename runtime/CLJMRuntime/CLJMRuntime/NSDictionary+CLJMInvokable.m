@@ -8,14 +8,13 @@
 
 #import "NSDictionary+CLJMInvokable.h"
 
-
 @implementation NSDictionary (CLJMInvokable)
 
 - (id)cljm_invoke:(NSArray *)arguments {
 	NSParameterAssert(arguments.count == 1);
 
-	id<NSCopying> key = [arguments objectAtIndex:0];
-	return [self objectForKey:key];
+	id<NSCopying> key = arguments[0];
+	return self[key];
 }
 
 @end
