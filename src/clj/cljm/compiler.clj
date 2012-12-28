@@ -390,36 +390,45 @@
         (emitln "return " delegate-name "(" (string/join ", " params) ");")))
     (emits "})")))
 
+(defn emit-start-fn-var
+  [args]
+  (emits "[[CLJMFunction alloc] initWithBlock:^ id (")
+  (emits (comma-sep (concat (map #(str "id " (munge %)) (concat args (list "cljm_vararg"))) (list "..."))))
+  (emitln ") {"))
+
+(defn emit-end-fn-var
+  []
+  (emitln "}]"))
+
 (defn emit-fn-method
   [{:keys [gthis name variadic params statements ret env recurs max-fixed-arity]}]
   (emit-wrap env
-             (emitln "[[CLJMFunction alloc] initWithBlock:^id(NSArray *cljm_args) {")
-             (doseq [[i param] (map-indexed vector params)]
-                (emitln "id " (munge param) " = [cljm_args objectAtIndex:" i "];"))
+             (emit-start-fn-var params)
              (when recurs (emitln "while(YES) {"))
              (emit-block :return statements ret)
              (when recurs
-               (emitln "break;")
-               (emitln "}"))
-             (emits "}]")))
+                   (emitln "break;")
+                   (emitln "}"))
+             (emit-end-fn-var)))
 
 (defn emit-variadic-fn-method
   [{:keys [gthis name variadic params statements ret env recurs max-fixed-arity] :as f}]
   (emit-wrap env
-             (emitln "[[CLJMFunction alloc] initWithBlock:^id(NSArray *cljm_args) {")
-             (doseq [[i param] (map-indexed vector (butlast params))]
-                (emitln "id " (munge param) " = [cljm_args objectAtIndex:" i "];"))
+             (emit-start-fn-var (drop-last params))
              (let [lastn (munge (last params))]
-                (emitln "NSMutableArray *" lastn " = [NSMutableArray array];")
-                (emitln "for(NSUInteger cljm_varargs_index = " (dec (count params)) "; cljm_varargs_index < cljm_args.count; cljm_varargs_index++) {")
-                (emitln "[" lastn " addObject:[cljm_args objectAtIndex:cljm_varargs_index]];"))
-             (emitln "}")
+                  (emitln "NSMutableArray *" lastn " = [NSMutableArray array];")
+                  (emitln "va_list cljm_args;")
+                  (emitln "va_start(cljm_args, cljm_vararg);")
+                  (emitln "for (id cljm_currentArg = cljm_vararg; cljm_currentArg != nil; cljm_currentArg = va_arg(cljm_args, id)) {")
+                  (emitln "\t[" lastn " addObject:cljm_currentArg];")
+                  (emitln "}")
+                  (emitln "va_end(cljm_args);"))
              (when recurs (emitln "while(YES) {"))
              (emit-block :return statements ret)
              (when recurs
-               (emitln "break;")
-               (emitln "}"))
-             (emits "}]")))
+                   (emitln "break;")
+                   (emitln "}"))
+             (emit-end-fn-var)))
 
 (defmethod emit :fn
   [{:keys [name env methods max-fixed-arity variadic recur-frames loop-lets]}]
@@ -451,29 +460,41 @@
               ms (sort-by #(-> % second :params count) (seq mmap))]
           (when (= :return (:context env))
             (emits "return "))
-          (emitln "^id(NSArray *cljm_args) {")
-          (emitln "__block CLJMVar *" mname " = nil;")
+          (emitln "^ id (id cljm_vararg, ...) {")
+          (emitln "__block CLJMVar *" mname ";")
           (doseq [[n meth] ms]
             (emits "CLJMFunction *" n " = ")
             (if (:variadic meth)
               (emit-variadic-fn-method meth)
               (emit-fn-method meth))
-            (emitln ";"))
-            (emitln mname " = [[CLJMVar alloc] initWithValue:[[CLJMFunction alloc] initWithBlock:^id(NSArray *cljm_args) {")
+            (emitln ";")
+            (emitln))
+          (emitln mname " = [[CLJMVar alloc] initWithValue:[[CLJMFunction alloc] initWithBlock:^ id (NSArray *cljm_args) {")
           (emitln "switch(cljm_args.count) {")
           (doseq [[n meth] ms]
             (if (:variadic meth)
               (do (emitln "default:")
-                (emitln "return [" n " cljm_invoke:cljm_args];")
+                (emitln "return ((id (^)(id, ...))[" n " block])(cljm_args[0], nil);")
                 (emitln "break;"))
               (let [pcnt (count (:params meth))]
                 (emitln "case " pcnt ":")
-                (emitln "return [" n " cljm_invoke:cljm_args];")
+                (emits "return ((id (^)(id, ...))[" n " block])(")
+                (dotimes [n pcnt]
+                          (emits "cljm_args[" n "], "))
+                (emits "nil);")
+                ; (emitln "return ((id (^)(id, ...))[" n " block])(cljm_args[0], nil);")
                 (emitln "break;"))))
           (emitln "}")
           (emitln "return nil;")
           (emitln "}]];")
-          (emitln "return ((id (^)(NSArray *)) [" mname " value])(cljm_args);")
+          (emitln "NSMutableArray *cljm_collectedArgs = [NSMutableArray array];")
+          (emitln "va_list cljm_args;")
+          (emitln "va_start(cljm_args, cljm_vararg);")
+          (emitln "for (id cljm_currentArg = cljm_vararg; cljm_currentArg != nil; cljm_currentArg = va_arg(cljm_args, id)) {")
+          (emitln "\t[cljm_collectedArgs addObject:cljm_currentArg];")
+          (emitln "}")
+          (emitln "va_end(cljm_args);")
+          (emitln "return ((id (^)(NSArray *))[(CLJMFunction *)[" mname " value] block])(cljm_collectedArgs);")
           (emitln "}")))
       (when loop-locals
         (emitln ";})(" (comma-sep loop-locals) "))")))))
@@ -574,19 +595,16 @@
           (emits "[(id<" (munge protocol) ">) " (first args) " ")
           (emits pmname)
           (doseq [arg (rest args)]
-            (emits ":" arg " "))
+                 (emits ":" arg " "))
           (emits "]"))
-        (do (emits "[(id<CLJMInvokable>) ")
-          (if-not keyword?
-            (do
-              (emits "[")
-              (if dynamic?
+        (do (emits "((id (^)(")
+            (emits (comma-sep (map (fn [x] (str "id")) args)))
+            (emits ", ...))[(CLJMFunction *)[")
+            (if dynamic?
                 (emits "cljm_var_lookup(@\"" name "\")")
                 (emits mname))
-              (emits " value]")
-              (emits " cljm_invoke:@[ " (comma-sep args) " ]"))
-            (emits (first args) " cljm_invoke:@[ " f " ]"))
-        (emits "]"))))))
+            (emits " value] block])(")
+            (emits (comma-sep (conj args "nil")) ")"))))))
 
 (comment (defmethod emit :invoke
   [{:keys [f args env] :as expr}]

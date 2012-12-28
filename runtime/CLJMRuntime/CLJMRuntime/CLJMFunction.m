@@ -19,19 +19,15 @@
 
 #pragma mark API
 
-- (instancetype)initWithBlock:(id (^)(NSArray *arguments))block {
+- (instancetype)initWithBlock:(id)block {
 	NSParameterAssert(block != NULL);
 
 	self = [super init];
 	if (self == nil) return nil;
 
-	_block = block;
+	_block = [block copy];
 
 	return self;
-}
-
-- (id)cljm_invoke:(NSArray *)arguments {
-	return self.block(arguments);
 }
 
 @end

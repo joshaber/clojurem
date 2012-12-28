@@ -24,13 +24,22 @@
 		NSLog(@"YUUUP");
 	}
 	
-	NSDictionary *d = (NSDictionary *) hello_DOT_foo_DOT_bar_SLASH_people.value;
-	id iceCream = [(id<CLJMInvokable>) hello_DOT_foo_DOT_bar_SLASH_favorite_ice_cream.value cljm_invoke:@[ [d objectForKey:cljm_keyword(@":josh")] ]];
-	NSLog(@"iceCream: %@", iceCream);
+//	NSDictionary *d = (NSDictionary *) hello_DOT_foo_DOT_bar_SLASH_people.value;
+//	id iceCream = [(id<CLJMInvokable>) hello_DOT_foo_DOT_bar_SLASH_favorite_ice_cream.value cljm_invoke:@[ [d objectForKey:cljm_keyword(@":josh")] ]];
+//	NSLog(@"iceCream: %@", iceCream);
+}
+
+- (id)blah {
+	id (^blahBlock)(id, id) = ^(id thing1, id thing2) {
+		NSLog(@"thing1: %@, thing2: %@", thing1, thing2);
+		return thing1;
+	};
+
+	return ((id (^)(id, id, ...))blahBlock)(@"hi", @"world", nil);
 }
 
 - (IBAction)coolStoryBro:(id)sender {
-	self.outputField.stringValue = cljm_invoke(hello_DOT_foo_DOT_bar_SLASH_cool_storyify, @[ self.inputField.stringValue ]);
+//	self.outputField.stringValue = cljm_invoke(hello_DOT_foo_DOT_bar_SLASH_cool_storyify, @[ self.inputField.stringValue ]);
 }
 
 @end

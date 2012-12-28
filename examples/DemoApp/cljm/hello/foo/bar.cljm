@@ -41,9 +41,9 @@
   ([x y] (my-plus-or-something x))
   ([x y & more] (my-plus-or-something x)))
 
-(defn favorite-ice-cream
-	[p]
-	(:ice-cream p))
+; (defn favorite-ice-cream
+; 	[p]
+; 	(:ice-cream p))
 
 (defn cool-storyify
 	[x]
