@@ -10,8 +10,8 @@
 
 @interface CLJMVar : NSObject <NSCopying>
 
-@property (nonatomic, readonly, copy) id<NSCopying> value;
+@property (nonatomic, readonly, strong) id value;
 
-- (id)initWithValue:(id<NSCopying>)value;
+- (id)initWithValue:(id)value;
 
 @end
