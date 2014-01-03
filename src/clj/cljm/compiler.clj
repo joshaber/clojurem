@@ -13,7 +13,8 @@
   (:require [clojure.java.io :as io]
             [clojure.string :as string]
             [cljm.tagged-literals :as tags]
-            [cljm.analyzer :as ana])
+            [cljm.analyzer :as ana]
+            [clojure.pprint :as pp])
   (:import java.lang.StringBuilder))
 
 (declare munge)
@@ -598,7 +599,7 @@
                  (emits ":" arg " "))
           (emits "]"))
         (do (emits "((id (^)(")
-            (emits (comma-sep (map (fn [x] (str "id")) args)))
+            (emits (comma-sep (map (fn [x] (str "id")) (concat args (list "cljm_args")))))
             (emits ", ...))[(CLJMFunction *)[")
             (if dynamic?
                 (emits "cljm_var_lookup(@\"" name "\")")
@@ -702,8 +703,9 @@
   [{:keys [name requires uses requires-macros env]}]
   (emitln "#import <Foundation/Foundation.h>")
   (emitln "#import <CLJMRuntime/CLJMRuntime.h>")
-  ; (when-not (= name 'cljm.core)
-    ; (emitln "#import \"cljm_DOT_core.h\""))
+  (emitln "#import <objc/runtime.h>")
+  (when-not (= name 'cljm.core)
+    (emitln "#import \"cljm_DOT_core.h\""))
   (emitln "#import \"" (munge name) ".h\"")
   (doseq [lib (into (vals requires) (distinct (vals uses)))]
     (emitln "#import \"" (munge lib) ".h\"")))
@@ -714,14 +716,15 @@
 
 (defmethod emit :deftype*
   [{:keys [t fields pmasks] :as ast}]
-  (add-extern! ast)
-  (emitln)
-  (emitln "@implementation " (munge t))
-  (emitln)
-  ; (debug-prn (:form ast))
-  (emitln)
-  (emitln "@end")
-  (emitln))
+  )
+  ; (add-extern! ast)
+  ; (emitln)
+  ; (emitln "@implementation " (munge t))
+  ; (emitln)
+  ; ; (debug-prn (:form ast))
+  ; (emitln)
+  ; (emitln "@end")
+  ; (emitln))
   ; (let [fields (map munge fields)]
   ;   (emitln "")
   ;   (emitln "/**")
@@ -812,8 +815,7 @@
 (defmacro with-core-cljm
   "Ensure that core.cljm has been loaded."
   [& body]
-  `(do (when-not (:defs (get @ana/namespaces 'cljm.core))
-         (ana/analyze-file "cljm/core.cljm"))
+  `(do
        ~@body))
 
 (defn compile-file* [src dest]
@@ -830,6 +832,9 @@
           (if (seq forms)
             (let [env (ana/empty-env)
                   ast (ana/analyze env (first forms))]
+                  ; (binding [*out* *err*]
+                  ;   (println "Goodbye, world!")
+                  ;   (clojure.pprint/pprint ast))
               (emit ast)
               (if (= (:op ast) :ns)
                 (let [found-ns (:name ast)]
@@ -886,14 +891,15 @@
 
 (defmethod emit-h :deftype*
   [{:keys [t fields] :as ast}]
-  (emitln)
-  ; (debug-prn (keys (:env ast)))
-  (emitln "@interface " (munge t) " : NSObject")
-  (emitln)
-  (doseq [p fields]
-    (emitln "@property (nonatomic, strong) id " (munge p) ";"))
-  (emitln)
-  (emitln "@end"))
+  )
+  ; (emitln)
+  ; ; (debug-prn (keys (:env ast)))
+  ; (emitln "@interface " (munge t) " : NSObject")
+  ; (emitln)
+  ; (doseq [p fields]
+  ;   (emitln "@property (nonatomic, strong) id " (munge p) ";"))
+  ; (emitln)
+  ; (emitln "@end"))
 
 (defn generate-header
   [externs file]
@@ -994,13 +1000,13 @@
      (compile-root src-dir "out"))
   ([src-dir target-dir]
      (let [src-dir-file (io/file src-dir)]
-       (loop [cljm-files (cons (java.io.File. "src/cljm/cljm/core.cljm") (cljm-files-in src-dir-file))
+       (loop [cljm-files (cljm-files-in src-dir-file)
               output-files []]
          (if (seq cljm-files)
            (let [cljm-file (first cljm-files)
                  m-file ^java.io.File (to-target-file src-dir-file target-dir cljm-file ".m")
-                 ns-info (compile-file cljm-file m-file)
-                 h-file ^java.io.File (to-target-file src-dir-file target-dir cljm-file ".h")]
+                 h-file ^java.io.File (to-target-file src-dir-file target-dir cljm-file ".h")
+                 ns-info (compile-file cljm-file m-file)]
              (generate-header (:externs ns-info) h-file)
              (move-and-rename m-file h-file (:ns ns-info) target-dir)
              (recur (rest cljm-files) (conj output-files (assoc ns-info :file-name (.getPath m-file)))))

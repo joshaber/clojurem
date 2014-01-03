@@ -203,7 +203,7 @@
   (bool-expr (list 'objc* "@([~{} boolValue] == NO)" x)))
 
 (defmacro undefined? [x]
-  (bool-expr (list 'objc* "@((void *) 0) == ~{})" x)))
+  (bool-expr (list 'objc* "@(NULL == ~{})" x)))
 
 (defmacro identical? [a b]
   (bool-expr (list 'objc* "@([~{} isEqual:~{}])" a b)))
@@ -416,15 +416,8 @@
         munge  cljm.compiler/munge
         ns-t   (list 'objc* (core/str (munge ns) "." (munge t)))]
     `(do
-       (when (undefined? ~ns-t)
          (deftype ~t [~@locals ~meta-sym]
-           IWithMeta
-           (~'-with-meta [~this-sym ~meta-sym]
-             (new ~t ~@locals ~meta-sym))
-           IMeta
-           (~'-meta [~this-sym] ~meta-sym)
-           ~@impls))
-       (new ~t ~@locals nil))))
+           ~@impls))))
 
 (defmacro this-as
   "Defines a scope where JavaScript's implicit \"this\" is bound to the name provided."
@@ -434,6 +427,34 @@
 
 (defn to-property [sym]
   (symbol (core/str "-" sym)))
+
+(defmacro ^:private debug-prn
+  [& args]
+  `(.println System/err (str ~@args)))
+
+(defn add-method
+  [sel proto sig]
+  (let [xs (reduce (fn [xs x] (core/str xs ", " x)) (core/map #(core/str "id " %) sig))
+        imp (core/str "IMP imp = imp_implementationWithBlock(^(" xs ") {\n~{};\n});\n")
+        add-class (core/str "class_addMethod(privateClass, @selector(" sel "), imp, protocol_getMethodDescription(@protocol(" proto "), @selector(" sel "), NO, YES).types);\n")]
+        (core/str imp add-class)))
+
+(defn- add-meths
+  [sel proto sig]
+  (add-method sel proto sig))
+
+(defn- stringify-objc-keyword
+  [kw]
+  (core/str (core/namespace kw) (core/name kw)))
+
+(defn- create-private-subclass 
+  [proto-name sig body]
+  (let [alloc-class (core/str "Class privateClass = objc_allocateClassPair(NSObject.class, \"" (gensym "CLJM_") \"", 0);\n")
+        plain-name (stringify-objc-keyword proto-name)
+        add-proto (core/str "class_addProtocol(privateClass, @protocol(" plain-name "));\n")
+        meths (add-meths "applicationDidFinishLaunching:" plain-name sig)
+        reg-class "objc_registerClassPair(privateClass);\n"]
+        (list 'objc* (core/str alloc-class add-proto meths reg-class) (apply concat body))))
 
 (defmacro extend-type [tsym & impls]
   (let [resolve #(let [ret (:name (cljm.analyzer/resolve-var (dissoc &env :locals) %))]
@@ -466,7 +487,7 @@
         `(do ~@(mapcat assign-impls impl-map)))
       (let [t (resolve tsym)
             prototype-prefix (fn [sym]
-                               `(.. ~tsym -prototype ~(to-property sym)))
+                               (symbol sym))
             assign-impls (fn [[p sigs]]
                            (warn-if-not-protocol p)
                            (let [psym (resolve p)
@@ -479,8 +500,9 @@
                                         `(set! ~(prototype-prefix f)
                                                ~(with-meta `(fn ~@(map adapt-params meths)) (meta form))))
                                       sigs))
-                               (concat (when-not (skip-flag psym)
-                                         [`(set! ~(prototype-prefix pprefix) true)])
+                               (concat 
+                                ; (when-not (skip-flag psym)
+                                ;          [`(set! ~(prototype-prefix pprefix) true)])
                                        (mapcat (fn [[f & meths :as form]]
                                                  (if (= psym 'cljm.core/IFn)
                                                    (let [adapt-params (fn [[[targ & args :as sig] & body]]
@@ -489,7 +511,7 @@
                                                                             (this-as ~this-sym
                                                                                      (let [~targ ~this-sym]
                                                                                        ~@body)))))
-                                                         meths (map adapt-params meths)
+                                                         meths meths
                                                          this-sym (with-meta (gensym "this-sym") {:tag t})
                                                          argsym (gensym "args")]
                                                      [`(set! ~(prototype-prefix 'call) ~(with-meta `(fn ~@meths) (meta form)))
@@ -506,8 +528,10 @@
                                                      (if (vector? (first meths))
                                                        [`(set! ~(prototype-prefix (core/str pf "$arity$" (count (first meths)))) ~(with-meta `(fn ~@(adapt-params meths)) (meta form)))]
                                                        (map (fn [[sig & body :as meth]]
-                                                              `(set! ~(prototype-prefix (core/str pf "$arity$" (count sig)))
-                                                                     ~(with-meta `(fn ~(adapt-params meth)) (meta form))))
+                                                              (create-private-subclass p sig body))
+                                                              ; `(set! ~(symbol f) ~(core/str "stuff-" f)))
+                                                              ; `(set! ~(symbol f)
+                                                                     ; ~(with-meta `(fn ~(adapt-params meth)) (meta form))))
                                                             meths)))))
                                                sigs)))))]
         `(do ~@(mapcat assign-impls impl-map))))))
@@ -572,14 +596,14 @@
     (if (seq impls)
       `(do
          (deftype* ~t ~fields ~pmasks)
-         (set! (.-cljm$lang$type ~t) true)
-         (set! (.-cljm$lang$ctorPrSeq ~t) (fn [this#] (list ~(core/str r))))
+         ; (set! (.-cljm$lang$type ~t) true)
+         ; (set! (.-cljm$lang$ctorPrSeq ~t) (fn [this#] (list ~(core/str r))))
          (extend-type ~t ~@(dt->et impls fields true))
-         ~t)
+         ~(list 'objc* "[[privateClass alloc] init]"))
       `(do
          (deftype* ~t ~fields ~pmasks)
-         (set! (.-cljm$lang$type ~t) true)
-         (set! (.-cljm$lang$ctorPrSeq ~t) (fn [this#] (list ~(core/str r))))
+         ; (set! (.-cljm$lang$type ~t) true)
+         ; (set! (.-cljm$lang$ctorPrSeq ~t) (fn [this#] (list ~(core/str r))))
          ~t))))
 
 (defn- emit-defrecord

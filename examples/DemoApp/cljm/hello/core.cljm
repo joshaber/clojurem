@@ -1,24 +1,35 @@
 (ns hello.core
   (:require [hello.foo.bar :as bar]))
 
+(def message {:hi "hi"})
+
 (defn greet [n]
-  (str "Hello " n " world!"))
+  (str "Hello " n " world!" message))
 
 (defn really-greet
-	[n]
-	(bar/nslog n))
+  [n]
+  (bar/nslog n))
 
 (defn sum [xs]
   (bar/uppers xs))
 
-(defn read-file
-	"Reads the contents of the file at the given path"
-	[x]
-	(.stringWithContentsOfFile:encoding:error:! NS/String x NS/UTF8StringEncoding nil))
+(defn app-del
+  []
+  (reify 
+    NS/ApplicationDelegate
+      (applicationDidFinishLaunching:! [self note]
+        (bar/nslog "did finish lunching (delicious)"))))
 
-(bar/nslog (read-file "/Users/joshaber/Desktop/learn you.md"))
+(defn read-file
+  "Reads the contents of the file at the given path"
+  [x]
+  (.stringWithContentsOfFile:encoding:error:! NS/String x NS/UTF8StringEncoding nil))
+
+(bar/nslog (read-file "/Users/joshaber/Desktop/test-main.m"))
+(bar/nslog (greet "josh"))
+(.setDelegate:! (.sharedApplication NS/Application) (app-del))
 
 ; (defn does-exist
-; 	"Does a file exist at that path?"
-; 	[x]
-; 	(.fileExistsAtPath:! (.defaultManager NS/FileManager) x))
+;   "Does a file exist at that path?"
+;   [x]
+;   (.fileExistsAtPath:! (.defaultManager NS/FileManager) x))
