@@ -13,13 +13,6 @@
 (defn sum [xs]
   (bar/uppers xs))
 
-(defn app-del
-  []
-  (reify 
-    NS/ApplicationDelegate
-      (applicationDidFinishLaunching:! [self note]
-        (bar/nslog "did finish lunching (delicious)"))))
-
 (defn read-file
   "Reads the contents of the file at the given path"
   [x]
@@ -27,7 +20,22 @@
 
 (bar/nslog (read-file "/Users/joshaber/Desktop/test-main.m"))
 (bar/nslog (greet "josh"))
-(.setDelegate:! (.sharedApplication NS/Application) (app-del))
+
+(defn app-del
+  []
+  (reify 
+    NS/ApplicationDelegate
+      (applicationDidFinishLaunching:! [self note]
+        (bar/nslog "did finish lunching (delicious)"))))
+
+(def del (app-del))
+
+(defn set-delegate! 
+  [del]
+  (-> (.sharedApplication NS/Application) (.setDelegate:! del))
+  nil)
+
+(set-delegate! del)
 
 ; (defn does-exist
 ;   "Does a file exist at that path?"
