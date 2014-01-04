@@ -692,7 +692,7 @@
   (emit-wrap env
             (let [method (first args)
                   init-args (rest args)]
-             (emits "[" ctor " alloc]"))))
+             (emits "[" ctor " new]"))))
              ; (emit-method-parts (sel-parts method) init-args))))
 
 (defmethod emit :set!
