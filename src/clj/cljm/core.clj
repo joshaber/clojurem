@@ -438,10 +438,10 @@
 
 (defn- create-proto-class
   [proto-name]
-  (let [proto-sym (gensym "CLJMProtocolClass_")
+  (let [plain-name (stringify-objc-keyword proto-name)
+        proto-sym (gensym (core/str "CLJMProtocolClass_" plain-name "_"))
         alloc-class (core/str "Class privateClass = objc_allocateClassPair(NSObject.class, \"" proto-sym \"", 0)")
         fail-fast (core/str "if (privateClass == Nil) return [[NSClassFromString(@\"" proto-sym "\") alloc] init]")
-        plain-name (stringify-objc-keyword proto-name)
         add-proto (core/str "class_addProtocol(privateClass, @protocol(" plain-name "))")
         reg-class "objc_registerClassPair(privateClass)"]
         (list
