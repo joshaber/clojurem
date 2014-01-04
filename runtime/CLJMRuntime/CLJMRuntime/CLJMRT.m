@@ -8,7 +8,6 @@
 
 #import "CLJMRT.h"
 #import "CLJMVar.h"
-#import "CLJMInvokable.h"
 
 static const void *CLJMRuntimeBindingsKey = &CLJMRuntimeBindingsKey;
 
@@ -130,8 +129,4 @@ void cljm_push_binding(void) {
 void cljm_pop_binding(void) {
 	NSMutableArray *bindingsStack = (__bridge NSMutableArray *)dispatch_queue_get_specific(dispatch_get_current_queue(), CLJMRuntimeBindingsKey);
 	[bindingsStack removeLastObject];
-}
-
-id cljm_invoke(CLJMVar *var, NSArray *args) {
-	return [(id<CLJMInvokable>) var.value cljm_invoke:args];
 }

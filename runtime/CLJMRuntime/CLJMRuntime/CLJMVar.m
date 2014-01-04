@@ -18,11 +18,11 @@
 
 #pragma mark API
 
-- (id)initWithValue:(id<NSCopying>)value {
+- (id)initWithValue:(id)value {
 	self = [super init];
 	if (self == nil) return nil;
 	
-	_value = [value copyWithZone:nil];
+	_value = value;
 	
 	return self;
 }

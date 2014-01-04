@@ -23,11 +23,6 @@
 		887C234215C1E837006EC31D /* CLJMVar.m in Sources */ = {isa = PBXBuildFile; fileRef = 887C234015C1E837006EC31D /* CLJMVar.m */; };
 		889811B515CF64D600E19679 /* CLJMFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = 889811B315CF64D600E19679 /* CLJMFunction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		889811B615CF64D600E19679 /* CLJMFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 889811B415CF64D600E19679 /* CLJMFunction.m */; };
-		889811B915CF65A700E19679 /* NSDictionary+CLJMInvokable.h in Headers */ = {isa = PBXBuildFile; fileRef = 889811B715CF65A700E19679 /* NSDictionary+CLJMInvokable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		889811BA15CF65A700E19679 /* NSDictionary+CLJMInvokable.m in Sources */ = {isa = PBXBuildFile; fileRef = 889811B815CF65A700E19679 /* NSDictionary+CLJMInvokable.m */; };
-		889811BD15CF665100E19679 /* NSArray+CLJMInvokable.h in Headers */ = {isa = PBXBuildFile; fileRef = 889811BB15CF665100E19679 /* NSArray+CLJMInvokable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		889811BE15CF665100E19679 /* NSArray+CLJMInvokable.m in Sources */ = {isa = PBXBuildFile; fileRef = 889811BC15CF665100E19679 /* NSArray+CLJMInvokable.m */; };
-		889811BF15CF67E400E19679 /* CLJMInvokable.h in Headers */ = {isa = PBXBuildFile; fileRef = 889811B115CF64B100E19679 /* CLJMInvokable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,13 +57,8 @@
 		887C233C15C1E7B2006EC31D /* CLJMRT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLJMRT.m; sourceTree = "<group>"; };
 		887C233F15C1E837006EC31D /* CLJMVar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLJMVar.h; sourceTree = "<group>"; };
 		887C234015C1E837006EC31D /* CLJMVar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLJMVar.m; sourceTree = "<group>"; };
-		889811B115CF64B100E19679 /* CLJMInvokable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CLJMInvokable.h; sourceTree = "<group>"; };
 		889811B315CF64D600E19679 /* CLJMFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLJMFunction.h; sourceTree = "<group>"; };
 		889811B415CF64D600E19679 /* CLJMFunction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLJMFunction.m; sourceTree = "<group>"; };
-		889811B715CF65A700E19679 /* NSDictionary+CLJMInvokable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+CLJMInvokable.h"; sourceTree = "<group>"; };
-		889811B815CF65A700E19679 /* NSDictionary+CLJMInvokable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+CLJMInvokable.m"; sourceTree = "<group>"; };
-		889811BB15CF665100E19679 /* NSArray+CLJMInvokable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+CLJMInvokable.h"; sourceTree = "<group>"; };
-		889811BC15CF665100E19679 /* NSArray+CLJMInvokable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+CLJMInvokable.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,13 +131,8 @@
 				887C22E915C1E4AD006EC31D /* CLJMList.m */,
 				887C233F15C1E837006EC31D /* CLJMVar.h */,
 				887C234015C1E837006EC31D /* CLJMVar.m */,
-				889811B115CF64B100E19679 /* CLJMInvokable.h */,
 				889811B315CF64D600E19679 /* CLJMFunction.h */,
 				889811B415CF64D600E19679 /* CLJMFunction.m */,
-				889811B715CF65A700E19679 /* NSDictionary+CLJMInvokable.h */,
-				889811B815CF65A700E19679 /* NSDictionary+CLJMInvokable.m */,
-				889811BB15CF665100E19679 /* NSArray+CLJMInvokable.h */,
-				889811BC15CF665100E19679 /* NSArray+CLJMInvokable.m */,
 				887C20E815C18F5B006EC31D /* Supporting Files */,
 				887C20FD15C18F5B006EC31D /* CLJMRuntimeTests */,
 			);
@@ -194,10 +179,7 @@
 				887C22EA15C1E4AD006EC31D /* CLJMList.h in Headers */,
 				887C234115C1E837006EC31D /* CLJMVar.h in Headers */,
 				887C233D15C1E7B3006EC31D /* CLJMRT.h in Headers */,
-				889811B915CF65A700E19679 /* NSDictionary+CLJMInvokable.h in Headers */,
-				889811BD15CF665100E19679 /* NSArray+CLJMInvokable.h in Headers */,
 				889811B515CF64D600E19679 /* CLJMFunction.h in Headers */,
-				889811BF15CF67E400E19679 /* CLJMInvokable.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,8 +294,6 @@
 				887C233E15C1E7B3006EC31D /* CLJMRT.m in Sources */,
 				887C234215C1E837006EC31D /* CLJMVar.m in Sources */,
 				889811B615CF64D600E19679 /* CLJMFunction.m in Sources */,
-				889811BA15CF65A700E19679 /* NSDictionary+CLJMInvokable.m in Sources */,
-				889811BE15CF665100E19679 /* NSArray+CLJMInvokable.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
