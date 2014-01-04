@@ -29,7 +29,7 @@
         (bar/nslog "did finish lunching (delicious)" note))
 
       (applicationWillTerminate:! [self note1]
-        (bar/nslog "will terminate :("))))
+        (bar/nslog "will terminate :(" self))))
 
 (def del (app-del))
 
