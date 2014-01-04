@@ -428,9 +428,8 @@
 (defn to-property [sym]
   (symbol (core/str "-" sym)))
 
-(defmacro ^:private debug-prn
+(defn- debug-prn
   [& args]
-  `(.println System/err (str ~@args)))
 
 (defn add-method
   [sel proto sig]
@@ -442,6 +441,7 @@
 (defn- add-meths
   [sel proto sig]
   (add-method sel proto sig))
+  (.println System/err (core/apply core/str args)))
 
 (defn- stringify-objc-keyword
   [kw]
