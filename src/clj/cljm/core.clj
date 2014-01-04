@@ -458,10 +458,12 @@
         body (apply concat body)
         args (reduce (fn [xs x] (core/str xs ", " x)) (core/map #(core/str "id " %) sig))
         proto (stringify-objc-keyword p)
-        imp (gensym "imp_")]
+        imp-sym (gensym "imp_")
+        fn-sym (gensym "var_")]
     (list 
-      (list 'objc* (core/str "IMP " imp " = imp_implementationWithBlock(^(" args ") {\n~{};\n})") body)
-      (list 'objc* (core/str "class_addMethod(privateClass, @selector(" sel "), " imp ", protocol_getMethodDescription(@protocol(" proto "), @selector(" sel "), NO, YES).types)")))))
+      (list 'objc* (core/str "id " fn-sym " = ~{}") `(fn ~meth))
+      (list 'objc* (core/str "IMP " imp-sym " = imp_implementationWithBlock([" fn-sym " block])"))
+      (list 'objc* (core/str "class_addMethod(privateClass, @selector(" sel "), " imp-sym ", protocol_getMethodDescription(@protocol(" proto "), @selector(" sel "), NO, YES).types)")))))
 
 (defmacro extend-type [tsym & impls]
   (let [resolve #(let [ret (:name (cljm.analyzer/resolve-var (dissoc &env :locals) %))]
