@@ -430,31 +430,38 @@
 
 (defn- debug-prn
   [& args]
-
-(defn add-method
-  [sel proto sig]
-  (let [xs (reduce (fn [xs x] (core/str xs ", " x)) (core/map #(core/str "id " %) sig))
-        imp (core/str "IMP imp = imp_implementationWithBlock(^(" xs ") {\n~{};\n});\n")
-        add-class (core/str "class_addMethod(privateClass, @selector(" sel "), imp, protocol_getMethodDescription(@protocol(" proto "), @selector(" sel "), NO, YES).types);\n")]
-        (core/str imp add-class)))
-
-(defn- add-meths
-  [sel proto sig]
-  (add-method sel proto sig))
   (.println System/err (core/apply core/str args)))
 
 (defn- stringify-objc-keyword
   [kw]
   (core/str (core/namespace kw) (core/name kw)))
 
-(defn- create-private-subclass 
-  [proto-name sig body]
-  (let [alloc-class (core/str "Class privateClass = objc_allocateClassPair(NSObject.class, \"" (gensym "CLJM_") \"", 0);\n")
+(defn- create-proto-class
+  [proto-name]
+  (let [proto-sym (gensym "CLJMProtocolClass_")
+        alloc-class (core/str "Class privateClass = objc_allocateClassPair(NSObject.class, \"" proto-sym \"", 0)")
+        fail-fast (core/str "if (privateClass == Nil) return [[NSClassFromString(@\"" proto-sym "\") alloc] init]")
         plain-name (stringify-objc-keyword proto-name)
-        add-proto (core/str "class_addProtocol(privateClass, @protocol(" plain-name "));\n")
-        meths (add-meths "applicationDidFinishLaunching:" plain-name sig)
-        reg-class "objc_registerClassPair(privateClass);\n"]
-        (list 'objc* (core/str alloc-class add-proto meths reg-class) (apply concat body))))
+        add-proto (core/str "class_addProtocol(privateClass, @protocol(" plain-name "))")
+        reg-class "objc_registerClassPair(privateClass)"]
+        (list
+          (list 'objc* alloc-class)
+          (list 'objc* fail-fast)
+          (list 'objc* add-proto)
+          (list 'objc* reg-class))))
+
+(defn- add-imps
+  [p f meths]
+  (let [sel (apply core/str (drop-last (name f)))
+        meth (first meths)
+        [sig & body] meth
+        body (apply concat body)
+        args (reduce (fn [xs x] (core/str xs ", " x)) (core/map #(core/str "id " %) sig))
+        proto (stringify-objc-keyword p)
+        imp (gensym "imp_")]
+    (list 
+      (list 'objc* (core/str "IMP " imp " = imp_implementationWithBlock(^(" args ") {\n~{};\n})") body)
+      (list 'objc* (core/str "class_addMethod(privateClass, @selector(" sel "), " imp ", protocol_getMethodDescription(@protocol(" proto "), @selector(" sel "), NO, YES).types)")))))
 
 (defmacro extend-type [tsym & impls]
   (let [resolve #(let [ret (:name (cljm.analyzer/resolve-var (dissoc &env :locals) %))]
@@ -490,50 +497,11 @@
                                (symbol sym))
             assign-impls (fn [[p sigs]]
                            (warn-if-not-protocol p)
-                           (let [psym (resolve p)
-                                 pprefix (protocol-prefix psym)]
-                             (if (= p 'Object)
-                               (let [adapt-params (fn [[sig & body]]
-                                                    (let [[tname & args] sig]
-                                                      (list (vec args) (list* 'this-as (vary-meta tname assoc :tag t) body))))]
-                                 (map (fn [[f & meths :as form]]
-                                        `(set! ~(prototype-prefix f)
-                                               ~(with-meta `(fn ~@(map adapt-params meths)) (meta form))))
-                                      sigs))
                                (concat 
-                                ; (when-not (skip-flag psym)
-                                ;          [`(set! ~(prototype-prefix pprefix) true)])
-                                       (mapcat (fn [[f & meths :as form]]
-                                                 (if (= psym 'cljm.core/IFn)
-                                                   (let [adapt-params (fn [[[targ & args :as sig] & body]]
-                                                                        (let [this-sym (with-meta (gensym "this-sym") {:tag t})]
-                                                                          `(~(vec (cons this-sym args))
-                                                                            (this-as ~this-sym
-                                                                                     (let [~targ ~this-sym]
-                                                                                       ~@body)))))
-                                                         meths meths
-                                                         this-sym (with-meta (gensym "this-sym") {:tag t})
-                                                         argsym (gensym "args")]
-                                                     [`(set! ~(prototype-prefix 'call) ~(with-meta `(fn ~@meths) (meta form)))
-                                                      `(set! ~(prototype-prefix 'apply)
-                                                             ~(with-meta
-                                                                `(fn ~[this-sym argsym]
-                                                                   (.apply (.-call ~this-sym) ~this-sym
-                                                                           (.concat (array ~this-sym) (aclone ~argsym))))
-                                                                (meta form)))])
-                                                   (let [pf (core/str pprefix f)
-                                                         adapt-params (fn [[[targ & args :as sig] & body]]
-                                                                        (cons (vec (cons (vary-meta targ assoc :tag t) args))
-                                                                              body))]
-                                                     (if (vector? (first meths))
-                                                       [`(set! ~(prototype-prefix (core/str pf "$arity$" (count (first meths)))) ~(with-meta `(fn ~@(adapt-params meths)) (meta form)))]
-                                                       (map (fn [[sig & body :as meth]]
-                                                              (create-private-subclass p sig body))
-                                                              ; `(set! ~(symbol f) ~(core/str "stuff-" f)))
-                                                              ; `(set! ~(symbol f)
-                                                                     ; ~(with-meta `(fn ~(adapt-params meth)) (meta form))))
-                                                            meths)))))
-                                               sigs)))))]
+                                (create-proto-class p)
+                                (mapcat (fn [[f & meths :as form]]
+                                            (add-imps p f meths))
+                                         sigs)))]
         `(do ~@(mapcat assign-impls impl-map))))))
 
 (defn- prepare-protocol-masks [env t impls]
