@@ -26,7 +26,10 @@
   (reify 
     NS/ApplicationDelegate
       (applicationDidFinishLaunching:! [self note]
-        (bar/nslog "did finish lunching (delicious)"))))
+        (bar/nslog "did finish lunching (delicious)"))
+
+      (applicationWillTerminate:! [self note1]
+        (bar/nslog "will terminate :("))))
 
 (def del (app-del))
 
