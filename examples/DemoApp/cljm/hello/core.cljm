@@ -21,12 +21,33 @@
 (bar/nslog (read-file "/Users/joshaber/Desktop/test-main.m"))
 (bar/nslog (greet "josh"))
 
+(defn- timer-instance
+  []
+  (reify 
+    NS/Object
+      (triggered:! [self timer]
+        (let [f (:fn (.userInfo timer))]
+          (f)))))
+
+(defn- schedule-timer
+  [t f]
+  (let [inst (timer-instance)]
+    (.scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:! NS/Timer (.doubleValue t) inst (objc* "@selector(triggered:)") {:fn f :inst inst} (.boolValue true))))
+
+(def ^:dynamic count 0)
+(defn- triggered
+  []
+  (bar/nslog "fired " count)
+  (def ^:dynamic count (+ count 1))
+  nil)
+
 (defn app-del
   []
   (reify 
     NS/ApplicationDelegate
       (applicationDidFinishLaunching:! [self note]
-        (bar/nslog "did finish lunching (delicious)" note))
+        (bar/nslog "did finish lunching (delicious)" note)
+        (schedule-timer 1 triggered))
 
       (applicationWillTerminate:! [self note1]
         (bar/nslog "will terminate :(" self))))
