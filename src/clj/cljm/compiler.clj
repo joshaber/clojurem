@@ -589,7 +589,8 @@
         mname (munge name)
         keyword? (and (= (-> f :op) :constant)
                       (keyword? (-> f :form)))
-        protocol (:protocol info)]
+        protocol (:protocol info)
+        local? (:local info)]
     (emit-wrap env
       (if protocol
         (let [pmname (protocol-munge (apply str (drop 1 (last (string/split (str name) #"/")))))] 
@@ -600,11 +601,16 @@
           (emits "]"))
         (do (emits "((id (^)(")
             (emits (comma-sep (map (fn [x] (str "id")) (concat args (list "cljm_args")))))
-            (emits ", ...))[(CLJMFunction *)[")
+            (emits ", ...))")
+            (if-not local?
+              (emits "["))
+            (emits "(CLJMFunction *)[")
             (if dynamic?
                 (emits "cljm_var_lookup(@\"" name "\")")
                 (emits mname))
-            (emits " value] block])(")
+            (if-not local?
+              (emits " value]"))
+            (emits " block])(")
             (emits (comma-sep (conj args "nil")) ")"))))))
 
 (comment (defmethod emit :invoke
