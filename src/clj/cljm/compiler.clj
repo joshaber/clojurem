@@ -589,29 +589,31 @@
         mname (munge name)
         keyword? (and (= (-> f :op) :constant)
                       (keyword? (-> f :form)))
+        kwname (-> f :form)
         protocol (:protocol info)
         local? (:local info)]
     (emit-wrap env
-      (if protocol
-        (let [pmname (protocol-munge (apply str (drop 1 (last (string/split (str name) #"/")))))] 
-          (emits "[(id<" (munge protocol) ">) " (first args) " ")
-          (emits pmname)
-          (doseq [arg (rest args)]
-                 (emits ":" arg " "))
-          (emits "]"))
-        (do (emits "((id (^)(")
-            (emits (comma-sep (map (fn [x] (str "id")) (concat args (list "cljm_args")))))
-            (emits ", ...))")
-            (if-not local?
-              (emits "["))
-            (emits "(CLJMFunction *)[")
-            (if dynamic?
-                (emits "cljm_var_lookup(@\"" name "\")")
-                (emits mname))
-            (if-not local?
-              (emits " value]"))
-            (emits " block])(")
-            (emits (comma-sep (conj args "nil")) ")"))))))
+      (cond 
+        protocol (let [pmname (protocol-munge (apply str (drop 1 (last (string/split (str name) #"/")))))] 
+            (emits "[(id<" (munge protocol) ">) " (first args) " ")
+            (emits pmname)
+            (doseq [arg (rest args)]
+                   (emits ":" arg " "))
+            (emits "]"))
+        keyword? (emits "[" (first args) " objectForKey:cljm_keyword(@\"" kwname "\")]")
+        :else (do (emits "((id (^)(")
+              (emits (comma-sep (map (fn [x] (str "id")) (concat args (list "cljm_args")))))
+              (emits ", ...))")
+              (if-not local?
+                (emits "["))
+              (emits "(CLJMFunction *)[")
+              (if dynamic?
+                  (emits "cljm_var_lookup(@\"" name "\")")
+                  (emits mname))
+              (if-not local?
+                (emits " value]"))
+              (emits " block])(")
+              (emits (comma-sep (conj args "nil")) ")"))))))
 
 (comment (defmethod emit :invoke
   [{:keys [f args env] :as expr}]
