@@ -1,5 +1,6 @@
 (ns hello.core
-  (:require [hello.foo.bar :as bar]))
+  (:require [hello.foo.bar :as bar])
+  (:use-macros [macs :only [selector]]))
 
 (def message {:hi "hi"})
 
@@ -32,7 +33,7 @@
 (defn- schedule-timer
   [t f]
   (let [inst (timer-instance)]
-    (.scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:! NS/Timer (.doubleValue t) inst (objc* "@selector(triggered:)") {:fn f :inst inst} (.boolValue true))))
+    (.scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:! NS/Timer (.doubleValue t) inst (selector "triggered:") {:fn f :inst inst} (.boolValue true))))
 
 (def ^:dynamic count 0)
 (defn- triggered
