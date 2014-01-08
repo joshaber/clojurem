@@ -453,7 +453,8 @@
 (defn- add-imps
   [p f meths]
   (let [sel (apply core/str (drop-last (name f)))
-        meth (first meths)
+        first-meth (first meths)
+        meth (if (vector? first-meth) meths first-meth)
         [sig & body] meth
         body (apply concat body)
         args (reduce (fn [xs x] (core/str xs ", " x)) (core/map #(core/str "id " %) sig))
