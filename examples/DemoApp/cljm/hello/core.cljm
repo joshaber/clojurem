@@ -32,7 +32,7 @@
 (defn- schedule-timer
   [t f]
   (let [inst (timer-instance)]
-    (.scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:! NS/Timer (.doubleValue t) inst (selector "triggered:") {:fn f :inst inst} (->b true))))
+    (.scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:! NS/Timer (->d t) inst (selector "triggered:") {:fn f :inst inst} (->b true))))
 
 (def ^:dynamic count 0)
 (defn- triggered

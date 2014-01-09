@@ -59,6 +59,10 @@
   [b]
   `(.boolValue ~b))
 
+(defmacro ->d
+  [d]
+  `(.doubleValue ~d))
+
 (defmacro selector
   [s]
   (list 'objc* (core/str "@selector(" s ")")))
