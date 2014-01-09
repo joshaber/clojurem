@@ -74,6 +74,7 @@
                                   nil))
               (.setTarget:! button self)
               (.setAction:! button (selector "tapped:"))
+              (c/NSLog "Hi, world!")
               nil))
 
       (tapped:! [self sender]
