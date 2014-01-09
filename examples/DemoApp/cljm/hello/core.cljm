@@ -1,6 +1,5 @@
 (ns hello.core
-  (:require [hello.foo.bar :as bar])
-  (:use-macros [macs :only [selector]]))
+  (:require [hello.foo.bar :as bar]))
 
 (def message {:hi "hi"})
 

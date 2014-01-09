@@ -59,6 +59,10 @@
   [b]
   `(.boolValue ~b))
 
+(defmacro selector
+  [s]
+  (list 'objc* (core/str "@selector(" s ")")))
+
 (defn destructure [bindings]
   (core/let [bents (partition 2 bindings)
          pb (fn pb [bvec b v]
