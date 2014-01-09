@@ -20,6 +20,8 @@
 (declare munge)
 (declare init-func-name)
 
+(def include-core false)
+
 (def ^:dynamic *externs* nil)
 
 (defmacro ^:private debug-prn
@@ -712,8 +714,9 @@
   (emitln "#import <Foundation/Foundation.h>")
   (emitln "#import <CLJMRuntime/CLJMRuntime.h>")
   (emitln "#import <objc/runtime.h>")
-  ; (when-not (= name 'cljm.core)
-    ; (emitln "#import \"cljm_DOT_core.h\""))
+  (when include-core 
+    (when-not (= name 'cljm.core)
+     (emitln "#import \"cljm_DOT_core.h\"")))
   (emitln "#import \"" (munge name) ".h\"")
   (doseq [lib (into (vals requires) (distinct (vals uses)))]
     (emitln "#import \"" (munge lib) ".h\"")))
@@ -823,7 +826,9 @@
 (defmacro with-core-cljm
   "Ensure that core.cljm has been loaded."
   [& body]
-  `(do
+  `(do (when include-core
+        (when-not (:defs (get @ana/namespaces 'cljm.core))
+-         (ana/analyze-file "cljm/core.cljm")))
        ~@body))
 
 (defn compile-file* [src dest]
