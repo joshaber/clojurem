@@ -51,6 +51,14 @@
         (when more
           (list* `assert-args fnname more)))))
 
+(defmacro ->i
+  [i]
+  `(.integerValue ~i))
+
+(defmacro ->b
+  [b]
+  `(.boolValue ~b))
+
 (defn destructure [bindings]
   (core/let [bents (partition 2 bindings)
          pb (fn pb [bvec b v]
