@@ -587,35 +587,38 @@
   (let [info (:info f)
         variadic? (:variadic info)
         dynamic? (:dynamic info)
-        name (:name info)
-        mname (munge name)
+        fn-name (:name info)
+        mname (munge fn-name)
         keyword? (and (= (-> f :op) :constant)
                       (keyword? (-> f :form)))
         kwname (-> f :form)
         protocol (:protocol info)
-        local? (:local info)]
+        local? (:local info)
+        ns (:ns info)
+        c-call? (= ns 'c)]
     (emit-wrap env
       (cond 
-        protocol (let [pmname (protocol-munge (apply str (drop 1 (last (string/split (str name) #"/")))))] 
-            (emits "[(id<" (munge protocol) ">) " (first args) " ")
-            (emits pmname)
-            (doseq [arg (rest args)]
-                   (emits ":" arg " "))
-            (emits "]"))
+        protocol (let [pmname (protocol-munge (apply str (drop 1 (last (string/split (str fn-name) #"/")))))] 
+                  (emits "[(id<" (munge protocol) ">) " (first args) " ")
+                  (emits pmname)
+                  (doseq [arg (rest args)]
+                         (emits ":" arg " "))
+                  (emits "]"))
         keyword? (emits "[" (first args) " objectForKey:cljm_keyword(@\"" kwname "\")]")
+        c-call? (emits (name fn-name) "(" (comma-sep args) ")")
         :else (do (emits "((id (^)(")
-              (emits (comma-sep (map (fn [x] (str "id")) (concat args (list "cljm_args")))))
-              (emits ", ...))")
-              (if-not local?
-                (emits "["))
-              (emits "(CLJMFunction *)[")
-              (if dynamic?
-                  (emits "cljm_var_lookup(@\"" name "\")")
-                  (emits mname))
-              (if-not local?
-                (emits " value]"))
-              (emits " block])(")
-              (emits (comma-sep (conj args "nil")) ")"))))))
+                (emits (comma-sep (map (fn [x] (str "id")) (concat args (list "cljm_args")))))
+                (emits ", ...))")
+                (if-not local?
+                  (emits "["))
+                (emits "(CLJMFunction *)[")
+                (if dynamic?
+                    (emits "cljm_var_lookup(@\"" fn-name "\")")
+                    (emits mname))
+                (if-not local?
+                  (emits " value]"))
+                (emits " block])(")
+                (emits (comma-sep (conj args "nil")) ")"))))))
 
 (comment (defmethod emit :invoke
   [{:keys [f args env] :as expr}]
