@@ -33,7 +33,7 @@
 (defn- schedule-timer
   [t f]
   (let [inst (timer-instance)]
-    (.scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:! NS/Timer (.doubleValue t) inst (selector "triggered:") {:fn f :inst inst} (.boolValue true))))
+    (.scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:! NS/Timer (.doubleValue t) inst (selector "triggered:") {:fn f :inst inst} (->b true))))
 
 (def ^:dynamic count 0)
 (defn- triggered
@@ -42,13 +42,43 @@
   (def ^:dynamic count (+ count 1))
   nil)
 
+(defn- find-text-view
+  [content-view]
+  (. content-view viewWithTag:! (->i 1)))
+
+(defn- find-button
+  [content-view]
+  (. content-view viewWithTag:! (->i 2)))
+
+(defn- app-content-view
+  []
+  (. (. (.windows NS/App) lastObject) contentView))
+
+(defn- tapped
+  []
+  (def ^:dynamic count 0)
+  nil)
+
 (defn app-del
   []
   (reify 
     NS/ApplicationDelegate
       (applicationDidFinishLaunching:! [self note]
         (bar/nslog "did finish lunching (delicious)" note)
-        (schedule-timer 1 triggered))
+        (let [content-view (app-content-view)
+              text-field (find-text-view content-view)
+              button (find-button content-view)]
+              (schedule-timer 1 (fn 
+                                  [] 
+                                  (triggered)
+                                  (.setStringValue:! text-field (str count))
+                                  nil))
+              (.setTarget:! button self)
+              (.setAction:! button (selector "tapped:"))
+              nil))
+
+      (tapped:! [self sender]
+        (tapped))
 
       (applicationWillTerminate:! [self note1]
         (bar/nslog "will terminate :(" self))))
