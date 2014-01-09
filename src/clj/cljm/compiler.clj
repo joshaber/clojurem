@@ -712,8 +712,8 @@
   (emitln "#import <Foundation/Foundation.h>")
   (emitln "#import <CLJMRuntime/CLJMRuntime.h>")
   (emitln "#import <objc/runtime.h>")
-  (when-not (= name 'cljm.core)
-    (emitln "#import \"cljm_DOT_core.h\""))
+  ; (when-not (= name 'cljm.core)
+    ; (emitln "#import \"cljm_DOT_core.h\""))
   (emitln "#import \"" (munge name) ".h\"")
   (doseq [lib (into (vals requires) (distinct (vals uses)))]
     (emitln "#import \"" (munge lib) ".h\"")))
