@@ -83,6 +83,11 @@
       (applicationWillTerminate:! [self note1]
         (bar/nslog "will terminate :(" self))))
 
+(deftype DAP/TestAppDel [text-field]
+  NS/ApplicationDelegate
+  (applicationDidFinishLaunching:! [self note]
+    (c/NSLog "launched!")))
+
 (def del (app-del))
 
 (defn set-delegate! 
