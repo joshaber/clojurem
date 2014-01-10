@@ -905,14 +905,20 @@
   (let [mname (munge (:name ast))]
     (emitln "CLJMVar *" mname ";")))
 
+(defn- objc-class-munge
+  [t]
+  (if (= (string/upper-case (namespace t)) (namespace t))
+      (str (namespace t) (name t))
+      (munge t)))
+
 (defmethod emit-h :deftype*
-  [{:keys [t fields ns] :as ast}]
+  [{:keys [t fields superclass protocols] :as ast}]
   (emitln)
-  ; (debug-prn (keys (:env ast)))
-  (let [class-name (if (= ns 'ObjectiveCClass)
-                        (munge t)
-                        (str (namespace t) (name t)))]
-        (emitln "@interface " class-name " : NSObject"))
+  (let [class-name (objc-class-munge t)
+        superclass (objc-class-munge superclass)]
+        (emits "@interface " class-name " : " superclass))
+  (when (seq? (seq protocols))
+        (emits " <" (comma-sep (map objc-class-munge protocols)) ">"))
   (emitln)
   (doseq [p fields]
     (emitln "@property (nonatomic, strong) id " (munge p) ";"))
