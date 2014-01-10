@@ -906,16 +906,18 @@
     (emitln "CLJMVar *" mname ";")))
 
 (defmethod emit-h :deftype*
-  [{:keys [t fields] :as ast}]
-  )
-  ; (emitln)
-  ; ; (debug-prn (keys (:env ast)))
-  ; (emitln "@interface " (munge t) " : NSObject")
-  ; (emitln)
-  ; (doseq [p fields]
-  ;   (emitln "@property (nonatomic, strong) id " (munge p) ";"))
-  ; (emitln)
-  ; (emitln "@end"))
+  [{:keys [t fields ns] :as ast}]
+  (emitln)
+  ; (debug-prn (keys (:env ast)))
+  (let [class-name (if (= ns 'ObjectiveCClass)
+                        (munge t)
+                        (str (namespace t) (name t)))]
+        (emitln "@interface " class-name " : NSObject"))
+  (emitln)
+  (doseq [p fields]
+    (emitln "@property (nonatomic, strong) id " (munge p) ";"))
+  (emitln)
+  (emitln "@end"))
 
 (defn generate-header
   [externs file]
