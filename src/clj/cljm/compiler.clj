@@ -730,7 +730,7 @@
 
 (defmethod emit :deftype*
   [{:keys [t fields pmasks] :as ast}]
-  )
+  (add-extern! ast))
   ; (add-extern! ast)
   ; (emitln)
   ; (emitln "@implementation " (munge t))
