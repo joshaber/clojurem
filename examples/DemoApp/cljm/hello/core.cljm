@@ -84,6 +84,8 @@
         (bar/nslog "will terminate :(" self))))
 
 (deftype DAP/TestAppDel [text-field]
+  NS/Object
+
   NS/ApplicationDelegate
   (applicationDidFinishLaunching:! [self note]
     (c/NSLog "launched!")))
