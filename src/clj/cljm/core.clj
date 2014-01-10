@@ -432,8 +432,7 @@
         munge  cljm.compiler/munge
         ns-t   (list 'objc* (core/str (munge ns) "." (munge t)))]
     `(do
-         (deftype ~t [~@locals ~meta-sym]
-           ~@impls))))
+         (deftype ~t [~@locals] ~@impls))))
 
 (defmacro this-as
   "Defines a scope where JavaScript's implicit \"this\" is bound to the name provided."
