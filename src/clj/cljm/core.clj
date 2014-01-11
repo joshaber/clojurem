@@ -577,6 +577,10 @@
       (map #(:name (cljm.analyzer/resolve-var (dissoc env :locals) %)))
       (into [])))
 
+(defn collect-impls
+  [impls]
+  (filter list? impls))
+
 (defmacro deftype [t fields & impls]
   (let [r (:name (cljm.analyzer/resolve-var (dissoc &env :locals) t))
         [fpps pmasks] (prepare-protocol-masks &env t impls)
@@ -585,7 +589,8 @@
         t (vary-meta t assoc
             :superclass superclass
             :protocols protocols
-            :skip-protocol-flag fpps) ]
+            :skip-protocol-flag fpps
+            :methods (collect-impls impls))]
     (if (seq impls)
       `(do
          (deftype* ~t ~fields ~pmasks)

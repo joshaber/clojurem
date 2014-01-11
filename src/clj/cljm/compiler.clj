@@ -913,8 +913,9 @@
       (munge t)))
 
 (defmethod emit-h :deftype*
-  [{:keys [t fields superclass protocols] :as ast}]
+  [{:keys [t fields superclass protocols methods] :as ast}]
   (emitln)
+  (debug-prn (first methods))
   (let [class-name (objc-class-munge t)
         superclass (objc-class-munge superclass)]
         (emits "@interface " class-name " : " superclass))
