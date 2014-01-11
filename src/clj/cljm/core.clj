@@ -447,16 +447,23 @@
   [kw]
   (core/str (core/namespace kw) (core/name kw)))
 
+(defn- public-name
+  [p]
+  (let [f (fn [x] (core/str "CLJM_" x "_"))]
+        (->> p 
+          stringify-objc-keyword
+          f
+          gensym)))
+
 (defn- create-class
   [cname superclass protos]
-  (let [plain-name (stringify-objc-keyword cname)
-        proto-sym (gensym (core/str "CLJMClass_" plain-name "_"))
-        superclass (stringify-objc-keyword superclass)
-        alloc-class (core/str "Class privateClass = objc_allocateClassPair(" superclass ".class, \"" proto-sym \"", 0)")
-        fail-fast (core/str "if (privateClass != Nil) {")
+  (let [superclass (stringify-objc-keyword superclass)
+        priv-class (gensym "privateClass")
+        alloc-class (core/str "Class " priv-class " = objc_allocateClassPair(" superclass ".class, \"" cname \"", 0)")
+        fail-fast (core/str "if (" priv-class " != Nil) {")
         protos (core/map stringify-objc-keyword protos)
-        add-protos (core/map #(core/str "class_addProtocol(privateClass, @protocol(" % "))") protos)
-        reg-class "objc_registerClassPair(privateClass)"]
+        add-protos (core/map #(core/str "class_addProtocol(" priv-class ", @protocol(" % "))") protos)
+        reg-class (core/str "objc_registerClassPair(" priv-class ")")]
         (list
           (list 'objc* alloc-class)
           (list 'objc* fail-fast)
@@ -503,7 +510,7 @@
             assign-impls (fn [[p sigs]]
                            (warn-if-not-protocol p)
                                (concat 
-                                (create-class p 'NS/Object [p])
+                                (create-class (public-name p) 'NS/Object [p])
                                 (mapcat (fn [[f & meths :as form]]
                                             (add-imps p f meths))
                                          sigs)))]
