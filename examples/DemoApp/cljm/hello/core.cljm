@@ -88,10 +88,12 @@
 
   NS/ApplicationDelegate
   (applicationDidFinishLaunching:! [self note]
-    (c/NSLog "launched!"))
+    (c/NSLog "launched!")
+    nil)
 
   (anotherThing:with:! [self arg1 arg2]
-    (c/NSLog "thing")))
+    (c/NSLog "thing")
+    nil))
 
 (def del (app-del))
 
