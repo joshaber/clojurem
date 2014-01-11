@@ -447,19 +447,22 @@
   [kw]
   (core/str (core/namespace kw) (core/name kw)))
 
-(defn- create-proto-class
-  [proto-name]
-  (let [plain-name (stringify-objc-keyword proto-name)
-        proto-sym (gensym (core/str "CLJMProtocolClass_" plain-name "_"))
-        alloc-class (core/str "Class privateClass = objc_allocateClassPair(NSObject.class, \"" proto-sym \"", 0)")
-        fail-fast (core/str "if (privateClass == Nil) return [[NSClassFromString(@\"" proto-sym "\") alloc] init]")
-        add-proto (core/str "class_addProtocol(privateClass, @protocol(" plain-name "))")
+(defn- create-class
+  [cname superclass protos]
+  (let [plain-name (stringify-objc-keyword cname)
+        proto-sym (gensym (core/str "CLJMClass_" plain-name "_"))
+        superclass (stringify-objc-keyword superclass)
+        alloc-class (core/str "Class privateClass = objc_allocateClassPair(" superclass ".class, \"" proto-sym \"", 0)")
+        fail-fast (core/str "if (privateClass != Nil) {")
+        protos (core/map stringify-objc-keyword protos)
+        add-protos (core/map #(core/str "class_addProtocol(privateClass, @protocol(" % "))") protos)
         reg-class "objc_registerClassPair(privateClass)"]
         (list
           (list 'objc* alloc-class)
           (list 'objc* fail-fast)
-          (list 'objc* add-proto)
-          (list 'objc* reg-class))))
+          (apply concat (map #(list 'objc* %) add-protos))
+          (list 'objc* reg-class)
+          (list 'objc* "}"))))
 
 (defn- add-imps
   [p f meths]
@@ -500,11 +503,11 @@
             assign-impls (fn [[p sigs]]
                            (warn-if-not-protocol p)
                                (concat 
-                                (create-proto-class p)
+                                (create-class p 'NS/Object [p])
                                 (mapcat (fn [[f & meths :as form]]
                                             (add-imps p f meths))
                                          sigs)))]
-        `(do ~@(mapcat assign-impls impl-map))))))
+        `(do ~@(mapcat assign-impls impl-map)))))
 
 (defn- prepare-protocol-masks [env t impls]
   (let [resolve #(let [ret (:name (cljm.analyzer/resolve-var (dissoc env :locals) %))]
@@ -1017,7 +1020,7 @@
   (list 'objc* "@([(NSArray *) ~{} count])" a))
 
 (defmacro aclone [a]
-  (list 'objc* "~{}.slice()" a))
+  (list 'objc* "[~{} copy]" a))
 
 (defmacro amap
   "Maps an expression across an array a, using an index named idx, and
