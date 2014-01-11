@@ -729,8 +729,9 @@
   (add-extern! ast))
 
 (defmethod emit :deftype*
-  [{:keys [t fields pmasks] :as ast}]
-  (add-extern! ast))
+  [{:keys [t fields pmasks reify] :as ast}]
+  (when-not reify
+    (add-extern! ast)))
   ; (add-extern! ast)
   ; (emitln)
   ; (emitln "@implementation " (munge t))

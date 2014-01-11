@@ -424,7 +424,7 @@
       'default "_"})
 
 (defmacro reify [& impls]
-  (let [t      (gensym "t")
+  (let [t      (vary-meta (gensym "t") assoc :reify true)
         meta-sym (gensym "meta")
         this-sym (gensym "_")
         locals (keys (:locals &env))

@@ -704,7 +704,8 @@
   [_ env [_ tsym fields pmasks :as form] _]
   (let [t (:name (resolve-var (dissoc env :locals) tsym))
         superclass (:superclass (meta tsym))
-        protocols (:protocols (meta tsym))]
+        protocols (:protocols (meta tsym))
+        is-reify? (:reify (meta tsym))]
     (swap! namespaces update-in [(-> env :ns :name) :defs tsym]
            (fn [m]
              (let [m (assoc (or m {})
@@ -716,7 +717,7 @@
                  (when-let [line (:line env)]
                    {:file *cljm-file*
                     :line line})))))
-    {:env env :op :deftype* :form form :t t :fields fields :pmasks pmasks :protocols protocols :superclass superclass}))
+    {:env env :op :deftype* :form form :t t :fields fields :pmasks pmasks :protocols protocols :superclass superclass :reify is-reify?}))
 
 (defmethod parse 'defrecord*
   [_ env [_ tsym fields pmasks :as form] _]
