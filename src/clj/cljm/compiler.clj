@@ -915,17 +915,28 @@
 (defmethod emit-h :deftype*
   [{:keys [t fields superclass protocols methods] :as ast}]
   (emitln)
-  (debug-prn (first methods))
   (let [class-name (objc-class-munge t)
         superclass (objc-class-munge superclass)]
         (emits "@interface " class-name " : " superclass))
   (when (seq? (seq protocols))
         (emits " <" (comma-sep (map objc-class-munge protocols)) ">"))
   (emitln)
+  (emitln)
   (doseq [p fields]
     (emitln "@property (nonatomic, strong) id " (munge p) ";"))
   (emitln)
-  (emitln "@end"))
+  (doseq [m methods]
+         (let [mname (apply str (drop-last (str (first m))))
+               parts (string/split mname #":")
+               pair-args (fn [sel arg] (str sel ":(id)" arg " "))
+               args (drop 1 (second m))
+               sel-parts (apply str (map pair-args parts args))]
+               (assert (= (count args) (count parts)))
+               (emitln "- (id)" sel-parts ";")
+               (emitln)))
+  (emitln)
+  (emitln "@end")
+  (emitln))
 
 (defn generate-header
   [externs file]
