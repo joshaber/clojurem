@@ -426,11 +426,7 @@
 (defmacro reify [& impls]
   (let [t      (vary-meta (gensym "t") assoc :reify true)
         meta-sym (gensym "meta")
-        this-sym (gensym "_")
-        locals (keys (:locals &env))
-        ns     (-> &env :ns :name)
-        munge  cljm.compiler/munge
-        ns-t   (list 'objc* (core/str (munge ns) "." (munge t)))]
+        locals (keys (:locals &env))]
     `(do
          (deftype ~t [~@locals] ~@impls))))
 
@@ -498,17 +494,6 @@
                                     (cljm.analyzer/warning &env
                                       (core/str "WARNING: Can't resolve protocol symbol " %)))))
         skip-flag (set (-> tsym meta :skip-protocol-flag))]
-    (if (base-type tsym)
-      (let [t (base-type tsym)
-            assign-impls (fn [[p sigs]]
-                           (warn-if-not-protocol p)
-                           (let [psym (resolve p)
-                                 pfn-prefix (subs (core/str psym) 0 (clojure.core/inc (.indexOf (core/str psym) "/")))]
-                             (cons `(aset ~psym ~t true)
-                                   (map (fn [[f & meths :as form]]
-                                          `(aset ~(symbol (core/str pfn-prefix f)) ~t ~(with-meta `(fn ~@meths) (meta form))))
-                                        sigs))))]
-        `(do ~@(mapcat assign-impls impl-map)))
       (let [t (resolve tsym)
             prototype-prefix (fn [sym]
                                (symbol sym))

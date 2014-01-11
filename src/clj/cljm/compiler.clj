@@ -732,25 +732,6 @@
   [{:keys [t fields pmasks reify] :as ast}]
   (when-not reify
     (add-extern! ast)))
-  ; (add-extern! ast)
-  ; (emitln)
-  ; (emitln "@implementation " (munge t))
-  ; (emitln)
-  ; ; (debug-prn (:form ast))
-  ; (emitln)
-  ; (emitln "@end")
-  ; (emitln))
-  ; (let [fields (map munge fields)]
-  ;   (emitln "")
-  ;   (emitln "/**")
-  ;   (emitln "* @constructor")
-  ;   (emitln "*/")
-  ;   (emitln (munge t) " = (function (" (comma-sep fields) "){")
-  ;   (doseq [fld fields]
-  ;     (emitln "this." fld " = " fld ";"))
-  ;   (doseq [[pno pmask] pmasks]
-  ;     (emitln "this.cljm$lang$protocol_mask$partition" pno "$ = " pmask ";"))
-  ;   (emitln "})")))
 
 (defmethod emit :defrecord*
   [{:keys [t fields pmasks]}]
