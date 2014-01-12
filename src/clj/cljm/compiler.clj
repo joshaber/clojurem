@@ -24,6 +24,8 @@
 
 (def ^:dynamic *externs* nil)
 
+(def ^:dynamic *static-exprs* nil)
+
 (defmacro ^:private debug-prn
   [& args]
   `(.println System/err (str ~@args)))
@@ -351,6 +353,10 @@
 (defn add-extern!
   [ast]
   (swap! *externs* conj ast))
+
+(defn add-static-expr!
+  [ast]
+  (swap! *static-exprs* conj ast))
 
 (defmethod emit :def
   [{:keys [name init env doc dynamic protocol] :as ast}]
@@ -788,6 +794,8 @@
                (emits (interleave (concat segs (repeat nil))
                                   (concat args [nil]))))))
 
+(defmulti emit-static :op)
+
 (defn forms-seq
   "Seq of forms in a Clojure or ClojureScript file."
   ([f]
@@ -823,7 +831,8 @@
                 ana/*cljm-ns* 'cljm.user
                 ana/*cljm-file* (.getPath ^java.io.File src)
                 *data-readers* tags/*cljm-data-readers*
-                *position* (atom [0 0])]
+                *position* (atom [0 0])
+                *static-exprs* (atom [])]
         (loop [forms (forms-seq src)
                ns-name nil
                deps nil]
@@ -846,6 +855,8 @@
             (do
               (emitln "}")
               (emitln "}")
+              (doseq [ast @*static-exprs*]
+                (emit-static ast))
               {:ns (or ns-name 'cljm.user)
                :provides [ns-name]
                :requires (if (= ns-name 'cljm.core) (set (vals deps)) (conj (set (vals deps)) 'cljm.core))
