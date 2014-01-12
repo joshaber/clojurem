@@ -23,7 +23,7 @@
 
 (defn- timer-instance
   []
-  (reify 
+  (reify
     NS/Object
       (triggered:! [self timer]
         (let [f (:fn (.userInfo timer))]
@@ -60,15 +60,15 @@
 
 (defn app-del
   []
-  (reify 
+  (reify
     NS/ApplicationDelegate
       (applicationDidFinishLaunching:! [self note]
         (bar/nslog "did finish lunching (delicious)" note)
         (let [content-view (app-content-view)
               text-field (find-text-view content-view)
               button (find-button content-view)]
-              (schedule-timer 1 (fn 
-                                  [] 
+              (schedule-timer 1 (fn
+                                  []
                                   (triggered)
                                   (.setStringValue:! text-field (str count))
                                   nil))
@@ -95,9 +95,9 @@
     (c/NSLog "thing")
     nil))
 
-(def del (app-del))
+(def del (DAP/TestAppDel.))
 
-(defn set-delegate! 
+(defn set-delegate!
   [del]
   (-> (.sharedApplication NS/Application) (.setDelegate:! del))
   nil)
