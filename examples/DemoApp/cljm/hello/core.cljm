@@ -88,7 +88,7 @@
 
   NS/ApplicationDelegate
   (applicationDidFinishLaunching:! [self note]
-    (c/NSLog "launched!")
+    (bar/nslog "launched!" self)
     nil)
 
   (anotherThing:with:! [self arg1 arg2]
