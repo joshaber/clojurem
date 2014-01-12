@@ -472,7 +472,7 @@
           (list 'objc* "}"))))
 
 (defn- add-imps
-  [p f meths]
+  [tsym p f meths]
   (let [sel (apply core/str (drop-last (name f)))
         meth (first meths)
         [sig & body] meth
@@ -480,11 +480,14 @@
         args (reduce (fn [xs x] (core/str xs ", " x)) (core/map #(core/str "id " %) sig))
         proto (stringify-objc-keyword p)
         imp-sym (gensym "imp_")
-        fn-sym (gensym "var_")]
-    (list 
+        fn-sym (gensym "var_")
+        class (core/str "NSClassFromString(@\"" (stringify-objc-keyword tsym) "\")")]
+    (list
       (list 'objc* (core/str "id " fn-sym " = ~{}") `(fn ~meth))
       (list 'objc* (core/str "IMP " imp-sym " = imp_implementationWithBlock([" fn-sym " block])"))
-      (list 'objc* (core/str "class_addMethod(privateClass, @selector(" sel "), " imp-sym ", protocol_getMethodDescription(@protocol(" proto "), @selector(" sel "), NO, YES).types)")))))
+      (list 'objc* (core/str "class_addMethod(" class ", @selector(" sel "), " imp-sym ", protocol_getMethodDescription(@protocol(" proto "), @selector(" sel "), NO, YES).types)")))))
+
+(declare collect-protocols-with-superclass)
 
 (defmacro extend-type [tsym & impls]
   (let [resolve #(let [ret (:name (cljm.analyzer/resolve-var (dissoc &env :locals) %))]
@@ -503,18 +506,18 @@
                                         (core/str "WARNING: Symbol " % " is not a protocol")))
                                     (cljm.analyzer/warning &env
                                       (core/str "WARNING: Can't resolve protocol symbol " %)))))
-        skip-flag (set (-> tsym meta :skip-protocol-flag))]
-      (let [t (resolve tsym)
-            prototype-prefix (fn [sym]
-                               (symbol sym))
-            assign-impls (fn [[p sigs]]
-                           (warn-if-not-protocol p)
-                               (concat 
-                                (create-class (public-name p) 'NS/Object [p])
-                                (mapcat (fn [[f & meths :as form]]
-                                            (add-imps p f meths))
-                                         sigs)))]
-        `(do ~@(mapcat assign-impls impl-map)))))
+        skip-flag (set (-> tsym meta :skip-protocol-flag))
+        t (resolve tsym)
+        prototype-prefix (fn [sym] (symbol sym))
+        assign-impls (fn [[p sigs]]
+                            (warn-if-not-protocol p)
+                            (concat
+                              (mapcat (fn [[f & meths :as form]]
+                                        (add-imps tsym p f meths))
+                                      sigs)))
+        [superclass & protos] (collect-protocols-with-superclass impls &env)]
+        `(do ~@(create-class tsym superclass protos)
+             ~@(mapcat assign-impls impl-map))))
 
 (defn- prepare-protocol-masks [env t impls]
   (let [resolve #(let [ret (:name (cljm.analyzer/resolve-var (dissoc env :locals) %))]
@@ -566,7 +569,7 @@
       (map #(:name (cljm.analyzer/resolve-var (dissoc env :locals) %)))
       (into #{})))
 
-(defn collect-protocols-with-super [impls env]
+(defn collect-protocols-with-superclass [impls env]
   (->> impls
       (filter symbol?)
       (map #(:name (cljm.analyzer/resolve-var (dissoc env :locals) %)))
@@ -579,8 +582,9 @@
 (defmacro deftype [t fields & impls]
   (let [r (:name (cljm.analyzer/resolve-var (dissoc &env :locals) t))
         [fpps pmasks] (prepare-protocol-masks &env t impls)
-        [superclass & protocols] (collect-protocols-with-super impls &env)
+        [superclass & protocols] (collect-protocols-with-superclass impls &env)
         protocols (into #{} protocols)
+        reify? (:reify (meta t))
         t (vary-meta t assoc
             :superclass superclass
             :protocols protocols
@@ -592,7 +596,8 @@
          ; (set! (.-cljm$lang$type ~t) true)
          ; (set! (.-cljm$lang$ctorPrSeq ~t) (fn [this#] (list ~(core/str r))))
          (extend-type ~t ~@(dt->et impls fields true))
-         ~(list 'objc* "[[privateClass alloc] init]"))
+         ~(when reify?
+            (list 'objc* "[[NSClassFromString(~{}) alloc] init]" (stringify-objc-keyword t))))
       `(do
          (deftype* ~t ~fields ~pmasks)
          ; (set! (.-cljm$lang$type ~t) true)
@@ -650,18 +655,18 @@
                   'IMap
                   `(~'-dissoc [this# k#] (if (contains? #{~@(map keyword base-fields)} k#)
                                            (dissoc (with-meta (into {} this#) ~'__meta) k#)
-                                           (new ~tagname ~@(remove #{'__extmap} fields) 
+                                           (new ~tagname ~@(remove #{'__extmap} fields)
                                                 (not-empty (dissoc ~'__extmap k#))
                                                 nil)))
                   'ISeqable
-                  `(~'-seq [this#] (seq (concat [~@(map #(list `vector (keyword %) %) base-fields)] 
+                  `(~'-seq [this#] (seq (concat [~@(map #(list `vector (keyword %) %) base-fields)]
                                                 ~'__extmap)))
                   'IPrintable
                   `(~'-pr-seq [this# opts#]
                               (let [pr-pair# (fn [keyval#] (pr-sequential pr-seq "" " " "" opts# keyval#))]
                                 (pr-sequential
                                  pr-pair# (core/str "#" ~(name rname) "{") ", " "}" opts#
-                                 (concat [~@(map #(list `vector (keyword %) %) base-fields)] 
+                                 (concat [~@(map #(list `vector (keyword %) %) base-fields)]
                                          ~'__extmap))))
                   ])
           [fpps pmasks] (prepare-protocol-masks env tagname impls)
@@ -981,7 +986,7 @@
                  [true `(do ~@body)]
                  (let [k (first exprs)
                        v (second exprs)
-                       
+
                        seqsym (when-not (keyword? k) (gensym))
                        recform (if (keyword? k) recform `(recur (first ~seqsym) ~seqsym))
                        steppair (step recform (nnext exprs))
@@ -1031,8 +1036,8 @@
 
 (defmacro amap
   "Maps an expression across an array a, using an index named idx, and
-  return value named ret, initialized to a clone of a, then setting 
-  each element of ret to the evaluation of expr, returning the new 
+  return value named ret, initialized to a clone of a, then setting
+  each element of ret to the evaluation of expr, returning the new
   array ret."
   [a idx ret expr]
   `(let [a# ~a
@@ -1046,7 +1051,7 @@
 
 (defmacro areduce
   "Reduces an expression across an array a, using an index named idx,
-  and return value named ret, initialized to init, setting ret to the 
+  and return value named ret, initialized to init, setting ret to the
   evaluation of expr at each step, returning ret."
   [a idx ret init expr]
   `(let [a# ~a]
