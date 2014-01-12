@@ -449,10 +449,10 @@
 
 (defn- public-name
   [p]
-  (let [f (fn [x] (core/str "CLJM_" x "_"))]
-        (->> p 
+  (let [gen-name (fn [x] (core/str "CLJM_" x "_"))]
+        (->> p
           stringify-objc-keyword
-          f
+          gen-name
           gensym)))
 
 (defn- create-class
