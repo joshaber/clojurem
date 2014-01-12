@@ -138,7 +138,7 @@
           :else (emits " " (first selparts) (first args)))
 
     ; If we had both a selector part and an argument this time,
-    (if (and 
+    (if (and
           (and (seq selparts) (seq args))
           ; ... and we have at least one more of either
           (or (next selparts) (next args)))
@@ -239,9 +239,9 @@
         dynamic (:dynamic info)
         local (:local info)
         ns (:ns info)]
-    (emit-wrap env 
+    (emit-wrap env
       (if-not local
-        (do 
+        (do
           (if-not dynamic
             (emits (munge n))
             (emits "cljm_var_lookup(@\"" n "\")"))
@@ -597,8 +597,8 @@
         ns (:ns info)
         c-call? (= ns 'c)]
     (emit-wrap env
-      (cond 
-        protocol (let [pmname (protocol-munge (apply str (drop 1 (last (string/split (str fn-name) #"/")))))] 
+      (cond
+        protocol (let [pmname (protocol-munge (apply str (drop 1 (last (string/split (str fn-name) #"/")))))]
                   (emits "[(id<" (munge protocol) ">) " (first args) " ")
                   (emits pmname)
                   (doseq [arg (rest args)]
@@ -682,21 +682,21 @@
 
        keyword?
        (emits "(new cljm.core.Keyword(" f ")).call(" (comma-sep (cons "null" args)) ")")
-       
+
        variadic-invoke
        (let [mfa (:max-fixed-arity variadic-invoke)]
         (emits f "(" (comma-sep (take mfa args))
                (when-not (zero? mfa) ",")
                "cljm.core.array_seq([" (comma-sep (drop mfa args)) "], 0))"))
-       
+
        (or fn? js? goog?)
        (emits f "(" (comma-sep args)  ")")
-       
+
        :else
        (if (and ana/*cljm-static-fns* (= (:op f) :var))
          (let [fprop (str ".cljm$lang$arity$" (count args))]
            (emits "(" f fprop " ? " f fprop "(" (comma-sep args) ") : " f ".call(" (comma-sep (cons "null" args)) "))"))
-         (if variadic? 
+         (if variadic?
           (emits f "(" (comma-sep args) ", nil)")
           (emits f "(" (comma-sep args) ")"))))))))
 
@@ -717,7 +717,7 @@
   (emitln "#import <Foundation/Foundation.h>")
   (emitln "#import <CLJMRuntime/CLJMRuntime.h>")
   (emitln "#import <objc/runtime.h>")
-  (when include-core 
+  (when include-core
     (when-not (= name 'cljm.core)
      (emitln "#import \"cljm_DOT_core.h\"")))
   (emitln "#import \"" (munge name) ".h\"")
@@ -731,7 +731,7 @@
 (defmethod emit :deftype*
   [{:keys [t fields pmasks reify] :as ast}]
   (when-not reify
-    (add-extern! ast)))
+    (add-extern! ast)
 
 (defmethod emit :defrecord*
   [{:keys [t fields pmasks]}]
@@ -767,7 +767,7 @@
   (emit-wrap env
              (if field
                (emits target "." (munge field #{}))
-               (do 
+               (do
                 (emits "[" target)
                 (emit-method-parts (sel-parts (str method)) args)
                 (emits "]")))))
@@ -863,7 +863,7 @@
 
 (defmethod emit-h :defprotocol*
   [{:keys [p index methods]}]
-    ;; TODO: do we really want the protocol name to be fully qualified? Might 
+    ;; TODO: do we really want the protocol name to be fully qualified? Might
     ;; be nice for Obj-C integration if it wasn't...
     (emitln)
     (emitln "@protocol " (munge p) " <NSObject>")
@@ -872,7 +872,7 @@
             args (drop 1 (nth method 1))
             has-comment (string? (last method))
             comment (if has-comment (last method) nil)]
-        (when has-comment 
+        (when has-comment
           (emit-comment comment ""))
         (emits "- (id)" mname)
         (doseq [arg args]
