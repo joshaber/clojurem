@@ -738,6 +738,7 @@
   [{:keys [t fields pmasks reify] :as ast}]
   (when-not reify
     (add-extern! ast)
+    (add-static-expr! ast)))
 
 (defmethod emit :defrecord*
   [{:keys [t fields pmasks]}]
@@ -795,6 +796,14 @@
                                   (concat args [nil]))))))
 
 (defmulti emit-static :op)
+
+(declare objc-class-munge)
+(defmethod emit-static :deftype*
+  [{:keys [t methods]}]
+  (emitln)
+  (emitln "@implementation " (objc-class-munge t))
+  (emitln "@end")
+  (emitln))
 
 (defn forms-seq
   "Seq of forms in a Clojure or ClojureScript file."
