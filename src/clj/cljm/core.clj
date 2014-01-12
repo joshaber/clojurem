@@ -508,6 +508,7 @@
                                       (core/str "WARNING: Can't resolve protocol symbol " %)))))
         skip-flag (set (-> tsym meta :skip-protocol-flag))
         t (resolve tsym)
+        reify? (:reify (meta tsym))
         prototype-prefix (fn [sym] (symbol sym))
         assign-impls (fn [[p sigs]]
                             (warn-if-not-protocol p)
@@ -516,8 +517,11 @@
                                         (add-imps tsym p f meths))
                                       sigs)))
         [superclass & protos] (collect-protocols-with-superclass impls &env)]
-        `(do ~@(create-class tsym superclass protos)
-             ~@(mapcat assign-impls impl-map))))
+        (if reify?
+          `(do ~@(create-class tsym 'NS/Object (conj protos superclass))
+             ~@(mapcat assign-impls impl-map))
+          `(do ~@(create-class tsym superclass protos)
+             ~@(mapcat assign-impls impl-map)))))
 
 (defn- prepare-protocol-masks [env t impls]
   (let [resolve #(let [ret (:name (cljm.analyzer/resolve-var (dissoc env :locals) %))]
