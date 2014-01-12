@@ -424,7 +424,7 @@
       'default "_"})
 
 (defmacro reify [& impls]
-  (let [t      (vary-meta (gensym "t") assoc :reify true)
+  (let [t      (vary-meta (gensym "CLJMReifyClass_") assoc :reify true)
         meta-sym (gensym "meta")
         locals (keys (:locals &env))]
     `(do
