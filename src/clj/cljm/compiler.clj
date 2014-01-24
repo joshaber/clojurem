@@ -319,7 +319,6 @@
 (defmethod emit :if
   [{:keys [test then else env]}]
   (let [context (:context env)]
-        ; (debug-prn test)
     (if (= :expr context)
       (emits "@(cljm_truthy(" test ")) ? " then " : " else)
       (do
@@ -798,6 +797,7 @@
 (defmulti emit-static :op)
 
 (declare objc-class-munge)
+
 (defmethod emit-static :deftype*
   [{:keys [t methods]}]
   (emitln)

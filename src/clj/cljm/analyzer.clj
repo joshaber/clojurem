@@ -110,14 +110,14 @@
        (not (contains? (-> env :ns :excludes) sym))))
 
 (defn resolve-existing-var [env sym]
-  (cond 
+  (cond
     ; If the namespace is all caps then we assume it's the class prefix for an
     ; Objective-C class.
     (and (not (nil? (namespace sym))) (= (string/upper-case (namespace sym)) (namespace sym)))
       {:name (symbol (str (namespace sym) (name sym))) :ns 'ObjectiveCClass}
     (= (namespace sym) "js")
       {:name sym :ns 'js}
-    :else 
+    :else
       (let [s (str sym)
             lb (-> env :locals sym)]
         (cond
@@ -287,10 +287,6 @@
      :catch catch
      :children (vec (mapcat block-children
                             [try catch finally]))}))
-
-(defmacro ^:private debug-prn
-  [& args]
-  `(.println System/err (str ~@args)))
 
 (defmethod parse 'def
   [op env form name]
@@ -546,7 +542,7 @@
      (when (and known-num-fields (not= known-num-fields argc))
        (warning env
          (str "WARNING: Wrong number of args (" argc ") passed to " ctor)))
-     
+
      {:env env :op :new :form form :ctor ctorexpr :args argexprs
       :children (into [ctorexpr] argexprs)})))
 
@@ -690,7 +686,7 @@
                        :type true)]
                        ;;:num-fields (count fields))]
                (merge m
-                 {:protocols (-> psym meta :protocols)}     
+                 {:protocols (-> psym meta :protocols)}
                  (when-let [line (:line env)]
                    {:file *cljm-file*
                     :line line})))))
@@ -714,7 +710,7 @@
                        :type true
                        :num-fields (count fields))]
                (merge m
-                 {:protocols (-> tsym meta :protocols)}     
+                 {:protocols (-> tsym meta :protocols)}
                  (when-let [line (:line env)]
                    {:file *cljm-file*
                     :line line})))))
@@ -766,7 +762,7 @@
   "Builds the intermediate method call map used to reason about the parsed form during
   compilation."
   [target meth args]
-  (cond 
+  (cond
     (or (symbol? meth) (string? meth)) {:dot-action ::call :target target :method meth :args args}
     :else {:dot-action ::call :target target :method (first meth) :args args}))
 
