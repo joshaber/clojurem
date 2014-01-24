@@ -97,6 +97,10 @@
 
 (def del (DAP/TestAppDel.))
 
+(defn ^int int-meth
+  ^int [x]
+  (+ 3 x))
+
 (defn set-delegate!
   [del]
   (-> (.sharedApplication NS/Application) (.setDelegate:! del))
