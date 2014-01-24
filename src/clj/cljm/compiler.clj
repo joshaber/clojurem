@@ -936,8 +936,9 @@
                parts (string/split mname #":")
                pair-args (fn [sel arg] (str sel ":(id)" arg " "))
                args (drop 1 (second m))
-               sel-parts (apply str (map pair-args parts args))]
-               (assert (= (count args) (count parts)))
+               sel-parts (if (= (count args) (count parts))
+                          (apply str (map pair-args parts args))
+                          (apply str parts))]
                (emitln "- (id)" sel-parts ";")
                (emitln)))
   (emitln)
