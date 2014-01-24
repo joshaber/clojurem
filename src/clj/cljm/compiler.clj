@@ -924,7 +924,12 @@
   (emitln)
   (emitln)
   (doseq [p fields]
-    (emitln "@property (nonatomic, strong) id " (munge p) ";"))
+    (let [tag (:tag (meta p))
+          type (case tag
+                'iboutlet "IBOutlet id"
+                nil? "id"
+                :else tag)]
+      (emitln "@property (nonatomic, strong) " type " " (munge p) ";")))
   (emitln)
   (doseq [m methods]
          (let [mname (apply str (drop-last (str (first m))))
