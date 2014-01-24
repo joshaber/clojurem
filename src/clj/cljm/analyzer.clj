@@ -708,7 +708,8 @@
              (let [m (assoc (or m {})
                        :name t
                        :type true
-                       :num-fields (count fields))]
+                       :num-fields (count fields)
+                       :fields fields)]
                (merge m
                  {:protocols (-> tsym meta :protocols)}
                  (when-let [line (:line env)]
