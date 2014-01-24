@@ -773,7 +773,7 @@
   [{:keys [target field method args env]}]
   (emit-wrap env
              (if field
-               (emits target "." (munge field #{}))
+               (emits "[" target " " (munge field #{}) "]")
                (do
                 (emits "[" target)
                 (emit-method-parts (sel-parts (str method)) args)
