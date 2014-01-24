@@ -83,12 +83,16 @@
       (applicationWillTerminate:! [self note1]
         (bar/nslog "will terminate :(" self))))
 
-(deftype DAP/TestAppDel [text-field]
+(deftype DAP/TestAppDel [^iboutlet blah-field]
   NS/Object
 
   NS/ApplicationDelegate
   (applicationDidFinishLaunching:! [self note]
     (bar/nslog "launched!" self)
+    nil)
+
+  (awakeFromNib! [self]
+    (bar/nslog "field:" (.-blah-field self))
     nil)
 
   (anotherThing:with:! [self arg1 arg2]
