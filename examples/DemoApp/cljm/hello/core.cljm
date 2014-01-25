@@ -29,7 +29,7 @@
 (defn- assoc-obj!
   [obj key val]
   (objc* "objc_setAssociatedObject(~{}, (__bridge const void *)~{}, ~{}, OBJC_ASSOCIATION_RETAIN)" obj key val)
-  val)
+  obj)
 
 (defn- get-assoc
   [obj key]
