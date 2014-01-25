@@ -447,14 +447,6 @@
   [kw]
   (core/str (core/namespace kw) (core/name kw)))
 
-(defn- public-name
-  [p]
-  (let [gen-name (fn [x] (core/str "CLJM_" x "_"))]
-        (->> p
-          stringify-objc-keyword
-          gen-name
-          gensym)))
-
 (defn- create-class
   [cname superclass protos]
   (let [superclass (stringify-objc-keyword superclass)
