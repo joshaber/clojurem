@@ -240,6 +240,7 @@
             n)
         dynamic (:dynamic info)
         local (:local info)
+        field (:field info)
         ns (:ns info)]
     (emit-wrap env
       (if-not local
@@ -249,7 +250,8 @@
             (emits "cljm_var_lookup(@\"" n "\")"))
           (if-not (= ns 'ObjectiveCClass)
             (emits ".value")))
-        (do
+        (if field
+          (emits "[self " (munge n) "]")
           (emits (munge n)))))))
 
 (defmethod emit :meta
