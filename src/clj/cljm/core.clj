@@ -549,23 +549,28 @@
                  fpp-partitions
                  (range fast-path-protocol-partitions-count))]))))
 
+(defn annotate-specs [annots v [f sigs]]
+  (let [t (cons f (map #(cons (second %) (nnext %)) sigs))]
+    (conj v
+      (vary-meta t
+        merge annots))))
+
 (defn dt->et
-  ([specs fields] (dt->et specs fields false))
+  ([specs fields]
+    (dt->et specs fields false))
   ([specs fields inline]
-     (loop [ret [] s specs]
-       (if (seq s)
-         (recur (-> ret
-                    (conj (first s))
-                    (into
-                      (reduce (fn [v [f sigs]]
-                                (conj v (vary-meta (cons f (map #(cons (second %) (nnext %)) sigs))
-                                                   assoc :cljm.analyzer/fields fields
-                                                         :protocol-impl true
-                                                         :protocol-inline inline)))
-                              []
-                              (group-by first (take-while seq? (next s))))))
-                (drop-while seq? (next s)))
-         ret))))
+    (let [annots {:cljm.analyzer/fields fields
+                  :protocol-impl true
+                  :protocol-inline inline
+                  :fields fields}]
+      (loop [ret [] specs specs]
+        (if (seq specs)
+          (let [ret (-> (conj ret (first specs))
+                      (into (reduce (partial annotate-specs annots) []
+                              (group-by first (take-while seq? (next specs))))))
+                specs (drop-while seq? (next specs))]
+            (recur ret specs))
+          ret)))))
 
 (defn collect-protocols [impls env]
   (->> impls
@@ -593,13 +598,15 @@
             :superclass superclass
             :protocols protocols
             :skip-protocol-flag fpps
-            :methods (collect-impls impls))]
+            :methods (collect-impls impls)
+            :fields fields)
+        et (dt->et impls fields true)]
     (if (seq impls)
       `(do
          (deftype* ~t ~fields ~pmasks)
          ; (set! (.-cljm$lang$type ~t) true)
          ; (set! (.-cljm$lang$ctorPrSeq ~t) (fn [this#] (list ~(core/str r))))
-         (extend-type ~t ~@(dt->et impls fields true))
+         (extend-type ~t ~@et)
          ~(when reify?
             (list 'objc* "[[NSClassFromString(~{}) alloc] init]" (stringify-objc-keyword t))))
       `(do
