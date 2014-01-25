@@ -472,7 +472,7 @@
           (list 'objc* "}"))))
 
 (defn- add-imps
-  [tsym p f meths]
+  [tsym p f meths fields form]
   (let [sel (apply core/str (drop-last (name f)))
         meth (first meths)
         [sig & body] meth
@@ -481,9 +481,10 @@
         proto (stringify-objc-keyword p)
         imp-sym (gensym "imp_")
         fn-sym (gensym "var_")
-        class (core/str "NSClassFromString(@\"" (stringify-objc-keyword tsym) "\")")]
+        class (core/str "NSClassFromString(@\"" (stringify-objc-keyword tsym) "\")")
+        fn (vary-meta `(fn ~meth) merge (meta form))]
     (list
-      (list 'objc* (core/str "id " fn-sym " = ~{}") `(fn ~meth))
+      (list 'objc* (core/str "id " fn-sym " = ~{}") fn)
       (list 'objc* (core/str "IMP " imp-sym " = imp_implementationWithBlock([" fn-sym " block])"))
       (list 'objc* (core/str "class_addMethod(" class ", @selector(" sel "), " imp-sym ", protocol_getMethodDescription(@protocol(" proto "), @selector(" sel "), NO, YES).types)")))))
 
@@ -509,12 +510,13 @@
         skip-flag (set (-> tsym meta :skip-protocol-flag))
         t (resolve tsym)
         reify? (:reify (meta tsym))
+        fields (-> tsym meta :fields)
         prototype-prefix (fn [sym] (symbol sym))
         assign-impls (fn [[p sigs]]
                             (warn-if-not-protocol p)
                             (concat
                               (mapcat (fn [[f & meths :as form]]
-                                        (add-imps tsym p f meths))
+                                        (add-imps tsym p f meths fields form))
                                       sigs)))
         [superclass & protos] (collect-protocols-with-superclass impls &env)]
         (if reify?
