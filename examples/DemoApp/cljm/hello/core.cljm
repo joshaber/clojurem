@@ -1,7 +1,7 @@
 (ns hello.core
   (:require [hello.foo.bar :as bar]))
 
-(defn- selector-trampoline
+(defn selector-trampoline
   [f]
   (reify
     NS/Object
@@ -16,7 +16,7 @@
         (let [f (:fn (.userInfo timer))]
           (f)))))
 
-(defn- schedule-timer
+(defn schedule-timer
   [t f]
   (let [inst (timer-instance)]
     (.scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:! NS/Timer (->d t) inst (selector "triggered:") {:fn f :inst inst} (->b true))))
@@ -26,12 +26,12 @@
   (.setStringValue:! field s)
   s)
 
-(defn- assoc-obj!
+(defn assoc-obj!
   [obj key val]
   (objc* "objc_setAssociatedObject(~{}, (__bridge const void *)~{}, ~{}, OBJC_ASSOCIATION_RETAIN)" obj key val)
   obj)
 
-(defn- get-assoc
+(defn get-assoc
   [obj key]
   (objc* "objc_getAssociatedObject(~{}, (__bridge const void *)~{})" obj key))
 
