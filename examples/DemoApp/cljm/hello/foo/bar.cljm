@@ -1,65 +1,7 @@
 (ns hello.foo.bar)
 
-(def blah "hi")
-(def stuff [1 2 3])
-(def wat {:hi 1 :something 2})
-(def more #{1 3 4})
-
-(def people {:josh {:color :blue, :ice-cream :cookie-dough}, :michelle {:color :burnt-orange, :ice-cream :caramel}})
-
-(def ^:dynamic woah-buddy 1)
-
-(defn- uppers
-	[x]
-	(if false "hi" "no"))
-
 (defn nslog
 	[& shit-to-print]
 	(do
 		(objc* "NSLog(@\"%@\", ~{shit-to-print});" shit-to-print)
 		nil))
-
-(defn uppercase-the-bitches
-	[x]
-	(.uppercaseString x))
-
-(defn the-things
-	[^int the-thing-man]
-	(do
-		(. (. (NS/MutableDictionary.) init) setObject:forKey:! 2 "two")
-		1))
-
-(defn ^:dynamic chchchchanges
-	[x]
-	(nslog "things change man"))
-
-(defn my-plus-or-something
-  "Returns the sum of nums. (+) returns 0."
-  ([] 0)
-  ([x] x)
-  ([x y] (my-plus-or-something x))
-  ([x y & more] (my-plus-or-something x)))
-
-; (defn favorite-ice-cream
-; 	[p]
-; 	(:ice-cream p))
-
-(defn cool-storyify
-	[x]
-	(.uppercaseString x))
-
-; (extend-type DAP/ApplicationDelegate
-; 	NS/ApplicationDelegate
-; 	(applicationDidFinishLaunching:!
-; 		[this]
-; 		(nslog "aww yeah")))
-
-; (deftype OtherAppDelegate [app-del-prop]
-; 	NS/ApplicationDelegate
-; 	(applicationDidFinishLaunching:!
-; 		[this]
-; 		(nslog "waaat")))
-
-(nslog "hi")
-(nslog woah-buddy)
-(chchchchanges 1)
