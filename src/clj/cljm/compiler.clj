@@ -24,6 +24,8 @@
 
 (def ^:dynamic *externs* nil)
 
+(def ^:dynamic *static-exprs* nil)
+
 (defmacro ^:private debug-prn
   [& args]
   `(.println System/err (str ~@args)))
@@ -138,7 +140,7 @@
           :else (emits " " (first selparts) (first args)))
 
     ; If we had both a selector part and an argument this time,
-    (if (and 
+    (if (and
           (and (seq selparts) (seq args))
           ; ... and we have at least one more of either
           (or (next selparts) (next args)))
@@ -238,16 +240,18 @@
             n)
         dynamic (:dynamic info)
         local (:local info)
+        field (:field info)
         ns (:ns info)]
-    (emit-wrap env 
+    (emit-wrap env
       (if-not local
-        (do 
+        (do
           (if-not dynamic
             (emits (munge n))
             (emits "cljm_var_lookup(@\"" n "\")"))
           (if-not (= ns 'ObjectiveCClass)
             (emits ".value")))
-        (do
+        (if field
+          (emits "[self " (munge n) "]")
           (emits (munge n)))))))
 
 (defmethod emit :meta
@@ -317,7 +321,6 @@
 (defmethod emit :if
   [{:keys [test then else env]}]
   (let [context (:context env)]
-        ; (debug-prn test)
     (if (= :expr context)
       (emits "@(cljm_truthy(" test ")) ? " then " : " else)
       (do
@@ -351,6 +354,10 @@
 (defn add-extern!
   [ast]
   (swap! *externs* conj ast))
+
+(defn add-static-expr!
+  [ast]
+  (swap! *static-exprs* conj ast))
 
 (defmethod emit :def
   [{:keys [name init env doc dynamic protocol] :as ast}]
@@ -597,8 +604,8 @@
         ns (:ns info)
         c-call? (= ns 'c)]
     (emit-wrap env
-      (cond 
-        protocol (let [pmname (protocol-munge (apply str (drop 1 (last (string/split (str fn-name) #"/")))))] 
+      (cond
+        protocol (let [pmname (protocol-munge (apply str (drop 1 (last (string/split (str fn-name) #"/")))))]
                   (emits "[(id<" (munge protocol) ">) " (first args) " ")
                   (emits pmname)
                   (doseq [arg (rest args)]
@@ -682,21 +689,21 @@
 
        keyword?
        (emits "(new cljm.core.Keyword(" f ")).call(" (comma-sep (cons "null" args)) ")")
-       
+
        variadic-invoke
        (let [mfa (:max-fixed-arity variadic-invoke)]
         (emits f "(" (comma-sep (take mfa args))
                (when-not (zero? mfa) ",")
                "cljm.core.array_seq([" (comma-sep (drop mfa args)) "], 0))"))
-       
+
        (or fn? js? goog?)
        (emits f "(" (comma-sep args)  ")")
-       
+
        :else
        (if (and ana/*cljm-static-fns* (= (:op f) :var))
          (let [fprop (str ".cljm$lang$arity$" (count args))]
            (emits "(" f fprop " ? " f fprop "(" (comma-sep args) ") : " f ".call(" (comma-sep (cons "null" args)) "))"))
-         (if variadic? 
+         (if variadic?
           (emits f "(" (comma-sep args) ", nil)")
           (emits f "(" (comma-sep args) ")"))))))))
 
@@ -717,7 +724,7 @@
   (emitln "#import <Foundation/Foundation.h>")
   (emitln "#import <CLJMRuntime/CLJMRuntime.h>")
   (emitln "#import <objc/runtime.h>")
-  (when include-core 
+  (when include-core
     (when-not (= name 'cljm.core)
      (emitln "#import \"cljm_DOT_core.h\"")))
   (emitln "#import \"" (munge name) ".h\"")
@@ -729,27 +736,10 @@
   (add-extern! ast))
 
 (defmethod emit :deftype*
-  [{:keys [t fields pmasks] :as ast}]
-  )
-  ; (add-extern! ast)
-  ; (emitln)
-  ; (emitln "@implementation " (munge t))
-  ; (emitln)
-  ; ; (debug-prn (:form ast))
-  ; (emitln)
-  ; (emitln "@end")
-  ; (emitln))
-  ; (let [fields (map munge fields)]
-  ;   (emitln "")
-  ;   (emitln "/**")
-  ;   (emitln "* @constructor")
-  ;   (emitln "*/")
-  ;   (emitln (munge t) " = (function (" (comma-sep fields) "){")
-  ;   (doseq [fld fields]
-  ;     (emitln "this." fld " = " fld ";"))
-  ;   (doseq [[pno pmask] pmasks]
-  ;     (emitln "this.cljm$lang$protocol_mask$partition" pno "$ = " pmask ";"))
-  ;   (emitln "})")))
+  [{:keys [t fields pmasks reify] :as ast}]
+  (when-not reify
+    (add-extern! ast)
+    (add-static-expr! ast)))
 
 (defmethod emit :defrecord*
   [{:keys [t fields pmasks]}]
@@ -784,8 +774,8 @@
   [{:keys [target field method args env]}]
   (emit-wrap env
              (if field
-               (emits target "." (munge field #{}))
-               (do 
+               (emits "[" target " " (munge field #{}) "]")
+               (do
                 (emits "[" target)
                 (emit-method-parts (sel-parts (str method)) args)
                 (emits "]")))))
@@ -805,6 +795,17 @@
                (emits code)
                (emits (interleave (concat segs (repeat nil))
                                   (concat args [nil]))))))
+
+(defmulti emit-static :op)
+
+(declare objc-class-munge)
+
+(defmethod emit-static :deftype*
+  [{:keys [t methods]}]
+  (emitln)
+  (emitln "@implementation " (objc-class-munge t))
+  (emitln "@end")
+  (emitln))
 
 (defn forms-seq
   "Seq of forms in a Clojure or ClojureScript file."
@@ -841,7 +842,8 @@
                 ana/*cljm-ns* 'cljm.user
                 ana/*cljm-file* (.getPath ^java.io.File src)
                 *data-readers* tags/*cljm-data-readers*
-                *position* (atom [0 0])]
+                *position* (atom [0 0])
+                *static-exprs* (atom [])]
         (loop [forms (forms-seq src)
                ns-name nil
                deps nil]
@@ -864,6 +866,8 @@
             (do
               (emitln "}")
               (emitln "}")
+              (doseq [ast @*static-exprs*]
+                (emit-static ast))
               {:ns (or ns-name 'cljm.user)
                :provides [ns-name]
                :requires (if (= ns-name 'cljm.core) (set (vals deps)) (conj (set (vals deps)) 'cljm.core))
@@ -881,7 +885,7 @@
 
 (defmethod emit-h :defprotocol*
   [{:keys [p index methods]}]
-    ;; TODO: do we really want the protocol name to be fully qualified? Might 
+    ;; TODO: do we really want the protocol name to be fully qualified? Might
     ;; be nice for Obj-C integration if it wasn't...
     (emitln)
     (emitln "@protocol " (munge p) " <NSObject>")
@@ -890,7 +894,7 @@
             args (drop 1 (nth method 1))
             has-comment (string? (last method))
             comment (if has-comment (last method) nil)]
-        (when has-comment 
+        (when has-comment
           (emit-comment comment ""))
         (emits "- (id)" mname)
         (doseq [arg args]
@@ -905,17 +909,43 @@
   (let [mname (munge (:name ast))]
     (emitln "CLJMVar *" mname ";")))
 
+(defn- objc-class-munge
+  [t]
+  (if (= (string/upper-case (namespace t)) (namespace t))
+      (str (namespace t) (name t))
+      (munge t)))
+
 (defmethod emit-h :deftype*
-  [{:keys [t fields] :as ast}]
-  )
-  ; (emitln)
-  ; ; (debug-prn (keys (:env ast)))
-  ; (emitln "@interface " (munge t) " : NSObject")
-  ; (emitln)
-  ; (doseq [p fields]
-  ;   (emitln "@property (nonatomic, strong) id " (munge p) ";"))
-  ; (emitln)
-  ; (emitln "@end"))
+  [{:keys [t fields superclass protocols methods] :as ast}]
+  (emitln)
+  (let [class-name (objc-class-munge t)
+        superclass (objc-class-munge superclass)]
+        (emits "@interface " class-name " : " superclass))
+  (when (seq? (seq protocols))
+        (emits " <" (comma-sep (map objc-class-munge protocols)) ">"))
+  (emitln)
+  (emitln)
+  (doseq [p fields]
+    (let [tag (:tag (meta p))
+          type (case tag
+                'iboutlet "IBOutlet id"
+                nil? "id"
+                :else tag)]
+      (emitln "@property (nonatomic, strong) " type " " (munge p) ";")))
+  (emitln)
+  (doseq [m methods]
+         (let [mname (apply str (drop-last (str (first m))))
+               parts (string/split mname #":")
+               pair-args (fn [sel arg] (str sel ":(id)" arg " "))
+               args (drop 1 (second m))
+               sel-parts (if (= (count args) (count parts))
+                          (apply str (map pair-args parts args))
+                          (apply str parts))]
+               (emitln "- (id)" sel-parts ";")
+               (emitln)))
+  (emitln)
+  (emitln "@end")
+  (emitln))
 
 (defn generate-header
   [externs file]

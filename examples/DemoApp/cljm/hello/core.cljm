@@ -1,29 +1,9 @@
 (ns hello.core
   (:require [hello.foo.bar :as bar]))
 
-(def message {:hi "hi"})
-
-(defn greet [n]
-  (str "Hello " n " world!" message))
-
-(defn really-greet
-  [n]
-  (bar/nslog n))
-
-(defn sum [xs]
-  (bar/uppers xs))
-
-(defn read-file
-  "Reads the contents of the file at the given path"
-  [x]
-  (.stringWithContentsOfFile:encoding:error:! NS/String x NS/UTF8StringEncoding nil))
-
-(bar/nslog (read-file "/Users/joshaber/Desktop/test-main.m"))
-(bar/nslog (greet "josh"))
-
 (defn- timer-instance
   []
-  (reify 
+  (reify
     NS/Object
       (triggered:! [self timer]
         (let [f (:fn (.userInfo timer))]
@@ -34,65 +14,27 @@
   (let [inst (timer-instance)]
     (.scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:! NS/Timer (->d t) inst (selector "triggered:") {:fn f :inst inst} (->b true))))
 
-(def ^:dynamic count 0)
-(defn- triggered
-  []
-  (bar/nslog "fired " count)
-  (def ^:dynamic count (+ count 1))
-  nil)
+(def ^:dynamic *count* 0)
 
-(defn- find-text-view
-  [content-view]
-  (. content-view viewWithTag:! (->i 1)))
+(defn set-string!
+  [field s]
+  (.setStringValue:! field s)
+  s)
 
-(defn- find-button
-  [content-view]
-  (. content-view viewWithTag:! (->i 2)))
+(defn update-field!
+  [field val]
+  (set-string! field (str (set! *count* val))))
 
-(defn- app-content-view
-  []
-  (. (. (.windows NS/App) lastObject) contentView))
+(deftype DAP/TestAppDel [^iboutlet blah-field ^iboutlet button]
+  NS/Object
 
-(defn- tapped
-  []
-  (def ^:dynamic count 0)
-  nil)
+  NS/ApplicationDelegate
+  (applicationDidFinishLaunching:! [self note]
+    (schedule-timer 1 (fn []
+                        (update-field! blah-field (inc *count*))))
+    (doto button
+      (.setTarget:! self)
+      (.setAction:! (selector "clear:"))))
 
-(defn app-del
-  []
-  (reify 
-    NS/ApplicationDelegate
-      (applicationDidFinishLaunching:! [self note]
-        (bar/nslog "did finish lunching (delicious)" note)
-        (let [content-view (app-content-view)
-              text-field (find-text-view content-view)
-              button (find-button content-view)]
-              (schedule-timer 1 (fn 
-                                  [] 
-                                  (triggered)
-                                  (.setStringValue:! text-field (str count))
-                                  nil))
-              (.setTarget:! button self)
-              (.setAction:! button (selector "tapped:"))
-              (c/NSLog "Hi, world!")
-              nil))
-
-      (tapped:! [self sender]
-        (tapped))
-
-      (applicationWillTerminate:! [self note1]
-        (bar/nslog "will terminate :(" self))))
-
-(def del (app-del))
-
-(defn set-delegate! 
-  [del]
-  (-> (.sharedApplication NS/Application) (.setDelegate:! del))
-  nil)
-
-(set-delegate! del)
-
-; (defn does-exist
-;   "Does a file exist at that path?"
-;   [x]
-;   (.fileExistsAtPath:! (.defaultManager NS/FileManager) x))
+  (clear:! [self sender]
+    (update-field! blah-field 0)))

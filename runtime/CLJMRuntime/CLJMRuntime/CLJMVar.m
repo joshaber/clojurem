@@ -10,12 +10,6 @@
 
 @implementation CLJMVar
 
-#pragma mark NSCopying
-
-- (id)copyWithZone:(NSZone *)zone {
-	return self;
-}
-
 #pragma mark API
 
 - (id)initWithValue:(id)value {

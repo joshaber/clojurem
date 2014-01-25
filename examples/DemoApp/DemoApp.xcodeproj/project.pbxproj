@@ -11,7 +11,6 @@
 		884EDFAA15BF287500174D10 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 884EDFA815BF287500174D10 /* InfoPlist.strings */; };
 		884EDFAC15BF287500174D10 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 884EDFAB15BF287500174D10 /* main.m */; };
 		884EDFB015BF287500174D10 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 884EDFAE15BF287500174D10 /* Credits.rtf */; };
-		884EDFB315BF287500174D10 /* DAPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 884EDFB215BF287500174D10 /* DAPAppDelegate.m */; };
 		884EDFB615BF287500174D10 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 884EDFB415BF287500174D10 /* MainMenu.xib */; };
 		884EDFBE15BF287500174D10 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 884EDFBD15BF287500174D10 /* SenTestingKit.framework */; };
 		884EDFBF15BF287500174D10 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 884EDF9F15BF287500174D10 /* Cocoa.framework */; };
@@ -79,8 +78,6 @@
 		884EDFAB15BF287500174D10 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		884EDFAD15BF287500174D10 /* DemoApp-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DemoApp-Prefix.pch"; sourceTree = "<group>"; };
 		884EDFAF15BF287500174D10 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		884EDFB115BF287500174D10 /* DAPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DAPAppDelegate.h; sourceTree = "<group>"; };
-		884EDFB215BF287500174D10 /* DAPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DAPAppDelegate.m; sourceTree = "<group>"; };
 		884EDFB515BF287500174D10 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		884EDFBC15BF287500174D10 /* DemoAppTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoAppTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		884EDFBD15BF287500174D10 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -162,8 +159,6 @@
 		884EDFA515BF287500174D10 /* DemoApp */ = {
 			isa = PBXGroup;
 			children = (
-				884EDFB115BF287500174D10 /* DAPAppDelegate.h */,
-				884EDFB215BF287500174D10 /* DAPAppDelegate.m */,
 				884EDFB415BF287500174D10 /* MainMenu.xib */,
 				884EDFA615BF287500174D10 /* Supporting Files */,
 			);
@@ -383,7 +378,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				884EDFAC15BF287500174D10 /* main.m in Sources */,
-				884EDFB315BF287500174D10 /* DAPAppDelegate.m in Sources */,
 				884EDFE215BF309D00174D10 /* hello_DOT_foo_DOT_bar.m in Sources */,
 				88C377DB15CB8D0000B05155 /* hello_DOT_core.m in Sources */,
 			);
