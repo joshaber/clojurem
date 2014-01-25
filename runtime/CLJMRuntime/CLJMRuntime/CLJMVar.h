@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface CLJMVar : NSObject <NSCopying>
+@interface CLJMVar : NSObject
 
-@property (nonatomic, readonly, strong) id value;
+@property (nonatomic, strong) id value;
 
 - (id)initWithValue:(id)value;
 
