@@ -1,0 +1,16 @@
+(ns hello.delegate
+  (:require [hello.core :as core]))
+
+(def ^:dynamic *count* 0)
+
+(defn update-field!
+  [field val]
+  (core/set-string! field (str (set! *count* val))))
+
+(deftype DAP/TestAppDel [^iboutlet blah-field ^iboutlet button]
+  NS/Object
+
+  NS/ApplicationDelegate
+  (applicationDidFinishLaunching:! [self note]
+    (core/schedule-timer 1 (fn [] (update-field! blah-field (inc *count*))))
+    (core/set-button-fn! button (fn [_] (update-field! blah-field 0)))))

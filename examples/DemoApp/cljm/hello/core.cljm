@@ -1,6 +1,13 @@
 (ns hello.core
   (:require [hello.foo.bar :as bar]))
 
+(defn- selector-trampoline
+  [f]
+  (reify
+    NS/Object
+    (execute:! [self sender]
+      (f sender))))
+
 (defn- timer-instance
   []
   (reify
@@ -14,27 +21,26 @@
   (let [inst (timer-instance)]
     (.scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:! NS/Timer (->d t) inst (selector "triggered:") {:fn f :inst inst} (->b true))))
 
-(def ^:dynamic *count* 0)
-
 (defn set-string!
   [field s]
   (.setStringValue:! field s)
   s)
 
-(defn update-field!
-  [field val]
-  (set-string! field (str (set! *count* val))))
+(defn- assoc-obj!
+  [obj key val]
+  (objc* "objc_setAssociatedObject(~{}, (__bridge const void *)~{}, ~{}, OBJC_ASSOCIATION_RETAIN)" obj key val)
+  val)
 
-(deftype DAP/TestAppDel [^iboutlet blah-field ^iboutlet button]
-  NS/Object
+(defn- get-assoc
+  [obj key]
+  (objc* "objc_getAssociatedObject(~{}, (__bridge const void *)~{})" obj key))
 
-  NS/ApplicationDelegate
-  (applicationDidFinishLaunching:! [self note]
-    (schedule-timer 1 (fn []
-                        (update-field! blah-field (inc *count*))))
+(def selector-trampoline-fn-key "fn")
+
+(defn set-button-fn!
+  [button f]
+  (let [t (selector-trampoline f)]
+    (assoc-obj! button selector-trampoline-fn-key t)
     (doto button
-      (.setTarget:! self)
-      (.setAction:! (selector "clear:"))))
-
-  (clear:! [self sender]
-    (update-field! blah-field 0)))
+      (.setTarget:! t)
+      (.setAction:! (selector "execute:")))))
