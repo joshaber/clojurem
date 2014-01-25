@@ -398,7 +398,7 @@
         gthis (and fields (gensym "this__"))
         locals (reduce (fn [m fld]
                          (assoc m fld
-                                {:name (symbol (str gthis "." fld))
+                                {:name fld
                                  :field true
                                  :local true
                                  :mutable (-> fld meta :mutable)
