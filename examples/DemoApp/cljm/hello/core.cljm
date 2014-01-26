@@ -8,18 +8,10 @@
     (execute:! [self sender]
       (f sender))))
 
-(defn- timer-instance
-  []
-  (reify
-    NS/Object
-      (triggered:! [self timer]
-        (let [f (:fn (.userInfo timer))]
-          (f)))))
-
 (defn schedule-timer
   [t f]
-  (let [inst (timer-instance)]
-    (.scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:! NS/Timer (->d t) inst (selector "triggered:") {:fn f :inst inst} (->b true))))
+  (let [inst (selector-trampoline f)]
+    (.scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:! NS/Timer (->d t) inst (selector "execute:") {:inst inst} (->b true))))
 
 (defn set-string!
   [field s]

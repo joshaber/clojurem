@@ -447,19 +447,11 @@
   [kw]
   (core/str (core/namespace kw) (core/name kw)))
 
-(defn- public-name
-  [p]
-  (let [gen-name (fn [x] (core/str "CLJM_" x "_"))]
-        (->> p
-          stringify-objc-keyword
-          gen-name
-          gensym)))
-
 (defn- create-class
-  [cname superclass protos]
+  [tsym superclass protos class-name-sym]
   (let [superclass (stringify-objc-keyword superclass)
         priv-class (gensym "privateClass")
-        alloc-class (core/str "Class " priv-class " = objc_allocateClassPair(" superclass ".class, \"" cname \"", 0)")
+        alloc-class (core/str "Class " priv-class " = objc_allocateClassPair(" superclass ".class, [" class-name-sym " UTF8String], 0)")
         fail-fast (core/str "if (" priv-class " != Nil) {")
         protos (core/map stringify-objc-keyword protos)
         add-protos (core/map #(core/str "class_addProtocol(" priv-class ", @protocol(" % "))") protos)
@@ -472,7 +464,7 @@
           (list 'objc* "}"))))
 
 (defn- add-imps
-  [tsym p f meths fields form]
+  [tsym p f meths fields form class-name-sym]
   (let [sel (apply core/str (drop-last (name f)))
         meth (first meths)
         [sig & body] meth
@@ -481,7 +473,7 @@
         proto (stringify-objc-keyword p)
         imp-sym (gensym "imp_")
         fn-sym (gensym "var_")
-        class (core/str "NSClassFromString(@\"" (stringify-objc-keyword tsym) "\")")
+        class (core/str "NSClassFromString(" class-name-sym ")")
         fn (vary-meta `(fn ~meth) merge (meta form))]
     (list
       (list 'objc* (core/str "id " fn-sym " = ~{}") fn)
@@ -511,19 +503,22 @@
         t (resolve tsym)
         reify? (:reify (meta tsym))
         fields (-> tsym meta :fields)
+        class-name-sym (:class-name-sym (meta tsym))
         prototype-prefix (fn [sym] (symbol sym))
         assign-impls (fn [[p sigs]]
                             (warn-if-not-protocol p)
                             (concat
                               (mapcat (fn [[f & meths :as form]]
-                                        (add-imps tsym p f meths fields form))
+                                        (add-imps tsym p f meths fields form class-name-sym))
                                       sigs)))
         [superclass & protos] (collect-protocols-with-superclass impls &env)]
         (if reify?
-          `(do ~@(create-class tsym 'NS/Object (conj protos superclass))
-             ~@(mapcat assign-impls impl-map))
-          `(do ~@(create-class tsym superclass protos)
-             ~@(mapcat assign-impls impl-map)))))
+          `(do ~(list 'objc* (core/str "id " class-name-sym " = [[~{} stringByAppendingString:[[NSUUID UUID] UUIDString]] stringByReplacingOccurrencesOfString:@\"-\" withString:@\"\"]") (core/str tsym))
+              ~@(create-class tsym 'NS/Object (conj protos superclass) class-name-sym)
+              ~@(mapcat assign-impls impl-map))
+          `(do ~(list 'objc* (core/str "id " class-name-sym " = ~{}") (stringify-objc-keyword tsym))
+              ~@(create-class tsym superclass protos class-name-sym)
+              ~@(mapcat assign-impls impl-map)))))
 
 (defn- prepare-protocol-masks [env t impls]
   (let [resolve #(let [ret (:name (cljm.analyzer/resolve-var (dissoc env :locals) %))]
@@ -596,12 +591,14 @@
         [superclass & protocols] (collect-protocols-with-superclass impls &env)
         protocols (into #{} protocols)
         reify? (:reify (meta t))
+        class-name-sym (gensym "className")
         t (vary-meta t assoc
             :superclass superclass
             :protocols protocols
             :skip-protocol-flag fpps
             :methods (collect-impls impls)
-            :fields fields)
+            :fields fields
+            :class-name-sym class-name-sym)
         et (dt->et impls fields true)]
     (if (seq impls)
       `(do
@@ -610,7 +607,7 @@
          ; (set! (.-cljm$lang$ctorPrSeq ~t) (fn [this#] (list ~(core/str r))))
          (extend-type ~t ~@et)
          ~(when reify?
-            (list 'objc* "[[NSClassFromString(~{}) alloc] init]" (stringify-objc-keyword t))))
+            (list 'objc* (core/str "[[NSClassFromString(" class-name-sym ") alloc] init]"))))
       `(do
          (deftype* ~t ~fields ~pmasks)
          ; (set! (.-cljm$lang$type ~t) true)
