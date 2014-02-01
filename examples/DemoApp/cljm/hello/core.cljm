@@ -27,6 +27,11 @@
   [obj key]
   (objc* "objc_getAssociatedObject(~{}, (__bridge const void *)~{})" obj key))
 
+(defn async
+  [f]
+  (objc* "dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{ ~{}; })" (f))
+  nil)
+
 (def selector-trampoline-fn-key "fn")
 
 (defn set-button-fn!
@@ -36,3 +41,8 @@
     (doto button
       (.setTarget:! t)
       (.setAction:! (selector "execute:")))))
+
+(defn log
+  [& args]
+  (c/NSLog "%@" (str args))
+  nil)
