@@ -459,9 +459,9 @@
         (list
           (list 'objc* alloc-class)
           (list 'objc* fail-fast)
-          (apply concat (map #(list 'objc* %) add-protos))
           (list 'objc* reg-class)
-          (list 'objc* "}"))))
+          (list 'objc* "}")
+          (apply concat (map #(list 'objc* %) add-protos)))))
 
 (defn- add-imps
   [tsym p f meths fields form class-name-sym]
