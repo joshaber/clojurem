@@ -889,17 +889,18 @@
     (emitln "@protocol " (munge p) " <NSObject>")
     (emitln)
     (doseq [method methods]
-      (debug-prn method)
       (let [mname (protocol-munge p (apply str (drop 1 (seq (str (first method))))))
-            args (drop 1 (nth method 1))
-            has-comment (string? (last method))
-            comment (if has-comment (last method) nil)]
-        (when has-comment
+            arities (take-while vector? (drop 1 method))
+            has-comment? (string? (last method))
+            comment (if has-comment? (last method) nil)]
+        (when has-comment?
           (emit-comment comment ""))
-        (emits "- (id)" mname)
-        (doseq [arg args]
-          (emits ":(id)" (munge arg) " "))
-        (emits ";")
+        (doseq [arity arities]
+          (emits "- (id)" mname)
+          (doseq [arg (drop 1 arity)]
+            (emits ":(id)" (munge arg) " "))
+          (emits ";")
+          (emitln))
         (emitln)))
     (emitln)
     (emitln "@end")
