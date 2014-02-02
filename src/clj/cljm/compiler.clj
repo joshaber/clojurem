@@ -20,7 +20,7 @@
 (declare munge)
 (declare init-func-name)
 
-(def include-core false)
+(def include-core true)
 
 (def ^:dynamic *externs* nil)
 
@@ -832,7 +832,7 @@
   [& body]
   `(do (when include-core
         (when-not (:defs (get @ana/namespaces 'cljm.core))
--         (ana/analyze-file "cljm/core.cljm")))
+         (ana/analyze-file "cljm/core.cljm")))
        ~@body))
 
 (defn compile-file* [src dest]
