@@ -887,6 +887,7 @@
   [{:keys [p index methods]}]
     (emitln)
     (emitln "@protocol " (munge p) " <NSObject>")
+    (emitln)
     (doseq [method methods]
       (debug-prn method)
       (let [mname (protocol-munge p (apply str (drop 1 (seq (str (first method))))))
@@ -900,6 +901,7 @@
           (emits ":(id)" (munge arg) " "))
         (emits ";")
         (emitln)))
+    (emitln)
     (emitln "@end")
     (emitln))
 
