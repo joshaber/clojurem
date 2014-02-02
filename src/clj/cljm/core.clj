@@ -222,7 +222,7 @@
   (bool-expr (list 'objc* "@(NULL == ~{})" x)))
 
 (defmacro identical? [a b]
-  (bool-expr (list 'objc* "@([~{} isEqual:~{}])" a b)))
+  (bool-expr (list 'objc* "@(~{} == ~{})" a b)))
 
 (defmacro aget
   ([a i]
