@@ -586,8 +586,8 @@
   (str (-> (str psym) (.replace \. \$) (.replace \/ \$)) "$"))
 
 (defn protocol-munge
-  [x]
-  (str "cljm_proto_" (munge x)))
+  [p x]
+  (str (munge p) "_" (munge x)))
 
 (defmethod emit :invoke
   [{:keys [f args env] :as expr}]
@@ -605,7 +605,7 @@
         c-call? (= ns 'c)]
     (emit-wrap env
       (cond
-        protocol (let [pmname (protocol-munge (apply str (drop 1 (last (string/split (str fn-name) #"/")))))]
+        protocol (let [pmname (protocol-munge protocol (apply str (drop 1 (last (string/split (str fn-name) #"/")))))]
                   (emits "[(id<" (munge protocol) ">) " (first args) " ")
                   (emits pmname)
                   (doseq [arg (rest args)]
@@ -885,12 +885,11 @@
 
 (defmethod emit-h :defprotocol*
   [{:keys [p index methods]}]
-    ;; TODO: do we really want the protocol name to be fully qualified? Might
-    ;; be nice for Obj-C integration if it wasn't...
     (emitln)
     (emitln "@protocol " (munge p) " <NSObject>")
     (doseq [method methods]
-      (let [mname (protocol-munge (apply str (drop 1 (seq (str (first method))))))
+      (debug-prn method)
+      (let [mname (protocol-munge p (apply str (drop 1 (seq (str (first method))))))
             args (drop 1 (nth method 1))
             has-comment (string? (last method))
             comment (if has-comment (last method) nil)]
