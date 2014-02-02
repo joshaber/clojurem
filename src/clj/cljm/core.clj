@@ -766,7 +766,6 @@
                                         sigs))))]
     `(do
        (~'defprotocol* ~psym ~@methods)
-       (def ~psym nil)
        ~@(map method methods))))
 
 (defmacro satisfies?
