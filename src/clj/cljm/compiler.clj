@@ -20,7 +20,7 @@
 (declare munge)
 (declare init-func-name)
 
-(def include-core false)
+(def include-core true)
 
 (def ^:dynamic *externs* nil)
 
@@ -586,8 +586,8 @@
   (str (-> (str psym) (.replace \. \$) (.replace \/ \$)) "$"))
 
 (defn protocol-munge
-  [x]
-  (str "cljm_proto_" (munge x)))
+  [p x]
+  (str (munge p) "_" (munge x)))
 
 (defmethod emit :invoke
   [{:keys [f args env] :as expr}]
@@ -605,7 +605,7 @@
         c-call? (= ns 'c)]
     (emit-wrap env
       (cond
-        protocol (let [pmname (protocol-munge (apply str (drop 1 (last (string/split (str fn-name) #"/")))))]
+        protocol (let [pmname (protocol-munge protocol (apply str (drop 1 (last (string/split (str fn-name) #"/")))))]
                   (emits "[(id<" (munge protocol) ">) " (first args) " ")
                   (emits pmname)
                   (doseq [arg (rest args)]
@@ -832,7 +832,7 @@
   [& body]
   `(do (when include-core
         (when-not (:defs (get @ana/namespaces 'cljm.core))
--         (ana/analyze-file "cljm/core.cljm")))
+         (ana/analyze-file "cljm/core.cljm")))
        ~@body))
 
 (defn compile-file* [src dest]
@@ -885,22 +885,24 @@
 
 (defmethod emit-h :defprotocol*
   [{:keys [p index methods]}]
-    ;; TODO: do we really want the protocol name to be fully qualified? Might
-    ;; be nice for Obj-C integration if it wasn't...
     (emitln)
     (emitln "@protocol " (munge p) " <NSObject>")
+    (emitln)
     (doseq [method methods]
-      (let [mname (protocol-munge (apply str (drop 1 (seq (str (first method))))))
-            args (drop 1 (nth method 1))
-            has-comment (string? (last method))
-            comment (if has-comment (last method) nil)]
-        (when has-comment
+      (let [mname (protocol-munge p (apply str (drop 1 (seq (str (first method))))))
+            arities (take-while vector? (drop 1 method))
+            has-comment? (string? (last method))
+            comment (if has-comment? (last method) nil)]
+        (when has-comment?
           (emit-comment comment ""))
-        (emits "- (id)" mname)
-        (doseq [arg args]
-          (emits ":(id)" (munge arg) " "))
-        (emits ";")
+        (doseq [arity arities]
+          (emits "- (id)" mname)
+          (doseq [arg (drop 1 arity)]
+            (emits ":(id)" (munge arg) " "))
+          (emits ";")
+          (emitln))
         (emitln)))
+    (emitln)
     (emitln "@end")
     (emitln))
 

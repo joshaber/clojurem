@@ -222,7 +222,7 @@
   (bool-expr (list 'objc* "@(NULL == ~{})" x)))
 
 (defmacro identical? [a b]
-  (bool-expr (list 'objc* "@([~{} isEqual:~{}])" a b)))
+  (bool-expr (list 'objc* "@(~{} == ~{})" a b)))
 
 (defmacro aget
   ([a i]
@@ -459,14 +459,16 @@
         (list
           (list 'objc* alloc-class)
           (list 'objc* fail-fast)
-          (apply concat (map #(list 'objc* %) add-protos))
           (list 'objc* reg-class)
-          (list 'objc* "}"))))
+          (list 'objc* "}")
+          (apply concat (map #(list 'objc* %) add-protos)))))
 
 (defn- add-imps
   [tsym p f meths fields form class-name-sym]
   (let [sel (apply core/str (drop-last (name f)))
-        meth (first meths)
+        meth (if (vector? (first meths)) 
+                  meths 
+                  (first meths))
         [sig & body] meth
         body (apply concat body)
         args (reduce (fn [xs x] (core/str xs ", " x)) (core/map #(core/str "id " %) sig))
@@ -766,7 +768,6 @@
                                         sigs))))]
     `(do
        (~'defprotocol* ~psym ~@methods)
-       (def ~psym nil)
        ~@(map method methods))))
 
 (defmacro satisfies?
