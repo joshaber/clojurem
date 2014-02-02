@@ -258,39 +258,39 @@
 (defprotocol IChunkedNext
   (-chunked-next [coll]))
 
-; ;;;;;;;;;;;;;;;;;;; fundamentals ;;;;;;;;;;;;;;;
-; (defn ^boolean identical?
-;   "Tests if 2 arguments are the same object"
-;   [x y]
-;   (cljm.core/identical? x y))
+;;;;;;;;;;;;;;;;;;; fundamentals ;;;;;;;;;;;;;;;
+(defn ^boolean identical?
+  "Tests if 2 arguments are the same object"
+  [x y]
+  (cljm.core/identical? x y))
 
-; (declare first next)
+(declare first next)
 
-; (defn ^boolean =
-;   "Equality. Returns true if x equals y, false if not. Compares
-;   numbers and collections in a type-independent manner.  Clojure's immutable data
-;   structures define -equiv (and thus =) as a value, not an identity,
-;   comparison."
-;   ([x] true)
-;   ([x y] (or (identical? x y) (-equiv x y)))
-;   ([x y & more]
-;      (if (= x y)
-;        (if (next more)
-;          (recur y (first more) (next more))
-;          (= y (first more)))
-;        false)))
+(defn ^boolean =
+  "Equality. Returns true if x equals y, false if not. Compares
+  numbers and collections in a type-independent manner.  Clojure's immutable data
+  structures define -equiv (and thus =) as a value, not an identity,
+  comparison."
+  ([x] true)
+  ([x y] (or (identical? x y) (-equiv x y)))
+  ([x y & more]
+     (if (= x y)
+       (if (next more)
+         (recur y (first more) (next more))
+         (= y (first more)))
+       false)))
 
-; (defn ^boolean nil?
-;   "Returns true if x is nil, false otherwise."
-;   [x]
-;   (coercive-= x nil))
+(defn ^boolean nil?
+  "Returns true if x is nil, false otherwise."
+  [x]
+  (coercive-= x nil))
 
-; (defn type [x]
-;   (when-not (nil? x)
-;     (.class x)))
+(defn type [x]
+  (when-not (nil? x)
+    (.class x)))
 
-; (defn ^boolean instance? [t o]
-;   (objc* "@([~{o} isKindOfClass:[~{t} class]])"))
+(defn ^boolean instance? [t o]
+  (objc* "@([~{o} isKindOfClass:[~{t} class]])"))
 
 ; ;;;;;;;;;;;;;;;;;;; protocols on primitives ;;;;;;;;
 ; (declare hash-map list equiv-sequential)
