@@ -119,144 +119,144 @@
     [this a b c d e f g h i j k l m n o p q s t]
     [this a b c d e f g h i j k l m n o p q s t rest]))
 
-; (defprotocol ICounted
-;   (-count [coll] "constant time count"))
+(defprotocol ICounted
+  (-count [coll] "constant time count"))
 
-; (defprotocol IEmptyableCollection
-;   (-empty [coll]))
+(defprotocol IEmptyableCollection
+  (-empty [coll]))
 
-; (defprotocol ICollection
-;   (-conj [coll o]))
+(defprotocol ICollection
+  (-conj [coll o]))
 
-; #_(defprotocol IOrdinal
-;     (-index [coll]))
+#_(defprotocol IOrdinal
+    (-index [coll]))
 
-; (defprotocol IIndexed
-;   (-nth [coll n] [coll n not-found]))
+(defprotocol IIndexed
+  (-nth [coll n] [coll n not-found]))
 
-; (defprotocol ASeq)
+(defprotocol ASeq)
 
-; (defprotocol ISeq
-;   (-first [coll])
-;   (-rest [coll]))
+(defprotocol ISeq
+  (-first [coll])
+  (-rest [coll]))
 
-; (defprotocol INext
-;   (-next [coll]))
+(defprotocol INext
+  (-next [coll]))
 
-; (defprotocol ILookup
-;   (-lookup [o k] [o k not-found]))
+(defprotocol ILookup
+  (-lookup [o k] [o k not-found]))
 
-; (defprotocol IAssociative
-;   (-contains-key? [coll k])
-;   #_(-entry-at [coll k])
-;   (-assoc [coll k v]))
+(defprotocol IAssociative
+  (-contains-key? [coll k])
+  #_(-entry-at [coll k])
+  (-assoc [coll k v]))
 
-; (defprotocol IMap
-;   #_(-assoc-ex [coll k v])
-;   (-dissoc [coll k]))
+(defprotocol IMap
+  #_(-assoc-ex [coll k v])
+  (-dissoc [coll k]))
 
-; (defprotocol IMapEntry
-;   (-key [coll])
-;   (-val [coll]))
+(defprotocol IMapEntry
+  (-key [coll])
+  (-val [coll]))
 
-; (defprotocol ISet
-;   (-disjoin [coll v]))
+(defprotocol ISet
+  (-disjoin [coll v]))
 
-; (defprotocol IStack
-;   (-peek [coll])
-;   (-pop [coll]))
+(defprotocol IStack
+  (-peek [coll])
+  (-pop [coll]))
 
-; (defprotocol IVector
-;   (-assoc-n [coll n val]))
+(defprotocol IVector
+  (-assoc-n [coll n val]))
 
-; (defprotocol IDeref
-;  (-deref [o]))
+(defprotocol IDeref
+ (-deref [o]))
 
-; (defprotocol IDerefWithTimeout
-;   (-deref-with-timeout [o msec timeout-val]))
+(defprotocol IDerefWithTimeout
+  (-deref-with-timeout [o msec timeout-val]))
 
-; (defprotocol IMeta
-;   (-meta [o]))
+(defprotocol IMeta
+  (-meta [o]))
 
-; (defprotocol IWithMeta
-;   (-with-meta [o meta]))
+(defprotocol IWithMeta
+  (-with-meta [o meta]))
 
-; (defprotocol IReduce
-;   (-reduce [coll f] [coll f start]))
+(defprotocol IReduce
+  (-reduce [coll f] [coll f start]))
 
-; (defprotocol IKVReduce
-;   (-kv-reduce [coll f init]))
+(defprotocol IKVReduce
+  (-kv-reduce [coll f init]))
 
-; (defprotocol IEquiv
-;   (-equiv [o other]))
+(defprotocol IEquiv
+  (-equiv [o other]))
 
-; (defprotocol IHash
-;   (-hash [o]))
+(defprotocol IHash
+  (-hash [o]))
 
-; (defprotocol ISeqable
-;   (-seq [o]))
+(defprotocol ISeqable
+  (-seq [o]))
 
-; (defprotocol ISequential
-;   "Marker interface indicating a persistent collection of sequential items")
+(defprotocol ISequential
+  "Marker interface indicating a persistent collection of sequential items")
 
-; (defprotocol IList
-;   "Marker interface indicating a persistent list")
+(defprotocol IList
+  "Marker interface indicating a persistent list")
 
-; (defprotocol IRecord
-;   "Marker interface indicating a record object")
+(defprotocol IRecord
+  "Marker interface indicating a record object")
 
-; (defprotocol IReversible
-;   (-rseq [coll]))
+(defprotocol IReversible
+  (-rseq [coll]))
 
-; (defprotocol ISorted
-;   (-sorted-seq [coll ascending?])
-;   (-sorted-seq-from [coll k ascending?])
-;   (-entry-key [coll entry])
-;   (-comparator [coll]))
+(defprotocol ISorted
+  (-sorted-seq [coll ascending?])
+  (-sorted-seq-from [coll k ascending?])
+  (-entry-key [coll entry])
+  (-comparator [coll]))
 
-; (defprotocol IPrintable
-;   (-pr-seq [o opts]))
+(defprotocol IPrintable
+  (-pr-seq [o opts]))
 
-; (defprotocol IPending
-;   (-realized? [d]))
+(defprotocol IPending
+  (-realized? [d]))
 
-; (defprotocol IWatchable
-;   (-notify-watches [this oldval newval])
-;   (-add-watch [this key f])
-;   (-remove-watch [this key]))
+(defprotocol IWatchable
+  (-notify-watches [this oldval newval])
+  (-add-watch [this key f])
+  (-remove-watch [this key]))
 
-; (defprotocol IEditableCollection
-;   (-as-transient [coll]))
+(defprotocol IEditableCollection
+  (-as-transient [coll]))
 
-; (defprotocol ITransientCollection
-;   (-conj! [tcoll val])
-;   (-persistent! [tcoll]))
+(defprotocol ITransientCollection
+  (-conj! [tcoll val])
+  (-persistent! [tcoll]))
 
-; (defprotocol ITransientAssociative
-;   (-assoc! [tcoll key val]))
+(defprotocol ITransientAssociative
+  (-assoc! [tcoll key val]))
 
-; (defprotocol ITransientMap
-;   (-dissoc! [tcoll key]))
+(defprotocol ITransientMap
+  (-dissoc! [tcoll key]))
 
-; (defprotocol ITransientVector
-;   (-assoc-n! [tcoll n val])
-;   (-pop! [tcoll]))
+(defprotocol ITransientVector
+  (-assoc-n! [tcoll n val])
+  (-pop! [tcoll]))
 
-; (defprotocol ITransientSet
-;   (-disjoin! [tcoll v]))
+(defprotocol ITransientSet
+  (-disjoin! [tcoll v]))
 
-; (defprotocol IComparable
-;   (-compare [x y]))
+(defprotocol IComparable
+  (-compare [x y]))
 
-; (defprotocol IChunk
-;   (-drop-first [coll]))
+(defprotocol IChunk
+  (-drop-first [coll]))
 
-; (defprotocol IChunkedSeq
-;   (-chunked-first [coll])
-;   (-chunked-rest [coll]))
+(defprotocol IChunkedSeq
+  (-chunked-first [coll])
+  (-chunked-rest [coll]))
 
-; (defprotocol IChunkedNext
-;   (-chunked-next [coll]))
+(defprotocol IChunkedNext
+  (-chunked-next [coll]))
 
 ; ;;;;;;;;;;;;;;;;;;; fundamentals ;;;;;;;;;;;;;;;
 ; (defn ^boolean identical?
