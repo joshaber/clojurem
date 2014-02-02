@@ -466,7 +466,9 @@
 (defn- add-imps
   [tsym p f meths fields form class-name-sym]
   (let [sel (apply core/str (drop-last (name f)))
-        meth (first meths)
+        meth (if (vector? (first meths)) 
+                  meths 
+                  (first meths))
         [sig & body] meth
         body (apply concat body)
         args (reduce (fn [xs x] (core/str xs ", " x)) (core/map #(core/str "id " %) sig))
