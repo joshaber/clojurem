@@ -292,8 +292,8 @@
 (defn ^boolean instance? [t o]
   (objc* "@([~{o} isKindOfClass:[~{t} class]])"))
 
-; ;;;;;;;;;;;;;;;;;;; protocols on primitives ;;;;;;;;
-; (declare hash-map list equiv-sequential)
+;;;;;;;;;;;;;;;;;;; protocols on primitives ;;;;;;;;
+(declare hash-map list equiv-sequential)
 
 ; (extend-type nil
 ;   IEquiv
@@ -355,18 +355,18 @@
 ;   IHash
 ;   (-hash [o] 0))
 
-; (extend-type js/Date
-;   IEquiv
-;   (-equiv [o other]
-;     (and (instance? js/Date other)
-;          (identical? (.toString o) (.toString other)))))
+(extend-type NS/Date
+  IEquiv
+  (-equiv [o other]
+    (and (instance? NS/Date other)
+         (== o other))))
 
-; (extend-type number
-;   IEquiv
-;   (-equiv [x o] (identical? x o))
+(extend-type NS/Number
+  IEquiv
+  (-equiv [x o] (identical? x o))
 
-;   IHash
-;   (-hash [o] o))
+  IHash
+  (-hash [o] o))
 
 ; (extend-type boolean
 ;   IHash
@@ -379,11 +379,11 @@
 ;     (goog.getUid o))))
 
 ; ;;this is primitive because & emits call to array-seq
-; (defn inc
-;   "Returns a number one greater than num."
-;   [x] (cljm.core/+ x 1))
+(defn inc
+  "Returns a number one greater than num."
+  [x] (cljm.core/+ x 1))
 
-; (declare reduced? deref)
+(declare reduced? deref)
 
 ; (defn- ci-reduce
 ;   "Accepts any collection which satisfies the ICount and IIndexed protocols and

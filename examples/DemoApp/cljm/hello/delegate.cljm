@@ -7,10 +7,6 @@
   [field val]
   (core/set-string! field (str (set! *count* val))))
 
-; (extend-type NS/Date
-;   IEquiv
-;   (-equiv [_ o] (nil? o)))
-
 (deftype DAP/TestAppDel [^iboutlet blah-field ^iboutlet button]
   NS/Object
 
