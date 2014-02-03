@@ -249,7 +249,9 @@
             (emits (munge n))
             (emits "cljm_var_lookup(@\"" n "\")"))
           (if-not (= ns 'ObjectiveCClass)
-            (emits ".value")))
+            (emits ".value"))
+          (when (= ns 'ObjectiveCClass)
+            (emits ".class")))
         (if field
           (emits "[self " (munge n) "]")
           (emits (munge n)))))))
