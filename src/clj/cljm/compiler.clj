@@ -930,11 +930,11 @@
   (emitln)
   (emitln)
   (doseq [p fields]
-    (let [tag (:tag (meta p))
-          type (case tag
-                'iboutlet "IBOutlet id"
-                nil? "id"
-                :else tag)]
+    (let [tag (-> p meta :tag)
+          type (cond
+                  (= 'iboutlet tag) "IBOutlet id"
+                  nil? "id"
+                  :else tag)]
       (emitln "@property (nonatomic, strong) " type " " (munge p) ";")))
   (emitln)
   (doseq [m methods]
