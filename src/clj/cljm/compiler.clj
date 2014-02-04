@@ -925,6 +925,14 @@
       (str (namespace t) (name t))
       (munge t)))
 
+(defn- selector-name
+  [sel]
+  (let [ssel (seq sel)]
+        (apply str (cond 
+                     (= (first ssel) \-) (drop 1 ssel)
+                     (= (last ssel) \!) (drop-last ssel)
+                     :else ssel))))
+
 (defmethod emit-h :deftype*
   [{:keys [t fields superclass protocols methods] :as ast}]
   (emitln)
@@ -944,7 +952,7 @@
       (emitln "@property (nonatomic, strong) " type " " (munge p) ";")))
   (emitln)
   (doseq [m methods]
-         (let [mname (apply str (drop-last (str (first m))))
+         (let [mname (selector-name (str (first m)))
                parts (string/split mname #":")
                pair-args (fn [sel arg] (str sel ":(id)" arg " "))
                args (drop 1 (second m))

@@ -488,9 +488,10 @@
         [sig & body] meth
         sel-from-proto-f #(let [n (mmunge (apply core/str (drop 1 (name %))))]
                             (reduce (fn [x xs] (core/str x ":")) n (drop 1 sig)))
-        sel (if (= (first (name sel)) \-)
-              (core/str proto "_" (sel-from-proto-f sel))
-              (apply core/str (drop-last (name sel))))
+        sel (cond 
+              (= (first (name sel)) \-) (core/str proto "_" (sel-from-proto-f sel))
+              (= (last (name sel)) \!) (apply core/str (drop-last (name sel)))
+              :else (reduce (fn [x xs] (core/str x ":")) (name sel) (drop 1 sig)))
         body (apply concat body)
         args (reduce (fn [xs x] (core/str xs ", " x)) (core/map #(core/str "id " %) sig))
         imp-sym (gensym "imp_")
