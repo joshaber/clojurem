@@ -496,7 +496,8 @@
         imp-sym (gensym "imp_")
         fn-sym (gensym "var_")
         class (core/str "NSClassFromString(" class-name-sym ")")
-        fun (vary-meta `(fn ~meth) merge (meta form))]
+        new-meta (merge {:protocol-fn true} (meta form))
+        fun (vary-meta `(fn ~meth) merge new-meta)]
     (list
       (list 'objc* (core/str "id " fn-sym " = ~{}") fun)
       (list 'objc* (core/str "IMP " imp-sym " = imp_implementationWithBlock([" fn-sym " block])"))
