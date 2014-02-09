@@ -407,9 +407,13 @@
     (emits "})")))
 
 (defn emit-start-fn-var
-  [args]
+  [args imp-fn]
   (emits "[[CLJMFunction alloc] initWithBlock:^ id (")
-  (emits (comma-sep (concat (map #(str "id " (munge %)) (concat args (list "cljm_vararg"))) (list "..."))))
+  (emits (comma-sep (map #(str "id " (munge %)) args)))
+  (when-not imp-fn
+    (when (> (count args) 0)
+      (emits ", "))
+    (emits "id cljm_vararg, ..."))
   (emitln ") {"))
 
 (defn emit-end-fn-var
@@ -417,10 +421,10 @@
   (emitln "}]"))
 
 (defn emit-fn-method
-  [{:keys [gthis name variadic params statements ret env recurs max-fixed-arity]} protocol-fn]
+  [{:keys [gthis name variadic params statements ret env recurs max-fixed-arity]} imp-fn]
   (emit-wrap env
-             (emit-start-fn-var params)
-             (when protocol-fn
+             (emit-start-fn-var params imp-fn)
+             (when imp-fn
               (let [n (munge (first params))]
                 (when (not= n 'self) (emitln "id self = " n ";"))))
              (when recurs (emitln "while(YES) {"))
@@ -431,10 +435,10 @@
              (emit-end-fn-var)))
 
 (defn emit-variadic-fn-method
-  [{:keys [gthis name variadic params statements ret env recurs max-fixed-arity] :as f} protocol-fn]
+  [{:keys [gthis name variadic params statements ret env recurs max-fixed-arity] :as f} imp-fn]
   (emit-wrap env
-             (emit-start-fn-var (drop-last params))
-             (when protocol-fn
+             (emit-start-fn-var (drop-last params) imp-fn)
+             (when imp-fn
               (let [n (munge (first params))]
                 (when (not= n 'self) (emitln "id self = " n ";"))))
              (let [lastn (munge (last params))]
@@ -453,7 +457,7 @@
              (emit-end-fn-var)))
 
 (defmethod emit :fn
-  [{:keys [name env methods max-fixed-arity variadic recur-frames loop-lets protocol-fn]}]
+  [{:keys [name env methods max-fixed-arity variadic recur-frames loop-lets imp-fn]}]
   ;;fn statements get erased, serve no purpose and can pollute scope if named
   (when-not (= :statement (:context env))
     (let [loop-locals (->> (concat (mapcat :names (filter #(and % @(:flag %)) recur-frames))
@@ -468,8 +472,8 @@
             (emits "return ")))
       (if (= 1 (count methods))
         (if variadic
-          (emit-variadic-fn-method (assoc (first methods) :name name) protocol-fn)
-          (emit-fn-method (assoc (first methods) :name name) protocol-fn))
+          (emit-variadic-fn-method (assoc (first methods) :name name) imp-fn)
+          (emit-fn-method (assoc (first methods) :name name) imp-fn))
         (let [has-name? (and name true)
               name (or name (gensym))
               mname (munge name)
@@ -482,13 +486,13 @@
               ms (sort-by #(-> % second :params count) (seq mmap))]
           (when (= :return (:context env))
             (emits "return "))
-          (emitln "^ id (id cljm_vararg, ...) {")
+          (emitln "[[CLJMFunction alloc] initWithBlock:^ id (id cljm_vararg, ...) {")
           (emitln "__block CLJMVar *" mname ";")
           (doseq [[n meth] ms]
             (emits "CLJMFunction *" n " = ")
             (if (:variadic meth)
-              (emit-variadic-fn-method meth protocol-fn)
-              (emit-fn-method meth protocol-fn))
+              (emit-variadic-fn-method meth imp-fn)
+              (emit-fn-method meth imp-fn))
             (emitln ";")
             (emitln))
           (emitln mname " = [[CLJMVar alloc] initWithValue:[[CLJMFunction alloc] initWithBlock:^ id (NSArray *cljm_args) {")
@@ -517,7 +521,7 @@
           (emitln "}")
           (emitln "va_end(cljm_args);")
           (emitln "return ((id (^)(NSArray *))[(CLJMFunction *)[" mname " value] block])(cljm_collectedArgs);")
-          (emitln "}")))
+          (emitln "}]")))
       (when loop-locals
         (emitln ";})(" (comma-sep loop-locals) "))")))))
 
