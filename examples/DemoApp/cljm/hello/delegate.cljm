@@ -14,4 +14,5 @@
   (applicationDidFinishLaunching:! [self note]
     (core/schedule-timer 1 (fn [] (update-field! blah-field (inc *count*))))
     (core/set-button-fn! button (fn [_] (update-field! blah-field 0)))
-    (core/async (fn [] (core/log "async! " self) nil))))
+    (core/async (fn [] (core/log "async! " self) nil))
+    (core/log "d: " (first [1 2 3]))))
