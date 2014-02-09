@@ -242,17 +242,20 @@
         local (:local info)
         field (:field info)
         ns (:ns info)
-        type? (:type info)]
+        type? (:type info)
+        is-protocol? (:is-protocol info)]
     (emit-wrap env
       (if-not local
-        (do
-          (if-not dynamic
-            (emits (munge n))
-            (emits "cljm_var_lookup(@\"" n "\")"))
-          (if-not (or (= ns 'ObjectiveCClass) type?)
-            (emits ".value"))
-          (when (or (= ns 'ObjectiveCClass) type?)
-            (emits ".class")))
+        (if is-protocol?
+          (emits "@protocol(" (munge n) ")")
+          (do
+            (if-not dynamic
+              (emits (munge n))
+              (emits "cljm_var_lookup(@\"" n "\")"))
+            (if-not (or (= ns 'ObjectiveCClass) type?)
+              (emits ".value"))
+            (when (or (= ns 'ObjectiveCClass) type?)
+              (emits ".class"))))
         (if field
           (emits "[self " (munge n) "]")
           (emits (munge n)))))))
