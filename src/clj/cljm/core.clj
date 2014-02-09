@@ -68,6 +68,10 @@
   [s]
   (list 'objc* (core/str "@selector(" s ")")))
 
+(defmacro ->v
+  [a]
+  (list 'objc* "@(~{})" a))
+
 (defn destructure [bindings]
   (core/let [bents (partition 2 bindings)
          pb (fn pb [bvec b v]
