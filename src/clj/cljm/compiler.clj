@@ -328,7 +328,7 @@
   [{:keys [test then else env]}]
   (let [context (:context env)]
     (if (= :expr context)
-      (emits "@(cljm_truthy(" test ")) ? " then " : " else)
+      (emits "cljm_truthy(" test ") ? " then " : " else)
       (do
         (emitln "if(cljm_truthy(" test ")) {")
         (emitln then)
