@@ -608,7 +608,8 @@
 
 (defn collect-impls
   [impls]
-  (filter list? impls))
+  (let [divided (partition-by list? impls)]
+        (map (fn [x y] [(last x) y]) (take-nth 2 divided) (take-nth 2 (rest divided)))))
 
 (defmacro deftype [t fields & impls]
   (let [r (:name (cljm.analyzer/resolve-var (dissoc &env :locals) t))

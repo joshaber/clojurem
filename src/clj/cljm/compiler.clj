@@ -935,7 +935,7 @@
                      :else ssel))))
 
 (defmethod emit-h :deftype*
-  [{:keys [t fields superclass protocols methods] :as ast}]
+  [{:keys [t fields superclass protocols methods env] :as ast}]
   (emitln)
   (let [class-name (objc-class-munge t)
         superclass (objc-class-munge superclass)]
@@ -952,16 +952,21 @@
                   :else tag)]
       (emitln "@property (nonatomic, strong) " type " " (munge p) ";")))
   (emitln)
-  (doseq [m methods]
-         (let [mname (selector-name (str (first m)))
-               parts (string/split mname #":")
-               pair-args (fn [sel arg] (str sel ":(id)" arg " "))
-               args (drop 1 (second m))
-               sel-parts (if (= (count args) (count parts))
-                          (apply str (map pair-args parts args))
-                          (apply str parts))]
-               (emitln "- (id)" sel-parts ";")
-               (emitln)))
+  (doseq [[p ms] methods]
+         (doseq [m ms]
+                 (let [p-ns (:ns (ana/resolve-existing-var (dissoc env :locals) p))
+                       prefix (if (= p-ns 'ObjectiveCClass)
+                                ""
+                                (str (munge (str p-ns "/" p)) "_"))
+                       mname (str prefix (selector-name (str (first m))))
+                       parts (string/split mname #":")
+                       pair-args (fn [sel arg] (str sel ":(id)" arg " "))
+                       args (drop 1 (second m))
+                       sel-parts (if (= (count args) (count parts))
+                                  (apply str (map pair-args parts args))
+                                  (apply str parts))]
+                       (emitln "- (id)" sel-parts ";")
+                       (emitln))))
   (emitln)
   (emitln "@end")
   (emitln))
