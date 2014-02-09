@@ -517,8 +517,7 @@ reduces them without incurring seq initialization"
      (prim-seq prim 0))
   ([prim i]
      (when-not (zero? (-count prim))
-      nil)))
-       (comment TODO (IndexedSeq. prim i))
+      (IndexedSeq. prim i))))
 
 (defn array-seq
   ([array]
