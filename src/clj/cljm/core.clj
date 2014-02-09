@@ -510,6 +510,14 @@
 
 (declare collect-protocols-with-superclass)
 
+(defn- munge-class-name
+  [t env]
+  (let [res (cljm.analyzer/resolve-var env t)
+        n (:name res)]
+    (if (or (= (:ns res) 'ObjectiveCClass) (= (namespace n) (string/upper-case (namespace n))))
+        (stringify-objc-keyword t)
+        (core/str (mmunge n)))))
+
 (defmacro extend-type [tsym & impls]
   (let [resolve #(let [ret (:name (cljm.analyzer/resolve-var (dissoc &env :locals) %))]
                    (assert ret (core/str "Can't resolve: " %))
@@ -543,9 +551,10 @@
         [superclass & protos] (collect-protocols-with-superclass impls &env)
         protos (if has-name?
                   protos
-                  (into [superclass] protos))]
+                  (into [superclass] protos))
+        cl-name (munge-class-name tsym &env)]
         `(do ~(when-not has-name? 
-                (list 'objc* (core/str "id " class-name-sym " = ~{}") (stringify-objc-keyword tsym)))
+                (list 'objc* (core/str "id " class-name-sym " = ~{}") cl-name))
               ~@(add-protocols protos class-name-sym &env)
               ~@(mapcat assign-impls impl-map))))
 
@@ -631,11 +640,12 @@
             :fields fields
             :class-name-sym class-name-sym)
         et (dt->et impls fields true)
-        priv-class (gensym "privateClass")]
+        priv-class (gensym "privateClass")
+        cl-name (munge-class-name t &env)]
     (if (seq impls)
       `(do
          ~(when-not has-name?
-            (list 'objc* (core/str "id " class-name-sym " = ~{}") (stringify-objc-keyword t)))
+            (list 'objc* (core/str "id " class-name-sym " = ~{}") cl-name))
          ~(list 'objc* (core/str "Class " priv-class " = objc_allocateClassPair(" (stringify-objc-keyword superclass) ".class, [" class-name-sym " UTF8String], 0)"))
          ~(list 'objc* (core/str "if (" priv-class " != Nil) {"))
          ~(list 'objc* (core/str "objc_registerClassPair(" priv-class ")"))
@@ -644,7 +654,7 @@
          (extend-type ~t ~@et))
       `(do
          ~(when-not has-name?
-            (list 'objc* (core/str "id " class-name-sym " = ~{}") (stringify-objc-keyword t)))
+            (list 'objc* (core/str "id " class-name-sym " = ~{}") cl-name))
          (deftype* ~t ~fields ~pmasks)
          ~t))))
 
