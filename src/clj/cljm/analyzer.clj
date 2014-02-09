@@ -685,7 +685,8 @@
            (fn [m]
              (let [m (assoc (or m {})
                        :name p
-                       :type true)]
+                       :type true
+                       :is-protocol true)]
                        ;;:num-fields (count fields))]
                (merge m
                  {:protocols (-> psym meta :protocols)}
