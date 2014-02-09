@@ -241,16 +241,17 @@
         dynamic (:dynamic info)
         local (:local info)
         field (:field info)
-        ns (:ns info)]
+        ns (:ns info)
+        type? (:type info)]
     (emit-wrap env
       (if-not local
         (do
           (if-not dynamic
             (emits (munge n))
             (emits "cljm_var_lookup(@\"" n "\")"))
-          (if-not (= ns 'ObjectiveCClass)
+          (if-not (or (= ns 'ObjectiveCClass) type?)
             (emits ".value"))
-          (when (= ns 'ObjectiveCClass)
+          (when (or (= ns 'ObjectiveCClass) type?)
             (emits ".class")))
         (if field
           (emits "[self " (munge n) "]")
