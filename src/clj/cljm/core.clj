@@ -632,6 +632,10 @@
         reify? (:reify (meta t))
         has-name? (-> t meta :class-name-sym)
         class-name-sym (or (-> t meta :class-name-sym) (gensym "className"))
+        impls (concat impls ['NS/Object `(~'initWithFields:! ~'[self a b] ~'(do 
+                                                                        (objc* "self = [class_getSuperclass(object_getClass(self)) init]")
+                                                                        (objc* "if (self == nil) return nil")
+                                                                        (objc* "self")))])
         t (vary-meta t assoc
             :superclass superclass
             :protocols protocols
@@ -642,6 +646,7 @@
         et (dt->et impls fields true)
         priv-class (gensym "privateClass")
         cl-name (munge-class-name t &env)]
+        (debug-prn (last impls))
     (if (seq impls)
       `(do
          ~(when-not has-name?

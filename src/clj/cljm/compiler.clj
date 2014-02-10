@@ -727,9 +727,13 @@
   [{:keys [ctor args env]}]
   (emit-wrap env
             (let [method (first args)
-                  init-args (rest args)]
-             (emits "[" ctor " new]"))))
-             ; (emit-method-parts (sel-parts method) init-args))))
+                  init-args (rest args)
+                  init-meth (if (seq args)
+                                (reduce (fn [xs x] (str xs ":")) "initWithFields" args)
+                                "init")]
+             (emits "[[" ctor " alloc]")
+             (emit-method-parts (sel-parts init-meth) args)
+             (emits "]"))))
 
 (defmethod emit :set!
   [{:keys [target val env]}]
