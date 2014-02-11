@@ -93,6 +93,11 @@
   ([type aseq]
      (reduce (fn [a x] (. a arrayByAddingObject:! x) a) (array) aseq)))
 
+; Just until we can define pr-str For Real.
+(defn pr-str
+  [x]
+  (objc* "[[NSString alloc] initWithFormat:@\"<%@: %p>\", [~{} class], ~{}]" x x))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;; core protocols ;;;;;;;;;;;;;
 
 (defprotocol IFn
@@ -453,8 +458,10 @@ reduces them without incurring seq initialization"
 
 (deftype IndexedSeq [a i]
   NS/Object
-  (toString [this]
-    (pr-str this))
+  (toString [self]
+    (str (pr-str self) ": a: " a ", i: " i))
+
+  (description [self] (.toString self))
 
   ISeqable
   (-seq [this] this)
@@ -558,6 +565,8 @@ reduces them without incurring seq initialization"
   NS/Object
   (toString [this]
     (pr-str this))
+
+  (description [self] (.toString self))
 
   IMeta
   (-meta [coll] meta)
@@ -802,124 +811,124 @@ reduces them without incurring seq initialization"
   [coll]
   (-pop coll))
 
-; (defn disj
-;   "disj[oin]. Returns a new set of the same (hashed/sorted) type, that
-;   does not contain key(s)."
-;   ([coll] coll)
-;   ([coll k]
-;      (-disjoin coll k))
-;   ([coll k & ks]
-;      (let [ret (disj coll k)]
-;        (if ks
-;          (recur ret (first ks) (next ks))
-;          ret))))
+(defn disj
+  "disj[oin]. Returns a new set of the same (hashed/sorted) type, that
+  does not contain key(s)."
+  ([coll] coll)
+  ([coll k]
+     (-disjoin coll k))
+  ([coll k & ks]
+     (let [ret (disj coll k)]
+       (if ks
+         (recur ret (first ks) (next ks))
+         ret))))
 
-; (defn hash
-;   ([o] (hash o true))
-;   ([o ^boolean check-cache]
-;      (.hash o)))
+(defn hash
+  ([o] (hash o true))
+  ([o ^boolean check-cache]
+     (->v (.hash o))))
 
-; (defn ^boolean empty?
-;   "Returns true if coll has no items - same as (not (seq coll)).
-;   Please use the idiom (seq x) rather than (not (empty? x))"
-;   [coll] (not (seq coll)))
+(defn ^boolean empty?
+  "Returns true if coll has no items - same as (not (seq coll)).
+  Please use the idiom (seq x) rather than (not (empty? x))"
+  [coll] (not (seq coll)))
 
-; (defn ^boolean coll?
-;   "Returns true if x satisfies ICollection"
-;   [x]
-;   (if (nil? x)
-;     false
-;     (satisfies? ICollection x)))
+(defn ^boolean coll?
+  "Returns true if x satisfies ICollection"
+  [x]
+  (if (nil? x)
+    false
+    (satisfies? ICollection x)))
 
-; (defn ^boolean set?
-;   "Returns true if x satisfies ISet"
-;   [x]
-;   (if (nil? x)
-;     false
-;     (satisfies? ISet x)))
+(defn ^boolean set?
+  "Returns true if x satisfies ISet"
+  [x]
+  (if (nil? x)
+    false
+    (satisfies? ISet x)))
 
-; (defn ^boolean associative?
-;  "Returns true if coll implements Associative"
-;   [x] (satisfies? IAssociative x))
+(defn ^boolean associative?
+ "Returns true if coll implements Associative"
+  [x] (satisfies? IAssociative x))
 
-; (defn ^boolean sequential?
-;   "Returns true if coll satisfies ISequential"
-;   [x] (satisfies? ISequential x))
+(defn ^boolean sequential?
+  "Returns true if coll satisfies ISequential"
+  [x] (satisfies? ISequential x))
 
-; (defn ^boolean counted?
-;   "Returns true if coll implements count in constant time"
-;   [x] (satisfies? ICounted x))
+(defn ^boolean counted?
+  "Returns true if coll implements count in constant time"
+  [x] (satisfies? ICounted x))
 
-; (defn ^boolean indexed?
-;   "Returns true if coll implements nth in constant time"
-;   [x] (satisfies? IIndexed x))
+(defn ^boolean indexed?
+  "Returns true if coll implements nth in constant time"
+  [x] (satisfies? IIndexed x))
 
-; (defn ^boolean reduceable?
-;   "Returns true if coll satisfies IReduce"
-;   [x] (satisfies? IReduce x))
+(defn ^boolean reduceable?
+  "Returns true if coll satisfies IReduce"
+  [x] (satisfies? IReduce x))
 
-; (defn ^boolean map?
-;   "Return true if x satisfies IMap"
-;   [x]
-;   (if (nil? x)
-;     false
-;     (satisfies? IMap x)))
+(defn ^boolean map?
+  "Return true if x satisfies IMap"
+  [x]
+  (if (nil? x)
+    false
+    (satisfies? IMap x)))
 
-; (defn ^boolean vector?
-;   "Return true if x satisfies IVector"
-;   [x] (satisfies? IVector x))
+(defn ^boolean vector?
+  "Return true if x satisfies IVector"
+  [x] (satisfies? IVector x))
 
-; (defn ^boolean chunked-seq?
-;   [x] (satisfies? IChunkedSeq x))
+(defn ^boolean chunked-seq?
+  [x] (satisfies? IChunkedSeq x))
 
-; (defn ^boolean false?
-;   "Returns true if x is the value false, false otherwise."
-;   [x] (cljm.core/false? x))
+(defn ^boolean false?
+  "Returns true if x is the value false, false otherwise."
+  [x] (cljm.core/false? x))
 
-; (defn ^boolean true?
-;   "Returns true if x is the value true, false otherwise."
-;   [x] (cljm.core/true? x))
+(defn ^boolean true?
+  "Returns true if x is the value true, false otherwise."
+  [x] (cljm.core/true? x))
 
-; (defn ^boolean undefined? [x]
-;   (cljm.core/undefined? x))
+(defn ^boolean undefined? [x]
+  (cljm.core/undefined? x))
 
-; (defn ^boolean seq?
-;   "Return true if s satisfies ISeq"
-;   [s]
-;   (if (nil? s)
-;     false
-;     (satisfies? ISeq s)))
+(defn ^boolean seq?
+  "Return true if s satisfies ISeq"
+  [s]
+  (if (nil? s)
+    false
+    (satisfies? ISeq s)))
 
-; (defn ^boolean seqable?
-;   "Return true if s satisfies ISeqable"
-;   [s]
-;   (satisfies? ISeqable s))
+(defn ^boolean seqable?
+  "Return true if s satisfies ISeqable"
+  [s]
+  (satisfies? ISeqable s))
 
-; (defn ^boolean boolean [x]
-;   (if x true false))
+(defn ^boolean boolean [x]
+  (if x true false))
 
-; (defn ^boolean string? [x]
-;   (and ^boolean (objc* "@([~{x} isKindOfClass:[NSString class]])" x)
-;        (not (or (identical? (.characterAtIndex:! x (.unsignedIntegerValue 0)) \uFDD0)
-;                 (identical? (.characterAtIndex:! x (.unsignedIntegerValue 0)) \uFDD1)))))
+(defn ^boolean string? [x]
+  (and ^boolean (objc* "@([~{x} isKindOfClass:[NSString class]])" x)
+       (not (or (= (->v (.characterAtIndex:! x (->ui 0))) ":")
+                (= (->v (.characterAtIndex:! x (->ui 0))) "'")))))
 
-; (defn ^boolean keyword? [x]
-;   (and ^boolean (objc* "@([~{x} isKindOfClass:[NSString class]])" x)
-;        (identical? (.characterAtIndex:! x (.unsignedIntegerValue 0)) \uFDD0)))
+(defn ^boolean keyword? [x]
+  (and ^boolean (objc* "@([~{x} isKindOfClass:[NSString class]])" x)
+       (= (->v (.characterAtIndex:! x (->ui 0))) ":")))
 
-; (defn ^boolean symbol? [x]
-;   (and ^boolean (objc* "@([~{x} isKindOfClass:[NSString class]])" x)
-;        (identical? (.characterAtIndex:! x (.unsignedIntegerValue 0)) \uFDD1)))
+(defn ^boolean symbol? [x]
+  (and ^boolean (objc* "@([~{x} isKindOfClass:[NSString class]])" x)
+       (= (->v (.characterAtIndex:! x (-> 0))) "'")))
 
-; (defn ^boolean number? [n]
-;   (objc* "@([~{n} isKindOfClass:[NSNumber class]])" n))
+(defn ^boolean number? [n]
+  (objc* "@([~{n} isKindOfClass:[NSNumber class]])" n))
 
-; (defn ^boolean fn? [f]
-;   (comment TODO)
-;   (objc* "@([~{f} isKindOfClass:nil])" f))
+(defn ^boolean fn? [f]
+  (comment TODO)
+  (objc* "@([~{f} isKindOfClass:CLJMFunction.class])" f))
 
-; (defn ^boolean ifn? [f]
-;   (or (fn? f) (satisfies? IFn f)))
+(defn ^boolean ifn? [f]
+  (or (fn? f) (satisfies? IFn f)))
 
 ; (defn ^boolean integer?
 ;   "Returns true if n is an integer.  Warning: returns true on underflow condition."
