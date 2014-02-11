@@ -566,7 +566,7 @@
 (defmethod emit :let
   [{:keys [bindings statements ret env loop]}]
   (let [context (:context env)]
-    (when (= :expr context) (emits "{"))
+    (when (= :expr context) (emits "^ id {"))
     (doseq [{:keys [name init]} bindings]
       (emitln "id " (munge name) " = " init ";"))
     (when loop (emitln "while(YES) {"))
@@ -575,7 +575,7 @@
       (emitln "break;")
       (emitln "}"))
     ;(emits "}")
-    (when (= :expr context) (emits "}"))))
+    (when (= :expr context) (emits "}()"))))
 
 (defmethod emit :recur
   [{:keys [frame exprs env]}]
