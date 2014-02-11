@@ -969,13 +969,13 @@
                        prefix (if (= p-ns 'ObjectiveCClass)
                                 ""
                                 (str (munge (str p-ns "/" p)) "_"))
-                       mname (str prefix (munge (selector-name (str (first m)))))
+                       mname (str prefix (selector-name (str (first m))))
                        parts (string/split mname #":")
                        pair-args (fn [sel arg] (str (munge sel) ":(id)" (munge arg) " "))
                        args (drop 1 (second m))
-                       sel-parts (if (= (count args) (count parts))
-                                  (apply str (map pair-args parts args))
-                                  (apply str parts))]
+                       sel-parts (if (seq args)
+                                  (apply str (map pair-args (concat parts (repeat "")) args))
+                                  (str (first parts)))]
                        (emitln "- (id)" sel-parts ";")
                        (emitln))))
   (emitln)

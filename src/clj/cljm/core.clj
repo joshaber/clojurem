@@ -524,8 +524,13 @@
                    ret)
         impl-map (loop [ret {} s impls]
                    (if (seq s)
-                     (recur (assoc ret (first s) (take-while seq? (next s)))
-                            (drop-while seq? (next s)))
+                     (let [p (first s)
+                           ex (p ret)
+                           ex (if ex
+                                ex
+                                [])]
+                       (recur (assoc ret p (concat ex (take-while seq? (next s))))
+                              (drop-while seq? (next s))))
                      ret))
         warn-if-not-protocol #(when-not (= 'Object %)
                                 (if cljm.analyzer/*cljm-warn-on-undeclared*
@@ -621,7 +626,7 @@
 
 (defn collect-impls
   [impls]
-  (let [divided (partition-by list? impls)]
+  (let [divided (partition-by symbol? impls)]
         (map (fn [x y] [(last x) y]) (take-nth 2 divided) (take-nth 2 (rest divided)))))
 
 (defmacro deftype [t fields & impls]
@@ -632,10 +637,16 @@
         reify? (:reify (meta t))
         has-name? (-> t meta :class-name-sym)
         class-name-sym (or (-> t meta :class-name-sym) (gensym "className"))
-        impls (concat impls ['NS/Object `(~'initWithFields:! ~'[self a b] ~'(do 
-                                                                        (objc* "self = [class_getSuperclass(object_getClass(self)) init]")
-                                                                        (objc* "if (self == nil) return nil")
-                                                                        (objc* "self")))])
+        init-name (core/str (reduce (fn [xs x] (core/str xs ":")) "initWithFields" fields) "!")
+        init-stmts (list 'objc* (reduce (fn [xs x] (core/str xs "\n" x)) (map #(core/str "[self set" (string/capitalize (mmunge %)) ":" (mmunge %) "];") fields)))
+        init-method `(~'NS/Object (~(symbol init-name) ~(into ['self] fields) (~'do 
+                                                                        ~'(objc* "self = [self init]")
+                                                                        ~'(objc* "if (self == nil) return nil")
+                                                                        ~init-stmts
+                                                                        ~'(objc* "self"))))
+        impls (if-not reify?
+                (concat impls init-method)
+                impls)
         t (vary-meta t assoc
             :superclass superclass
             :protocols protocols
@@ -646,7 +657,6 @@
         et (dt->et impls fields true)
         priv-class (gensym "privateClass")
         cl-name (munge-class-name t &env)]
-        (debug-prn (last impls))
     (if (seq impls)
       `(do
          ~(when-not has-name?
