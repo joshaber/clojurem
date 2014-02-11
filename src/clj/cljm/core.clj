@@ -21,7 +21,8 @@
                             + - * / < <= > >= == zero? pos? neg? inc dec max min mod
                             bit-and bit-and-not bit-clear bit-flip bit-not bit-or bit-set
                             bit-test bit-shift-left bit-shift-right bit-xor])
-  (:require clojure.walk))
+  (:require [clojure.walk]
+            [clojure.string :as string]))
 
 (alias 'core 'clojure.core)
 
@@ -55,6 +56,10 @@
   [i]
   `(.integerValue ~i))
 
+(defmacro ->ui
+  [ui]
+  `(.unsignedIntegerValue ~ui))
+
 (defmacro ->b
   [b]
   `(.boolValue ~b))
@@ -66,6 +71,10 @@
 (defmacro selector
   [s]
   (list 'objc* (core/str "@selector(" s ")")))
+
+(defmacro ->v
+  [a]
+  (list 'objc* "@(~{})" a))
 
 (defn destructure [bindings]
   (core/let [bents (partition 2 bindings)
@@ -226,10 +235,10 @@
 
 (defmacro aget
   ([a i]
-     (list 'objc* "(~{}[~{}])" a i))
+     (list 'objc* "(~{}[[~{} unsignedIntegerValue]])" a i))
   ([a i & idxs]
      (let [astr (apply core/str (repeat (count idxs) "[~{}]"))]
-      `(~'objc* ~(core/str "(~{}[~{}]" astr ")") ~a ~i ~@idxs))))
+      `(~'objc* ~(core/str "(~{}[[~{} unsignedIntegerValue]]" astr ")") ~a ~i ~@idxs))))
 
 (defmacro aset [a i v]
   (list 'objc* "(~{}[~{}] = ~{})" a i v))
@@ -307,7 +316,7 @@
   ([x y & more] `(min (min ~x ~y) ~@more)))
 
 (defmacro mod [num div]
-  (list 'objc* "@([~{} doubleValue] % [~{} doubleValue])" num div))
+  (list 'objc* "@([~{} integerValue] % [~{} integerValue])" num div))
 
 (defmacro bit-not [x]
   (list 'objc* "@(~ [~{} integerValue])" x))
@@ -349,7 +358,7 @@
   (list 'objc* "@([~{} integerValue] >> [~{} integerValue])" x n))
 
 (defmacro bit-shift-right-zero-fill [x n]
-  (list 'objc* "@([~{} integerValue] >>> [~{} integerValue])" x n))
+  (list 'objc* "@([~{} unsignedIntegerValue] >> [~{} unsignedIntegerValue])" x n))
 
 (defmacro bit-set [x n]
   (list 'objc* "@([~{} integerValue] | (1 << [~{} integerValue]))" x n))
@@ -424,11 +433,14 @@
       'default "_"})
 
 (defmacro reify [& impls]
-  (let [t      (vary-meta (gensym "CLJMReifyClass_") assoc :reify true)
+  (let [class-name-sym (gensym "className")
+        t      (vary-meta (gensym "CLJMReifyClass_") assoc :reify true :class-name-sym class-name-sym)
         meta-sym (gensym "meta")
         locals (keys (:locals &env))]
     `(do
-         (deftype ~t [~@locals] ~@impls))))
+         ~(list 'objc* (core/str "id " class-name-sym " = [[~{} stringByAppendingString:[[NSUUID UUID] UUIDString]] stringByReplacingOccurrencesOfString:@\"-\" withString:@\"\"]") (core/str t))
+         (deftype ~t [~@locals] ~@impls)
+         ~(list 'objc* (core/str "[[NSClassFromString(" class-name-sym ") alloc] init]")))))
 
 (defmacro this-as
   "Defines a scope where JavaScript's implicit \"this\" is bound to the name provided."
@@ -447,42 +459,68 @@
   [kw]
   (core/str (core/namespace kw) (core/name kw)))
 
-(defn- create-class
-  [tsym superclass protos class-name-sym]
-  (let [superclass (stringify-objc-keyword superclass)
-        priv-class (gensym "privateClass")
-        alloc-class (core/str "Class " priv-class " = objc_allocateClassPair(" superclass ".class, [" class-name-sym " UTF8String], 0)")
-        fail-fast (core/str "if (" priv-class " != Nil) {")
-        protos (core/map stringify-objc-keyword protos)
-        add-protos (core/map #(core/str "class_addProtocol(" priv-class ", @protocol(" % "))") protos)
-        reg-class (core/str "objc_registerClassPair(" priv-class ")")]
-        (list
-          (list 'objc* alloc-class)
-          (list 'objc* fail-fast)
-          (list 'objc* reg-class)
-          (list 'objc* "}")
-          (apply concat (map #(list 'objc* %) add-protos)))))
+(defn mmunge
+  [s]
+  (let [ss (string/replace (core/str s) #"\/(.)" ".$1") ; Division is special
+        ss (string/replace (core/str s) #"\." "_DOT_")
+        ss (apply core/str (map #(if false (core/str % "$") %)
+                           (string/split ss #"(?<=\.)|(?=\.)")))
+        ms (clojure.lang.Compiler/munge ss)]
+    (if (symbol? s)
+      (symbol ms)
+      ms)))
 
-(defn- add-imps
-  [tsym p f meths fields form class-name-sym]
-  (let [sel (apply core/str (drop-last (name f)))
+(defn- add-proto
+  [class-name-sym env p]
+  (let [resolved-p (cljm.analyzer/resolve-existing-var (dissoc env :locals) p)
+        proto (if (= (:ns resolved-p) 'ObjectiveCClass)
+                (stringify-objc-keyword p)
+                (mmunge (:name resolved-p)))]
+    (core/str "class_addProtocol(NSClassFromString(" class-name-sym "), @protocol(" proto "));\n")))
+
+(defn- add-protocols
+  [protos class-name-sym env]
+  (let [add-protos (core/map (partial add-proto class-name-sym env) protos)]
+        (list
+          (list 'objc* (apply core/str add-protos)))))
+
+(defn- add-impls
+  [p sel meths form class-name-sym env]
+  (let [resolved-p (cljm.analyzer/resolve-existing-var (dissoc env :locals) p)
+        proto (if (= (:ns resolved-p) 'ObjectiveCClass)
+                (stringify-objc-keyword p)
+                (mmunge (:name resolved-p)))
         meth (if (vector? (first meths)) 
                   meths 
                   (first meths))
         [sig & body] meth
+        sel-from-proto-f #(let [n (mmunge (apply core/str (drop 1 (name %))))]
+                            (reduce (fn [x xs] (core/str x ":")) n (drop 1 sig)))
+        sel (cond 
+              (= (first (name sel)) \-) (core/str proto "_" (sel-from-proto-f sel))
+              (= (last (name sel)) \!) (apply core/str (drop-last (name sel)))
+              :else (reduce (fn [x xs] (core/str x ":")) (name sel) (drop 1 sig)))
         body (apply concat body)
         args (reduce (fn [xs x] (core/str xs ", " x)) (core/map #(core/str "id " %) sig))
-        proto (stringify-objc-keyword p)
         imp-sym (gensym "imp_")
         fn-sym (gensym "var_")
         class (core/str "NSClassFromString(" class-name-sym ")")
-        fn (vary-meta `(fn ~meth) merge (meta form))]
+        new-meta (merge {:imp-fn true} (meta form))
+        fun (vary-meta `(fn ~meth) merge new-meta)]
     (list
-      (list 'objc* (core/str "id " fn-sym " = ~{}") fn)
+      (list 'objc* (core/str "id " fn-sym " = ~{}") fun)
       (list 'objc* (core/str "IMP " imp-sym " = imp_implementationWithBlock([" fn-sym " block])"))
-      (list 'objc* (core/str "class_addMethod(" class ", @selector(" sel "), " imp-sym ", protocol_getMethodDescription(@protocol(" proto "), @selector(" sel "), NO, YES).types)")))))
+      (list 'objc* (core/str "class_addMethod(" class ", @selector(" sel "), " imp-sym ", protocol_getMethodDescription(@protocol(" proto "), @selector(" sel "), YES, YES).types)")))))
 
 (declare collect-protocols-with-superclass)
+
+(defn- munge-class-name
+  [t env]
+  (let [res (cljm.analyzer/resolve-var env t)
+        n (:name res)]
+    (if (or (= (:ns res) 'ObjectiveCClass) (= (namespace n) (string/upper-case (namespace n))))
+        (stringify-objc-keyword t)
+        (core/str (mmunge n)))))
 
 (defmacro extend-type [tsym & impls]
   (let [resolve #(let [ret (:name (cljm.analyzer/resolve-var (dissoc &env :locals) %))]
@@ -490,8 +528,13 @@
                    ret)
         impl-map (loop [ret {} s impls]
                    (if (seq s)
-                     (recur (assoc ret (first s) (take-while seq? (next s)))
-                            (drop-while seq? (next s)))
+                     (let [p (first s)
+                           ex (p ret)
+                           ex (if ex
+                                ex
+                                [])]
+                       (recur (assoc ret p (concat ex (take-while seq? (next s))))
+                              (drop-while seq? (next s))))
                      ret))
         warn-if-not-protocol #(when-not (= 'Object %)
                                 (if cljm.analyzer/*cljm-warn-on-undeclared*
@@ -505,22 +548,24 @@
         t (resolve tsym)
         reify? (:reify (meta tsym))
         fields (-> tsym meta :fields)
-        class-name-sym (:class-name-sym (meta tsym))
+        has-name? (-> tsym meta :class-name-sym)
+        class-name-sym (or (-> tsym meta :class-name-sym) (gensym "className"))
         prototype-prefix (fn [sym] (symbol sym))
         assign-impls (fn [[p sigs]]
                             (warn-if-not-protocol p)
                             (concat
                               (mapcat (fn [[f & meths :as form]]
-                                        (add-imps tsym p f meths fields form class-name-sym))
+                                        (add-impls p f meths form class-name-sym &env))
                                       sigs)))
-        [superclass & protos] (collect-protocols-with-superclass impls &env)]
-        (if reify?
-          `(do ~(list 'objc* (core/str "id " class-name-sym " = [[~{} stringByAppendingString:[[NSUUID UUID] UUIDString]] stringByReplacingOccurrencesOfString:@\"-\" withString:@\"\"]") (core/str tsym))
-              ~@(create-class tsym 'NS/Object (conj protos superclass) class-name-sym)
-              ~@(mapcat assign-impls impl-map))
-          `(do ~(list 'objc* (core/str "id " class-name-sym " = ~{}") (stringify-objc-keyword tsym))
-              ~@(create-class tsym superclass protos class-name-sym)
-              ~@(mapcat assign-impls impl-map)))))
+        [superclass & protos] (collect-protocols-with-superclass impls &env)
+        protos (if has-name?
+                  protos
+                  (into [superclass] protos))
+        cl-name (munge-class-name tsym &env)]
+        `(do ~(when-not has-name? 
+                (list 'objc* (core/str "id " class-name-sym " = ~{}") cl-name))
+              ~@(add-protocols protos class-name-sym &env)
+              ~@(mapcat assign-impls impl-map))))
 
 (defn- prepare-protocol-masks [env t impls]
   (let [resolve #(let [ret (:name (cljm.analyzer/resolve-var (dissoc env :locals) %))]
@@ -585,7 +630,8 @@
 
 (defn collect-impls
   [impls]
-  (filter list? impls))
+  (let [divided (partition-by symbol? impls)]
+        (map (fn [x y] [(last x) y]) (take-nth 2 divided) (take-nth 2 (rest divided)))))
 
 (defmacro deftype [t fields & impls]
   (let [r (:name (cljm.analyzer/resolve-var (dissoc &env :locals) t))
@@ -593,7 +639,18 @@
         [superclass & protocols] (collect-protocols-with-superclass impls &env)
         protocols (into #{} protocols)
         reify? (:reify (meta t))
-        class-name-sym (gensym "className")
+        has-name? (-> t meta :class-name-sym)
+        class-name-sym (or (-> t meta :class-name-sym) (gensym "className"))
+        init-name (core/str (reduce (fn [xs x] (core/str xs ":")) "initWithFields" fields) "!")
+        init-stmts (list 'objc* (reduce (fn [xs x] (core/str xs "\n" x)) (map #(core/str "[self set" (string/capitalize (mmunge %)) ":" (mmunge %) "];") fields)))
+        init-method `(~'NS/Object (~(symbol init-name) ~(into ['self] fields) (~'do 
+                                                                        ~'(objc* "self = [self init]")
+                                                                        ~'(objc* "if (self == nil) return nil")
+                                                                        ~init-stmts
+                                                                        ~'(objc* "self"))))
+        impls (if-not reify?
+                (concat impls init-method)
+                impls)
         t (vary-meta t assoc
             :superclass superclass
             :protocols protocols
@@ -601,19 +658,23 @@
             :methods (collect-impls impls)
             :fields fields
             :class-name-sym class-name-sym)
-        et (dt->et impls fields true)]
+        et (dt->et impls fields true)
+        priv-class (gensym "privateClass")
+        cl-name (munge-class-name t &env)]
     (if (seq impls)
       `(do
+         ~(when-not has-name?
+            (list 'objc* (core/str "id " class-name-sym " = ~{}") cl-name))
+         ~(list 'objc* (core/str "Class " priv-class " = objc_allocateClassPair(" (stringify-objc-keyword superclass) ".class, [" class-name-sym " UTF8String], 0)"))
+         ~(list 'objc* (core/str "if (" priv-class " != Nil) {"))
+         ~(list 'objc* (core/str "objc_registerClassPair(" priv-class ")"))
+         ~(list 'objc* "}")
          (deftype* ~t ~fields ~pmasks)
-         ; (set! (.-cljm$lang$type ~t) true)
-         ; (set! (.-cljm$lang$ctorPrSeq ~t) (fn [this#] (list ~(core/str r))))
-         (extend-type ~t ~@et)
-         ~(when reify?
-            (list 'objc* (core/str "[[NSClassFromString(" class-name-sym ") alloc] init]"))))
+         (extend-type ~t ~@et))
       `(do
+         ~(when-not has-name?
+            (list 'objc* (core/str "id " class-name-sym " = ~{}") cl-name))
          (deftype* ~t ~fields ~pmasks)
-         ; (set! (.-cljm$lang$type ~t) true)
-         ; (set! (.-cljm$lang$ctorPrSeq ~t) (fn [this#] (list ~(core/str r))))
          ~t))))
 
 (defn- emit-defrecord

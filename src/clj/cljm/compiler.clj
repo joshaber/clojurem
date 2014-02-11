@@ -241,15 +241,21 @@
         dynamic (:dynamic info)
         local (:local info)
         field (:field info)
-        ns (:ns info)]
+        ns (:ns info)
+        type? (:type info)
+        is-protocol? (:is-protocol info)]
     (emit-wrap env
       (if-not local
-        (do
-          (if-not dynamic
-            (emits (munge n))
-            (emits "cljm_var_lookup(@\"" n "\")"))
-          (if-not (= ns 'ObjectiveCClass)
-            (emits ".value")))
+        (if is-protocol?
+          (emits "@protocol(" (munge n) ")")
+          (do
+            (if-not dynamic
+              (emits (munge n))
+              (emits "cljm_var_lookup(@\"" n "\")"))
+            (if-not (or (= ns 'ObjectiveCClass) type?)
+              (emits ".value"))
+            (when (or (= ns 'ObjectiveCClass) type?)
+              (emits ".class"))))
         (if field
           (emits "[self " (munge n) "]")
           (emits (munge n)))))))
@@ -322,7 +328,7 @@
   [{:keys [test then else env]}]
   (let [context (:context env)]
     (if (= :expr context)
-      (emits "@(cljm_truthy(" test ")) ? " then " : " else)
+      (emits "cljm_truthy(" test ") ? " then " : " else)
       (do
         (emitln "if(cljm_truthy(" test ")) {")
         (emitln then)
@@ -401,9 +407,13 @@
     (emits "})")))
 
 (defn emit-start-fn-var
-  [args]
+  [args imp-fn]
   (emits "[[CLJMFunction alloc] initWithBlock:^ id (")
-  (emits (comma-sep (concat (map #(str "id " (munge %)) (concat args (list "cljm_vararg"))) (list "..."))))
+  (emits (comma-sep (map #(str "id " (munge %)) args)))
+  (when-not imp-fn
+    (when (> (count args) 0)
+      (emits ", "))
+    (emits "id cljm_vararg, ..."))
   (emitln ") {"))
 
 (defn emit-end-fn-var
@@ -411,9 +421,12 @@
   (emitln "}]"))
 
 (defn emit-fn-method
-  [{:keys [gthis name variadic params statements ret env recurs max-fixed-arity]}]
+  [{:keys [gthis name variadic params statements ret env recurs max-fixed-arity]} imp-fn]
   (emit-wrap env
-             (emit-start-fn-var params)
+             (emit-start-fn-var params imp-fn)
+             (when imp-fn
+              (let [n (munge (first params))]
+                (when (not= n 'self) (emitln "id self = " n ";"))))
              (when recurs (emitln "while(YES) {"))
              (emit-block :return statements ret)
              (when recurs
@@ -422,9 +435,12 @@
              (emit-end-fn-var)))
 
 (defn emit-variadic-fn-method
-  [{:keys [gthis name variadic params statements ret env recurs max-fixed-arity] :as f}]
+  [{:keys [gthis name variadic params statements ret env recurs max-fixed-arity] :as f} imp-fn]
   (emit-wrap env
-             (emit-start-fn-var (drop-last params))
+             (emit-start-fn-var (drop-last params) imp-fn)
+             (when imp-fn
+              (let [n (munge (first params))]
+                (when (not= n 'self) (emitln "id self = " n ";"))))
              (let [lastn (munge (last params))]
                   (emitln "NSMutableArray *" lastn " = [NSMutableArray array];")
                   (emitln "va_list cljm_args;")
@@ -441,7 +457,7 @@
              (emit-end-fn-var)))
 
 (defmethod emit :fn
-  [{:keys [name env methods max-fixed-arity variadic recur-frames loop-lets]}]
+  [{:keys [name env methods max-fixed-arity variadic recur-frames loop-lets imp-fn]}]
   ;;fn statements get erased, serve no purpose and can pollute scope if named
   (when-not (= :statement (:context env))
     (let [loop-locals (->> (concat (mapcat :names (filter #(and % @(:flag %)) recur-frames))
@@ -456,8 +472,8 @@
             (emits "return ")))
       (if (= 1 (count methods))
         (if variadic
-          (emit-variadic-fn-method (assoc (first methods) :name name))
-          (emit-fn-method (assoc (first methods) :name name)))
+          (emit-variadic-fn-method (assoc (first methods) :name name) imp-fn)
+          (emit-fn-method (assoc (first methods) :name name) imp-fn))
         (let [has-name? (and name true)
               name (or name (gensym))
               mname (munge name)
@@ -470,13 +486,13 @@
               ms (sort-by #(-> % second :params count) (seq mmap))]
           (when (= :return (:context env))
             (emits "return "))
-          (emitln "^ id (id cljm_vararg, ...) {")
+          (emitln "[[CLJMFunction alloc] initWithBlock:^ id (id cljm_vararg, ...) {")
           (emitln "__block CLJMVar *" mname ";")
           (doseq [[n meth] ms]
             (emits "CLJMFunction *" n " = ")
             (if (:variadic meth)
-              (emit-variadic-fn-method meth)
-              (emit-fn-method meth))
+              (emit-variadic-fn-method meth imp-fn)
+              (emit-fn-method meth imp-fn))
             (emitln ";")
             (emitln))
           (emitln mname " = [[CLJMVar alloc] initWithValue:[[CLJMFunction alloc] initWithBlock:^ id (NSArray *cljm_args) {")
@@ -505,7 +521,7 @@
           (emitln "}")
           (emitln "va_end(cljm_args);")
           (emitln "return ((id (^)(NSArray *))[(CLJMFunction *)[" mname " value] block])(cljm_collectedArgs);")
-          (emitln "}")))
+          (emitln "}]")))
       (when loop-locals
         (emitln ";})(" (comma-sep loop-locals) "))")))))
 
@@ -550,7 +566,7 @@
 (defmethod emit :let
   [{:keys [bindings statements ret env loop]}]
   (let [context (:context env)]
-    (when (= :expr context) (emits "{"))
+    (when (= :expr context) (emits "^ id {"))
     (doseq [{:keys [name init]} bindings]
       (emitln "id " (munge name) " = " init ";"))
     (when loop (emitln "while(YES) {"))
@@ -559,7 +575,7 @@
       (emitln "break;")
       (emitln "}"))
     ;(emits "}")
-    (when (= :expr context) (emits "}"))))
+    (when (= :expr context) (emits "}()"))))
 
 (defmethod emit :recur
   [{:keys [frame exprs env]}]
@@ -711,9 +727,13 @@
   [{:keys [ctor args env]}]
   (emit-wrap env
             (let [method (first args)
-                  init-args (rest args)]
-             (emits "[" ctor " new]"))))
-             ; (emit-method-parts (sel-parts method) init-args))))
+                  init-args (rest args)
+                  init-meth (if (seq args)
+                                (reduce (fn [xs x] (str xs ":")) "initWithFields" args)
+                                "init")]
+             (emits "[[" ctor " alloc]")
+             (emit-method-parts (sel-parts init-meth) args)
+             (emits "]"))))
 
 (defmethod emit :set!
   [{:keys [target val env]}]
@@ -917,8 +937,16 @@
       (str (namespace t) (name t))
       (munge t)))
 
+(defn- selector-name
+  [sel]
+  (let [ssel (seq sel)]
+        (apply str (cond 
+                     (= (first ssel) \-) (drop 1 ssel)
+                     (= (last ssel) \!) (drop-last ssel)
+                     :else ssel))))
+
 (defmethod emit-h :deftype*
-  [{:keys [t fields superclass protocols methods] :as ast}]
+  [{:keys [t fields superclass protocols methods env] :as ast}]
   (emitln)
   (let [class-name (objc-class-munge t)
         superclass (objc-class-munge superclass)]
@@ -928,23 +956,28 @@
   (emitln)
   (emitln)
   (doseq [p fields]
-    (let [tag (:tag (meta p))
-          type (case tag
-                'iboutlet "IBOutlet id"
-                nil? "id"
-                :else tag)]
+    (let [tag (-> p meta :tag)
+          type (cond
+                  (= 'iboutlet tag) "IBOutlet id"
+                  nil? "id"
+                  :else tag)]
       (emitln "@property (nonatomic, strong) " type " " (munge p) ";")))
   (emitln)
-  (doseq [m methods]
-         (let [mname (apply str (drop-last (str (first m))))
-               parts (string/split mname #":")
-               pair-args (fn [sel arg] (str sel ":(id)" arg " "))
-               args (drop 1 (second m))
-               sel-parts (if (= (count args) (count parts))
-                          (apply str (map pair-args parts args))
-                          (apply str parts))]
-               (emitln "- (id)" sel-parts ";")
-               (emitln)))
+  (doseq [[p ms] methods]
+         (doseq [m ms]
+                 (let [p-ns (:ns (ana/resolve-existing-var (dissoc env :locals) p))
+                       prefix (if (= p-ns 'ObjectiveCClass)
+                                ""
+                                (str (munge (str p-ns "/" p)) "_"))
+                       mname (str prefix (selector-name (str (first m))))
+                       parts (string/split mname #":")
+                       pair-args (fn [sel arg] (str (munge sel) ":(id)" (munge arg) " "))
+                       args (drop 1 (second m))
+                       sel-parts (if (seq args)
+                                  (apply str (map pair-args (concat parts (repeat "")) args))
+                                  (str (first parts)))]
+                       (emitln "- (id)" sel-parts ";")
+                       (emitln))))
   (emitln)
   (emitln "@end")
   (emitln))

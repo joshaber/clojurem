@@ -420,13 +420,15 @@
                   ;; a second pass with knowledge of our function-ness/arity
                   ;; lets us optimize self calls
                   (map #(analyze-fn-method menv locals % gthis) meths)
-                  methods)]
+                  methods)
+        imp-fn? (-> form meta :imp-fn)]
     ;;todo - validate unique arities, at most one variadic, variadic takes max required args
     {:env env :op :fn :form form :name name :methods methods :variadic variadic
      :recur-frames *recur-frames* :loop-lets *loop-lets*
      :max-fixed-arity max-fixed-arity
      :protocol-impl protocol-impl
      :protocol-inline protocol-inline
+     :imp-fn imp-fn?
      :children (vec (mapcat block-children
                             methods))}))
 
@@ -683,7 +685,8 @@
            (fn [m]
              (let [m (assoc (or m {})
                        :name p
-                       :type true)]
+                       :type true
+                       :is-protocol true)]
                        ;;:num-fields (count fields))]
                (merge m
                  {:protocols (-> psym meta :protocols)}
