@@ -300,6 +300,7 @@
 ;;;;;;;;;;;;;;;;;;; protocols on primitives ;;;;;;;;
 (declare hash-map list equiv-sequential)
 
+; TODO
 ; (extend-type nil
 ;   IEquiv
 ;   (-equiv [_ o] (nil? o))
@@ -373,6 +374,7 @@
   IHash
   (-hash [o] o))
 
+; TODO
 ; (extend-type boolean
 ;   IHash
 ;   (-hash [o]
@@ -675,6 +677,7 @@ reduces them without incurring seq initialization"
       (recur sn)
       (first s))))
 
+; TODO
 (comment TODO (extend-type default
   IEquiv
   (-equiv [x o] (identical? x o))))
@@ -881,6 +884,8 @@ reduces them without incurring seq initialization"
 (defn ^boolean chunked-seq?
   [x] (satisfies? IChunkedSeq x))
 
+(def ^:private lookup-sentinel (NS/Object.))
+
 (defn ^boolean false?
   "Returns true if x is the value false, false otherwise."
   [x] (cljm.core/false? x))
@@ -930,93 +935,97 @@ reduces them without incurring seq initialization"
 (defn ^boolean ifn? [f]
   (or (fn? f) (satisfies? IFn f)))
 
-; (defn ^boolean integer?
-;   "Returns true if n is an integer.  Warning: returns true on underflow condition."
-;   [n]
-;   (and (number? n)
-;        (coercive-= n (."integerValue" n))))
+(defn ^boolean integer?
+  "Returns true if n is an integer.  Warning: returns true on underflow condition."
+  [n]
+  (number? n))
+    ; TODO: Definitely wrong
+    ;   (coercive-= n (."integerValue" n))))
 
-; (defn ^boolean contains?
-;   "Returns true if key is present in the given collection, otherwise
-;   returns false.  Note that for numerically indexed collections like
-;   vectors and arrays, this tests if the numeric key is within the
-;   range of indexes. 'contains?' operates constant or logarithmic time;
-;   it will not perform a linear search for a value.  See also 'some'."
-;   [coll v]
-;   (if (identical? (-lookup coll v lookup-sentinel) lookup-sentinel)
-;     false
-;     true))
+(defn ^boolean contains?
+  "Returns true if key is present in the given collection, otherwise
+  returns false.  Note that for numerically indexed collections like
+  vectors and arrays, this tests if the numeric key is within the
+  range of indexes. 'contains?' operates constant or logarithmic time;
+  it will not perform a linear search for a value.  See also 'some'."
+  [coll v]
+  (if (identical? (-lookup coll v lookup-sentinel) lookup-sentinel)
+    false
+    true))
 
-; (defn find
-;   "Returns the map entry for key, or nil if key not present."
-;   [coll k]
-;   (when (and coll
-;              (associative? coll)
-;              (contains? coll k))
-;     [k (-lookup coll k)]))
+(defn find
+  "Returns the map entry for key, or nil if key not present."
+  [coll k]
+  (when (and coll
+             (associative? coll)
+             (contains? coll k))
+    [k (-lookup coll k)]))
 
-; (defn ^boolean distinct?
-;   "Returns true if no two of the arguments are ="
-;   ([x] true)
-;   ([x y] (not (= x y)))
-;   ([x y & more]
-;      (if (not (= x y))
-;      (loop [s #{x y} xs more]
-;        (let [x (first xs)
-;              etc (next xs)]
-;          (if xs
-;            (if (contains? s x)
-;              false
-;              (recur (conj s x) etc))
-;            true)))
-;      false)))
+(defn ^boolean distinct?
+  "Returns true if no two of the arguments are ="
+  ([x] true)
+  ([x y] (not (= x y)))
+  ([x y & more]
+     (if (not (= x y))
+     (loop [s #{x y} xs more]
+       (let [x (first xs)
+             etc (next xs)]
+         (if xs
+           (if (contains? s x)
+             false
+             (recur (conj s x) etc))
+           true)))
+     false)))
 
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Seq fns ;;;;;;;;;;;;;;;;
 
-; (defn compare
-;   "Comparator. Returns a negative number, zero, or a positive number
-;   when x is logically 'less than', 'equal to', or 'greater than'
-;   y. Uses IComparable if available and google.array.defaultCompare for objects
-;  of the same type and special-cases nil to be less than any other object."
-;   [x y]
-;   (cond
-;    (identical? x y) 0
-;    (nil? x) -1
-;    (nil? y) 1
-;    (identical? (type x) (type y)) (if (satisfies? IComparable x)
-;                                     (-compare x y)
-;                                     (garray/defaultCompare x y))
-;    :else (error "compare on non-nil objects of different types")))
+(defn compare
+  "Comparator. Returns a negative number, zero, or a positive number
+  when x is logically 'less than', 'equal to', or 'greater than'
+  y. Uses IComparable if available and google.array.defaultCompare for objects
+ of the same type and special-cases nil to be less than any other object."
+  [x y]
+  (cond
+   (identical? x y) 0
+   (nil? x) -1
+   (nil? y) 1
+   (identical? (type x) (type y)) (if (satisfies? IComparable x)
+                                    (-compare x y)
+                                    nil)
+                                    ; TODO: something by default?
+                                    ;(garray/defaultCompare x y))
+   :else (error "compare on non-nil objects of different types")))
 
-; (defn ^:private compare-indexed
-;   "Compare indexed collection."
-;   ([xs ys]
-;      (let [xl (count xs)
-;            yl (count ys)]
-;        (cond
-;         (< xl yl) -1
-;         (> xl yl) 1
-;         :else (compare-indexed xs ys xl 0))))
-;   ([xs ys len n]
-;      (let [d (compare (nth xs n) (nth ys n))]
-;        (if (and (zero? d) (< (+ n 1) len))
-;          (recur xs ys len (inc n))
-;          d))))
+(defn ^:private compare-indexed
+  "Compare indexed collection."
+  ([xs ys]
+     (let [xl (count xs)
+           yl (count ys)]
+       (cond
+        (< xl yl) -1
+        (> xl yl) 1
+        :else (compare-indexed xs ys xl 0))))
+  ([xs ys len n]
+     (let [d (compare (nth xs n) (nth ys n))]
+       (if (and (zero? d) (< (+ n 1) len))
+         (recur xs ys len (inc n))
+         d))))
 
-; (defn ^:private fn->comparator
-;   "Given a fn that might be boolean valued or a comparator,
-;    return a fn that is a comparator."
-;   [f]
-;   (if (= f compare)
-;     compare
-;     (fn [x y]
-;       (let [r (f x y)]
-;         (if (number? r)
-;           r
-;           (if r
-;             -1
-;             (if (f y x) 1 0)))))))
+(defn ^:private fn->comparator
+  "Given a fn that might be boolean valued or a comparator,
+   return a fn that is a comparator."
+  [f]
+  (if (= f compare)
+    compare
+    (fn [x y]
+      (let [r (f x y)]
+        (if (number? r)
+          r
+          (if r
+            -1
+            (if (f y x) 1 0)))))))
 
+; TODO: cont here
 ; (declare to-array)
 ; (defn sort
 ;   "Returns a sorted sequence of the items in coll. Comp can be
@@ -1043,22 +1052,23 @@ reduces them without incurring seq initialization"
 ;      (sort (fn [x y] ((fn->comparator comp) (keyfn x) (keyfn y))) coll)))
 
 ; ; simple reduce based on seqs, used as default
-; (defn- seq-reduce
-;   ([f coll]
-;     (if-let [s (seq coll)]
-;       (reduce f (first s) (next s))
-;       (f)))
-;   ([f val coll]
-;     (loop [val val, coll (seq coll)]
-;       (if coll
-;         (let [nval (f val (first coll))]
-;           (if (reduced? nval)
-;             @nval
-;             (recur nval (next coll))))
-;         val))))
+(defn- seq-reduce
+  ([f coll]
+    (if-let [s (seq coll)]
+      (reduce f (first s) (next s))
+      (f)))
+  ([f val coll]
+    (loop [val val, coll (seq coll)]
+      (if coll
+        (let [nval (f val (first coll))]
+          (if (reduced? nval)
+            @nval
+            (recur nval (next coll))))
+        val))))
 
-; (declare vec)
+(declare vec)
 
+; TODO
 ; (defn shuffle
 ;   "Return a random permutation of coll"
 ;   [coll]
@@ -1066,282 +1076,284 @@ reduces them without incurring seq initialization"
 ;     (garray/shuffle a)
 ;     (vec a)))
 
-; (defn reduce
-;   "f should be a function of 2 arguments. If val is not supplied,
-;   returns the result of applying f to the first 2 items in coll, then
-;   applying f to that result and the 3rd item, etc. If coll contains no
-;   items, f must accept no arguments as well, and reduce returns the
-;   result of calling f with no arguments.  If coll has only 1 item, it
-;   is returned and f is not called.  If val is supplied, returns the
-;   result of applying f to val and the first item in coll, then
-;   applying f to that result and the 2nd item, etc. If coll contains no
-;   items, returns val and f is not called."
-;   ([f coll]
-;      (if (satisfies? IReduce coll)
-;        (-reduce coll f)
-;        (seq-reduce f coll)))
-;   ([f val coll]
-;      (if (satisfies? IReduce coll)
-;        (-reduce coll f val)
-;        (seq-reduce f val coll))))
+(defn reduce
+  "f should be a function of 2 arguments. If val is not supplied,
+  returns the result of applying f to the first 2 items in coll, then
+  applying f to that result and the 3rd item, etc. If coll contains no
+  items, f must accept no arguments as well, and reduce returns the
+  result of calling f with no arguments.  If coll has only 1 item, it
+  is returned and f is not called.  If val is supplied, returns the
+  result of applying f to val and the first item in coll, then
+  applying f to that result and the 2nd item, etc. If coll contains no
+  items, returns val and f is not called."
+  ([f coll]
+     (if (satisfies? IReduce coll)
+       (-reduce coll f)
+       (seq-reduce f coll)))
+  ([f val coll]
+     (if (satisfies? IReduce coll)
+       (-reduce coll f val)
+       (seq-reduce f val coll))))
 
-; (defn reduce-kv
-;   "Reduces an associative collection. f should be a function of 3
-;   arguments. Returns the result of applying f to init, the first key
-;   and the first value in coll, then applying f to that result and the
-;   2nd key and value, etc. If coll contains no entries, returns init
-;   and f is not called. Note that reduce-kv is supported on vectors,
-;   where the keys will be the ordinals."
-;   ([f init coll]
-;      (-kv-reduce coll f init)))
+(defn reduce-kv
+  "Reduces an associative collection. f should be a function of 3
+  arguments. Returns the result of applying f to init, the first key
+  and the first value in coll, then applying f to that result and the
+  2nd key and value, etc. If coll contains no entries, returns init
+  and f is not called. Note that reduce-kv is supported on vectors,
+  where the keys will be the ordinals."
+  ([f init coll]
+     (-kv-reduce coll f init)))
 
-; (deftype Reduced [val]
-;   IDeref
-;   (-deref [o] val))
+(deftype Reduced [val]
+  NS/Object
+  IDeref
+  (-deref [o] val))
 
-; (defn ^boolean reduced?
-;   "Returns true if x is the result of a call to reduced"
-;   [r]
-;   (instance? Reduced r))
+(defn ^boolean reduced?
+  "Returns true if x is the result of a call to reduced"
+  [r]
+  (instance? Reduced r))
 
-; (defn reduced
-;   "Wraps x in a way such that a reduce will terminate with the value x"
-;   [x]
-;   (Reduced. x))
+(defn reduced
+  "Wraps x in a way such that a reduce will terminate with the value x"
+  [x]
+  (Reduced. x))
 
 ; ;;; Math - variadic forms will not work until the following implemented:
 ; ;;; first, next, reduce
 
-; (defn +
-;   "Returns the sum of nums. (+) returns 0."
-;   ([] 0)
-;   ([x] x)
-;   ([x y] (cljm.core/+ x y))
-;   ([x y & more] (reduce + (cljm.core/+ x y) more)))
+(defn +
+  "Returns the sum of nums. (+) returns 0."
+  ([] 0)
+  ([x] x)
+  ([x y] (cljm.core/+ x y))
+  ([x y & more] (reduce + (cljm.core/+ x y) more)))
 
-; (defn -
-;   "If no ys are supplied, returns the negation of x, else subtracts
-;   the ys from x and returns the result."
-;   ([x] (cljm.core/- x))
-;   ([x y] (cljm.core/- x y))
-;   ([x y & more] (reduce - (cljm.core/- x y) more)))
+(defn -
+  "If no ys are supplied, returns the negation of x, else subtracts
+  the ys from x and returns the result."
+  ([x] (cljm.core/- x))
+  ([x y] (cljm.core/- x y))
+  ([x y & more] (reduce - (cljm.core/- x y) more)))
 
-; (defn *
-;   "Returns the product of nums. (*) returns 1."
-;   ([] 1)
-;   ([x] x)
-;   ([x y] (cljm.core/* x y))
-;   ([x y & more] (reduce * (cljm.core/* x y) more)))
+(defn *
+  "Returns the product of nums. (*) returns 1."
+  ([] 1)
+  ([x] x)
+  ([x y] (cljm.core/* x y))
+  ([x y & more] (reduce * (cljm.core/* x y) more)))
 
-; (defn /
-;   "If no denominators are supplied, returns 1/numerator,
-;   else returns numerator divided by all of the denominators."
-;   ([x] (/ 1 x))
-;   ([x y] (objc* "(~{x} / ~{y})")) ;; FIXME: waiting on cljs.core//
-;   ([x y & more] (reduce / (/ x y) more)))
+(defn /
+  "If no denominators are supplied, returns 1/numerator,
+  else returns numerator divided by all of the denominators."
+  ([x] (/ 1 x))
+  ([x y] (objc* "@([~{x} doubleValue] / [~{y} doubleValue])")) ;; FIXME: waiting on cljs.core//
+  ([x y & more] (reduce / (/ x y) more)))
 
-; (defn ^boolean <
-;   "Returns non-nil if nums are in monotonically increasing order,
-;   otherwise false."
-;   ([x] true)
-;   ([x y] (cljm.core/< x y))
-;   ([x y & more]
-;      (if (cljm.core/< x y)
-;        (if (next more)
-;          (recur y (first more) (next more))
-;          (cljm.core/< y (first more)))
-;        false)))
+(defn ^boolean <
+  "Returns non-nil if nums are in monotonically increasing order,
+  otherwise false."
+  ([x] true)
+  ([x y] (cljm.core/< x y))
+  ([x y & more]
+     (if (cljm.core/< x y)
+       (if (next more)
+         (recur y (first more) (next more))
+         (cljm.core/< y (first more)))
+       false)))
 
-; (defn ^boolean <=
-;   "Returns non-nil if nums are in monotonically non-decreasing order,
-;   otherwise false."
-;   ([x] true)
-;   ([x y] (cljm.core/<= x y))
-;   ([x y & more]
-;    (if (cljm.core/<= x y)
-;      (if (next more)
-;        (recur y (first more) (next more))
-;        (cljm.core/<= y (first more)))
-;      false)))
+(defn ^boolean <=
+  "Returns non-nil if nums are in monotonically non-decreasing order,
+  otherwise false."
+  ([x] true)
+  ([x y] (cljm.core/<= x y))
+  ([x y & more]
+   (if (cljm.core/<= x y)
+     (if (next more)
+       (recur y (first more) (next more))
+       (cljm.core/<= y (first more)))
+     false)))
 
-; (defn ^boolean >
-;   "Returns non-nil if nums are in monotonically decreasing order,
-;   otherwise false."
-;   ([x] true)
-;   ([x y] (cljm.core/> x y))
-;   ([x y & more]
-;    (if (cljm.core/> x y)
-;      (if (next more)
-;        (recur y (first more) (next more))
-;        (cljm.core/> y (first more)))
-;      false)))
+(defn ^boolean >
+  "Returns non-nil if nums are in monotonically decreasing order,
+  otherwise false."
+  ([x] true)
+  ([x y] (cljm.core/> x y))
+  ([x y & more]
+   (if (cljm.core/> x y)
+     (if (next more)
+       (recur y (first more) (next more))
+       (cljm.core/> y (first more)))
+     false)))
 
-; (defn ^boolean >=
-;   "Returns non-nil if nums are in monotonically non-increasing order,
-;   otherwise false."
-;   ([x] true)
-;   ([x y] (cljm.core/>= x y))
-;   ([x y & more]
-;    (if (cljm.core/>= x y)
-;      (if (next more)
-;        (recur y (first more) (next more))
-;        (cljm.core/>= y (first more)))
-;      false)))
+(defn ^boolean >=
+  "Returns non-nil if nums are in monotonically non-increasing order,
+  otherwise false."
+  ([x] true)
+  ([x y] (cljm.core/>= x y))
+  ([x y & more]
+   (if (cljm.core/>= x y)
+     (if (next more)
+       (recur y (first more) (next more))
+       (cljm.core/>= y (first more)))
+     false)))
 
-; (defn dec
-;   "Returns a number one less than num."
-;   [x] (- x 1))
+(defn dec
+  "Returns a number one less than num."
+  [x] (- x 1))
 
-; (defn max
-;   "Returns the greatest of the nums."
-;   ([x] x)
-;   ([x y] (cljm.core/max x y))
-;   ([x y & more]
-;    (reduce max (cljm.core/max x y) more)))
+(defn max
+  "Returns the greatest of the nums."
+  ([x] x)
+  ([x y] (cljm.core/max x y))
+  ([x y & more]
+   (reduce max (cljm.core/max x y) more)))
 
-; (defn min
-;   "Returns the least of the nums."
-;   ([x] x)
-;   ([x y] (cljm.core/min x y))
-;   ([x y & more]
-;    (reduce min (cljm.core/min x y) more)))
+(defn min
+  "Returns the least of the nums."
+  ([x] x)
+  ([x y] (cljm.core/min x y))
+  ([x y & more]
+   (reduce min (cljm.core/min x y) more)))
 
-; (defn- fix [q]
-;   (if (>= q 0)
-;     (Math/floor q)
-;     (Math/ceil q)))
+(defn- fix [q]
+  (if (>= q 0)
+    (->v (c/floor (->d q)))
+    (->v (c/ceil (->d q)))))
 
-; (defn int
-;   "Coerce to int by stripping decimal places."
-;   [x]
-;   (fix x))
+(defn int
+  "Coerce to int by stripping decimal places."
+  [x]
+  (fix x))
 
-; (defn long
-;   "Coerce to long by stripping decimal places. Identical to `int'."
-;   [x]
-;   (fix x))
+(defn long
+  "Coerce to long by stripping decimal places. Identical to `int'."
+  [x]
+  (fix x))
 
-; (defn mod
-;   "Modulus of num and div. Truncates toward negative infinity."
-;   [n d]
-;   (cljm.core/mod n d))
+(defn mod
+  "Modulus of num and div. Truncates toward negative infinity."
+  [n d]
+  (cljm.core/mod n d))
 
-; (defn quot
-;   "quot[ient] of dividing numerator by denominator."
-;   [n d]
-;   (let [rem (mod n d)]
-;     (fix (/ (- n rem) d))))
+(defn quot
+  "quot[ient] of dividing numerator by denominator."
+  [n d]
+  (let [rem (mod n d)]
+    (fix (/ (- n rem) d))))
 
-; (defn rem
-;   "remainder of dividing numerator by denominator."
-;   [n d]
-;   (let [q (quot n d)]
-;     (- n (* d q))))
+(defn rem
+  "remainder of dividing numerator by denominator."
+  [n d]
+  (let [q (quot n d)]
+    (- n (* d q))))
 
-; (defn rand
-;   "Returns a random floating point number between 0 (inclusive) and n (default 1) (exclusive)."
-;   ([]  (Math/random))
-;   ([n] (* n (rand))))
+(defn rand
+  "Returns a random floating point number between 0 (inclusive) and n (default 1) (exclusive)."
+  ([]  (objc* "@(0x100000000 / arc4random_uniform(0x100000000))"))
+  ([n] (* n (rand))))
 
-; (defn rand-int
-;   "Returns a random integer between 0 (inclusive) and n (exclusive)."
-;   [n] (fix (rand n)))
+(defn rand-int
+  "Returns a random integer between 0 (inclusive) and n (exclusive)."
+  [n] (fix (rand n)))
 
-; (defn bit-xor
-;   "Bitwise exclusive or"
-;   [x y] (cljm.core/bit-xor x y))
+(defn bit-xor
+  "Bitwise exclusive or"
+  [x y] (cljm.core/bit-xor x y))
 
-; (defn bit-and
-;   "Bitwise and"
-;   [x y] (cljm.core/bit-and x y))
+(defn bit-and
+  "Bitwise and"
+  [x y] (cljm.core/bit-and x y))
 
-; (defn bit-or
-;   "Bitwise or"
-;   [x y] (cljm.core/bit-or x y))
+(defn bit-or
+  "Bitwise or"
+  [x y] (cljm.core/bit-or x y))
 
-; (defn bit-and-not
-;   "Bitwise and"
-;   [x y] (cljm.core/bit-and-not x y))
+(defn bit-and-not
+  "Bitwise and"
+  [x y] (cljm.core/bit-and-not x y))
 
-; (defn bit-clear
-;   "Clear bit at index n"
-;   [x n]
-;   (cljm.core/bit-clear x n))
+(defn bit-clear
+  "Clear bit at index n"
+  [x n]
+  (cljm.core/bit-clear x n))
 
-; (defn bit-flip
-;   "Flip bit at index n"
-;   [x n]
-;   (cljm.core/bit-flip x n))
+(defn bit-flip
+  "Flip bit at index n"
+  [x n]
+  (cljm.core/bit-flip x n))
 
-; (defn bit-not
-;   "Bitwise complement"
-;   [x] (cljm.core/bit-not x))
+(defn bit-not
+  "Bitwise complement"
+  [x] (cljm.core/bit-not x))
 
-; (defn bit-set
-;   "Set bit at index n"
-;   [x n]
-;   (cljm.core/bit-set x n))
+(defn bit-set
+  "Set bit at index n"
+  [x n]
+  (cljm.core/bit-set x n))
 
-; (defn bit-test
-;   "Test bit at index n"
-;   [x n]
-;   (cljm.core/bit-test x n))
+(defn bit-test
+  "Test bit at index n"
+  [x n]
+  (cljm.core/bit-test x n))
 
-; (defn bit-shift-left
-;   "Bitwise shift left"
-;   [x n] (cljm.core/bit-shift-left x n))
+(defn bit-shift-left
+  "Bitwise shift left"
+  [x n] (cljm.core/bit-shift-left x n))
 
-; (defn bit-shift-right
-;   "Bitwise shift right"
-;   [x n] (cljm.core/bit-shift-right x n))
+(defn bit-shift-right
+  "Bitwise shift right"
+  [x n] (cljm.core/bit-shift-right x n))
 
-; (defn bit-shift-right-zero-fill
-;   "Bitwise shift right with zero fill"
-;   [x n] (cljm.core/bit-shift-right-zero-fill x n))
+(defn bit-shift-right-zero-fill
+  "Bitwise shift right with zero fill"
+  [x n] (cljm.core/bit-shift-right-zero-fill x n))
 
-; (defn bit-count
-;   "Counts the number of bits set in n"
-;   [v]
-;   (let [v (- v (bit-and (bit-shift-right v 1) 0x55555555))
-;         v (+ (bit-and v 0x33333333) (bit-and (bit-shift-right v 2) 0x33333333))]
-;     (bit-shift-right (* (bit-and (+ v (bit-shift-right v 4)) 0xF0F0F0F) 0x1010101) 24)))
+(defn bit-count
+  "Counts the number of bits set in n"
+  [v]
+  (let [v (- v (bit-and (bit-shift-right v 1) 0x55555555))
+        v (+ (bit-and v 0x33333333) (bit-and (bit-shift-right v 2) 0x33333333))]
+    (bit-shift-right (* (bit-and (+ v (bit-shift-right v 4)) 0xF0F0F0F) 0x1010101) 24)))
 
-; (defn ^boolean ==
-;   "Returns non-nil if nums all have the equivalent
-;   value, otherwise false. Behavior on non nums is
-;   undefined."
-;   ([x] true)
-;   ([x y] (-equiv x y))
-;   ([x y & more]
-;    (if (== x y)
-;      (if (next more)
-;        (recur y (first more) (next more))
-;        (== y (first more)))
-;      false)))
+(defn ^boolean ==
+  "Returns non-nil if nums all have the equivalent
+  value, otherwise false. Behavior on non nums is
+  undefined."
+  ([x] true)
+  ([x y] (-equiv x y))
+  ([x y & more]
+   (if (== x y)
+     (if (next more)
+       (recur y (first more) (next more))
+       (== y (first more)))
+     false)))
 
-; (defn ^boolean pos?
-;   "Returns true if num is greater than zero, else false"
-;   [n] (cljm.core/pos? n))
+(defn ^boolean pos?
+  "Returns true if num is greater than zero, else false"
+  [n] (cljm.core/pos? n))
 
-; (defn ^boolean zero? [n]
-;   (cljm.core/zero? n))
+(defn ^boolean zero? [n]
+  (cljm.core/zero? n))
 
-; (defn ^boolean neg?
-;   "Returns true if num is less than zero, else false"
-;   [x] (cljm.core/neg? x))
+(defn ^boolean neg?
+  "Returns true if num is less than zero, else false"
+  [x] (cljm.core/neg? x))
 
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; protocols for host types ;;;;;;
 
-; (defn nthnext
-;   "Returns the nth next of coll, (seq coll) when n is 0."
-;   [coll n]
-;   (loop [n n xs (seq coll)]
-;     (if (and xs (pos? n))
-;       (recur (dec n) (next xs))
-;       xs)))
+(defn nthnext
+  "Returns the nth next of coll, (seq coll) when n is 0."
+  [coll n]
+  (loop [n n xs (seq coll)]
+    (if (and xs (pos? n))
+      (recur (dec n) (next xs))
+      xs)))
 
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;; basics ;;;;;;;;;;;;;;;;;;
 
+; TODO continue
 ; (defn- str*
 ;   "Internal - do not use!"
 ;   ([] "")
