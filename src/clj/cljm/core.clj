@@ -316,7 +316,7 @@
   ([x y & more] `(min (min ~x ~y) ~@more)))
 
 (defmacro mod [num div]
-  (list 'objc* "@([~{} doubleValue] % [~{} doubleValue])" num div))
+  (list 'objc* "@([~{} integerValue] % [~{} integerValue])" num div))
 
 (defmacro bit-not [x]
   (list 'objc* "@(~ [~{} integerValue])" x))
@@ -358,7 +358,7 @@
   (list 'objc* "@([~{} integerValue] >> [~{} integerValue])" x n))
 
 (defmacro bit-shift-right-zero-fill [x n]
-  (list 'objc* "@([~{} integerValue] >>> [~{} integerValue])" x n))
+  (list 'objc* "@([~{} unsignedIntegerValue] >> [~{} unsignedIntegerValue])" x n))
 
 (defmacro bit-set [x n]
   (list 'objc* "@([~{} integerValue] | (1 << [~{} integerValue]))" x n))
