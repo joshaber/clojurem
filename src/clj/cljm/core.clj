@@ -56,6 +56,10 @@
   [i]
   `(.integerValue ~i))
 
+(defmacro ->ui
+  [ui]
+  `(.unsignedIntegerValue ~ui))
+
 (defmacro ->b
   [b]
   `(.boolValue ~b))
@@ -231,10 +235,10 @@
 
 (defmacro aget
   ([a i]
-     (list 'objc* "(~{}[~{}])" a i))
+     (list 'objc* "(~{}[[~{} unsignedIntegerValue]])" a i))
   ([a i & idxs]
      (let [astr (apply core/str (repeat (count idxs) "[~{}]"))]
-      `(~'objc* ~(core/str "(~{}[~{}]" astr ")") ~a ~i ~@idxs))))
+      `(~'objc* ~(core/str "(~{}[[~{} unsignedIntegerValue]]" astr ")") ~a ~i ~@idxs))))
 
 (defmacro aset [a i v]
   (list 'objc* "(~{}[~{}] = ~{})" a i v))
