@@ -528,11 +528,11 @@
 (defmethod emit :do
   [{:keys [statements ret env]}]
   (let [context (:context env)]
-    (when (and statements (= :expr context)) (emits "{"))
+    (when (and statements (= :expr context)) (emits "^ id {"))
     ;(when statements (emitln "{"))
     (emit-block context statements ret)
     ;(when statements (emits "}"))
-    (when (and statements (= :expr context)) (emits "}"))))
+    (when (and statements (= :expr context)) (emits "}()"))))
 
 (defmethod emit :try*
   [{:keys [env try catch name finally]}]
