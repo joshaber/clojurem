@@ -1353,43 +1353,27 @@ reduces them without incurring seq initialization"
 
 ; ;;;;;;;;;;;;;;;;;;;;;;;;;; basics ;;;;;;;;;;;;;;;;;;
 
-; TODO continue
-; (defn- str*
-;   "Internal - do not use!"
-;   ([] "")
-;   ([x] (cond
-;         (nil? x) ""
-;         :else (."description" x)))
-;   ([x & ys]
-;      ((fn [sb more]
-;         (if more
-;           (recur (. sb  (append (str* (first more)))) (next more))
-;           (str* sb)))
-;       (gstring/StringBuffer. (str* x)) ys)))
+(defn str
+  "With no args, returns the empty string. With one arg x, returns
+  x.toString().  (str nil) returns the empty string. With more than
+  one arg, returns the concatenation of the str values of the args."
+  ([] "")
+  ([x] (if (nil? x)
+         ""
+         (.toString x)))
+  ([x & ys]
+    (loop [sb (. (.alloc NS/MutableString) initWithString:! (str x)) more ys]
+      (if more
+        (recur (do (. sb  (.appendString:! (str (first more)))) sb) (next more))
+        (.toString sb)))))
 
-; (defn str
-;   "With no args, returns the empty string. With one arg x, returns
-;   x.toString().  (str nil) returns the empty string. With more than
-;   one arg, returns the concatenation of the str values of the args."
-;   ([] "")
-;   ([x] (cond
-;         (symbol? x) (. x (substring 2 (.-count x)))
-;         (keyword? x) (str* ":" (. x (substring 2 (.-count x))))
-;         (nil? x) ""
-;         :else (."description" x)))
-;   ([x & ys]
-;      ((fn [sb more]
-;         (if more
-;           (recur (. sb  (append (str (first more)))) (next more))
-;           (str* sb)))
-;       (gstring/StringBuffer. (str x)) ys)))
+(defn subs
+  "Returns the substring of s beginning at start inclusive, and ending
+  at end (defaults to length of string), exclusive."
+  ([s start] (.substringFromIndex:! s (->ui start)))
+  ([s start end] (.substringWithRange:! s (c/NSMakeRange (->ui start) (->ui end)))))
 
-; (defn subs
-;   "Returns the substring of s beginning at start inclusive, and ending
-;   at end (defaults to length of string), exclusive."
-;   ([s start] (.substring s start))
-;   ([s start end] (.substring s start end)))
-
+; continue
 ; (defn format
 ;   "Formats a string using goog.string.format."
 ;   [fmt & args]
@@ -1412,49 +1396,49 @@ reduces them without incurring seq initialization"
 
 
 
-; (defn- equiv-sequential
-;   "Assumes x is sequential. Returns true if x equals y, otherwise
-;   returns false."
-;   [x y]
-;   (boolean
-;    (when (sequential? y)
-;      (loop [xs (seq x) ys (seq y)]
-;        (cond (nil? xs) (nil? ys)
-;              (nil? ys) false
-;              (= (first xs) (first ys)) (recur (next xs) (next ys))
-;              :else false)))))
+(defn- equiv-sequential
+  "Assumes x is sequential. Returns true if x equals y, otherwise
+  returns false."
+  [x y]
+  (boolean
+   (when (sequential? y)
+     (loop [xs (seq x) ys (seq y)]
+       (cond (nil? xs) (nil? ys)
+             (nil? ys) false
+             (= (first xs) (first ys)) (recur (next xs) (next ys))
+             :else false)))))
 
-; (defn hash-combine [seed hash]
-;   ; a la boost
-;   (bit-xor seed (+ hash 0x9e3779b9
-;                    (bit-shift-left seed 6)
-;                    (bit-shift-right seed 2))))
+(defn hash-combine [seed hash]
+  ; a la boost
+  (bit-xor seed (+ hash 0x9e3779b9
+                   (bit-shift-left seed 6)
+                   (bit-shift-right seed 2))))
 
-; (defn- hash-coll [coll]
-;   (reduce #(hash-combine %1 (hash %2 false)) (hash (first coll) false) (next coll)))
+(defn- hash-coll [coll]
+  (reduce #(hash-combine %1 (hash %2 false)) (hash (first coll) false) (next coll)))
 
-; (declare key val)
+(declare key val)
 
-; (defn- hash-imap [m]
-;   ;; a la clojure.lang.APersistentMap
-;   (loop [h 0 s (seq m)]
-;     (if s
-;       (let [e (first s)]
-;         (recur (mod (+ h (bit-xor (hash (key e)) (hash (val e))))
-;                     4503599627370496)
-;                (next s)))
-;       h)))
+(defn- hash-imap [m]
+  ;; a la clojure.lang.APersistentMap
+  (loop [h 0 s (seq m)]
+    (if s
+      (let [e (first s)]
+        (recur (mod (+ h (bit-xor (hash (key e)) (hash (val e))))
+                    4503599627370496)
+               (next s)))
+      h)))
 
-; (defn- hash-iset [s]
-;   ;; a la clojure.lang.APersistentSet
-;   (loop [h 0 s (seq s)]
-;     (if s
-;       (let [e (first s)]
-;         (recur (mod (+ h (hash e)) 4503599627370496)
-;                (next s)))
-;       h)))
+(defn- hash-iset [s]
+  ;; a la clojure.lang.APersistentSet
+  (loop [h 0 s (seq s)]
+    (if s
+      (let [e (first s)]
+        (recur (mod (+ h (hash e)) 4503599627370496)
+               (next s)))
+      h)))
 
-; (declare name)
+(declare name)
 
 ; (defn- extend-object!
 ;   "Takes a JavaScript object and a map of names to functions and
