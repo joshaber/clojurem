@@ -737,7 +737,12 @@
 
 (defmethod emit :set!
   [{:keys [target val env]}]
-  (emit-wrap env (emits target " = " val)))
+  (let [info (:info target)
+        field (:field info)
+        name (:name info)]
+    (if field
+      (emit-wrap env (emits "[self set" (string/capitalize name) ":" val "]"))
+      (emit-wrap env (emits target " = " val)))))
 
 (defmethod emit :ns
   [{:keys [name requires uses requires-macros env]}]
