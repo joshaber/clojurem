@@ -458,7 +458,7 @@ reduces them without incurring seq initialization"
 
 (declare hash-coll cons pr-str counted?)
 
-(deftype IndexedSeq [a i]
+(deftype IndexedSeq [^NS/Array a i]
   NS/Object
   (toString [self]
     (str (pr-str self) ": a: " a ", i: " i))
@@ -923,7 +923,7 @@ reduces them without incurring seq initialization"
 
 (defn ^boolean symbol? [x]
   (and ^boolean (objc* "@([~{x} isKindOfClass:[NSString class]])" x)
-       (= (->v (.characterAtIndex:! x (-> 0))) "'")))
+       (= (->v (.characterAtIndex:! x (->ui 0))) "'")))
 
 (defn ^boolean number? [n]
   (objc* "@([~{n} isKindOfClass:[NSNumber class]])" n))
@@ -1360,12 +1360,12 @@ reduces them without incurring seq initialization"
   ([] "")
   ([x] (if (nil? x)
          ""
-         (.toString x)))
+         (.description x)))
   ([x & ys]
     (loop [sb (. (.alloc NS/MutableString) initWithString:! (str x)) more ys]
       (if more
         (recur (do (. sb  (.appendString:! (str (first more)))) sb) (next more))
-        (.toString sb)))))
+        (.description sb)))))
 
 (defn subs
   "Returns the substring of s beginning at start inclusive, and ending
@@ -1373,26 +1373,26 @@ reduces them without incurring seq initialization"
   ([s start] (.substringFromIndex:! s (->ui start)))
   ([s start end] (.substringWithRange:! s (c/NSMakeRange (->ui start) (->ui end)))))
 
-; continue
-; (defn format
-;   "Formats a string using goog.string.format."
-;   [fmt & args]
-;   (apply gstring/format fmt args))
+(defn format
+  "Formats a string using +[NSString stringWithFormat:]."
+  [fmt & args]
+  (.stringWithFormat:! NS/String fmt args))
+  ;(apply gstring/format fmt args))
 
-; (defn symbol
-;   "Returns a Symbol with the given namespace and name."
-;   ([name] (cond (symbol? name) name
-;                 (keyword? name) (str* "\uFDD1" "'" (subs name 2)))
-;      :else (str* "\uFDD1" "'" name))
-;   ([ns name] (symbol (str* ns "/" name))))
+(defn symbol
+  "Returns a Symbol with the given namespace and name."
+  ([name] (cond (symbol? name) name
+                (keyword? name) (str "\uFDD1" "'" (subs name 2)))
+     :else (str "\uFDD1" "'" name))
+  ([ns name] (symbol (str ns "/" name))))
 
-; (defn keyword
-;   "Returns a Keyword with the given namespace and name.  Do not use :
-;   in the keyword strings, it will be added automatically."
-;   ([name] (cond (keyword? name) name
-;                 (symbol? name) (str* "\uFDD0" "'" (subs name 2))
-;                 :else (str* "\uFDD0" "'" name)))
-;   ([ns name] (keyword (str* ns "/" name))))
+(defn keyword
+  "Returns a Keyword with the given namespace and name.  Do not use :
+  in the keyword strings, it will be added automatically."
+  ([name] (cond (keyword? name) name
+                (symbol? name) (str "\uFDD0" "'" (subs name 2))
+                :else (str "\uFDD0" "'" name)))
+  ([ns name] (keyword (str ns "/" name))))
 
 
 
@@ -1451,204 +1451,207 @@ reduces them without incurring seq initialization"
 ;       (aset obj str-name f)))
 ;   obj)
 
-; ;;;;;;;;;;;;;;;; cons ;;;;;;;;;;;;;;;;
-; (deftype List [meta first rest count ^:mutable __hash]
-;   IList
+;;;;;;;;;;;;;;;; cons ;;;;;;;;;;;;;;;;
+(declare EMPTY)
 
-;   Object
-;   (toString [this]
-;     (pr-str this))
+(deftype List [meta first rest c ^:mutable __hash]
+  NS/Object
+  (toString [this]
+    (pr-str this))
 
-;   IWithMeta
-;   (-with-meta [coll meta] (List. meta first rest count __hash))
+  IList
 
-;   IMeta
-;   (-meta [coll] meta)
+  IWithMeta
+  (-with-meta [coll meta] (List. meta first rest c __hash))
 
-;   ASeq
-;   ISeq
-;   (-first [coll] first)
-;   (-rest [coll]
-;     (if (== count 1)
-;       ()
-;       rest))
+  IMeta
+  (-meta [coll] meta)
 
-;   INext
-;   (-next [coll]
-;     (if (== count 1)
-;       nil
-;       rest))
+  ASeq
+  ISeq
+  (-first [coll] first)
+  (-rest [coll]
+    (if (== c 1)
+      ()
+      rest))
 
-;   IStack
-;   (-peek [coll] first)
-;   (-pop [coll] (-rest coll))
+  INext
+  (-next [coll]
+    (if (== c 1)
+      nil
+      rest))
 
-;   ICollection
-;   (-conj [coll o] (List. meta o coll (inc count) nil))
+  IStack
+  (-peek [coll] first)
+  (-pop [coll] (-rest coll))
 
-;   IEmptyableCollection
-;   (-empty [coll] cljs.core.List/EMPTY)
+  ICollection
+  (-conj [coll o] (List. meta o coll (inc c) nil))
 
-;   ISequential
-;   IEquiv
-;   (-equiv [coll other] (equiv-sequential coll other))
+  IEmptyableCollection
+  (-empty [coll] EMPTY)
 
-;   IHash
-;   (-hash [coll] (caching-hash coll hash-coll __hash))
+  ISequential
+  IEquiv
+  (-equiv [coll other] (equiv-sequential coll other))
 
-;   ISeqable
-;   (-seq [coll] coll)
+  IHash
+  (-hash [coll] (caching-hash coll hash-coll __hash))
 
-;   ICounted
-;   (-count [coll] count))
+  ISeqable
+  (-seq [coll] coll)
 
-; (deftype EmptyList [meta]
-;   IList
+  ICounted
+  (-count [coll] c))
 
-;   Object
-;   (toString [this]
-;     (pr-str this))
+(deftype EmptyList [meta]
+  NS/Object
+  (toString [this]
+    (pr-str this))
 
-;   IWithMeta
-;   (-with-meta [coll meta] (EmptyList. meta))
+  IList
 
-;   IMeta
-;   (-meta [coll] meta)
+  IWithMeta
+  (-with-meta [coll meta] (EmptyList. meta))
 
-;   ISeq
-;   (-first [coll] nil)
-;   (-rest [coll] ())
+  IMeta
+  (-meta [coll] meta)
 
-;   INext
-;   (-next [coll] nil)
+  ISeq
+  (-first [coll] nil)
+  (-rest [coll] ())
 
-;   IStack
-;   (-peek [coll] nil)
-;   (-pop [coll] (throw (js/Error. "Can't pop empty list")))
+  INext
+  (-next [coll] nil)
 
-;   ICollection
-;   (-conj [coll o] (List. meta o nil 1 nil))
+  IStack
+  (-peek [coll] nil)
+  (-pop [coll] (throw "Can't pop empty list"))
 
-;   IEmptyableCollection
-;   (-empty [coll] coll)
+  ICollection
+  (-conj [coll o] (List. meta o nil 1 nil))
 
-;   ISequential
-;   IEquiv
-;   (-equiv [coll other] (equiv-sequential coll other))
+  IEmptyableCollection
+  (-empty [coll] coll)
 
-;   IHash
-;   (-hash [coll] 0)
+  ISequential
+  IEquiv
+  (-equiv [coll other] (equiv-sequential coll other))
 
-;   ISeqable
-;   (-seq [coll] nil)
+  IHash
+  (-hash [coll] 0)
 
-;   ICounted
-;   (-count [coll] 0)))
+  ISeqable
+  (-seq [coll] nil)
 
-; (set! cljm.core.List/EMPTY (EmptyList. nil))
+  ICounted
+  (-count [coll] 0))
 
-; (defn ^boolean reversible? [coll]
-;   (satisfies? IReversible coll))
+(def EMPTY (EmptyList. nil))
 
-; (defn rseq [coll]
-;   (-rseq coll))
+(defn ^boolean reversible? [coll]
+  (satisfies? IReversible coll))
 
-; (defn reverse
-;   "Returns a seq of the items in coll in reverse order. Not lazy."
-;   [coll]
-;   (if (reversible? coll)
-;     (rseq coll)
-;     (reduce conj () coll)))
+(defn rseq [coll]
+  (-rseq coll))
 
-; (defn list
-;   ([] ())
-;   ([x] (conj () x))
-;   ([x y] (conj (list y) x))
-;   ([x y z] (conj (list y z) x))
-;   ([x y z & items]
-;      (conj (conj (conj (reduce conj () (reverse items))
-;                        z) y) x)))
+(defn reverse
+  "Returns a seq of the items in coll in reverse order. Not lazy."
+  [coll]
+  (if (reversible? coll)
+    (rseq coll)
+    (reduce conj () coll)))
 
-; (deftype Cons [meta first rest ^:mutable __hash]
-;   IList
+(defn list
+  ([] ())
+  ([x] (conj () x))
+  ([x y] (conj (list y) x))
+  ([x y z] (conj (list y z) x))
+  ([x y z & items]
+     (conj (conj (conj (reduce conj () (reverse items))
+                       z) y) x)))
 
-;   Object
-;   (toString [this]
-;     (pr-str this))
+(deftype Cons [meta first rest ^:mutable __hash]
+  NS/Object
+  (toString [this]
+    (pr-str this))
 
-;   IWithMeta
-;   (-with-meta [coll meta] (Cons. meta first rest __hash))
+  IList
 
-;   IMeta
-;   (-meta [coll] meta)
+  IWithMeta
+  (-with-meta [coll meta] (Cons. meta first rest __hash))
 
-;   ASeq
-;   ISeq
-;   (-first [coll] first)
-;   (-rest [coll] (if (nil? rest) () rest))
+  IMeta
+  (-meta [coll] meta)
 
-;   INext
-;   (-next [coll] (if (nil? rest) nil (-seq rest)))
+  ASeq
+  ISeq
+  (-first [coll] first)
+  (-rest [coll] (if (nil? rest) () rest))
 
-;   ICollection
-;   (-conj [coll o] (Cons. nil o coll __hash))
+  INext
+  (-next [coll] (if (nil? rest) nil (-seq rest)))
 
-;   IEmptyableCollection
-;   (-empty [coll] (with-meta cljs.core.List/EMPTY meta))
+  ICollection
+  (-conj [coll o] (Cons. nil o coll __hash))
 
-;   ISequential
-;   IEquiv
-;   (-equiv [coll other] (equiv-sequential coll other))
+  IEmptyableCollection
+  (-empty [coll] (with-meta EMPTY meta))
 
-;   IHash
-;   (-hash [coll] (caching-hash coll hash-coll __hash))
+  ISequential
+  IEquiv
+  (-equiv [coll other] (equiv-sequential coll other))
 
-;   ISeqable
-;   (-seq [coll] coll))
+  IHash
+  (-hash [coll] (caching-hash coll hash-coll __hash))
 
-; (defn cons
-;   "Returns a new seq where x is the first element and seq is the rest."
-;   [x coll]
-;   (if (or (nil? coll)
-;           (satisfies? ISeq coll))
-;     (Cons. nil x coll nil)
-;     (Cons. nil x (seq coll) nil)))
+  ISeqable
+  (-seq [coll] coll))
 
-; (defn ^boolean list? [x]
-;   (satisfies? IList x))
+(defn cons
+  "Returns a new seq where x is the first element and seq is the rest."
+  [x coll]
+  (if (or (nil? coll)
+          (satisfies? ISeq coll))
+    (Cons. nil x coll nil)
+    (Cons. nil x (seq coll) nil)))
 
-; (extend-type string
-;   IHash
-;   (-hash [o] (goog.string/hashCode o))
+(defn ^boolean list? [x]
+  (satisfies? IList x))
 
-;   ISeqable
-;   (-seq [string] (prim-seq string 0))
+(extend-type NS/String
+  IHash
+  (-hash [o] (->v (.hash o)))
 
-;   ICounted
-;   (-count [s] (.-count s))
+  ISeqable
+  (-seq [string] (prim-seq string 0))
 
-;   IIndexed
-;   (-nth
-;     ([string n]
-;        (if (< n (-count string)) (.charAt string n)))
-;     ([string n not-found]
-;        (if (< n (-count string)) (.charAt string n)
-;            not-found)))
+  ICounted
+  (-count [s] (->v (.-length s)))
 
-;   ILookup
-;   (-lookup
-;     ([string k]
-;        (-nth string k))
-;     ([string k not_found]
-;        (-nth string k not_found)))
+  IIndexed
+  (-nth
+    ([string n]
+       (if (< n (-count string)) (.substringWithRange:! string (c/NSMakeRange (->ui n) (->ui 1)))))
+    ([string n not-found]
+       (if (< n (-count string)) (.substringWithRange:! string (c/NSMakeRange (->ui n) (->ui 1)))
+           not-found)))
 
-;   IReduce
-;   (-reduce
-;     ([string f]
-;        (ci-reduce string f))
-;     ([string f start]
-;        (ci-reduce string f start))))
+  ILookup
+  (-lookup
+    ([string k]
+       (-nth string k))
+    ([string k not_found]
+       (-nth string k not_found)))
 
+  IReduce
+  (-reduce
+    ([string f]
+       (ci-reduce string f))
+    ([string f start]
+       (ci-reduce string f start))))
+
+; continue
 ; (deftype Keyword [k]
 ;   IFn
 ;   (invoke [_ coll]
