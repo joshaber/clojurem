@@ -959,8 +959,8 @@
     (let [tag (-> p meta :tag)
           type (cond
                   (= 'iboutlet tag) "IBOutlet id"
-                  nil? "id"
-                  :else tag)]
+                  (nil? tag) "id"
+                  :else (str (objc-class-munge tag) " *"))]
       (emitln "@property (nonatomic, strong) " type " " (munge p) ";")))
   (emitln)
   (doseq [[p ms] methods]
