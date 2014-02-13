@@ -339,8 +339,8 @@
 (defmethod emit :throw
   [{:keys [throw env]}]
   (if (= :expr (:context env))
-    (emits "(function(){throw " throw "})()")
-    (emitln "throw " throw ";")))
+    (emits "^ id { NSCAssert(NO, " throw "); return nil; })()")
+    (emitln "NSCAssert(NO, " throw "); return nil;")))
 
 (defn emit-comment
   "Emit a nicely formatted comment string."
