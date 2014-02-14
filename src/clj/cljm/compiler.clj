@@ -137,7 +137,11 @@
   (emits
     (cond (empty? selparts) (emit-comma-sep args)
           (empty? args) (emits " " (first selparts))
-          :else (emits " " (first selparts) (first args)))
+          :else (let [sel (first selparts)
+                      sel (if (= (last sel) \:)
+                            sel
+                            (str sel ":"))]
+                  (emits " " sel (first args))))
 
     ; If we had both a selector part and an argument this time,
     (if (and
