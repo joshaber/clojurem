@@ -738,11 +738,17 @@
 (defmethod emit :set!
   [{:keys [target val env]}]
   (let [info (:info target)
-        field (:field info)
-        name (:name info)]
-    (if field
-      (emit-wrap env (emits "[self set" (string/capitalize name) ":" val "]"))
-      (emit-wrap env (emits target " = " val)))))
+        field? (or (:field info) (:field target))
+        name (or (:name info) (:field target))
+        receiver (or (:target target) "self")
+        x (gensym "x")]
+    (when (= :expr (:context env)) (emitln "^ id {"))
+    (emitln "id " x " = " val ";")
+    (cond 
+      field? (emitln "[" receiver " set" (munge (string/capitalize name)) ":" x "];")
+      :else (emitln target " = " x ";"))
+    (when (or (= :return (:context env)) (= :expr (:context env))) (emits "return " x ";"))
+    (when (= :expr (:context env)) (emitln "}()"))))
 
 (defmethod emit :ns
   [{:keys [name requires uses requires-macros env]}]
