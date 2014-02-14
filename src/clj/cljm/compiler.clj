@@ -980,7 +980,7 @@
                        args (drop 1 (second m))
                        sel-parts (if (seq args)
                                   (apply str (map pair-args (concat parts (repeat "")) args))
-                                  (str (first parts)))]
+                                  (str (munge (first parts))))]
                        (emitln "- (id)" sel-parts ";")
                        (emitln))))
   (emitln)
