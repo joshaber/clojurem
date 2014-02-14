@@ -1651,8 +1651,10 @@ reduces them without incurring seq initialization"
     ([string f start]
        (ci-reduce string f start))))
 
-; continue
+; TODO
 ; (deftype Keyword [k]
+;   NS/Object
+
 ;   IFn
 ;   (invoke [_ coll]
 ;     (when-not (nil? coll)
@@ -1666,13 +1668,13 @@ reduces them without incurring seq initialization"
 ;       (-lookup coll k not-found))))
 
 ; ;;hrm
-; (extend-type js/String
-;   IFn
-;   (-invoke
-;     ([this coll]
-;        (get coll (.toString this)))
-;     ([this coll not-found]
-;        (get coll (.toString this) not-found))))
+(extend-type NS/String
+  IFn
+  (-invoke
+    ([this coll]
+       (get coll (.toString this)))
+    ([this coll not-found]
+       (get coll (.toString this) not-found))))
 
 ; (set! js/String.prototype.apply
 ;       (fn
@@ -1681,168 +1683,171 @@ reduces them without incurring seq initialization"
 ;           (get (aget args 0) s)
 ;           (get (aget args 0) s (aget args 1)))))
 
-; ; could use reify
+; could use reify
 ; ;;; LazySeq ;;;
 
-; (defn- lazy-seq-value [lazy-seq]
-;   (let [x (.-x lazy-seq)]
-;     (if ^boolean (.-realized lazy-seq)
-;       x
-;       (do
-;         (set! (.-x lazy-seq) (x))
-;         (set! (.-realized lazy-seq) true)
-;         (.-x lazy-seq)))))
+(defn- lazy-seq-value [lazy-seq]
+  (let [x (.-x lazy-seq)]
+    (if ^boolean (.-realized lazy-seq)
+      x
+      (do
+        (set! (.-x lazy-seq) (x))
+        (set! (.-realized lazy-seq) true)
+        (.-x lazy-seq)))))
 
-; (deftype LazySeq [meta realized x ^:mutable __hash]
-;   Object
-;   (toString [this]
-;     (pr-str this))
+(deftype LazySeq [meta realized x ^:mutable __hash]
+  NS/Object
+  (toString [this]
+    (pr-str this))
 
-;   IWithMeta
-;   (-with-meta [coll meta] (LazySeq. meta realized x __hash))
+  IWithMeta
+  (-with-meta [coll meta] (LazySeq. meta realized x __hash))
 
-;   IMeta
-;   (-meta [coll] meta)
+  IMeta
+  (-meta [coll] meta)
 
-;   ISeq
-;   (-first [coll] (first (lazy-seq-value coll)))
-;   (-rest [coll] (rest (lazy-seq-value coll)))
+  ISeq
+  (-first [coll] (first (lazy-seq-value coll)))
+  (-rest [coll] (rest (lazy-seq-value coll)))
 
-;   INext
-;   (-next [coll] (-seq (-rest coll)))
+  INext
+  (-next [coll] (-seq (-rest coll)))
 
-;   ICollection
-;   (-conj [coll o] (cons o coll))
+  ICollection
+  (-conj [coll o] (cons o coll))
 
-;   IEmptyableCollection
-;   (-empty [coll] (with-meta cljs.core.List/EMPTY meta))
+  IEmptyableCollection
+  (-empty [coll] (with-meta EMPTY meta))
 
-;   ISequential
-;   IEquiv
-;   (-equiv [coll other] (equiv-sequential coll other))
+  ISequential
+  IEquiv
+  (-equiv [coll other] (equiv-sequential coll other))
 
-;   IHash
-;   (-hash [coll] (caching-hash coll hash-coll __hash))
+  IHash
+  (-hash [coll] (caching-hash coll hash-coll __hash))
 
-;   ISeqable
-;   (-seq [coll] (seq (lazy-seq-value coll))))
+  ISeqable
+  (-seq [coll] (seq (lazy-seq-value coll))))
 
-; (declare ArrayChunk)
+(deftype ChunkBuffer [^:mutable buf ^:mutable end]
+  NS/Object
+  (add [_ o]
+    (aset buf end o)
+    (set! end (inc end)))
 
-; (deftype ChunkBuffer [^:mutable buf ^:mutable end]
-;   Object
-;   (add [_ o]
-;     (aset buf end o)
-;     (set! end (inc end)))
+  (chunk [_ o]
+    (let [ret (ArrayChunk. buf 0 end)]
+      (set! buf nil)
+      ret))
 
-;   (chunk [_ o]
-;     (let [ret (ArrayChunk. buf 0 end)]
-;       (set! buf nil)
-;       ret))
+  ICounted
+  (-count [_] end))
 
-;   ICounted
-;   (-count [_] end))
+(defn chunk-buffer [capacity]
+  (ChunkBuffer. (make-array capacity) 0))
 
-; (defn chunk-buffer [capacity]
-;   (ChunkBuffer. (make-array capacity) 0))
+(deftype ArrayChunk [arr off end]
+  NS/Object
 
-; (deftype ArrayChunk [arr off end]
-;   ICounted
-;   (-count [_] (- end off))
+  ICounted
+  (-count [_] (- end off))
 
-;   IIndexed
-;   (-nth [coll i]
-;     (aget arr (+ off i)))
-;   (-nth [coll i not-found]
-;     (if (and (>= i 0) (< i (- end off)))
-;       (aget arr (+ off i))
-;       not-found))
+  IIndexed
+  (-nth [coll i]
+    (aget arr (+ off i)))
+  (-nth [coll i not-found]
+    (if (and (>= i 0) (< i (- end off)))
+      (aget arr (+ off i))
+      not-found))
 
-;   IChunk
-;   (-drop-first [coll]
-;     (if (== off end)
-;       (throw (js/Error. "-drop-first of empty chunk"))
-;       (ArrayChunk. arr (inc off) end)))
+  IChunk
+  (-drop-first [coll]
+    (if (== off end)
+      (throw "-drop-first of empty chunk")
+      (ArrayChunk. arr (inc off) end)))
 
-;   IReduce
-;   (-reduce [coll f]
-;     (ci-reduce coll f (aget arr off) (inc off)))
-;   (-reduce [coll f start]
-;     (ci-reduce coll f start off)))
+  IReduce
+  (-reduce [coll f]
+    (ci-reduce coll f (aget arr off) (inc off)))
+  (-reduce [coll f start]
+    (ci-reduce coll f start off)))
 
-; (defn array-chunk
-;   ([arr]
-;      (array-chunk arr 0 (alength arr)))
-;   ([arr off]
-;      (array-chunk arr off (alength arr)))
-;   ([arr off end]
-;      (ArrayChunk. arr off end)))
+(defn array-chunk
+  ([arr]
+     (array-chunk arr 0 (alength arr)))
+  ([arr off]
+     (array-chunk arr off (alength arr)))
+  ([arr off end]
+     (ArrayChunk. arr off end)))
 
-; (deftype ChunkedCons [chunk more meta]
-;   IWithMeta
-;   (-with-meta [coll m]
-;     (ChunkedCons. chunk more m))
+(deftype ChunkedCons [chunk more meta]
+  NS/Object
 
-;   IMeta
-;   (-meta [coll] meta)
+  IWithMeta
+  (-with-meta [coll m]
+    (ChunkedCons. chunk more m))
 
-;   ISequential
-;   IEquiv
-;   (-equiv [coll other] (equiv-sequential coll other))
+  IMeta
+  (-meta [coll] meta)
 
-;   ISeqable
-;   (-seq [coll] coll)
+  ISequential
+  IEquiv
+  (-equiv [coll other] (equiv-sequential coll other))
 
-;   ASeq
-;   ISeq
-;   (-first [coll] (-nth chunk 0))
-;   (-rest [coll]
-;     (if (> (-count chunk) 1)
-;       (ChunkedCons. (-drop-first chunk) more meta)
-;       (if (nil? more)
-;         ()
-;         more)))
+  ISeqable
+  (-seq [coll] coll)
 
-;   IChunkedSeq
-;   (-chunked-first [coll] chunk)
-;   (-chunked-rest [coll]
-;     (if (nil? more)
-;       ()
-;       more))
+  ASeq
+  ISeq
+  (-first [coll] (-nth chunk 0))
+  (-rest [coll]
+    (if (> (-count chunk) 1)
+      (ChunkedCons. (-drop-first chunk) more meta)
+      (if (nil? more)
+        ()
+        more)))
 
-;   IChunkedNext
-;   (-chunked-next [coll]
-;     (if (nil? more)
-;       nil
-;       more))
+  IChunkedSeq
+  (-chunked-first [coll] chunk)
+  (-chunked-rest [coll]
+    (if (nil? more)
+      ()
+      more))
 
-;   ICollection
-;   (-conj [this o]
-;     (cons o this))))
+  IChunkedNext
+  (-chunked-next [coll]
+    (if (nil? more)
+      nil
+      more))
 
-; (defn chunk-cons [chunk rest]
-;   (if (zero? (-count chunk))
-;     rest
-;     (ChunkedCons. chunk rest nil)))
+  ICollection
+  (-conj [this o]
+    (cons o this)))
 
+(defn chunk-cons [chunk rest]
+  (if (zero? (-count chunk))
+    rest
+    (ChunkedCons. chunk rest nil)))
+
+; continue
 ; (defn chunk-append [b x]
 ;   (.add b x))
 
-; (defn chunk [b]
-;   (.chunk b))
+(defn chunk [b]
+  (.chunk b))
 
-; (defn chunk-first [s]
-;   (-chunked-first s))
+(defn chunk-first [s]
+  (-chunked-first s))
 
-; (defn chunk-rest [s]
-;   (-chunked-rest s))
+(defn chunk-rest [s]
+  (-chunked-rest s))
 
-; (defn chunk-next [s]
-;   (if (satisfies? IChunkedNext s)
-;     (-chunked-next s)
-;     (seq (-chunked-rest s))))
+(defn chunk-next [s]
+  (if (satisfies? IChunkedNext s)
+    (-chunked-next s)
+    (seq (-chunked-rest s))))
 
-; ;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;
 
 ; (defn to-array
 ;   "Naive impl of to-array as a start."
